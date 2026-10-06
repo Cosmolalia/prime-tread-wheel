@@ -1,0 +1,1072 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="The Prime Tread Wheel's counting wrapped onto a sphere: lenses, the layer balance and the running Mertens balance.">
+<meta name="color-scheme" content="dark">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>Geometric Math Globe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Spectral:wght@500;600&display=swap">
+<style>
+/* Layout: the globe floats on a night stage with its name and a one-paragraph key; an instrument column on the right
+   holds the lens, the globe controls, the picked number, the layer balance, the running balance and the findings.
+   On phones the stage comes first. Deliberately dark only, like its sibling pages (Prime Tread Wheel, Problem Wheels). */
+:root {
+  --night: #05070d;
+  --stage-glow: #0e1530;
+  --panel: #0a0f1b;
+  --line: #232b46;
+  --ring: #3b4979;
+  --text: #dfe3f0;
+  --muted: #8f97b5;
+  --gold: #f0bf55;
+  --blue: #86a0ec;
+  --cream: #ecdfc0;
+  --globe: #0b1124;
+  --font-display: "Spectral", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body { margin: 0; background: var(--night); color: var(--text); font-family: var(--font-body); font-size: 14px; line-height: 1.5; }
+.app { height: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 350px; }
+.stage { position: relative; min-height: 0; overflow: hidden; background: radial-gradient(circle at 55% 50%, var(--stage-glow) 0%, var(--night) 70%); }
+#cv { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+#cv.dragging { cursor: grabbing; }
+.mast { position: absolute; top: 0; left: 0; max-width: 36ch; padding-inline: 20px; padding-block: 16px 0; display: flex; flex-direction: column; gap: 6px; pointer-events: none; }
+.mast h1 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.35rem, 1.05rem + 1vw, 1.9rem); letter-spacing: 0.01em; text-wrap: balance; text-shadow: 0 0 4px var(--night), 0 1px 10px var(--night); }
+.mast p { margin: 0; color: var(--muted); font-size: 0.82rem; text-shadow: 0 0 4px var(--night); }
+.now { position: absolute; left: 0; right: 0; bottom: 0; padding-inline: 20px; padding-block: 18px 12px; font-family: var(--font-data); font-size: 0.78rem; color: var(--muted); font-variant-numeric: tabular-nums; pointer-events: none; min-height: 1.5em; background: linear-gradient(rgba(5, 7, 13, 0), rgba(5, 7, 13, 0.85) 45%); }
+.now b { color: var(--text); font-weight: 500; }
+.g { color: var(--gold); }
+.b { color: var(--blue); }
+.c { color: var(--cream); }
+.stagebar { position: absolute; top: 12px; right: 12px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; max-width: 60%; }
+.stagebar button { background: rgba(10, 15, 27, 0.85); }
+.panel { min-width: 0; min-height: 0; overflow-y: auto; background: var(--panel); border-left: 1px solid var(--line); padding-inline: 18px; padding-block: 16px; display: flex; flex-direction: column; gap: 18px; }
+.group { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+button { font: inherit; font-size: 0.82rem; font-weight: 500; color: var(--text); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+button:hover { border-color: var(--muted); }
+button.primary { background: var(--gold); border-color: var(--gold); color: var(--night); }
+button[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); }
+button:disabled { opacity: 0.4; cursor: default; }
+input[type="range"] { width: 100%; accent-color: var(--gold); }
+input[type="number"] { font: inherit; font-family: var(--font-data); font-size: 0.85rem; color: var(--text); background: var(--night); border: 1px solid var(--line); border-radius: 8px; padding: 5px 8px; width: 7em; min-width: 0; }
+select { font: inherit; font-size: 0.82rem; color: var(--text); background: var(--night); border: 1px solid var(--line); border-radius: 8px; padding: 5px 8px; min-width: 0; max-width: 100%; }
+output { font-family: var(--font-data); color: var(--text); letter-spacing: 0; text-transform: none; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+#cv:focus-visible { outline-offset: -3px; }
+.note { margin: 0; color: var(--muted); font-size: 0.82rem; }
+.note b { color: var(--text); font-weight: 500; }
+.note a, .facts a { color: var(--text); }
+.verdict { margin: 0; font-family: var(--font-display); font-size: 1.06rem; line-height: 1.38; text-wrap: pretty; }
+.verdict b { font-weight: 600; }
+.check { display: flex; align-items: flex-start; gap: 8px; font-size: 0.82rem; color: var(--muted); cursor: pointer; }
+.check input { accent-color: var(--gold); margin: 3px 0 0; }
+.checks { display: grid; grid-template-columns: 1fr; gap: 6px; }
+.chips { gap: 6px; }
+.chips button { padding: 3px 10px; font-size: 0.78rem; font-family: var(--font-data); }
+.ctl { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 10px; align-items: center; font-size: 0.82rem; color: var(--muted); }
+.square { width: 100%; max-width: 100%; aspect-ratio: 1; display: block; border: 1px solid var(--line); border-radius: 6px; background: var(--night); }
+.chartbox canvas { width: 100%; height: 200px; display: block; border: 1px solid var(--line); border-radius: 6px; background: var(--night); }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.76rem; color: var(--muted); }
+.lk { display: inline-block; width: 14px; height: 0; border-top: 2px solid; vertical-align: 3px; margin-right: 6px; }
+.lk.dash { border-top-style: dashed; }
+.dk { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+.finds { margin: 0; padding-left: 1.9em; display: flex; flex-direction: column; gap: 12px; }
+.finds li { color: var(--muted); font-size: 0.82rem; }
+.finds li b { color: var(--text); font-weight: 500; }
+.finds li button { margin-top: 6px; padding: 3px 12px; font-size: 0.76rem; }
+.finds li .tag { font-family: var(--font-data); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); margin-left: 6px; }
+.facts { border-top: 1px solid var(--line); padding-top: 12px; }
+.facts p { margin: 0; color: var(--muted); font-size: 0.8rem; }
+.facts p + p { margin-top: 6px; }
+.facts b { color: var(--text); font-weight: 500; }
+.howto { display: none; }
+.app:not(.lens-mod) .modOnly { display: none; }
+.app:not(.h-log) .logOnly { display: none; }
+.app.tight .mast p { display: none; }
+.app.tight .howto { display: block; }
+@media (max-width: 760px) {
+  html, body { height: auto; }
+  .app { height: auto; grid-template-columns: minmax(0, 1fr); }
+  .stage { height: 68vh; min-height: 360px; }
+  .mast p { display: none; }
+  .howto { display: block; }
+  .panel { border-left: 0; border-top: 1px solid var(--line); overflow: visible; padding-inline: 16px; }
+  .stagebar { top: 52px; right: 10px; max-width: none; }
+  .mast, .now { padding-inline: 16px; }
+}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <main class="stage" id="stage">
+    <canvas id="cv" tabindex="0" role="img" aria-label="A globe of the whole numbers. Longitude is ratio, height is size on a log scale: 1 on the equator, infinity at the north pole, 0 at the south pole, reciprocals mirrored below the equator. Drag to turn it, scroll or pinch to zoom, tap a dot to pick a number, arrow keys turn it too."></canvas>
+    <header class="mast">
+      <h1>Geometric Math Globe</h1>
+      <p id="mastText"></p>
+    </header>
+    <div class="stagebar" role="group" aria-label="Lens">
+      <button type="button" id="lensRatio" aria-pressed="true">Ratio</button>
+      <button type="button" id="lensDouble" aria-pressed="false">Doubling</button>
+      <button type="button" id="lensMod" aria-pressed="false">Remainder</button>
+    </div>
+    <div class="now" id="now" aria-hidden="true"></div>
+  </main>
+
+  <aside class="panel" aria-label="Controls and findings">
+    <p class="note howto" id="howto"></p>
+
+    <div class="group">
+      <div class="label">Lens: what counts as the same place</div>
+      <p class="note" id="lensNote"></p>
+      <div class="row chips modOnly" id="qChips"><span class="note">Circle of</span></div>
+    </div>
+
+    <div class="group">
+      <div class="label">Height</div>
+      <div class="row" role="group" aria-label="Height">
+        <button type="button" id="hEven" aria-pressed="true">Counting</button>
+        <button type="button" id="hLog" aria-pressed="false">Slide rule</button>
+      </div>
+      <p class="note" id="heightNote"></p>
+    </div>
+
+    <div class="group">
+      <div class="label">Globe</div>
+      <label class="label" for="layers">Numbers <output id="layersOut"></output></label>
+      <input id="layers" type="range" min="10" max="400" step="1" value="120">
+      <div class="ctl">
+        <label for="colorBy">Color</label>
+        <select id="colorBy">
+          <option value="prime">Prime or not</option>
+          <option value="visit">Fresh tick, second visit, later visit</option>
+          <option value="birth">Layer its meridian was born on</option>
+          <option value="layerBal">Its layer's balance (+1, −1, 0)</option>
+          <option value="ownBal">Its own balance (+1, −1, 0)</option>
+        </select>
+      </div>
+      <div class="legend" id="colorLegend"></div>
+      <div class="checks">
+        <label class="check"><input type="checkbox" id="mirror" checked><span id="mirrorLabel">Negatives below the equator</span></label>
+        <label class="check"><input type="checkbox" id="fracs" checked><span>Meridians: small fractions, doubling lines or remainder arms</span></label>
+        <label class="check"><input type="checkbox" id="tape"><span>The counting path, number by number</span></label>
+        <label class="check"><input type="checkbox" id="grid" checked><span>Equator, poles and height rings</span></label>
+        <label class="check"><input type="checkbox" id="spin" checked><span>Spin slowly</span></label>
+      </div>
+      <div class="row">
+        <button type="button" id="countBtn" class="primary">Let time run</button>
+        <button type="button" id="viewSide">Side view</button>
+        <button type="button" id="viewTop">From the top</button>
+      </div>
+      <div class="group logOnly">
+        <label class="label" for="equator">Equator at <output id="equatorOut"></output></label>
+        <input id="equator" type="range" min="-200" max="400" step="1" value="0">
+        <label class="label" for="stretch">Height stretch <output id="stretchOut"></output></label>
+        <input id="stretch" type="range" min="4" max="60" step="1" value="20">
+        <div class="row"><button type="button" id="resetScale">Reset scale</button><button type="button" id="renorm">Slide the equator</button></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="label">Picked number</div>
+      <div class="row">
+        <input type="number" id="pickIn" min="1" max="80200" step="1" value="97" aria-label="Pick a number">
+        <button type="button" id="pickGo">Pick</button>
+      </div>
+      <p class="verdict" id="pickText" aria-live="polite"></p>
+    </div>
+
+    <div class="group">
+      <div class="label">Layer balance</div>
+      <div class="row">
+        <label class="note" for="balLayer">Layer</label>
+        <input type="number" id="balLayer" min="1" max="2000" step="1" value="12">
+        <span class="row chips" id="balChips"></span>
+      </div>
+      <canvas id="bal" class="square" role="img" aria-label="One layer's ring of ticks. Arrows point to its fresh ticks, then the same arrows laid head to tail, ending exactly one step from the start, or back at the start."></canvas>
+      <p class="note" id="balNote"></p>
+    </div>
+
+    <div class="group">
+      <div class="label">Running balance</div>
+      <div class="legend" id="mLegend"></div>
+      <div class="chartbox"><canvas id="mChart" tabindex="0" role="img" aria-label="The running total of the layer balances, divided by the square root of the layer, from 10 to a million layers on a log scale"></canvas></div>
+      <p class="note" id="mNote"></p>
+    </div>
+
+    <div class="group">
+      <div class="label">What fell out while building</div>
+      <ol class="finds" id="finds"></ol>
+    </div>
+
+    <div class="group facts">
+      <div class="label">Proven and open</div>
+      <p><b>Proven:</b> the slide-rule globe is the Riemann sphere, where infinity is one point and x ↔ 1/x is a mirror. Layer m's ticks are the m-th roots of unity, the points where xᵐ = 1 on the unit circle. Its fresh ticks are the primitive ones, the ones no smaller layer already had. Every layer's ticks split into the fresh ticks of each layer that divides it (Gauss). The fresh ticks always balance to +1, −1 or 0 (Möbius, Ramanujan).</p>
+      <p><b>Checked:</b> after layer 200, the running balance has stayed inside 0.57 × √n for every layer up to ten million.</p>
+      <p><b>Open:</b> the Riemann Hypothesis is exactly the claim that the running balance never grows faster than √n times an arbitrarily small extra power of n. The stronger guess that it never passes √n is known to fail, somewhere astronomically far out.</p>
+      <p>Siblings: <a href="index.html">Prime Tread Wheel</a> · <a href="problem-wheels.html">Problem Wheels</a></p>
+    </div>
+  </aside>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const $ = (id) => document.getElementById(id);
+  const TAU = Math.PI * 2;
+  const dpr = () => Math.min(2, window.devicePixelRatio || 1);
+  const fmtN = (x) => Number(x).toLocaleString("en-US");
+  const motionOff = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const FONT_DATA = '"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace';
+  const FONT_DISP = '"Spectral", Georgia, serif';
+  const C = {};
+  function readColors() {
+    const s = getComputedStyle(document.documentElement);
+    for (const k of ["night", "panel", "line", "ring", "text", "muted", "gold", "blue", "cream", "globe"]) C[k] = s.getPropertyValue("--" + k).trim();
+  }
+  const hexRGB = (h) => { const v = parseInt(h.slice(1), 16); return [(v >> 16) & 255, (v >> 8) & 255, v & 255]; };
+  const mix = (a, b, t) => [0, 1, 2].map((i) => Math.round(a[i] + (b[i] - a[i]) * t));
+  const rgba = (c, a) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+  const store = {
+    get(k) { try { return localStorage.getItem("math-globe/" + k); } catch (err) { return null; } },
+    set(k, v) { try { localStorage.setItem("math-globe/" + k, v); } catch (err) { /* storage unavailable */ } },
+  };
+  function fit(cv) {
+    const r = cv.getBoundingClientRect(), p = dpr();
+    const w = Math.max(1, Math.round(r.width * p)), h = Math.max(1, Math.round(r.height * p));
+    if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; return true; }
+    return false;
+  }
+  const gcd = (a, b) => { while (b) { const t = a % b; a = b; b = t; } return a; };
+
+  // =================== the numbers: every whole number up to layer 400 of the growing wheel ===================
+  const MAXL = 400, T = (m) => (m * (m + 1)) / 2, XMAX = T(MAXL);
+  const SPF = new Int32Array(XMAX + 1);
+  for (let i = 2; i <= XMAX; i++) if (!SPF[i]) for (let j = i; j <= XMAX; j += i) if (!SPF[j]) SPF[j] = i;
+  const isPrime = (x) => x >= 2 && SPF[x] === x;
+  const MU = new Int8Array(XMAX + 1);
+  MU[1] = 1;
+  for (let x = 2; x <= XMAX; x++) { const p = SPF[x], y = x / p; MU[x] = y % p === 0 ? 0 : -MU[y]; }
+  const LAY = new Uint16Array(XMAX + 1), TICK = new Uint16Array(XMAX + 1), VIS = new Uint16Array(XMAX + 1), BIRTH = new Uint16Array(XMAX + 1), NUMER = new Uint16Array(XMAX + 1);
+  for (let m = 1; m <= MAXL; m++) {
+    const base = T(m - 1);
+    for (let k = 1; k <= m; k++) { const x = base + k, g = gcd(k, m); LAY[x] = m; TICK[x] = k; VIS[x] = g; BIRTH[x] = m / g; NUMER[x] = k / g; }
+  }
+  const muOf = (n) => { // any n (the balance panel can go past the globe's numbers)
+    if (n <= XMAX) return MU[n];
+    let r = 1, m = n;
+    for (let p = 2; p * p <= m; p++) if (m % p === 0) { m /= p; if (m % p === 0) return 0; r = -r; }
+    return m > 1 ? -r : r;
+  };
+  function factors(n) {
+    const out = [];
+    let m = n;
+    for (let p = 2; p * p <= m; p++) while (m % p === 0) { out.push(p); m /= p; }
+    if (m > 1) out.push(m);
+    return out;
+  }
+  const phi = (n) => { let r = n, m = n; for (let p = 2; p * p <= m; p++) if (m % p === 0) { while (m % p === 0) m /= p; r -= r / p; } if (m > 1) r -= r / m; return r; };
+  const SUP = "⁰¹²³⁴⁵⁶⁷⁸⁹";
+  const factorText = (n) => {
+    const f = factors(n), cnt = new Map();
+    for (const p of f) cnt.set(p, (cnt.get(p) || 0) + 1);
+    return [...cnt].map(([p, e]) => (e > 1 ? p + String(e).split("").map((d) => SUP[+d]).join("") : String(p))).join(" × ");
+  };
+
+  // =================== state ===================
+  const st = {
+    lens: "ratio", q: 6, layers: 120, color: "prime", mirror: true, fracs: true, tape: false, grid: true, spin: true,
+    logR: 0, kAuto: true, kappa: 0.2, pick: 97, hover: 0, count: Infinity, counting: false, renorm: null, balLayer: 12,
+    height: "even",   // "even": height counts (0 on the equator, negatives below); "log": slide rule (1 on the equator, reciprocals below)
+  };
+  const app = $("app"), cv = $("cv"), g = cv.getContext("2d");
+  let W = 0, H = 0, P = 1, cx = 0, cy = 0, baseS = 100, zoom = 1, S = 100;
+  let NUMS = T(st.layers);
+  const CAP = 2 * XMAX;          // index i < XMAX: the number i+1; index XMAX+i: its reciprocal 1/(i+1)
+  const cosLat = new Float32Array(CAP), sinLat = new Float32Array(CAP), lat = new Float32Array(CAP);
+  const lonCur = new Float32Array(CAP), lonFrom = new Float32Array(CAP), lonTo = new Float32Array(CAP);
+  const PX = new Float32Array(CAP), PY = new Float32Array(CAP), PZ = new Float32Array(CAP);
+  const SX = new Float32Array(CAP), SY = new Float32Array(CAP), SD = new Float32Array(CAP); // last drawn screen spots
+  const COL = new Uint8Array(CAP), EMPH = new Uint8Array(CAP);
+  let morph = null;
+
+  const gdInv = (deg) => Math.log(Math.tan(Math.PI / 4 + (deg * Math.PI) / 360));
+  const kappa = () => (st.kAuto ? gdInv(58) / Math.log(Math.max(20, NUMS)) : st.kappa);
+  const isLog = () => st.height === "log";
+  // the height of a value. Even: height is the count itself, so equal heights hold equal numbers and (Archimedes)
+  // equal areas: sin(latitude) = x / N, 0 on the equator. Log: the slide rule closed into the Riemann sphere.
+  const latOfValue = (v) => {
+    if (isLog()) return 2 * Math.atan(Math.exp(kappa() * (Math.log(v) - st.logR * Math.LN10))) - Math.PI / 2;
+    return Math.asin(Math.max(-1, Math.min(1, v / NUMS)));
+  };
+  // where a mirror point sits: −x on the even globe, 1/x on the slide-rule globe
+  const latMirror = (x) => (isLog() ? latOfValue(1 / x) : -latOfValue(x));
+  function computeLat() {
+    const k = kappa(), lr = st.logR * Math.LN10, log = isLog();
+    for (let i = 0; i < NUMS; i++) {
+      let a;
+      if (log) a = 2 * Math.atan(Math.exp(k * (Math.log(i + 1) - lr))) - Math.PI / 2;
+      else a = Math.asin(Math.min(1, (i + 1) / NUMS));
+      lat[i] = a; cosLat[i] = Math.cos(a); sinLat[i] = Math.sin(a);
+      const j = XMAX + i;
+      const b = log ? 2 * Math.atan(Math.exp(k * (-Math.log(i + 1) - lr))) - Math.PI / 2 : -a;
+      lat[j] = b; cosLat[j] = Math.cos(b); sinLat[j] = Math.sin(b);
+    }
+  }
+  const frac = (v) => v - Math.floor(v);
+  function lonFor(lens, x, recip) {
+    if (lens === "ratio") return frac(TICK[x] / LAY[x]);
+    if (lens === "double") return frac((recip && isLog() ? -1 : 1) * Math.log2(x));
+    return (x % st.q) / st.q;
+  }
+  function fillLon(arr, lens) {
+    for (let i = 0; i < NUMS; i++) { const x = i + 1; arr[i] = lonFor(lens, x, false); arr[XMAX + i] = lonFor(lens, x, true); }
+  }
+  function updateUnits() {
+    for (let n = 0; n < 2; n++) {
+      const off = n * XMAX;
+      for (let i = off; i < off + NUMS; i++) {
+        const th = lonCur[i] * TAU, c = cosLat[i];
+        PX[i] = c * Math.sin(th); PY[i] = sinLat[i]; PZ[i] = c * Math.cos(th);
+      }
+    }
+  }
+  function startMorph(toLens) {
+    fillLon(lonTo, toLens);
+    if (motionOff.matches) { lonCur.set(lonTo); updateUnits(); morph = null; return; }
+    lonFrom.set(lonCur);
+    morph = { t: 0 };
+  }
+
+  // =================== colors ===================
+  const PAL = []; // [r, g, b, alpha]
+  let palKey = "";
+  function paint() {
+    const gold = hexRGB(C.gold), blue = hexRGB(C.blue), cream = hexRGB(C.cream), dim = [96, 112, 170], dark = [64, 74, 118];
+    PAL.length = 0;
+    const add = (c, a) => { PAL.push([c[0], c[1], c[2], a]); return PAL.length - 1; };
+    const iGold = add(gold, 1), iBlue = add(blue, 0.95), iCream = add(cream, 1), iDim = add(dim, 0.62), iDark = add(dark, 0.5);
+    const ramp = [];
+    for (let s = 0; s < 16; s++) ramp.push(add(mix(blue, gold, s / 15), 0.85));
+    const lmax = Math.log(Math.max(2, st.layers));
+    for (let i = 0; i < NUMS; i++) {
+      const x = i + 1;
+      let c = iDim, e = 0;
+      switch (st.color) {
+        case "prime": c = x === 1 ? iCream : isPrime(x) ? iGold : iDim; e = x === 1 || isPrime(x) ? 1 : 0; break;
+        case "visit": { const v = VIS[x]; c = v === 1 ? iGold : v === 2 ? iCream : iDim; e = v <= 2 ? 1 : 0; break; }
+        case "birth": c = ramp[Math.min(15, Math.round((Math.log(BIRTH[x]) / lmax) * 15))]; e = 1; break;
+        case "layerBal": { const u = MU[LAY[x]]; c = u < 0 ? iGold : u > 0 ? iBlue : iDark; e = u !== 0 ? 1 : 0; break; }
+        case "ownBal": { const u = MU[x]; c = u < 0 ? iGold : u > 0 ? iBlue : iDark; e = u !== 0 ? 1 : 0; break; }
+      }
+      COL[i] = c; COL[XMAX + i] = c; EMPH[i] = e; EMPH[XMAX + i] = e;
+    }
+    palKey = st.color + NUMS;
+    legend();
+  }
+  function legend() {
+    const sw = (c, t) => `<span><span class="dk" style="background:${c}"></span>${t}</span>`;
+    const L = {
+      prime: [sw(C.gold, "prime"), sw("#6070aa", "not prime"), sw(C.cream, "1")],
+      visit: [sw(C.gold, "fresh tick: a new meridian is born"), sw(C.cream, "second visit"), sw("#6070aa", "third visit or later")],
+      birth: [`<span>meridian born early <span class="lk" style="border-color:${C.blue};width:30px"></span><span class="lk" style="border-color:${C.gold};width:30px"></span> born late</span>`],
+      layerBal: [sw(C.gold, "layer balances to −1"), sw(C.blue, "to +1"), sw("#404a76", "to 0")],
+      ownBal: [sw(C.gold, "odd count of prime factors"), sw(C.blue, "even count"), sw("#404a76", "a repeated factor")],
+    };
+    $("colorLegend").innerHTML = L[st.color].join("");
+  }
+
+  // =================== view: a rotation matrix, row by row ===================
+  let V = new Float64Array([1, 0, 0, 0, 1, 0, 0, 0, 1]);
+  const mul = (A, B) => { const R = new Float64Array(9); for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) R[r * 3 + c] = A[r * 3] * B[c] + A[r * 3 + 1] * B[3 + c] + A[r * 3 + 2] * B[6 + c]; return R; };
+  const Ry = (a) => new Float64Array([Math.cos(a), 0, Math.sin(a), 0, 1, 0, -Math.sin(a), 0, Math.cos(a)]);
+  const Rx = (b) => new Float64Array([1, 0, 0, 0, Math.cos(b), -Math.sin(b), 0, Math.sin(b), Math.cos(b)]);
+  function orthonormalize() {
+    const r0 = [V[0], V[1], V[2]], r1 = [V[3], V[4], V[5]];
+    const n0 = Math.hypot(...r0); r0.forEach((v, i) => (r0[i] = v / n0));
+    const d = r0[0] * r1[0] + r0[1] * r1[1] + r0[2] * r1[2]; r1.forEach((v, i) => (r1[i] = v - d * r0[i]));
+    const n1 = Math.hypot(...r1); r1.forEach((v, i) => (r1[i] = v / n1));
+    const r2 = [r0[1] * r1[2] - r0[2] * r1[1], r0[2] * r1[0] - r0[0] * r1[2], r0[0] * r1[1] - r0[1] * r1[0]];
+    V = new Float64Array([...r0, ...r1, ...r2]);
+  }
+  let viewAnim = null;
+  function setView(tilt, yaw, animate) {
+    const target = mul(Rx(tilt), Ry(yaw));
+    if (!animate || motionOff.matches) { V = target; return; }
+    viewAnim = { from: V.slice(), to: target, t: 0 };
+  }
+  function slerpView(A, B, t) { // blend matrices then re-orthonormalize: fine for a camera move
+    const R = new Float64Array(9);
+    for (let i = 0; i < 9; i++) R[i] = A[i] + (B[i] - A[i]) * t;
+    V = R; orthonormalize();
+  }
+
+  // =================== layout ===================
+  let diskCache = null, diskKey = "", img = null;
+  function layout() {
+    const r = cv.parentElement.getBoundingClientRect();
+    app.classList.toggle("tight", window.innerWidth > 760 && (r.height < 640 || r.width < 760));
+    fit(cv); W = cv.width; H = cv.height; P = dpr();
+    const mast = cv.parentElement.querySelector(".mast").getBoundingClientRect();
+    const mb = (mast.bottom - r.top) * P, mr = (mast.right - r.left) * P, pad = 50 * P, gap = 14 * P;
+    const rB = Math.min(W - 2 * gap, H - mb - pad - gap) / 2, rA = Math.min(W - mr - 2 * gap, H - pad - 56 * P) / 2;
+    if (rA > rB) { baseS = rA - 18 * P; cx = mr + gap + (W - mr - 2 * gap) / 2; cy = 56 * P + (H - pad - 56 * P) / 2; }
+    else { baseS = rB - 18 * P; cx = W / 2; cy = mb + gap + (H - mb - pad - gap) / 2; }
+    baseS = Math.max(60 * P, baseS);
+    S = baseS * zoom;
+    img = g.createImageData(W, H);
+    diskKey = "";
+  }
+  function disk() {
+    const key = [W, H, cx, cy, S].join(",");
+    if (diskCache && key === diskKey) return diskCache;
+    diskKey = key;
+    diskCache = new Uint32Array(W * H);
+    const base = hexRGB(C.globe), lite = [24, 34, 66], rim = hexRGB(C.ring);
+    const y0 = Math.max(0, Math.floor(cy - S - 2)), y1 = Math.min(H - 1, Math.ceil(cy + S + 2));
+    const x0 = Math.max(0, Math.floor(cx - S - 2)), x1 = Math.min(W - 1, Math.ceil(cx + S + 2));
+    const lx = cx - S * 0.35, ly = cy - S * 0.4;
+    for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) {
+      const d = Math.hypot(x + 0.5 - cx, y + 0.5 - cy);
+      if (d > S + 1) continue;
+      const l = Math.max(0, 1 - Math.hypot(x - lx, y - ly) / (S * 1.5));
+      let c = mix(base, lite, l * l * 0.9);
+      if (d > S - 2.5 * P) c = mix(c, rim, Math.min(1, (d - (S - 2.5 * P)) / (2.5 * P)) * 0.8);
+      const a = d > S ? Math.max(0, S + 1 - d) : 1;
+      diskCache[y * W + x] = (Math.round(255 * a) << 24) | (c[2] << 16) | (c[1] << 8) | c[0];
+    }
+    return diskCache;
+  }
+
+  // =================== drawing ===================
+  const proj = (la, lo) => { // latitude/longitude (radians, turns) -> screen
+    const c = Math.cos(la), th = lo * TAU, x = c * Math.sin(th), y = Math.sin(la), z = c * Math.cos(th);
+    return [cx + S * (V[0] * x + V[1] * y + V[2] * z), cy - S * (V[3] * x + V[4] * y + V[5] * z), V[6] * x + V[7] * y + V[8] * z];
+  };
+  function curve(pts, color, width, alpha, backAlpha = alpha * 0.25) { // pts: [lat, lon] pairs; back side dashed and faint
+    let prev = null;
+    const front = new Path2D(), back = new Path2D();
+    for (const [la, lo] of pts) {
+      const p = proj(la, lo);
+      if (prev) { const path = prev[2] >= 0 && p[2] >= 0 ? front : back; path.moveTo(prev[0], prev[1]); path.lineTo(p[0], p[1]); }
+      prev = p;
+    }
+    g.lineWidth = width; g.strokeStyle = color;
+    g.globalAlpha = backAlpha; g.setLineDash([3 * P, 4 * P]); g.stroke(back);
+    g.globalAlpha = alpha; g.setLineDash([]); g.stroke(front);
+    g.globalAlpha = 1;
+  }
+  function label(text, la, lo, color, font, dx = 6, dy = 0, minDepth = 0.05) {
+    const p = proj(la, lo);
+    if (p[2] < minDepth) return;
+    g.font = font || `${11 * P}px ${FONT_DATA}`;
+    g.textBaseline = "middle"; g.textAlign = "left";
+    g.lineWidth = 3 * P; g.strokeStyle = C.night; g.strokeText(text, p[0] + dx * P, p[1] + dy * P);
+    g.fillStyle = color; g.fillText(text, p[0] + dx * P, p[1] + dy * P);
+  }
+  const visibleX = (x) => x <= NUMS && x <= st.count;
+  function draw() {
+    if (!W || !img) return;
+    if (palKey !== st.color + NUMS) paint();
+    const buf = img.data, u32 = new Uint32Array(buf.buffer);
+    u32.set(disk());
+    const v0 = V[0], v1 = V[1], v2 = V[2], v3 = V[3], v4 = V[4], v5 = V[5], v6 = V[6], v7 = V[7], v8 = V[8];
+    const big = NUMS > 30000, sz = Math.max(big ? 1 : 2, Math.min(5, Math.round(P * (big ? 1.1 : NUMS > 8000 ? 1.6 : 2) * Math.min(2.2, Math.sqrt(zoom)))));
+    const lim = Math.min(NUMS, st.count === Infinity ? NUMS : Math.floor(st.count));
+    const ranges = st.mirror ? [[0, lim], [XMAX + 1, XMAX + lim]] : [[0, lim]];
+    // project everything once
+    for (const [a, b] of ranges) for (let i = a; i < b; i++) {
+      const x = PX[i], y = PY[i], z = PZ[i];
+      SX[i] = cx + S * (v0 * x + v1 * y + v2 * z); SY[i] = cy - S * (v3 * x + v4 * y + v5 * z); SD[i] = v6 * x + v7 * y + v8 * z;
+    }
+    // back side faint, then front side; plain dots before emphasized ones
+    for (const side of [0, 1]) for (const em of [0, 1]) for (const [a, b] of ranges) {
+      const mirrorDim = a > XMAX ? 0.55 : 1;
+      for (let i = a; i < b; i++) {
+        if (EMPH[i] !== em) continue;
+        const d = SD[i];
+        if (side === 0 ? d >= 0 : d < 0) continue;
+        const px = SX[i] | 0, py = SY[i] | 0;
+        if (px < 0 || py < 0 || px + sz > W || py + sz > H) continue;
+        const pc = PAL[COL[i]];
+        const al = pc[3] * mirrorDim * (side === 0 ? 0.16 : 0.42 + 0.58 * d);
+        for (let yy = 0; yy < sz; yy++) {
+          let o = ((py + yy) * W + px) * 4;
+          for (let xx = 0; xx < sz; xx++, o += 4) {
+            buf[o] += (pc[0] - buf[o]) * al; buf[o + 1] += (pc[1] - buf[o + 1]) * al; buf[o + 2] += (pc[2] - buf[o + 2]) * al;
+            if (buf[o + 3] < 255) buf[o + 3] = Math.min(255, buf[o + 3] + 255 * al);
+          }
+        }
+      }
+    }
+    g.setTransform(1, 0, 0, 1, 0, 0);
+    g.clearRect(0, 0, W, H);
+    g.putImageData(img, 0, 0);
+    overlays();
+    caption();
+  }
+  const latN = (x) => latOfValue(x), latR = (x) => latMirror(x);
+  const mirrorName = (x) => (isLog() ? `1/${fmtN(x)}` : `−${fmtN(x)}`);
+  function meridian(lo, la0, la1, n = 48) { const pts = []; for (let i = 0; i <= n; i++) pts.push([la0 + ((la1 - la0) * i) / n, lo]); return pts; }
+  function parallel(la, n = 120) { const pts = []; for (let i = 0; i <= n; i++) pts.push([la, i / n]); return pts; }
+  function overlays() {
+    const gold = C.gold, cream = C.cream, blue = C.blue, muted = C.muted;
+    const top = Math.PI / 2;
+    if (st.grid) {
+      const eqLabel = !isLog() ? "0" : st.logR === 0 ? "1" : fmtN(+(10 ** st.logR).toPrecision(3));
+      curve(parallel(0, 160), gold, 1.4 * P, 0.75);
+      let marks;
+      if (isLog()) { marks = []; for (let e = 1; e <= 5 && 10 ** e <= NUMS; e++) marks.push(10 ** e); }
+      else { const step = [1, 2, 5].map((m) => m * 10 ** Math.floor(Math.log10(NUMS / 4))).find((v) => NUMS / v <= 5) || 10 ** Math.ceil(Math.log10(NUMS / 4)); marks = []; for (let v = step; v < NUMS * 0.97; v += step) marks.push(v); }
+      for (const v of marks) {
+        curve(parallel(latN(v)), muted, P, 0.45);
+        if (st.mirror) curve(parallel(latR(v)), muted, P, 0.35);
+      }
+      // labels where each ring faces us most
+      const bestLon = (la) => { let best = 0, bd = -2; for (let i = 0; i < 36; i++) { const d = proj(la, i / 36)[2]; if (d > bd) { bd = d; best = i / 36; } } return best; };
+      label(`equator = ${eqLabel}`, 0, bestLon(0), gold, undefined, 6, -9);
+      for (const v of marks) {
+        label(fmtN(v), latN(v), bestLon(latN(v)), muted, undefined, 6, -8);
+        if (st.mirror) label(mirrorName(v), latR(v), bestLon(latR(v)), muted, undefined, 6, -8);
+      }
+      const poleN = isLog() ? "∞" : fmtN(NUMS), poleS = isLog() ? "0" : `−${fmtN(NUMS)}`;
+      label(poleN, top - 1e-4, 0, cream, `600 ${(isLog() ? 15 : 12) * P}px ${isLog() ? FONT_DISP : FONT_DATA}`, 6, -4, -0.2);
+      if (st.mirror) label(poleS, -top + 1e-4, 0, cream, `600 ${(isLog() ? 15 : 12) * P}px ${isLog() ? FONT_DISP : FONT_DATA}`, 6, 4, -0.2);
+    }
+    if (st.fracs) {
+      if (st.lens === "ratio") {
+        for (let b = 1; b <= 6; b++) for (let a = 1; a <= b; a++) {
+          if (gcd(a, b) !== 1) continue;
+          const lo = frac(a / b), x = T(b - 1) + a;
+          if (x > NUMS) continue;
+          const la = latN(x);
+          curve(meridian(lo, la, top), cream, P, 0.5);
+          if (st.mirror) curve(meridian(lo, latR(x), -top), cream, P, 0.3);
+          label(b === 1 ? "1/1" : `${a}/${b}`, la, lo, cream, undefined, 5, -8);
+        }
+      } else if (st.lens === "double") {
+        for (let o = 1; o <= 15; o += 2) {
+          if (o > NUMS) break;
+          const lo = frac(Math.log2(o));
+          curve(meridian(lo, latN(o), top), cream, P, 0.5);
+          label(o === 1 ? "1, 2, 4, 8 …" : `${o}, ${2 * o}, ${4 * o} …`, latN(o), lo, cream, undefined, 5, -8);
+        }
+      } else {
+        const la0 = latN(Math.min(NUMS, Math.max(st.q * 3, NUMS * 0.04)));
+        for (let r = 0; r < st.q; r++) {
+          const lo = r / st.q, first = r === 0 ? st.q : r, open = gcd(r, st.q) === 1;
+          curve(meridian(lo, latN(first), top), open ? gold : muted, P, open ? 0.6 : 0.3);
+          if (open || st.q <= 6) label(`arm ${r}`, la0, lo, open ? gold : muted, undefined, 5, -8);
+        }
+      }
+    }
+    if (st.tape) {
+      const pts = [];
+      const nmax = Math.min(NUMS, st.count === Infinity ? NUMS : st.count);
+      if (st.lens === "ratio") {
+        for (let m = 1; m <= st.layers && T(m - 1) < nmax; m++) {
+          const steps = Math.min(m, 40), base = T(m - 1);
+          for (let s = 0; s <= steps; s++) {
+            const k = (s / steps) * m, x = Math.min(nmax, base + k);
+            if (x < 1) continue;
+            pts.push([latN(Math.max(1, x)), frac(k / m)]);
+          }
+        }
+        // the path jumps back to longitude 0 at the end of each layer only in name: k/m = 1 is the same spot as 0
+      } else if (st.lens === "double") {
+        const lo = st.mirror && isLog() ? -Math.log(nmax) : 0, hi = Math.log(nmax);
+        for (let i = 0; i <= 1600; i++) { const lx = lo + ((hi - lo) * i) / 1600, x = Math.exp(lx); pts.push([latOfValue(x), frac(Math.log2(x))]); }
+      } else {
+        const n = Math.min(nmax, 6000);
+        for (let x = 1; x <= n; x += Math.max(1, st.q / 12)) pts.push([latN(x), frac(x / st.q)]);
+      }
+      curve(pts, blue, 1.2 * P, 0.75, 0.15);
+    }
+    // the moment counting has reached
+    if (st.count !== Infinity) {
+      curve(parallel(latN(st.count), 160), gold, 2 * P, 0.95);
+      if (st.mirror) curve(parallel(latR(st.count), 160), gold, 1.4 * P, 0.6);
+    }
+    // the picked number, its meridian and its companions in this lens
+    const pk = st.pick;
+    if (pk && visibleX(pk)) {
+      const i = pk - 1, lo = lonCur[i];
+      curve(meridian(lo, -top + 0.01, top - 0.01, 90), cream, P, 0.35);
+      const comp = companions(pk, 60);
+      for (const c of comp) { if (!visibleX(c)) continue; const p = proj(latN(c), lonCur[c - 1]); if (p[2] < 0) continue; g.strokeStyle = cream; g.globalAlpha = 0.85; g.lineWidth = 1.2 * P; g.beginPath(); g.arc(p[0], p[1], 4 * P, 0, TAU); g.stroke(); g.globalAlpha = 1; }
+      const p = proj(lat[i], lo);
+      if (p[2] > -0.05) {
+        g.strokeStyle = gold; g.lineWidth = 2 * P; g.beginPath(); g.arc(p[0], p[1], 7 * P, 0, TAU); g.stroke();
+        label(fmtN(pk), lat[i], lo, C.text, `500 ${12 * P}px ${FONT_DATA}`, 10, -10, -0.05);
+      }
+    }
+    if (st.hover) {
+      const i = st.hover;
+      if (SD[i] >= 0) { g.strokeStyle = C.text; g.lineWidth = 1.4 * P; g.beginPath(); g.arc(SX[i] + 0.5, SY[i] + 0.5, 5 * P, 0, TAU); g.stroke(); }
+    }
+  }
+  // numbers that share x's meridian in the current lens
+  function companions(x, cap) {
+    const out = [];
+    if (st.lens === "ratio") {
+      const a = NUMER[x], b = BIRTH[x];
+      for (let v = 1; out.length < cap; v++) { const y = T(v * b - 1) + v * a; if (y > NUMS) break; if (y !== x) out.push(y); }
+    } else if (st.lens === "double") {
+      let o = x; while (o % 2 === 0) o /= 2;
+      for (let y = o; y <= NUMS && out.length < cap; y *= 2) if (y !== x) out.push(y);
+    } else {
+      const r = x % st.q;
+      for (let y = r === 0 ? st.q : r; y <= NUMS && out.length < cap; y += st.q) if (y !== x) out.push(y);
+    }
+    return out;
+  }
+  function describe(i) {
+    const recip = i >= XMAX, x = (recip ? i - XMAX : i) + 1;
+    const m = LAY[x], k = TICK[x], v = VIS[x];
+    const visit = v === 1 ? "fresh tick, a new meridian is born" : v === 2 ? "second visit" : `visit ${v}`;
+    const pr = x === 1 ? "the unit" : isPrime(x) ? `<span class="g">prime</span>` : `<span class="b">${factorText(x)}</span>`;
+    let lens = "";
+    if (st.lens === "double") lens = ` · ${(frac(Math.log2(x)) * 100).toFixed(0)}% of the way through its doubling`;
+    else if (st.lens === "mod") lens = ` · ${fmtN(x)} = ${fmtN(Math.floor(x / st.q))}×${st.q} + ${x % st.q}, arm ${x % st.q}`;
+    if (recip) return `<b>${mirrorName(x)}</b> · the mirror image of ${fmtN(x)} across the equator (${isLog() ? "1" : "0"})`;
+    return `<b>${fmtN(x)}</b> · layer ${m}, tick ${k} · meridian ${BIRTH[x] === 1 ? "1/1" : `${NUMER[x]}/${BIRTH[x]}`}, ${visit} · ${pr}${lens}`;
+  }
+  function caption() {
+    let h;
+    if (st.hover) h = describe(st.hover);
+    else if (st.count !== Infinity) h = `counting has reached <b>${fmtN(Math.floor(st.count))}</b> · gold ring: now · the ring below is its mirror, ${isLog() ? "its reciprocal" : "its negative"}`;
+    else h = `drag to turn · scroll or pinch to zoom · tap a dot to pick it`;
+    $("now").innerHTML = h;
+  }
+
+  // =================== the picked number ===================
+  function pickWords() {
+    const x = st.pick;
+    if (!x || x > XMAX) { $("pickText").textContent = "Pick a number from 1 to 80,200."; return; }
+    const m = LAY[x], k = TICK[x], v = VIS[x], a = NUMER[x], b = BIRTH[x];
+    const born = T(b - 1) + a;
+    let h = `<b>${fmtN(x)}</b> sits on layer ${m}, tick ${k}, on the meridian of <b>${b === 1 ? "1/1" : `${a}/${b}`}</b>. `;
+    h += v === 1 ? `It's that meridian's first tick: the meridian is born here. `
+      : v === 2 ? `That meridian was born on layer ${b} at ${fmtN(born)}; ${fmtN(x)} is its second visit, the last place a prime can still sit on it. `
+      : `That meridian was born on layer ${b} at ${fmtN(born)}; ${fmtN(x)} is visit ${v}, so ${v % 2 ? v : v / 2} divides it for free, read straight off its seat. `;
+    h += x === 1 ? `It's the unit, sitting on the equator at the center of everything. ` : isPrime(x) ? `It's <span class="g">prime</span>. ` : `It's ${factorText(x)}. `;
+    const mu = MU[x];
+    h += `Its own balance is ${mu > 0 ? "+1" : mu < 0 ? "−1" : "0"}. `;
+    const ratioMates = [];
+    for (let w = 1; ratioMates.length < 4; w++) { const y = T(w * b - 1) + w * a; if (y > XMAX) break; ratioMates.push(fmtN(y)); }
+    let o = x; while (o % 2 === 0) o /= 2;
+    const dblMates = []; for (let y = o; y <= XMAX && dblMates.length < 4; y *= 2) dblMates.push(fmtN(y));
+    const r = x % st.q, modMates = []; for (let y = r === 0 ? st.q : r; y <= XMAX && modMates.length < 4; y += st.q) modMates.push(fmtN(y));
+    h += `<br><span style="font-family:var(--font-body);font-size:0.86rem;color:var(--muted)">It shares a meridian with ${ratioMates.join(", ")} … in the ratio lens, ${dblMates.join(", ")} … in the doubling lens, and ${modMates.join(", ")} … on arm ${r} of the circle of ${st.q}.</span>`;
+    $("pickText").innerHTML = h;
+  }
+
+  // =================== layer balance ===================
+  const balCv = $("bal"), bg = balCv.getContext("2d");
+  function drawBalance() {
+    fit(balCv);
+    const Sz = balCv.width, p = dpr(), m = st.balLayer, ccx = Sz / 2, ccy = Sz / 2, Rr = Sz * 0.4;
+    bg.setTransform(1, 0, 0, 1, 0, 0); bg.clearRect(0, 0, Sz, Sz);
+    bg.strokeStyle = C.ring; bg.lineWidth = p; bg.beginPath(); bg.arc(ccx, ccy, Rr, 0, TAU); bg.stroke();
+    const fresh = [];
+    for (let k = 1; k <= m; k++) if (gcd(k, m) === 1) fresh.push(k);
+    const ang = (k) => -(k / m) * TAU; // counterclockwise from three o'clock
+    const dotR = Math.max(1.2 * p, Math.min(4 * p, (TAU * Rr) / m / 3));
+    for (let k = 1; k <= m; k++) {
+      const isF = gcd(k, m) === 1, a = ang(k);
+      bg.fillStyle = isF ? C.gold : C.ring;
+      bg.beginPath(); bg.arc(ccx + Rr * Math.cos(a), ccy + Rr * Math.sin(a), isF ? dotR * 1.2 : dotR, 0, TAU); bg.fill();
+    }
+    if (fresh.length <= 120) {
+      bg.strokeStyle = C.gold; bg.globalAlpha = 0.35; bg.lineWidth = p;
+      for (const k of fresh) { const a = ang(k); bg.beginPath(); bg.moveTo(ccx, ccy); bg.lineTo(ccx + Rr * Math.cos(a), ccy + Rr * Math.sin(a)); bg.stroke(); }
+      bg.globalAlpha = 1;
+    }
+    // the same arrows head to tail
+    const sums = [[0, 0]];
+    let sx = 0, sy = 0;
+    for (const k of fresh) { const a = ang(k); sx += Math.cos(a); sy += Math.sin(a); sums.push([sx, sy]); }
+    let ext = 1;
+    for (const [x, y] of sums) ext = Math.max(ext, Math.abs(x), Math.abs(y));
+    const u = Math.min(Rr * 0.42, (Rr * 0.85) / ext);
+    bg.strokeStyle = C.cream; bg.lineWidth = 1.8 * p; bg.lineJoin = "round"; bg.beginPath();
+    sums.forEach(([x, y], i) => { const X = ccx + x * u, Y = ccy + y * u; i ? bg.lineTo(X, Y) : bg.moveTo(X, Y); });
+    bg.stroke();
+    const mu = muOf(m), ex = ccx + mu * u;
+    bg.fillStyle = C.text; bg.beginPath(); bg.arc(ccx, ccy, 3 * p, 0, TAU); bg.fill();
+    bg.strokeStyle = mu === 0 ? C.text : mu < 0 ? C.gold : C.blue; bg.lineWidth = 2 * p;
+    bg.beginPath(); bg.arc(ex, ccy, 6 * p, 0, TAU); bg.stroke();
+    bg.font = `500 ${12 * p}px ${FONT_DATA}`; bg.textAlign = "center"; bg.textBaseline = "top"; bg.fillStyle = C.text;
+    bg.fillText(`lands on ${mu > 0 ? "+1" : mu < 0 ? "−1" : "0"}`, ex, ccy + 10 * p);
+    bg.textAlign = "left"; bg.textBaseline = "top"; bg.fillStyle = C.muted; bg.font = `${10 * p}px ${FONT_DATA}`;
+    bg.fillText(`layer ${fmtN(m)} · ${fmtN(fresh.length)} fresh of ${fmtN(m)}`, 8 * p, 8 * p);
+    // words
+    const f = factors(m), distinct = new Set(f).size;
+    let h;
+    if (m === 1) h = `Layer 1 is the single tick at 1, which is fresh, so the balance is +1.`;
+    else {
+      h = `Layer ${fmtN(m)} has ${fmtN(fresh.length)} fresh ticks, gold. Their arrows, laid head to tail in cream, walk around and land exactly on <b>${mu > 0 ? "+1" : mu < 0 ? "−1" : "0"}</b>. `;
+      if (mu === 0) h += `${fmtN(m)} = ${factorText(m)} has a repeated prime factor, so the fresh ticks cancel perfectly. `;
+      else if (distinct === 1) h += `${fmtN(m)} is prime. All ${m} arrows of a layer always cancel to zero, and every tick here is fresh except the one closing onto 1, the junction. So the fresh ones come out exactly that one arrow short: −1. `;
+      else h += `${fmtN(m)} = ${factorText(m)}: ${distinct} prime factors, ${distinct % 2 ? "an odd" : "an even"} count, so ${mu < 0 ? "−1" : "+1"}. `;
+      const divs = []; for (let d = 1; d <= m; d++) if (m % d === 0) divs.push(d);
+      if (divs.length <= 14) h += `<br><br>Every tick belongs to a meridian born on a layer that divides ${fmtN(m)}: ${fmtN(m)} = ${divs.map((d) => `${phi(d)}<span style="color:var(--muted)">·L${d}</span>`).join(" + ")}, with φ(d) ticks from each layer d. The fresh ones are the newest, from layer ${fmtN(m)} itself.`;
+    }
+    $("balNote").innerHTML = h;
+    drawChart();
+  }
+
+  // =================== running balance (Mertens) ===================
+  const mCv = $("mChart"), mg = mCv.getContext("2d");
+  const MN = 1000000;
+  let MERT = null;
+  function mertens() {
+    if (MERT) return MERT;
+    const mu = new Int8Array(MN + 1).fill(1), comp = new Uint8Array(MN + 1);
+    mu[0] = 0;
+    for (let p = 2; p <= MN; p++) {
+      if (comp[p]) continue;
+      for (let j = p; j <= MN; j += p) { comp[j] = 1; mu[j] = -mu[j]; }
+      const pp = p * p;
+      if (pp <= MN) for (let j = pp; j <= MN; j += pp) mu[j] = 0;
+    }
+    MERT = new Int32Array(MN + 1);
+    for (let n = 1; n <= MN; n++) MERT[n] = MERT[n - 1] + mu[n];
+    return MERT;
+  }
+  let chartHover = 0;
+  function drawChart() {
+    if (!mCv.getBoundingClientRect().width) return;
+    fit(mCv);
+    const M = mertens(), w = mCv.width, h = mCv.height, p = dpr();
+    const x0 = 40 * p, x1 = w - 10 * p, y0 = 10 * p, y1 = h - 22 * p;
+    const lmin = Math.log(10), lmax = Math.log(MN);
+    const X = (n) => x0 + ((Math.log(n) - lmin) / (lmax - lmin)) * (x1 - x0), Y = (v) => y0 + ((1.15 - v) / 2.3) * (y1 - y0);
+    mg.setTransform(1, 0, 0, 1, 0, 0); mg.clearRect(0, 0, w, h);
+    mg.font = `${10 * p}px ${FONT_DATA}`; mg.lineWidth = 1;
+    for (const v of [-1, -0.57, 0, 0.57, 1]) {
+      const y = Math.round(Y(v)) + 0.5;
+      mg.strokeStyle = v === 0 ? C.line : Math.abs(v) === 1 ? C.muted : C.cream;
+      mg.globalAlpha = v === 0 ? 1 : 0.6; mg.setLineDash(v === 0 ? [] : [4 * p, 4 * p]);
+      mg.beginPath(); mg.moveTo(x0, y); mg.lineTo(x1, y); mg.stroke();
+      mg.setLineDash([]); mg.globalAlpha = 1;
+      mg.fillStyle = C.muted; mg.textAlign = "right"; mg.textBaseline = "middle";
+      mg.fillText(v === 0 ? "0" : Math.abs(v) === 1 ? (v > 0 ? "+√n" : "−√n") : (v > 0 ? "+.57" : "−.57"), x0 - 5 * p, y);
+    }
+    mg.textAlign = "center"; mg.textBaseline = "top";
+    for (const n of [10, 100, 1000, 10000, 100000, 1000000]) { const x = X(n); mg.fillStyle = C.muted; mg.fillText(n >= 1e6 ? "1M" : n >= 1e3 ? `${n / 1e3}k` : String(n), x, y1 + 6 * p); }
+    // the walk divided by √n, as the band each pixel column covers
+    mg.strokeStyle = C.gold; mg.lineWidth = Math.max(1, p);
+    mg.beginPath();
+    let n = 10;
+    for (let px = Math.floor(x0); px < x1; px++) {
+      const nEnd = Math.min(MN, Math.floor(Math.exp(lmin + ((px + 1 - x0) / (x1 - x0)) * (lmax - lmin))));
+      let lo = Infinity, hi = -Infinity;
+      for (; n <= nEnd; n++) { const v = M[n] / Math.sqrt(n); if (v < lo) lo = v; if (v > hi) hi = v; }
+      if (lo === Infinity) continue;
+      mg.moveTo(px + 0.5, Y(hi) - 0.5); mg.lineTo(px + 0.5, Y(lo) + 0.5);
+    }
+    mg.stroke();
+    const m = st.balLayer;
+    if (m >= 10 && m <= MN) { mg.fillStyle = C.cream; mg.beginPath(); mg.arc(X(m), Y(M[m] / Math.sqrt(m)), 4 * p, 0, TAU); mg.fill(); }
+    if (chartHover) { const x = X(chartHover); mg.strokeStyle = C.text; mg.globalAlpha = 0.5; mg.beginPath(); mg.moveTo(x, y0); mg.lineTo(x, y1); mg.stroke(); mg.globalAlpha = 1; }
+    const hv = chartHover || m;
+    $("mLegend").innerHTML = `<span><span class="lk" style="border-color:${C.gold}"></span>running balance ÷ √n</span><span><span class="lk dash" style="border-color:${C.muted}"></span>±√n</span><span><span class="dk" style="background:${C.cream}"></span>layer ${fmtN(m)}</span>` +
+      (hv >= 1 && hv <= MN ? `<span>after layer ${fmtN(hv)}: total ${M[hv] > 0 ? "+" : ""}${fmtN(M[hv])}, ÷√n = ${(M[hv] / Math.sqrt(hv)).toFixed(3)}</span>` : "");
+    $("mNote").textContent = `Add each layer's balance to the last and you get a walk that looks random. Divided by √n it stays in a narrow band: past layer 200 it never leaves ±0.57 all the way to ten million. The Riemann Hypothesis is exactly the claim that the walk never escapes √n by more than an arbitrarily small extra power of n.`;
+  }
+
+  // =================== findings ===================
+  const FINDS = [
+    { tag: "noticed building", html: `<b>Two heights, two mirrors.</b> With height as counting, the natural mirror is −x and the equator is 0. Switch to the slide rule and the same picture's mirror becomes 1/x, with 1 on the equator. Nothing else changed: the logarithm turns × into +, so it turns one mirror into the other.`, go: () => { setHeight(st.height === "log" ? "even" : "log", true); st.mirror = true; $("mirror").checked = true; setView(0.12, 0.6, true); } },
+    { tag: "classical", html: `<b>Counting height is Archimedes' equal-area globe.</b> A sphere's band between two heights has the same area as the matching band of a cylinder around it. So when height counts the numbers evenly, every number gets the same patch of sphere: the globe is a fair map of the number line, with no crowding at the poles.`, go: () => { setHeight("even", true); setColor("prime"); setView(0.62, 0.55, true); } },
+    { tag: "classical", html: `<b>1 is the equator.</b> On the slide-rule globe, 0 and infinity become the two poles, 1 sits exactly halfway, and every reciprocal is its whole number's mirror image. Mathematicians call this the Riemann sphere, the globe where infinity is a single place.`, go: () => { setHeight("log", true); setLens("ratio"); st.mirror = true; $("mirror").checked = true; st.logR = 0; syncScale(); setView(0.05, 0.6, true); } },
+    { tag: "noticed building", html: `<b>Seen from infinity, it's the wheel turned inside out.</b> On the slide-rule globe, look straight down at the north pole: the meridians are the wheel's lines again, but 1 is on the rim and every number rushes inward toward infinity at the center. The original wheel and this view are the same picture, flipped through 1.`, go: () => { setHeight("log", true); setLens("ratio"); setView(Math.PI / 2, 0, true); } },
+    { tag: "classical, now visible", html: `<b>Every layer is the factorization of xᵐ − 1.</b> Layer m's ticks sit at the points where xᵐ = 1 on a circle. Each tick belongs to the meridian born on some layer d that divides m, exactly φ(d) of them from each, and the fresh ticks are the primitive ones: the new factor no smaller layer had.`, go: () => { setColor("birth"); setBal(12); showBal(); } },
+    { tag: "classical, now visible", html: `<b>Fresh ticks balance to +1, −1 or 0.</b> Point an arrow at every fresh tick and add them up: the total is always exactly +1, −1 or 0. It's 0 when the layer has a repeated prime factor, −1 for an odd count of prime factors and +1 for an even count. That's the parity no sieve can see, drawn as a balance.`, go: () => { setColor("layerBal"); setBal(30); showBal(); } },
+    { tag: "classical, now visible", html: `<b>The junction at 1 is what tips a prime layer.</b> All of a layer's arrows together always cancel to zero. On a prime layer every tick is fresh except the one closing back onto 1, so the fresh ticks come out exactly one arrow short: −1. The seam you spotted earlier is the reason every prime layer balances to −1.`, go: () => { setBal(31); showBal(); } },
+    { tag: "classical", html: `<b>The running balance is the Riemann Hypothesis.</b> Add the layer balances one after another and you get a random-looking walk. RH says it never strays faster than √n, give or take any tiny extra power. Past layer 200 it has stayed inside ±0.57·√n through ten million.`, go: () => { setBal(200); $("mChart").scrollIntoView({ behavior: motionOff.matches ? "auto" : "smooth", block: "center" }); } },
+    { tag: "classical, now visible", html: `<b>The slide rule is a rhumb line.</b> In the doubling lens, counting traces one spiral from 0 to infinity that crosses every meridian at the same angle, like a ship holding one compass heading. Doubling is one fixed step north along a meridian.`, go: () => { setHeight("log", true); setLens("double"); st.tape = true; $("tape").checked = true; st.mirror = true; $("mirror").checked = true; setView(0.25, 0.3, true); } },
+    { tag: "noticed building", html: `<b>Sliding the equator never moves a meridian.</b> Change which number sits on the equator and everything slides north or south together, but no number ever leaves its meridian. On this globe ratio is scale-free and size isn't: the same split as "how many" versus "which ones".`, go: () => { setHeight("log", true); startRenorm(); } },
+  ];
+  const showBal = () => $("bal").scrollIntoView({ behavior: motionOff.matches ? "auto" : "smooth", block: "center" });
+  function buildFinds() {
+    const ol = $("finds");
+    FINDS.forEach((f) => {
+      const li = document.createElement("li");
+      li.innerHTML = `${f.html}<span class="tag">${f.tag}</span><br>`;
+      const b = document.createElement("button");
+      b.type = "button"; b.textContent = "Show me";
+      b.addEventListener("click", () => { f.go(); refreshAll(); kick(); });
+      li.append(b);
+      ol.append(li);
+    });
+  }
+
+  // =================== controls ===================
+  const HEIGHT_TEXT = {
+    even: "The number line, closed into a globe. Longitude is ratio: the fraction of a turn a number sits at. Height is counting, so equal heights hold equal crowds of numbers: 0 on the equator, the count climbing to the north pole, the negatives mirrored below.",
+    log: "The slide-rule globe. Longitude is still ratio, but height is now size on a log scale: 1 sits on the equator, infinity at the north pole, 0 at the south pole, and every reciprocal is its whole number's mirror image. Mathematicians call it the Riemann sphere.",
+  };
+  const HEIGHT_NOTE = {
+    even: "<b>Counting.</b> Equal steps of height hold equal numbers, and on a sphere equal heights cover equal areas, so the numbers spread evenly. The mirror is subtraction: −x below x, with 0 on the equator.",
+    log: "<b>Slide rule.</b> Equal steps of height are equal multiplications. The mirror becomes division: 1/x below x, with 1 on the equator and the poles at 0 and infinity. The logarithm that turns × into + is what turns one globe into the other.",
+  };
+  function setHeight(hh, save) {
+    st.height = hh === "log" ? "log" : "even";
+    $("hEven").setAttribute("aria-pressed", String(st.height === "even"));
+    $("hLog").setAttribute("aria-pressed", String(st.height === "log"));
+    app.classList.toggle("h-log", st.height === "log");
+    $("mastText").textContent = HEIGHT_TEXT[st.height]; $("howto").textContent = HEIGHT_TEXT[st.height];
+    $("heightNote").innerHTML = HEIGHT_NOTE[st.height];
+    $("mirrorLabel").textContent = st.height === "log" ? "Reciprocals below the equator" : "Negatives below the equator";
+    if (save) store.set("height", st.height);
+    syncScale();
+    startMorph(st.lens);
+    layout();
+    kick();
+  }
+  const LENS_NOTE = {
+    ratio: `<b>Ratio, the growing wheel.</b> A number's longitude is its tick's fraction of its layer. Numbers at the same fraction share a meridian, so each meridian is one line of the wheel, born on the layer of its denominator.`,
+    double: `<b>Doubling, the slide rule.</b> Longitude is how far a number is through its doubling. 3, 6, 12, 24 … share a meridian, and counting becomes one rhumb-line spiral from 0 to infinity.`,
+    mod: `<b>Remainder, the fixed circle.</b> Longitude is the remainder after dividing by the circle's size. Every q-th number shares a meridian, an arm, and primes only live on the gold arms that share no factor with q.`,
+  };
+  function setLens(l) {
+    st.lens = l;
+    for (const [id, v] of [["lensRatio", "ratio"], ["lensDouble", "double"], ["lensMod", "mod"]]) $(id).setAttribute("aria-pressed", String(l === v));
+    app.classList.toggle("lens-mod", l === "mod");
+    $("lensNote").innerHTML = LENS_NOTE[l];
+    store.set("lens", l);
+    startMorph(l);
+    pickWords();
+    kick();
+  }
+  function setColor(c) { st.color = c; $("colorBy").value = c; store.set("color", c); paint(); kick(); }
+  function setBal(m) { st.balLayer = Math.max(1, Math.min(2000, Math.round(m) || 12)); $("balLayer").value = String(st.balLayer); drawBalance(); }
+  function setLayers(n) {
+    st.layers = Math.max(10, Math.min(MAXL, n));
+    NUMS = T(st.layers);
+    $("layers").value = String(st.layers);
+    $("layersOut").textContent = `${st.layers} layers · 1 to ${fmtN(NUMS)}`;
+    computeLat(); fillLon(lonCur, st.lens); updateUnits(); morph = null; paint(); syncScale(); kick();
+  }
+  function syncScale() {
+    $("equator").value = String(Math.round(st.logR * 100));
+    const R = 10 ** st.logR;
+    $("equatorOut").textContent = st.logR === 0 ? "1" : R >= 1 ? fmtN(+R.toPrecision(3)) : `1/${fmtN(+(1 / R).toPrecision(3))}`;
+    if (st.kAuto) $("stretch").value = String(Math.round(kappa() * 100));
+    $("stretchOut").textContent = `${kappa().toFixed(2)}${st.kAuto ? " (auto)" : ""}`;
+    computeLat(); updateUnits();
+  }
+  function startRenorm() { st.renorm = { t: 0 }; kick(); }
+  function refreshAll() { paint(); pickWords(); drawBalance(); kick(); }
+
+  // =================== loop ===================
+  let rafId = 0, lastTs = 0;
+  function kick() { if (!rafId) rafId = requestAnimationFrame(frame); }
+  function frame(ts) {
+    rafId = 0;
+    const dt = lastTs ? Math.min(0.1, (ts - lastTs) / 1000) : 0.016;
+    lastTs = ts;
+    let more = false, busy = false;
+    if (st.spin && !dragging && !motionOff.matches) { V = mul(V, Ry(dt * 0.12)); more = true; }
+    if (viewAnim) {
+      viewAnim.t = Math.min(1, viewAnim.t + dt / 1.1);
+      const e = viewAnim.t * viewAnim.t * (3 - 2 * viewAnim.t);
+      slerpView(viewAnim.from, viewAnim.to, e);
+      if (viewAnim.t >= 1) viewAnim = null;
+      more = true;
+    }
+    if (morph) {
+      morph.t = Math.min(1, morph.t + dt / 1.3);
+      const e = morph.t * morph.t * (3 - 2 * morph.t);
+      for (let n = 0; n < 2; n++) for (let j = n * XMAX, je = n * XMAX + NUMS; j < je; j++) {
+        const d = ((lonTo[j] - lonFrom[j] + 1.5) % 1) - 0.5;
+        lonCur[j] = frac(lonFrom[j] + d * e);
+      }
+      updateUnits();
+      if (morph.t >= 1) { lonCur.set(lonTo); updateUnits(); morph = null; }
+      more = true;
+    }
+    if (st.counting) {
+      st.count = Math.min(NUMS + 1, st.count * Math.exp(dt * (Math.log(NUMS) / 14)));
+      if (st.count > NUMS) { st.count = Infinity; st.counting = false; $("countBtn").textContent = "Let time run"; }
+      more = true;
+    }
+    if (st.renorm) {
+      st.renorm.t = Math.min(1, st.renorm.t + dt / 7);
+      st.logR = 3 * Math.sin(st.renorm.t * Math.PI) ** 2 * (1 - 0.0);
+      if (st.renorm.t >= 1) { st.logR = 0; st.renorm = null; }
+      syncScale();
+      more = true;
+    }
+    busy = !!(viewAnim || morph || st.counting || st.renorm || dragging);
+    // spinning alone redraws at about 30 frames a second to go easy on the battery
+    if (busy || !spinSkip) draw();
+    spinSkip = !busy && !spinSkip;
+    if (more) kick(); else { lastTs = 0; spinSkip = false; }
+  }
+  let spinSkip = false;
+
+  // =================== pointer ===================
+  let dragging = false, downAt = null, moved = false;
+  const pointers = new Map();
+  let pinch0 = 0, zoom0 = 1;
+  cv.addEventListener("pointerdown", (e) => {
+    cv.setPointerCapture(e.pointerId);
+    pointers.set(e.pointerId, [e.clientX, e.clientY]);
+    if (pointers.size === 2) { const [a, b] = [...pointers.values()]; pinch0 = Math.hypot(a[0] - b[0], a[1] - b[1]); zoom0 = zoom; }
+    dragging = true; moved = false; downAt = [e.clientX, e.clientY];
+    viewAnim = null;
+    cv.classList.add("dragging");
+  });
+  cv.addEventListener("pointermove", (e) => {
+    if (dragging && pointers.has(e.pointerId)) {
+      const prev = pointers.get(e.pointerId);
+      pointers.set(e.pointerId, [e.clientX, e.clientY]);
+      if (pointers.size === 2) {
+        const [a, b] = [...pointers.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]);
+        if (pinch0 > 0) { zoom = Math.max(0.6, Math.min(14, (zoom0 * d) / pinch0)); S = baseS * zoom; }
+        moved = true; kick(); return;
+      }
+      const dx = e.clientX - prev[0], dy = e.clientY - prev[1];
+      if (Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 4) moved = true;
+      const k = 1 / Math.max(40, S / P);
+      V = mul(mul(Rx(dy * k), Ry(dx * k)), V);
+      orthonormalize();
+      kick();
+      return;
+    }
+    hoverAt(e);
+  });
+  const end = (e) => {
+    if (!pointers.has(e.pointerId)) return;
+    pointers.delete(e.pointerId);
+    if (pointers.size > 0) return;
+    dragging = false; cv.classList.remove("dragging");
+    if (!moved) { const i = nearest(e); if (i >= 0 && i < XMAX) { st.pick = i + 1; $("pickIn").value = String(st.pick); setBal(LAY[st.pick]); pickWords(); } }
+    kick();
+  };
+  cv.addEventListener("pointerup", end);
+  cv.addEventListener("pointercancel", end);
+  cv.addEventListener("pointerleave", () => { if (!dragging && st.hover) { st.hover = 0; kick(); } });
+  cv.addEventListener("wheel", (e) => { e.preventDefault(); zoom = Math.max(0.6, Math.min(14, zoom * Math.exp(-e.deltaY * 0.0015))); S = baseS * zoom; kick(); }, { passive: false });
+  function nearest(e) {
+    const r = cv.getBoundingClientRect(), mx = (e.clientX - r.left) * P, my = (e.clientY - r.top) * P;
+    let best = -1, bd = (10 * P) ** 2;
+    const lim = Math.min(NUMS, st.count === Infinity ? NUMS : Math.floor(st.count));
+    const ranges = st.mirror ? [[0, lim], [XMAX + 1, XMAX + lim]] : [[0, lim]];
+    for (const [a, b] of ranges) for (let i = a; i < b; i++) {
+      if (SD[i] < 0) continue;
+      const dx = SX[i] - mx, dy = SY[i] - my, d = dx * dx + dy * dy;
+      if (d < bd) { bd = d; best = i; }
+    }
+    return best;
+  }
+  let hoverPending = null;
+  function hoverAt(e) {
+    hoverPending = e;
+    requestAnimationFrame(() => {
+      if (!hoverPending) return;
+      const i = nearest(hoverPending); hoverPending = null;
+      const h = i >= 0 ? i : 0;
+      if (h !== st.hover) { st.hover = h; kick(); }
+    });
+  }
+  cv.addEventListener("keydown", (e) => {
+    const step = 0.08;
+    if (e.key === "ArrowLeft") V = mul(Ry(-step), V);
+    else if (e.key === "ArrowRight") V = mul(Ry(step), V);
+    else if (e.key === "ArrowUp") V = mul(Rx(-step), V);
+    else if (e.key === "ArrowDown") V = mul(Rx(step), V);
+    else if (e.key === "+" || e.key === "=") { zoom = Math.min(14, zoom * 1.25); S = baseS * zoom; }
+    else if (e.key === "-") { zoom = Math.max(0.6, zoom / 1.25); S = baseS * zoom; }
+    else return;
+    e.preventDefault(); orthonormalize(); kick();
+  });
+
+  // =================== wiring ===================
+  function init() {
+    readColors();
+    for (const [id, v] of [["lensRatio", "ratio"], ["lensDouble", "double"], ["lensMod", "mod"]]) $(id).addEventListener("click", () => setLens(v));
+    for (const q of [3, 4, 6, 10, 12, 30]) {
+      const b = document.createElement("button");
+      b.type = "button"; b.textContent = String(q); b.dataset.q = String(q);
+      b.addEventListener("click", () => { st.q = q; store.set("q", String(q)); for (const c of $("qChips").querySelectorAll("button")) c.setAttribute("aria-pressed", String(+c.dataset.q === q)); startMorph("mod"); pickWords(); kick(); });
+      $("qChips").append(b);
+    }
+    for (const m of [6, 12, 30, 31, 210]) {
+      const b = document.createElement("button");
+      b.type = "button"; b.textContent = String(m);
+      b.addEventListener("click", () => setBal(m));
+      $("balChips").append(b);
+    }
+    $("layers").addEventListener("input", (e) => { setLayers(+e.target.value); store.set("layers", String(st.layers)); });
+    $("colorBy").addEventListener("change", (e) => setColor(e.target.value));
+    for (const id of ["mirror", "fracs", "tape", "grid", "spin"]) $(id).addEventListener("change", (e) => { st[id] = e.target.checked; store.set(id, st[id] ? "1" : "0"); kick(); });
+    $("countBtn").addEventListener("click", () => {
+      if (st.counting) { st.counting = false; st.count = Infinity; $("countBtn").textContent = "Let time run"; }
+      else { st.counting = true; st.count = 1; $("countBtn").textContent = "Stop"; }
+      kick();
+    });
+    $("viewSide").addEventListener("click", () => { setView(0.05, 0.5, true); kick(); });
+    $("viewTop").addEventListener("click", () => { setView(Math.PI / 2, 0, true); kick(); });
+    $("hEven").addEventListener("click", () => setHeight("even", true));
+    $("hLog").addEventListener("click", () => setHeight("log", true));
+    $("equator").addEventListener("input", (e) => { st.renorm = null; st.logR = +e.target.value / 100; syncScale(); kick(); });
+    $("stretch").addEventListener("input", (e) => { st.kAuto = false; st.kappa = +e.target.value / 100; syncScale(); kick(); });
+    $("resetScale").addEventListener("click", () => { st.renorm = null; st.logR = 0; st.kAuto = true; syncScale(); kick(); });
+    $("renorm").addEventListener("click", startRenorm);
+    const go = () => { const v = Math.round(+$("pickIn").value); if (v >= 1 && v <= XMAX) { if (v > NUMS) setLayers(LAY[v]); st.pick = v; setBal(LAY[v]); pickWords(); kick(); } };
+    $("pickGo").addEventListener("click", go);
+    $("pickIn").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); go(); } });
+    $("balLayer").addEventListener("change", (e) => setBal(+e.target.value));
+    mCv.addEventListener("pointermove", (e) => {
+      const r = mCv.getBoundingClientRect(), p = dpr(), x = (e.clientX - r.left) * p, x0 = 40 * p, x1 = mCv.width - 10 * p;
+      if (x < x0 || x > x1) return;
+      chartHover = Math.round(Math.exp(Math.log(10) + ((x - x0) / (x1 - x0)) * (Math.log(MN) - Math.log(10))));
+      drawChart();
+    });
+    mCv.addEventListener("pointerleave", () => { chartHover = 0; drawChart(); });
+    mCv.addEventListener("click", () => { if (chartHover) setBal(Math.min(2000, chartHover)); });
+    buildFinds();
+    // restore
+    const sl = store.get("lens"); if (sl && LENS_NOTE[sl]) st.lens = sl;
+    const sc = store.get("color"); if (sc && ["prime", "visit", "birth", "layerBal", "ownBal"].includes(sc)) st.color = sc;
+    const sq = +store.get("q"); if ([3, 4, 6, 10, 12, 30].includes(sq)) st.q = sq;
+    const sy = store.get("layers"); if (sy !== null && +sy >= 10 && +sy <= MAXL) st.layers = +sy;
+    const sh = store.get("height"); if (sh === "log" || sh === "even") st.height = sh;
+    for (const id of ["mirror", "fracs", "tape", "grid", "spin"]) { const v = store.get(id); if (v !== null) st[id] = v === "1"; $(id).checked = st[id]; }
+    if (motionOff.matches) { st.spin = false; $("spin").checked = false; }
+    for (const c of $("qChips").querySelectorAll("button")) c.setAttribute("aria-pressed", String(+c.dataset.q === st.q));
+    $("colorBy").value = st.color;
+    NUMS = T(st.layers);
+    $("layers").value = String(st.layers);
+    $("layersOut").textContent = `${st.layers} layers · 1 to ${fmtN(NUMS)}`;
+    layout();
+    computeLat(); fillLon(lonCur, st.lens); updateUnits();
+    for (const [id, v] of [["lensRatio", "ratio"], ["lensDouble", "double"], ["lensMod", "mod"]]) $(id).setAttribute("aria-pressed", String(st.lens === v));
+    app.classList.toggle("lens-mod", st.lens === "mod");
+    $("lensNote").innerHTML = LENS_NOTE[st.lens];
+    setView(0.62, 0.55, false);
+    setHeight(st.height, false);
+    paint(); syncScale(); pickWords(); drawBalance();
+    new ResizeObserver(() => { layout(); kick(); }).observe($("stage"));
+    new ResizeObserver(() => { drawBalance(); }).observe(balCv);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { layout(); kick(); drawBalance(); });
+    kick();
+  }
+  init();
+})();
+
+</script>
+</body>
+</html>
