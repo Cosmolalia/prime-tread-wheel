@@ -176,6 +176,20 @@ output { font-family: var(--font-data); color: var(--text); letter-spacing: 0; t
     </div>
 
     <div class="group">
+      <div class="label">The wheel as a multiplexer</div>
+      <div class="row">
+        <label class="note" for="chanA">Channel</label>
+        <input type="number" id="chanA" min="1" max="200" step="1" value="2" aria-label="Channel numerator">
+        <span class="note">/</span>
+        <input type="number" id="chanB" min="1" max="200" step="1" value="5" aria-label="Channel denominator">
+        <span class="row chips" id="chanChips"></span>
+      </div>
+      <label class="label" for="lap">Lap <output id="lapOut"></output></label>
+      <input id="lap" type="range" min="1" max="400" step="1" value="40">
+      <p class="note" id="chanNote"></p>
+    </div>
+
+    <div class="group">
       <div class="label">Picked number</div>
       <div class="row">
         <input type="number" id="pickIn" min="1" max="80200" step="1" value="97" aria-label="Pick a number">
@@ -285,6 +299,7 @@ output { font-family: var(--font-data); color: var(--text); letter-spacing: 0; t
   const st = {
     lens: "ratio", q: 6, layers: 120, color: "prime", mirror: true, fracs: true, tape: false, grid: true, spin: true,
     logR: 0, kAuto: true, kappa: 0.2, pick: 97, hover: 0, count: Infinity, counting: false, renorm: null, balLayer: 12,
+    chanA: 2, chanB: 5, lap: 40,   // the multiplexer view: one channel a/b and the lap whose frame is showing
     height: "even",   // "even": height counts (0 on the equator, negatives below); "log": slide rule (1 on the equator, reciprocals below)
   };
   const app = $("app"), cv = $("cv"), g = cv.getContext("2d");
@@ -568,6 +583,31 @@ output { font-family: var(--font-data); color: var(--text); letter-spacing: 0; t
         }
       }
     }
+    // the multiplexer: one channel a/b, the current lap's frame, and the numbers that have sat in its slot
+    if (st.lens === "ratio") {
+      const a = st.chanA, b = st.chanB, m = Math.min(st.lap, st.layers), lo = frac(a / b);
+      const frontLon = (la) => { let best = 0, bd = -2; for (let i = 0; i < 36; i++) { const d = proj(la, i / 36)[2]; if (d > bd) { bd = d; best = i / 36; } } return best; };
+      curve(meridian(lo, -0.02, top - 1e-4, 96), gold, 1.5 * P, 0.75);
+      label(`${a}/${b}`, latN(T(b - 1) + a), lo, gold, undefined, 6, 10);
+      const laLap = latN(T(m));
+      curve(parallel(laLap, 160), blue, 1.1 * P, 0.55);
+      label(`lap ${m}`, laLap, frontLon(laLap), blue, undefined, 6, 10);
+      const wNow = m % b === 0 ? m / b : 0;
+      for (const [w, x] of chanVisits()) {
+        const p = proj(lat[x - 1], lo);
+        if (p[2] < 0) continue;
+        const prime = isPrime(x);
+        g.fillStyle = w <= 2 ? (prime ? gold : cream) : blue;
+        g.globalAlpha = prime ? 1 : 0.8;
+        g.beginPath(); g.arc(p[0], p[1], (w === wNow ? 5 : 3.2) * P, 0, TAU); g.fill();
+        g.globalAlpha = 1;
+        if (w <= 9 || w === wNow) label(String(w), lat[x - 1], lo, w === wNow ? gold : muted, undefined, 8, 7, 0.02);
+      }
+      if (wNow) {
+        const x = T(m - 1) + wNow * a, p = proj(lat[x - 1], lo);
+        if (p[2] > -0.05) { g.strokeStyle = gold; g.lineWidth = 2 * P; g.beginPath(); g.arc(p[0], p[1], 8.5 * P, 0, TAU); g.stroke(); }
+      }
+    }
     if (st.tape) {
       const pts = [];
       const nmax = Math.min(NUMS, st.count === Infinity ? NUMS : st.count);
@@ -786,6 +826,7 @@ output { font-family: var(--font-data); color: var(--text); letter-spacing: 0; t
 
   // =================== findings ===================
   const FINDS = [
+    { tag: "the wheel as a multiplexer", html: `<b>A channel can carry at most two primes.</b> Give the wheel one channel a/b: it owns a slot in every frame of b laps or more and reopens every b laps. Visits 1 and 2 may be prime; from visit 3 on the visit number divides whatever sits there. Scrub the lap and watch the frame close over the channel.`, go: () => { setLens("ratio"); setHeight("even", false); setChan(3, 7, true); st.lap = 14; $("lap").value = "14"; updateChanNote(); setView(0.55, 0.35, true); } },
     { tag: "noticed building", html: `<b>Two heights, two mirrors.</b> With height as counting, the natural mirror is −x and the equator is 0. Switch to the slide rule and the same picture's mirror becomes 1/x, with 1 on the equator. Nothing else changed: the logarithm turns × into +, so it turns one mirror into the other.`, go: () => { setHeight(st.height === "log" ? "even" : "log", true); st.mirror = true; $("mirror").checked = true; setView(0.12, 0.6, true); } },
     { tag: "classical", html: `<b>Counting height is Archimedes' equal-area globe.</b> A sphere's band between two heights has the same area as the matching band of a cylinder around it. So when height counts the numbers evenly, every number gets the same patch of sphere: the globe is a fair map of the number line, with no crowding at the poles.`, go: () => { setHeight("even", true); setColor("prime"); setView(0.62, 0.55, true); } },
     { tag: "classical", html: `<b>1 is the equator.</b> On the slide-rule globe, 0 and infinity become the two poles, 1 sits exactly halfway, and every reciprocal is its whole number's mirror image. Mathematicians call this the Riemann sphere, the globe where infinity is a single place.`, go: () => { setHeight("log", true); setLens("ratio"); st.mirror = true; $("mirror").checked = true; st.logR = 0; syncScale(); setView(0.05, 0.6, true); } },
@@ -851,12 +892,41 @@ output { font-family: var(--font-data); color: var(--text); letter-spacing: 0; t
   }
   function setColor(c) { st.color = c; $("colorBy").value = c; store.set("color", c); paint(); kick(); }
   function setBal(m) { st.balLayer = Math.max(1, Math.min(2000, Math.round(m) || 12)); $("balLayer").value = String(st.balLayer); drawBalance(); }
+  // the multiplexer: which numbers have sat in channel a/b's slot so far (visit w lands on layer wb)
+  function chanVisits() {
+    const out = [];
+    for (let w = 1; ; w++) { const x = T(w * st.chanB - 1) + w * st.chanA; if (x > NUMS) break; out.push([w, x]); }
+    return out;
+  }
+  function setChan(a, b, save) {
+    b = Math.max(1, Math.min(200, Math.round(b) || 1));
+    a = Math.max(1, Math.min(200, Math.round(a) || 1));
+    const g2 = gcd(a, b); a /= g2; b /= g2;
+    a = ((a - 1) % b) + 1; // the same meridian, normalized to 1 <= a <= b
+    st.chanA = a; st.chanB = b;
+    $("chanA").value = String(a); $("chanB").value = String(b);
+    if (save) store.set("chan", `${a}/${b}`);
+    updateChanNote(); kick();
+  }
+  const chanOf = (x) => setChan(NUMER[x], BIRTH[x], true);
+  function updateChanNote() {
+    const a = st.chanA, b = st.chanB, m = Math.min(st.lap, st.layers);
+    const open = m % b === 0, next = open ? m : m + b - (m % b);
+    let h = `Channel <b>${a}/${b}</b> owns one slot in every frame of ${b} laps or more; it reopens every <b>${b}</b> laps. `;
+    h += open ? `It's <span class="g">open now</span>, visit ${m / b}. ` : `It's closed on lap ${m}; it reopens in ${next - m} lap${next - m > 1 ? "s" : ""}. `;
+    const seq = chanVisits().slice(0, 3).map(([w, x]) => `visit ${w}: ${fmtN(x)}${isPrime(x) ? ", <span class='g'>prime</span>" : ` = ${factorText(x)}`}`).join(" · ");
+    h += `<br>${seq} — from visit 3 on, the visit number divides the occupant. <b>A channel carries at most two primes.</b>`;
+    $("lapOut").textContent = `lap ${m} of ${st.layers}`;
+    $("chanNote").innerHTML = h;
+  }
   function setLayers(n) {
     st.layers = Math.max(10, Math.min(MAXL, n));
     NUMS = T(st.layers);
+    $("lap").max = String(st.layers);
+    if (st.lap > st.layers) st.lap = st.layers;
     $("layers").value = String(st.layers);
     $("layersOut").textContent = `${st.layers} layers · 1 to ${fmtN(NUMS)}`;
-    computeLat(); fillLon(lonCur, st.lens); updateUnits(); morph = null; paint(); syncScale(); kick();
+    computeLat(); fillLon(lonCur, st.lens); updateUnits(); morph = null; paint(); syncScale(); updateChanNote(); kick();
   }
   function syncScale() {
     $("equator").value = String(Math.round(st.logR * 100));
@@ -952,7 +1022,7 @@ output { font-family: var(--font-data); color: var(--text); letter-spacing: 0; t
     pointers.delete(e.pointerId);
     if (pointers.size > 0) return;
     dragging = false; cv.classList.remove("dragging");
-    if (!moved) { const i = nearest(e); if (i >= 0 && i < XMAX) { st.pick = i + 1; $("pickIn").value = String(st.pick); setBal(LAY[st.pick]); pickWords(); } }
+    if (!moved) { const i = nearest(e); if (i >= 0 && i < XMAX) { st.pick = i + 1; $("pickIn").value = String(st.pick); setBal(LAY[st.pick]); pickWords(); chanOf(st.pick); } }
     kick();
   };
   cv.addEventListener("pointerup", end);
@@ -1009,6 +1079,15 @@ output { font-family: var(--font-data); color: var(--text); letter-spacing: 0; t
       b.addEventListener("click", () => setBal(m));
       $("balChips").append(b);
     }
+    for (const [ca, cb] of [[1, 2], [1, 3], [2, 5], [3, 7], [4, 9]]) {
+      const b = document.createElement("button");
+      b.type = "button"; b.textContent = `${ca}/${cb}`; b.dataset.ch = `${ca}/${cb}`;
+      b.addEventListener("click", () => { setChan(ca, cb, true); for (const c of $("chanChips").querySelectorAll("button")) c.setAttribute("aria-pressed", String(c.dataset.ch === b.dataset.ch)); });
+      $("chanChips").append(b);
+    }
+    $("chanA").addEventListener("change", (e) => setChan(+e.target.value, st.chanB, true));
+    $("chanB").addEventListener("change", (e) => setChan(st.chanA, +e.target.value, true));
+    $("lap").addEventListener("input", (e) => { st.lap = Math.max(1, Math.min(st.layers, Math.round(+e.target.value) || 1)); updateChanNote(); kick(); });
     $("layers").addEventListener("input", (e) => { setLayers(+e.target.value); store.set("layers", String(st.layers)); });
     $("colorBy").addEventListener("change", (e) => setColor(e.target.value));
     for (const id of ["mirror", "fracs", "tape", "grid", "spin"]) $(id).addEventListener("change", (e) => { st[id] = e.target.checked; store.set(id, st[id] ? "1" : "0"); kick(); });
@@ -1025,7 +1104,7 @@ output { font-family: var(--font-data); color: var(--text); letter-spacing: 0; t
     $("stretch").addEventListener("input", (e) => { st.kAuto = false; st.kappa = +e.target.value / 100; syncScale(); kick(); });
     $("resetScale").addEventListener("click", () => { st.renorm = null; st.logR = 0; st.kAuto = true; syncScale(); kick(); });
     $("renorm").addEventListener("click", startRenorm);
-    const go = () => { const v = Math.round(+$("pickIn").value); if (v >= 1 && v <= XMAX) { if (v > NUMS) setLayers(LAY[v]); st.pick = v; setBal(LAY[v]); pickWords(); kick(); } };
+    const go = () => { const v = Math.round(+$("pickIn").value); if (v >= 1 && v <= XMAX) { if (v > NUMS) setLayers(LAY[v]); st.pick = v; setBal(LAY[v]); pickWords(); chanOf(v); kick(); } };
     $("pickGo").addEventListener("click", go);
     $("pickIn").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); go(); } });
     $("balLayer").addEventListener("change", (e) => setBal(+e.target.value));
@@ -1043,14 +1122,20 @@ output { font-family: var(--font-data); color: var(--text); letter-spacing: 0; t
     const sc = store.get("color"); if (sc && ["prime", "visit", "birth", "layerBal", "ownBal"].includes(sc)) st.color = sc;
     const sq = +store.get("q"); if ([3, 4, 6, 10, 12, 30].includes(sq)) st.q = sq;
     const sy = store.get("layers"); if (sy !== null && +sy >= 10 && +sy <= MAXL) st.layers = +sy;
+    const sch = store.get("chan"), schm = sch && sch.match(/^(\d+)\/(\d+)$/);
+    if (schm) setChan(+schm[1], +schm[2], false); else setChan(2, 5, false);
+    $("lap").max = String(st.layers);
+    $("lap").value = String(Math.min(st.lap, st.layers));
     const sh = store.get("height"); if (sh === "log" || sh === "even") st.height = sh;
     for (const id of ["mirror", "fracs", "tape", "grid", "spin"]) { const v = store.get(id); if (v !== null) st[id] = v === "1"; $(id).checked = st[id]; }
     if (motionOff.matches) { st.spin = false; $("spin").checked = false; }
     for (const c of $("qChips").querySelectorAll("button")) c.setAttribute("aria-pressed", String(+c.dataset.q === st.q));
+    for (const c of $("chanChips").querySelectorAll("button")) c.setAttribute("aria-pressed", String(c.dataset.ch === `${st.chanA}/${st.chanB}`));
     $("colorBy").value = st.color;
     NUMS = T(st.layers);
     $("layers").value = String(st.layers);
     $("layersOut").textContent = `${st.layers} layers · 1 to ${fmtN(NUMS)}`;
+    updateChanNote(); // NUMS is final now; the restore-time call above saw an older count
     layout();
     computeLat(); fillLon(lonCur, st.lens); updateUnits();
     for (const [id, v] of [["lensRatio", "ratio"], ["lensDouble", "double"], ["lensMod", "mod"]]) $(id).setAttribute("aria-pressed", String(st.lens === v));

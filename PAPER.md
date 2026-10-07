@@ -56,6 +56,8 @@ Held as one object, the wheel is a space-time ledger: laps accumulate, ticks cyc
 
 What a multiplexer does is route. Routing is answered exactly by the gears, and that exact answer is the sieve; the square of the largest gear is where a fixed channel map stops tracking the primes (§7). The wheel routes for free. Decoding remains the wall. *(The framing adds nothing to and takes nothing from §7.)*
 
+The globe page (globe.html) holds this section as an instrument: pick a channel a/b and scrub the lap, and the page draws the frame closing over the channel — open every b laps, the current visit ringed, the channel's numbers marked prime or composite up its meridian.
+
 ## 9. Open question
 
 Does every layer hold a prime? Since every prime on a layer sits on one of its φ(m) seats, the question is whether all the seats of some layer can be composite at once. This is the conjecture that a prime lies between any two consecutive triangular numbers [9], a triangular cousin of Sierpiński's 1958 hypothesis H1 for square tables [10]. No layer from 2 to 10,000 is empty. The closest call is the composite run 114–126: 13 numbers against layer 15's width of 15. From layer 100 on, no composite run reaches 30% of its layer's width. *(Open; checked to layer 10,000.)*
