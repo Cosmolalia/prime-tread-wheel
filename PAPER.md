@@ -6,7 +6,7 @@ Obi (Sylvan Gaskin), with Claude. October 2026.
 
 ## Abstract
 
-We roll the counting numbers onto a wheel that grows by one unit per layer while the unit itself never changes size. From this one rule, ratio becomes spokes, divisibility becomes revisits, parity becomes a fixed axis, and the Möbius function becomes a balance of arrows on every layer. Most of these facts are classical. What the wheel adds is a single picture in which all of them are visible at once, plus interactive pages and scripts that reproduce every number below. Each claim is tagged **proven**, **checked** (by computer), **classical** (known before us) or **open**.
+We roll the counting numbers onto a wheel that grows by one unit per layer while the unit itself never changes size. From this one rule, ratio becomes spokes, divisibility becomes revisits, parity becomes a fixed axis, and the Möbius function becomes a balance of arrows on every layer. Placing a number on the wheel computes its remainder against the lap's own modulus, so the whole object is also a multiplexer whose frame enumerates the moduli. Most of these facts are classical. What the wheel adds is a single picture in which all of them are visible at once, plus interactive pages and scripts that reproduce every number below. Each claim is tagged **proven**, **checked** (by computer), **classical** (known before us) or **open**.
 
 ## 1. Construction
 
@@ -44,7 +44,19 @@ Through layer 100,000 the lane holds 9,863 primes. The open-seat (Bateman–Horn
 
 A knockout test hides each layer's primes and asks which smaller wheels are needed to recover them. About half of the wheels below the square root are needed, but the same share holds for any interval of that length, so this is not special to the wheel. The largest wheel needed climbs to 98% of the square root by layer 3,000. The wheel shows the sieve's boundary clearly. It does not move it. *(Checked.)*
 
-## 8. Open question
+## 8. The wheel as a multiplexer
+
+A time-division multiplexer is a rotating switch: a frame of slots, one number per slot per lap. The wheel is a multiplexer whose frame gains one slot per lap. The number n = T(m−1) + k lands in slot k of lap m, so placing a number computes its remainder mod m, and no division is performed anywhere: the slot spacing is the operation. Each lap's frame is a complete residue system. One detail keeps the picture exact: for even m, T(m−1) ≡ m/2 (mod m), so the lap's origin sits a half-turn off — number 2 rides at the half-turn tick of layer 2. Slot means steps since the lap's own origin, and the origin rotates on even laps. *(Follows from the construction.)*
+
+What survives frame growth is a channel. The spoke a/b keeps its identity while the frame lengthens and returns every b laps; that is the slip law of §2 in switching language. Its period is its denominator, and its visits are numbered by g = gcd(k, m): the rational is the invariant under change of lap, and the visit count is what accumulates. Section 3 now reads: every channel carries at most two primes, then composites only, and every lap offers exactly φ(m) channels that can carry a prime. *(Proven above.)*
+
+Lehmer's mechanical and photoelectric sieves of the 1920s and 30s were fixed rings of this kind, spun together so that numbers with chosen remainders were caught by alignment [11]. The Chinese remainder theorem stacks fixed rings in parallel: operate on each separately and read the answer back. The wheel makes one change: the frame length is the lap index, so the set of moduli is the counting numbers themselves, one per lap, and no ring is built twice. Frame growth is the enumeration of moduli. *(Classical machines; the growing-frame observation is a way of seeing.)*
+
+Held as one object, the wheel is a space-time ledger: laps accumulate, ticks cycle, and every number is a single event with one (lap, slot) coordinate. The space-time globes used to teach relativity make the same move — one object, a change of frame a rotation, the invariant what survives the rotation. Here the invariant under frame growth is the rational. This is a way of seeing, not an identification: the wheel carries no metric and no boost symmetry.
+
+What a multiplexer does is route. Routing is answered exactly by the gears, and that exact answer is the sieve; the square of the largest gear is where a fixed channel map stops tracking the primes (§7). The wheel routes for free. Decoding remains the wall. *(The framing adds nothing to and takes nothing from §7.)*
+
+## 9. Open question
 
 Does every layer hold a prime? Since every prime on a layer sits on one of its φ(m) seats, the question is whether all the seats of some layer can be composite at once. This is the conjecture that a prime lies between any two consecutive triangular numbers [9], a triangular cousin of Sierpiński's 1958 hypothesis H1 for square tables [10]. No layer from 2 to 10,000 is empty. The closest call is the composite run 114–126: 13 numbers against layer 15's width of 15. From layer 100 on, no composite run reaches 30% of its layer's width. *(Open; checked to layer 10,000.)*
 
@@ -68,3 +80,4 @@ One rule, counting onto a wheel that grows by a single unit, makes ratio, divisi
 8. [OEIS A055469](https://oeis.org/A055469), primes of the form k(k+1)/2 + 1.
 9. [OEIS A066888](https://oeis.org/A066888), primes between consecutive triangular numbers (conjecture by J. W. Nicholson, 2011).
 10. M. Visser, [Sierpiński's Hypothesis H1](https://arxiv.org/html/2512.22413v1) (2025).
+11. [Lehmer sieve](https://en.wikipedia.org/wiki/Lehmer_sieve), Wikipedia.
