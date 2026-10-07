@@ -4,7 +4,9 @@ The counting numbers rolled onto a wheel that grows by one tick per layer, while
 
 ![600 layers of the wheel, colored by how many layers the stack takes to line up again](images/slip-600-layers.png)
 
-**Play with it:** https://cosmolalia.github.io/prime-tread-wheel/
+**Play with it:** https://ostoe.com/prime-tread-wheel/ (also on GitHub Pages: https://cosmolalia.github.io/prime-tread-wheel/)
+
+Registered in the [OSTOE claims registry](https://ostoe.com/entries/prime-tread-wheel.html) as entry `prime-tread-wheel` (Established) + `gap-prime-between-triangulars` (Open gap).
 
 ## What's here
 
