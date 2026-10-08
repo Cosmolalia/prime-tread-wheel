@@ -1,2 +1,6 @@
 __pycache__/
 *.pyc
+probes/logs/
+probes/layer_gap
+probes/layer_gap_asan
+probes/boundary
