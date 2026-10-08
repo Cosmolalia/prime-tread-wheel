@@ -13,7 +13,7 @@ The wheel: layer m holds the m numbers T(m−1)+1 .. T(m), with T(m) = m(m+1)/2,
 | `knockout_test.py` | Which gears each layer needs to clear its composite seats | About half the gears below √ are needed (the same share as any interval that short); the biggest one needed reaches 98% of √ by layer 3,000 |
 | `lane_test.py` | The two lanes at the seam: closing tick T(m) and opening tick T(m−1)+1 | Opening lane: 9,863 primes to layer 100,000 vs 9,836 predicted by open seats and about 4,986 by chance |
 | `layer_gap.c` | Full-range sieve, two independent modes (`stats` walks primes in order and records every layer's largest internal composite run; `verify` marks occupied layers order-free in parallel) | To layer 30,000: 0 empty; largest prime gap 282; both modes and an independent numpy sieve agree on every statistic |
-| `boundary.c` | Per layer, locate the first prime above T(m−1): 65,536-wide odd sieve plus deterministic 12-base Miller–Rabin (exact below 3.3·10²⁴) | To layer 100,000,000: 0 empty; max bottom margin 521 at layer 81,351,326; ~275M Miller–Rabin tests; cross-validated against `sympy.nextprime` to layer 30,000 |
+| `boundary.c` | Per layer, locate the first prime above T(m−1): 65,536-wide odd sieve plus deterministic 12-base Miller–Rabin (exact below 3.3·10²⁴) | To layer 1,000,000,000: 0 empty; max bottom margin 766 at layer 264,800,157; 3.13B Miller–Rabin tests; cross-validated against `sympy.nextprime` to layer 30,000 |
 
 `primes_util.py` holds the shared sieve and a deterministic primality test.
 
@@ -21,6 +21,6 @@ The wheel: layer m holds the m numbers T(m−1)+1 .. T(m), with T(m) = m(m+1)/2,
 
 ## Open questions worth probing
 
-1. Can every seat on some layer be composite at once? This is the open conjecture that a prime lies between any two consecutive triangular numbers (OEIS A066888). Directly checked to layer 100,000,000 (`boundary.c`: no empty layer, worst bottom margin 521 at layer 81,351,326); by extension through the exhaustive prime-gap data below 4·10¹⁸ (max gap 1476), verified through layer 2,828,427,124. The early-layer worst case remains the run 114–126 against layer 15.
+1. Can every seat on some layer be composite at once? This is the open conjecture that a prime lies between any two consecutive triangular numbers (OEIS A066888). Directly checked to layer 1,000,000,000 (`boundary.c`: no empty layer, worst bottom margin 766 at layer 264,800,157); by extension through the exhaustive prime-gap data below 4·10¹⁸ (max gap 1476), verified through layer 2,828,427,124. The early-layer worst case remains the run 114–126 against layer 15.
 2. Do spokes carry 0, 1 or 2 primes at the rates their seat counts predict? Write the predictions down before checking.
 3. Train a small network on wheel coordinates versus raw numbers (labels: prime, divisibility, twin, parity of the number of prime factors). Train near 10⁶, test near 10⁹, and compare the geometry it learns with `gear_net.py`.
