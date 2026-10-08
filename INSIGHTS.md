@@ -429,3 +429,83 @@ seats are composite.
 
 Night queue fired 13:2x: P11 replication @500k laps, tail-fattening perturbation
 (P12), margin-to-wipe (J1) pending Claude's wipe enumeration data.
+
+---
+
+## Day session 2026-10-08 13:2x-14:xx — P11 closed, P12 mechanism PINNED, J1a launched
+
+### P11. Replication at 500k laps: NULL, pre-registered rule not met [E — closed]
+
+stagger_acf_p11.py: laps 21..500000, WMAX 300 (max W 292 — censoring avoided),
+iid arm 4 reps. The P10 hint (2-4 sigma at lags == 2 mod 4) did NOT replicate:
+mean quad-iid diff at those lags = **-0.0073**, same sign both halves
+(-0.0072 / -0.0074) but NEGATIVE, and the pre-registered rule required
+positive. Verdict NULL as registered.
+
+Honest residue: the negative sign is stable across halves and ~2.3x the other
+lags' |diff| — laps m, m+2 (ring 2 same phase) have mildly ANTI-correlated
+mouth widths. Effect size ~0.007 ACF, mechanism unknown, almost certainly not
+worth chasing while the routing wall stands. Logged, not pursued.
+
+### P12. What fattens the tail: mechanism PINNED to plain prime-gap statistics [E]
+
+Three-arm decomposition (stagger_p12.py): quad vs iid vs confined-iid
+(independent draws from each ring's negated-triangular image — destroys
+cross-lap counter coupling, keeps orbit confinement). Result: arms identical
+at every quantile (q99.9: 71/72/72). NEITHER confinement NOR coupling shows
+in multi-tick arc statistics.
+
+Then the bug that became a theorem. P12b v1 (global arc set p <= isqrt(T(20000)))
+gave quad W = 1907 at m=157 (true next-prime gap: 5). Cause: primes
+p in (T(m-1), T(m-1)+WMAX] "self-mark" their own tick k = p - T(m-1) —
+the value at that tick IS p, prime, and must stay open. The per-lap sieve
+limit p <= isqrt(T(m-1)+WMAX) is exactly what excludes self-marking
+(p <= sqrt(v) < v). Two sessions' worth of probes had this limit right
+(stagger_mc, shadows.c) — the moment it was dropped the model ate the
+primes it was supposed to locate. The limit is load-bearing, now demonstrated
+from both sides.
+
+With the limit restored, the quad model is EXACT: verified 63/63 laps
+model W == nextprime(T(m-1)) - T(m-1) (stagger_p12b exactness check).
+So "quad tail fattening vs iid" = real prime gaps vs random-cover gaps:
+quantile ratio ~1.11 at q99.9 (m <= 2e4), stagger_mc's ~1.5x was an
+exceedance-probability ratio at fixed w — same phenomenon, fatter tail of
+true prime gaps than the iid cover model. The dart channel (arcs p in
+(WMAX, sqrt(T)] — single ticks with factors > WMAX) carries the excess;
+without darts, cut arms match at 1.01.
+
+Closure: the "mild tail fattening, mechanism unpinned" gap from the night
+session is CLOSED. The mechanism is not wheel structure — it is that the
+stagger model with the sieve limit IS primality, and prime gaps are
+fatter-tailed than Poisson covers. All aggregate value-side statistics of
+the wheel reduce to ordinary prime-gap statistics. The wheel's lawful
+structure lives on the PATTERN side only.
+
+### J1a. Wipe-distance: consistent, and the U-curve tracks Mertens [E, descriptive]
+
+wipe_dist.py: exact 1-FLIP wipe scan under MOVE semantics (flip ring p from
+realized phase o_p to any other phase; wipe iff every tick k in [1, m] still
+covered), m = 21..400 + sparse to 2000. Universe = ALL ticks (v1 used
+coprime "seats" — wrong: primes need not sit at coprime ticks, cf. the
+m == 2 mod 4 theorem; a seat-wipe contradicts nothing, a tick-wipe = all
+values composite = A066888 failure).
+
+- realized wipes: ZERO (must be: entailed by A066888 verified to layer 2.8B
+  ~ lap 74700; serves as model cross-validation — any hit would freeze
+  everything downstream)
+- ONE-FLIP wipes: ZERO. Every realized turning in scope is >= 2 moves from
+  every wipe turning. (Also entailed for m <= 74700 — framed honestly as
+  consistency, not discovery.)
+- PARITY TRAP (closed design dead end): under ADD semantics (keep realized
+  arcs, add one free phase) d is constant-1 — ring 2 covers one parity class,
+  every uncovered tick shares the other, one added odd-phase of ring 2 always
+  "wipes". Uninformative; move semantics is the correct turning-space reading.
+- NEW DESCRIPTIVE CURVE: U(m) = ticks uncovered by realized arcs. U(m)/m
+  tracks the Mertens sieve density e^-gamma/ln m with median ratio 0.961
+  (realized arcs thin the lap ~4% MORE than independent sieve), but
+  per-lap fluctuations are large (0.55..1.55, no m mod 4 structure) — the
+  quadratic alignment is sieve-equivalent in aggregate, lap-specific in
+  detail. Same shape as the P12 conclusion from the value side.
+
+J1c (true Hamming distance to nearest wipe turning, value side) remains
+open — needs Claude's SAT/anneal machinery (p4_sat.py); joint.
