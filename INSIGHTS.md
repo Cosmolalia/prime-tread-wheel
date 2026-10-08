@@ -210,3 +210,75 @@ spearman(W_left, W_trailing) = -0.071 across 60 laps at m~1e4 (record layer
 itself: W_left 766, W_trailing 15 — no compensation). The seat palindrome
 (gcd symmetry) does NOT propagate to value-side mouth geometry. Batch at
 height (60 laps, ~30 min) will confirm or break this at 2.6e8. [running]
+
+### N8. REFUTED: the "per-arc thinning law". [E, correction]
+
+Derived cleanly from the parabolic image: predicted P(o_p <= K) ~ sqrt(8K)/p
+for p > K (small image values = only triangular numbers <= K, so large arcs
+should strike K-windows ~sqrt(K/8) times RARER than uniform). Tested: WRONG.
+count{j : T(j) mod p in [1,K]} = K + O(sqrt) EXACTLY (K=2000, p=2007: 1999;
+K=766, p=773: 765; rho = count/K ~ 1.0 for all p > K). The wraparound
+T(j) - mp for m >= 1 fills the small residues densely — every residue r has
+~1 preimage j per period via the quadratic j(j+1)/2 = mp + r. The parabolic
+confinement selects WHICH phases an arc visits ((p+1)/2 of p) but their
+distribution over [1,p] is ~uniform. So quad marginals ~ iid marginals;
+the measured 1.5x tail fattening (N4) is NOT a simple density effect —
+measured, small, mechanism unpinned. [G: minor]
+
+### N9. Lap endpoints: exact forced-composite structure. [E, trivial but exact]
+
+- T(m) = m(m+1)/2 is composite for ALL m >= 3 (nontrivial split m/2 x (m+1)
+  or m x (m+1)/2). The junction tick — the lap's "1", the consolidation
+  point — is NEVER prime. [trivial identity]
+- T(m)-1 = (m-1)(m+2)/2 is composite for all m >= 4 (the lap's last tick).
+  So itrail >= 1 universally: the right edge is always shut, forced. [E]
+- Opening tick T(m-1)+1 is odd by construction -> prime at exactly 2x
+  random-density (observed 2385 vs 1193 expected for m<=2e4 = ratio 2.000 —
+  pure parity selection, no structure). [E]
+Wheel reading: "the leading corner always falls a little short" has an exact
+trivial instance at the right edge — the last two ticks of every lap are
+arithmetically forbidden primes. Mechanism: identities, not geometry.
+
+### N10. Mirror compensation: DEAD at both scales. [E]
+
+Height batch (60 laps at 2.6e8, new itrail field): spearman(W_left, W_right)
+= +0.020 (+0.054 excluding the record). Replicates the small-scale -0.071:
+the seat palindrome (gcd symmetry) does not propagate to value-side mouth
+geometry at any scale tested. The record's shape (W_L=766, W_R=15) is
+typical under zero correlation. Auxiliary facts: trailing mouths are common
+(med 22, max 148 at height; med 8 at 1e4); slightly wider on even laps.
+Width~strikers law replicates again: spearman = 0.992 (now confirmed at
+1e4: 0.995, and 2.6e8: 0.981/0.992 — the invariant of the night).
+
+---
+
+## Night-session close (2026-10-08, ~04:15 local)
+
+Probes completed: orbit-law search, stagger MC, scale comparison,
+mirror compensation (x2 scales), hole factorization, endpoint identities.
+Score: five honest negatives, one confirmed invariant, one refuted-by-test
+derivation, one small unexplained effect (tail fattening 1.5x, [G minor]).
+
+The negatives are load-bearing: they CLOSE routes. What survives, precisely:
+1. [E] The stagger field is the whole story deterministically (covers =
+   arithmetic, N2 exactness; 400/400 + 4997/4997 validation).
+2. [E] The field has zero internal correlation (N1) — the wheel constrains
+   nothing about covers via orbit coupling; its only law is s(m) = -T(m-1).
+3. [E] The invariant law across 1e4 -> 2.6e8: mouth width = number of
+   outside strikers (r ~ 0.98-0.995 everywhere). Conjecture-grade.
+4. [S, held] halves-claim (>=1 prime each side of midpoint, m >= 21) —
+   untouched tonight, still the strongest wheel-native candidate for a
+   paper statement. Its mechanism remains [G]: values don't inherit the
+   seat palindrome (N10), so the claim is NOT derivable from the symmetry —
+   it would have to come from a direct orbit law.
+
+Next probes suggested (in value order):
+- **Halves-claim at scale**: run shadows with per-half W fields (W_L, W_R)
+  over m = 21..100000 exhaustively (~fast at small m) — turn the empirical
+  hold into a distribution: how tight is min(W_L-side, W_R-side)?
+- **Tail fattening mechanism** [G minor]: local perturbation test — flip a
+  single prime's phase iid->quad and measure d(tail)/d(phase); identify
+  which arcs drive the 1.5x.
+- **Width~strikers as a theorem candidate**: the law says W determines
+  striker count almost exactly; is mouth_distinct = W - (plugs missed)?
+  Decompose W = f(distinct) exactly and look for the residual law.
