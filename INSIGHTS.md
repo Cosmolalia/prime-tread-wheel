@@ -294,3 +294,108 @@ at two scales. Distribution-level symmetry + lap-level independence: the
 value side shows a statistical shadow of the seat palindrome, nothing
 stronger. The claim remains [S]: unproven, empirically bulletproof
 (now 120k+ laps: 21..20k exhaustively, 21..100k, plus height families).
+
+---
+
+## Cross-session bridge (2026-10-08 morning): the Claude handoff
+
+Claude's session (Oct 6-8) works the SAME wheel from the other side.
+Vocabulary map, verified against his docs:
+his RING = our arc/shadow (ring p marks multiples of p; its shadow on
+lap m sits at tick k ≡ −T(m−1) mod p — identical object).
+his FREE PHASES = our iid null (turnings; his CRT lock = our N1 exact
+field independence). his WIPE = a closed mouth covering the whole
+layer. his CAPACITY h(k)−1 (Jacobsthal) = the most a free turning can
+cover in a row. his SEAM LANES = our mouth columns T(m−1)+c.
+his P9 "calm" (lanes vary less than coin flips, 7.5 pts/tenfold,
+Montgomery–Soundararajan) = the density-side rung; our work is the
+configuration side. No conflicts anywhere; the rungs complement.
+
+Independent cross-validations (same fact found twice, both sessions):
+- his "seam composite" (closing tick always composite) = our N9
+  forced-composite endpoints (T(m), T(m)−1 never prime, m ≥ 4).
+- his "mirror pairs sum to m²" (ticks k, m−k) = our seat palindrome
+  gcd(k,m)=gcd(m−k,m) — same fold; he on values, we on pattern.
+- his "m ≡ 2 mod 4: primes sit on second visits" = our m ≡ 2 mod 4
+  theorem (seat-primes identically zero; seat test misaligned from
+  divisibility by exactly m/2).
+- his CRT lock = our N1 (CRT proof of exact factorization).
+- his "first prime within 24% in / seam doors hot (1.97×)" =
+  our W statistics (W_L med 11 at m~1e4; record W=767).
+
+### The wedge (the bridge's main insight)
+
+Free phases wipe every layer 41–391 [his, exact, Jacobsthal capacity].
+Real alignment: every layer 21..100,000 has ≥2 primes, ≥1 each side
+[ours, verified]. The ENTIRE content of the parent conjecture lives
+in the difference between "any turning of the rings" and "the one
+realized turning". The realized turning is not a random point in
+turning-space: it is a single quadratic curve (the stagger law,
+proven: each ring's phase across laps is a parabolic orbit of period
+p visiting (p+1)/2 phases). So the conjecture = "the quadratic curve
+never enters the wipe set" — the wipe set is characterized (his
+p3_count), the curve is characterized (our stagger probe), and the
+DISTANCE between them per lap has never been measured. That distance
+is the conjecture's true object. [G → now located, both endpoints
+mapped, the connector measurable]
+
+### P10 (pre-registered this session): the counter's lagged fingerprint
+
+Probe: stagger_acf.py. Model W(m) = first tick not struck by any
+arc p ≤ 2000 (stagger offsets), laps 21..50000. Quad law vs iid-lap
+null, same laps. Prediction: excess autocorrelation of W at prime
+lags (phase shared between laps m, m+p) and at lag 4 (ring 2's
+period-4 orbit).
+
+OUTCOME: NULL. All lag diffs within ~±0.02 (SE ≈ 0.0045). The
+quadratic counter leaves no detectable lagged memory in mouth width.
+Marginal hint (2-4 SE, needs replication, P11 below): lags ≡ 2 mod 4
+slightly negative (mean diff ≈ −0.004), lags ≡ 0 mod 4 slightly
+positive — the ring-2 parity-flip signature: o_2(m) and o_2(m+2) are
+opposite residues, so candidate parity flips. Mechanism: ring 2 always
+covers every other tick regardless of phase; phase only chooses WHICH
+parity, and W alone is parity-symmetric — so ring 2 shapes W's
+marginal but carries almost no phase memory in it. Odd primes: each
+marks ≤ W/p ticks of an ~10-tick window → their shared phases are
+invisible at W resolution. This SHARPENS N4: the stagger law is exact
+and drives everything, yet every AGGREGATE mouth statistic tested
+(marginals N4, now autocorrelations P10) is iid-indistinguishable.
+The structure, if it survives anywhere cover-visible, must be in
+PER-TICK cover sequences / hole patterns, not in W. [G, one rung
+narrower]
+
+### The artifact lesson (mechanism-first, recorded because it bit)
+
+First P10 run applied the SEAT TEST (gcd(k,m)==1) to the candidacy
+model. Result: 25% of laps got W=0 (model blind) and a huge fake
+period-4 comb in the ACF. Cause: the seat test is wheel PATTERN, not
+value compositeness; on m ≡ 2 mod 4 laps every real prime sits on a
+non-seat tick (our own theorem), so the pattern filter blinds the
+value side exactly there — half the laps corrupted. The comb was the
+censoring talking, not the counter. Rule recorded: never let a
+pattern-side filter touch a value-side model; the m ≡ 2 mod 4
+misalignment is the cleanest demonstration that pattern and value
+can disagree by exactly m/2. (This is the routing wall showing up
+inside our own probe code.)
+
+### P11 (pre-registered, queued)
+
+Replicate the ring-2 parity hint with 500k laps (stagger_acf.py,
+M_HI=500000, ~6 min) — prediction written before the run: mean ACF
+diff at lags ≡ 2 (mod 4) is negative, at lags ≡ 0 (mod 4) is
+positive, each at ≥ 3 SE. If it fails, the hint is dead and W-level
+statistics are conclusively iid-clean.
+
+### Joint probes proposed to the Claude session (recorded in HANDOFF.md addendum)
+
+- J1 margin-to-wipe: per lap, distance from the realized stagger
+  point to the nearest wipe turning (his turning enumeration × our
+  offsets). The conjecture's true object, never measured.
+- J2 hole-pattern contrast: our per-tick cover binaries vs his
+  free-phase turning sampler, same W — do realized covers' hole
+  patterns differ from free covers' complements? (W marginals match;
+  per-tick untested.)
+- J3 the calm's slope: his open thread "why 7.5 points per tenfold"
+  gets a precise stagger face — ring p's lap-finishing = stretch ≥ p;
+  test the luck-slice prediction against the quadratic counter
+  directly.
