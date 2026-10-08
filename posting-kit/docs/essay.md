@@ -2,6 +2,8 @@
 
 *Oct 7, 2026 · @obi*
 
+> **Oct 8 update:** the research log continues — [Field Notes: The Stagger of the Number Line](field-notes.html). Shadows, one quadratic counter, a night shift that ruled out five roads, and the wall still standing.
+
 ## The itch
 
 I rolled the counting numbers onto a wheel and watched ratio, divisibility and evenness turn into shapes you can see.
