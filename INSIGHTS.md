@@ -282,3 +282,15 @@ Next probes suggested (in value order):
 - **Width~strikers as a theorem candidate**: the law says W determines
   striker count almost exactly; is mouth_distinct = W - (plugs missed)?
   Decompose W = f(distinct) exactly and look for the residual law.
+
+### N11. Halves-claim: holds for every lap m = 21..100000. [E, strengthened]
+
+99,980 consecutive laps, zero violations of ">= 1 interval prime strictly
+each side of the midpoint". Distribution of margins: W_L med 11 / p99 78 /
+max 240; W_R med 12 / p99 81 / max 201 — the first-prime and last-prime
+margins are distribution-twins. NOTE the pairing with N10: per-lap W_L and
+W_R are uncorrelated (r ~ 0.02), yet their DISTRIBUTIONS are mirror-identical
+at two scales. Distribution-level symmetry + lap-level independence: the
+value side shows a statistical shadow of the seat palindrome, nothing
+stronger. The claim remains [S]: unproven, empirically bulletproof
+(now 120k+ laps: 21..20k exhaustively, 21..100k, plus height families).
