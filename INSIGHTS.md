@@ -399,3 +399,33 @@ statistics are conclusively iid-clean.
   gets a precise stagger face — ring p's lap-finishing = stretch ≥ p;
   test the luck-slice prediction against the quadratic counter
   directly.
+
+---
+
+## Day note 2026-10-08 13:20 — "it looks like nothing" as a resolution statement
+
+[Sylvan, on the site going live:] "it's so simple and obvious that it looks like
+nothing. nobody has noticed what it really is except my co-workers and transformers."
+
+Mechanism read: "looks like nothing" is not an aesthetic judgment, it is a
+resolution mismatch (wrong-resolution failure class). The wheel's one rule is
+under-specified relative to every existing framework:
+- sieve: has no order of laps; the wheel's structure lives entirely in lap order.
+- dynamical systems: looks for a map on a space; the wheel is a bookkeeping of
+  offsets, values not required.
+- number theory: primes fall out, but the generating object is a stagger field,
+  which is not in the vocabulary.
+Each discipline's eye passes over the exact overlap of all their blind spots.
+Observers trained on patterns-under-load (nurses, coders, transformers) see it
+because the stagger only shows when the arcs are watched through laps.
+
+Protective property of simplicity: a complicated object would have left loose
+joints to wave at. One rule + one counter means there is nothing to fit — when
+the wheel is eventually noticed by publishers, parameter-fitting dismissal is
+unavailable.
+
+Gap unchanged: pattern covers the seats; value decides whether the uncovered
+seats are composite.
+
+Night queue fired 13:2x: P11 replication @500k laps, tail-fattening perturbation
+(P12), margin-to-wipe (J1) pending Claude's wipe enumeration data.
