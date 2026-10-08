@@ -16,10 +16,12 @@ Registered in the [OSTOE claims registry](https://ostoe.com/entries/prime-tread-
 | [problem-wheels.html](problem-wheels.html) | Collatz, Riemann's zeros, Goldbach, twin primes and prime races, each on its own wheel. |
 | [globe.html](globe.html) | The same counting wrapped onto a sphere, with the layer balance and the running Mertens balance. |
 | [PAPER.md](PAPER.md) | A short paper. Every claim is tagged and sourced. |
+| [essay.html](essay.html) | Field notes (Oct 8, 2026): the stagger field, the shadow map, honest negatives, the pattern-vs-value wall. Linked from the wheel's panel. |
+| [INSIGHTS.md](INSIGHTS.md) | The running lab notebook. Nothing lives only in a chat session. |
 | [probes/](probes/) | Python scripts. `verify.py` reproduces every number in the paper. |
 | [images/](images/) | Figures. |
 
-All three pages are single self-contained HTML files with no build step. To host them, turn on GitHub Pages for this repository (deploy from the main branch, root folder).
+All four pages are single self-contained HTML files with no build step. To host them, turn on GitHub Pages for this repository (deploy from the main branch, root folder).
 
 ## The rule
 
@@ -54,4 +56,4 @@ Needs Python 3 and numpy and takes about ten seconds. The other probes are descr
 
 Code: MIT (see [LICENSE](LICENSE)). Text and images: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
-Made by Obi (Sylvan Gaskin), with Claude.
+Made by Obi (Sylvan Gaskin), with Claude and Kimi.

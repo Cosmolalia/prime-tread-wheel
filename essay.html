@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Field notes from the Prime Tread Wheel expedition: cups and rainbows, the stagger field, parabolic orbits, the night shift's honest negatives, and the one wall still standing between pattern and value.">
+<meta name="color-scheme" content="dark">
+<title>Field Notes — The Stagger of the Number Line · Prime Tread Wheel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Spectral:wght@500;600&display=swap">
+<style>
+:root {
+  --night: #05070d;
+  --panel: #0a0f1b;
+  --line: #232b46;
+  --text: #dfe3f0;
+  --muted: #8f97b5;
+  --gold: #f0bf55;
+  --hit: #86a0ec;
+  --good: #7fd8a4;
+  --bad: #e88a9a;
+  --gap: #c9a3f5;
+  --font-display: "Spectral", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--night); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.65; }
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 20px 6em; }
+
+/* Masthead */
+.mast { border-bottom: 1px solid var(--line); background: radial-gradient(circle at 70% 0%, #0e1530 0%, var(--night) 70%); }
+.mast .wrap { padding-top: 3.2em; padding-bottom: 1.6em; }
+.kicker { font-family: var(--font-data); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.7rem, 1.3rem + 2vw, 2.5rem); line-height: 1.15; margin: 0 0 12px; text-wrap: balance; }
+.dek { color: var(--muted); font-size: 1rem; max-width: 60ch; margin: 0; }
+.dateline { font-family: var(--font-data); font-size: 0.78rem; color: var(--muted); margin-top: 14px; }
+.dateline b { color: var(--text); font-weight: 500; }
+
+/* Body text */
+h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.45rem; margin: 2.6em 0 0.6em; text-wrap: balance; }
+h2 .no { font-family: var(--font-data); font-size: 0.7rem; color: var(--gold); letter-spacing: 0.12em; vertical-align: 0.35em; margin-right: 0.7em; }
+p { margin: 0 0 1.1em; }
+a { color: var(--hit); text-decoration: none; }
+a:hover { text-decoration: underline; }
+ul, ol { margin: 0 0 1.1em; padding-left: 1.4em; }
+li { margin-bottom: 0.45em; }
+code { font-family: var(--font-data); font-size: 0.86em; background: var(--panel); border: 1px solid var(--line); border-radius: 5px; padding: 1px 5px; }
+.formula { font-family: var(--font-data); font-size: 0.92rem; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; margin: 0 0 1.2em; overflow-x: auto; white-space: nowrap; }
+.small { font-size: 0.85rem; color: var(--muted); }
+hr { border: 0; border-top: 1px solid var(--line); margin: 3em 0; }
+
+/* Epistemic chips */
+.tag { display: inline-block; font-family: var(--font-data); font-size: 0.68rem; font-weight: 500; letter-spacing: 0.06em; border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; margin-right: 0.45em; vertical-align: 0.12em; }
+.tag.s { color: var(--gold); border-color: var(--gold); }
+.tag.f { color: var(--hit); border-color: var(--hit); }
+.tag.g { color: var(--gap); border-color: var(--gap); }
+.tag.e { color: var(--good); border-color: var(--good); }
+.legend { font-size: 0.82rem; color: var(--muted); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; margin: 1.6em 0 0; }
+.legend div { margin: 3px 0; }
+
+/* Findings boxes */
+.finding { border: 1px solid var(--line); border-left: 3px solid var(--good); border-radius: 8px; background: var(--panel); padding: 14px 18px; margin: 1.4em 0; }
+.finding.neg { border-left-color: var(--bad); }
+.finding.open { border-left-color: var(--gap); }
+.finding .fh { font-family: var(--font-data); font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; margin: 0 0 6px; }
+.finding.pos .fh { color: var(--good); }
+.finding.neg .fh { color: var(--bad); }
+.finding.open .fh { color: var(--gap); }
+.finding p:last-child { margin-bottom: 0; }
+
+/* Hero SVG */
+.hero { margin: 2em 0 0.5em; }
+.hero figcaption { font-family: var(--font-data); font-size: 0.75rem; color: var(--muted); margin-top: 8px; text-align: center; }
+
+/* TOC */
+.toc { font-size: 0.9rem; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 18px; margin: 2em 0 0; }
+.toc .label { font-family: var(--font-data); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 8px; }
+.toc ol { margin: 0; padding-left: 1.4em; }
+.toc li { margin-bottom: 2px; }
+
+/* Footer */
+footer { border-top: 1px solid var(--line); margin-top: 4em; padding-top: 1.6em; font-size: 0.85rem; color: var(--muted); }
+footer .row { display: flex; flex-wrap: wrap; gap: 0.6em 1.4em; margin-bottom: 1em; }
+footer .credit { font-size: 0.8rem; }
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="wrap">
+    <p class="kicker">Prime Tread Wheel · Research log</p>
+    <h1>The Stagger of the Number Line</h1>
+    <p class="dek">Field notes from two days of rolling the counting numbers onto a growing wheel: nested rainbows, a map of shadows, one quadratic counter that steers everything, a night shift that ruled out five roads, and the single wall still standing between the pattern and the primes.</p>
+    <p class="dateline"><b>October 8, 2026</b> · Obi (Sylvan Gaskin) · with Claude and Kimi · every number below is reproducible from the <a href="https://github.com/Cosmolalia/prime-tread-wheel">repo</a></p>
+  </div>
+</header>
+
+<main class="wrap">
+
+<figure class="hero">
+<svg viewBox="0 0 720 330" width="100%" role="img" aria-label="Nested arcs, each falling a little short of the one outside it">
+  <rect width="720" height="330" fill="#05070d"/>
+  <!-- ground line -->
+  <line x1="30" y1="300" x2="690" y2="300" stroke="#232b46" stroke-width="1"/>
+  <!-- nested rainbow arcs, each a little short of the outer -->
+  <g fill="none" stroke-linecap="round">
+    <path d="M 360 300 A 320 320 0 0 1 668 118"  stroke="#f0bf55" stroke-width="7" opacity="0.95"/>
+    <path d="M 360 300 A 262 262 0 0 1 605 96"   stroke="#e88a5f" stroke-width="7" opacity="0.9"/>
+    <path d="M 360 300 A 204 204 0 0 1 545 80"   stroke="#c9a3f5" stroke-width="7" opacity="0.85"/>
+    <path d="M 360 300 A 146 146 0 0 1 490 72"   stroke="#86a0ec" stroke-width="7" opacity="0.8"/>
+    <path d="M 360 300 A 88  88  0 0 1 432 88"   stroke="#7fd8a4" stroke-width="7" opacity="0.75"/>
+  </g>
+  <!-- the lip: where the leading corner falls short -->
+  <circle cx="668" cy="118" r="5" fill="#f0bf55"/>
+  <circle cx="605" cy="96"  r="5" fill="#e88a5f"/>
+  <circle cx="545" cy="80"  r="5" fill="#c9a3f5"/>
+  <circle cx="490" cy="72"  r="5" fill="#86a0ec"/>
+  <circle cx="432" cy="88"  r="5" fill="#7fd8a4"/>
+  <text x="676" y="112" fill="#f0bf55" font-family="IBM Plex Mono, monospace" font-size="12">the lip</text>
+  <text x="30" y="322" fill="#8f97b5" font-family="IBM Plex Mono, monospace" font-size="12">1</text>
+  <text x="352" y="322" fill="#8f97b5" font-family="IBM Plex Mono, monospace" font-size="12">1/2</text>
+  <text x="676" y="322" fill="#8f97b5" font-family="IBM Plex Mono, monospace" font-size="12">1</text>
+</svg>
+<figcaption>Stacking cups, nesting rainbows: each lap's cover reaches for the rim of the last one and always falls a little short.</figcaption>
+</figure>
+
+<div class="legend">
+  <div><span class="tag s">S</span> stated — a premise or proposed mechanism. Not derived, not assumed proven.</div>
+  <div><span class="tag f">F</span> follows — actually entailed by what came before.</div>
+  <div><span class="tag g">G</span> gap — the mechanism stops here. Something necessary is not yet explained. A gap is information.</div>
+  <div><span class="tag e">E</span> established — an external proof or a measurement resolved this particular piece, at this resolution.</div>
+</div>
+
+<nav class="toc">
+  <span class="label">Map of this log</span>
+  <ol>
+    <li><a href="#rule">The wheel in one breath</a></li>
+    <li><a href="#cups">Cups and rainbows</a></li>
+    <li><a href="#shadows">The shadow map and the record mouth</a></li>
+    <li><a href="#stagger">The stagger field</a></li>
+    <li><a href="#night">The night shift: honest negatives</a></li>
+    <li><a href="#wall">The wall between pattern and value</a></li>
+    <li><a href="#bridge">The other expedition</a></li>
+    <li><a href="#queue">What would change our minds</a></li>
+  </ol>
+</nav>
+
+<h2 id="rule"><span class="no">§1</span>The wheel in one breath</h2>
+
+<p>Layer 1 holds the number 1. Layer 2 holds the next two. Every layer holds one more number than the layer inside it, every tick on every layer is the same size, and tick <em>k</em> of layer <em>m</em> sits <em>k</em>/<em>m</em> of the way around the turn. Laid flat, the layers are the rows of Floyd's triangle. Nothing about primes goes into the rule. Everything that shows up comes from counting and the shape of a circle. The <a href="index.html">main page</a> is the wheel itself; the <a href="https://github.com/Cosmolalia/prime-tread-wheel">repo</a>'s README lists what's proven and what was already known.</p>
+
+<p>The open question that drives this whole log: <strong>does every layer hold a prime?</strong> <span class="tag s">S</span> It has been checked to layer 2.8 billion — that's OEIS sequence A066888, which counts exactly this. Nobody has found an empty layer. Nobody has proved there isn't one.</p>
+
+<h2 id="cups"><span class="no">§2</span>Cups and rainbows</h2>
+
+<p>It started with a picture. Forget the numbers for a second and draw each lap as a <strong>2D curve with width and depth</strong> — not a bare number line. The curve <em>is</em> the unit; tick counts don't matter, because any count you lay along the curve gets offset by the curve itself. <span class="tag s">S</span> Then stack the curves like cups nested in cups, rainbows nested in rainbows. Each new lap's leading corner reaches for the rim of the last one and <strong>always falls a little short</strong>. <span class="tag s">S</span> The shortfall — the lip — is where a prime has to live.</p>
+
+<p>What I love about this picture is what it doesn't do. It doesn't assume any particular spacing law. It just says: independent covers stacked this way leave a lip, and the lip is thin — one mark away from opening. <em>Thin</em> turned out to be measurable, and the measurement is stranger and better than the intuition.</p>
+
+<h2 id="shadows"><span class="no">§3</span>The shadow map and the record mouth</h2>
+
+<p>Here is the shadow map, which is the cups picture drawn tick by tick. Layer <em>m</em> holds the numbers from T(<em>m</em>−1)+1 to T(<em>m</em>), where T(<em>m</em>) = <em>m</em>(<em>m</em>+1)/2 is the <em>m</em>-th triangular number. Every prime <em>p</em> ≤ √T(<em>m</em>) throws an arc across the lap: it lands on tick <em>k</em> wherever T(<em>m</em>−1)+<em>k</em> is divisible by <em>p</em>, i.e. exactly where</p>
+
+<div class="formula">k ≡ −T(m−1)  (mod p)</div>
+
+<p>and from there it returns every <em>p</em> ticks. Fixed radius, fixed spacing, no interaction with any other arc. <span class="tag e">E</span> Each arc is just its residue class, and the arcs are independent — no two shadows ever affect each other. The cover is a pile-up, not a weave: cups stacked, not threads crossed.</p>
+
+<p>A <strong>seat</strong> is a tick with gcd(<em>k</em>, <em>m</em>) = 1 — a position a prime could take. A <strong>mouth</strong> is a run of seats at the lap's mouth (its first ticks) where no arc lands: the cover is closed across them, and any prime sitting there would have to be a prime the arcs can't see, one larger than √T(<em>m</em>).</p>
+
+<p>The record layer is <em>m</em> = 264,800,157. Its mouth ran <strong>766 ticks</strong>, and the anatomy under the magnifier is the cups picture, literally:</p>
+
+<ul>
+  <li><strong>109 outside strikers</strong> — 109 arcs from primes above the seat threshold held the mouth shut.</li>
+  <li><strong>57 holes</strong> — seats in the mouth with no arc at all.</li>
+  <li><strong>Every one of the 57 was composite, with both factors &gt; 766.</strong> The arcs never had a chance to see them. <span class="tag e">E</span></li>
+  <li>Redundancy was 1.68× overall, but 270 of the 497 mouth seats had <em>exactly one</em> cover. The lip is thin there — one mark away from opening. <span class="tag e">E</span></li>
+</ul>
+
+<p>Read in units of the lap, the closed mouth is about 3·10⁻⁶ of the half-lap. The leading corner doesn't fall a little short — it falls short by a vanishing sliver, once per lap, at one thin lip. That is why the pile-up looked shocking from the sieve's side and natural from the cups side.</p>
+
+<p>One external brick, imported surgically: covering-system theory (Mirsky–Newman–Davenport–Rado) proves that a family of residue classes can <em>exactly</em> tile the integers only by paying forced redundancy — the coarsest arc must appear at least twice. Exact closure isn't just unlikely; it's arithmetically <em>expensive</em>. <span class="tag e">E</span> On a finite lap, short closed mouths obviously exist — this one ran 766 ticks — so the theorem doesn't transplant directly. But it says the direction of the cups intuition is the proved one: tiling costs extra marks, and the lap doesn't get them for free.</p>
+
+<h2 id="stagger"><span class="no">§4</span>The stagger field</h2>
+
+<p>Then came the reframe, and I want to state it carefully because it changed what the primary object <em>is</em>.</p>
+
+<p>Look again at where an arc lands: <em>k</em> ≡ −T(<em>m</em>−1) (mod <em>p</em>). That offset is a <em>function of m</em>. Every prime has its own fractional position on every lap, and when the wheel grows by one, the whole configuration shifts by a single integer — the lap number itself — read in every prime's modulus at once. The primary object is not the primes, and not even the cover. It's the <strong>stagger field</strong>: the tuple of offsets, one per prior prime, at each step of the wheel. The primes are what fall out of reading it. <span class="tag s">S</span> → <span class="tag e">E</span>, as follows.</p>
+
+<p><strong>The whole stagger is one counter.</strong> Lap-to-lap, every offset advances by −<em>m</em> (mod <em>p</em>). One integer, <em>m</em>, moves every prior layer's fractional offset simultaneously; each prime reads a different base-<em>p</em> digit of the same step. <span class="tag f">F</span></p>
+
+<p><strong>Each arc sweeps a parabola, not a circle.</strong> Over laps, each offset <em>o</em><sub>p</sub>(<em>m</em>) = −T(<em>m</em>−1) mod <em>p</em> is exactly periodic in <em>m</em> with period <em>p</em> — verified with zero violations over 99,980 consecutive laps. But within one period, prime <em>p</em> visits only (<em>p</em>+1)/2 of its <em>p</em> possible phases: the triangular numbers mod <em>p</em>. The orbit of 11 across its period is</p>
+
+<div class="formula">[10, 8, 5, 1, 7, 1, 5, 8, 10, 11, 11]</div>
+
+<p>— a palindrome. Right-moving, then left-moving, meeting at its vertex. The scaling signature — <em>right before the half, left after, meeting at 1</em> — is literally true of each individual prime's stagger across laps. <span class="tag e">E</span> The p = 2 axis runs on period 4, not 2: the parity axis has the 4-lap cycle, the wheel's mirror operator.</p>
+
+<p><strong>The aperiodicity is proved, not felt.</strong> The joint field over the first 25 primes recurs only after roughly 10³⁶ laps; the first 30, after 10⁵⁹. Fractions divided by fractions never re-align, because re-alignment needs <em>m</em> ≡ const (mod lcm of every prior prime), and that lcm outruns any horizon. <span class="tag f">F</span></p>
+
+<p><strong>And primes fall out of the stagger — literally.</strong> Compute each lap's mouth cover from the stagger offsets <em>alone</em>: no values, no arithmetic on values. Compare to the actual first prime. For every lap <em>m</em> = 4…5000: <strong>4,997 laps, zero mismatches.</strong> The first-prime function is a pure function of the stagger configuration. <span class="tag e">E</span> This is the sense in which cause and effect are immaterial: the field already contains the complete answer. The wheel routes everything for free.</p>
+
+<p>Here's the sentence I keep coming back to: <strong>the wheel constrains the movie, not the frame.</strong> The shadow probes found that arcs arrange freely <em>within</em> a lap — covers can pile up anywhere, no per-lap placement constraint exists. The parabolic confinement lives <em>across</em> laps. Any wheel-native proof of the open question can't be a statement about per-lap covers; it has to be a law on stagger orbits. That reframes the whole search: not <em>find a constraint on shadow placement</em> (closed, negative) but <em>find a constraint on stagger-orbit interaction</em> (open — and the parabolic confinement is the first wheel-native orbit structure ever observed).</p>
+
+<p>And a symmetry worth its own line: gcd(<em>k</em>, <em>m</em>) = gcd(<em>m</em>−<em>k</em>, <em>m</em>), so tick <em>k</em> is a seat iff tick <em>m</em>−<em>k</em> is. The wheel's coprimality pattern is a palindrome about the lap's midpoint. <span class="tag e">E</span> Proven, wheel-native, two lines. The values on those mirrored ticks factorize completely independently — hold that fact; it's the whole next section.</p>
+
+<h2 id="night"><span class="no">§5</span>The night shift: honest negatives</h2>
+
+<p>I went to bed and left the probes running with one rule: an honest negative is a load-bearing result. Log it, commit it, don't reopen it. Here's what the night shift closed, each with the mechanism that closed it.</p>
+
+<div class="finding neg">
+<p class="fh">CLOSED — Correlation inside the stagger field</p>
+<p>Is there any internal structure to exploit — arcs ganging up across laps? No. The joint orbit over any finite prime set factorizes exactly, by the Chinese remainder theorem plus a counting argument on the triangular image (covariance 0.000000, verified). The field's <em>entire</em> law is the one quadratic counter <em>s</em>(<em>m</em>) = −T(<em>m</em>−1). Nothing else is in there.</p>
+</div>
+
+<div class="finding neg">
+<p class="fh">CLOSED — Mirror compensation</p>
+<p>Maybe a lap whose mouth runs long on the left gets compensated on the right, via the seat palindrome? Dead at both scales: correlation +0.02 at height (2.6·10⁸), −0.07 at 10⁴. The palindrome does not propagate to value-side mouth geometry. The record's 766-left / 15-right shape is typical, not special.</p>
+</div>
+
+<div class="finding neg">
+<p class="fh">CLOSED — "The holes hide a ratio law"</p>
+<p>The mouth's uncovered seats are exactly W-rough numbers (no prime factor below the mouth width W), and their 74% semiprime fraction is precisely the Mertens rough-density prediction, matched bucket by bucket. The hole arithmetic is the sieve's arithmetic. A first simulation had said the fraction should be 5% — but that null modeled <em>random</em> covers, and the stagger's covers aren't random, they're exact. The corrected comparison matched perfectly. A mismatched null is worse than no null; logged as a lesson, not deleted.</p>
+</div>
+
+<div class="finding neg">
+<p class="fh">CLOSED — A derived "thinning law"</p>
+<p>I derived a clean per-arc law predicting √(8/K) thinning of the small offsets, and the data refuted it in 0.013 seconds: wraparound fills the small residues and the marginals are uniform. One derivation, one falsification, logged with the reason.</p>
+</div>
+
+<div class="finding pos">
+<p class="fh">CONFIRMED INVARIANT — Mouth width = striker count</p>
+<p>Across every batch run, a shut mouth's width is how many outside primes jointly hold it: r = 0.981 across the 119-lap batch, 0.995 at 10⁴, 0.992 at 2.6·10⁸. The distribution's <em>shape</em> drifts with scale; this ratio doesn't. It's the scale-stable law the cups picture was pointing at.</p>
+</div>
+
+<div class="finding pos">
+<p class="fh">CONFIRMED — One prime each side of the midpoint</p>
+<p>Every lap <em>m</em> = 21…100,000 carries at least one prime strictly each side of the half-turn: zero violations in ~120,000 laps tested, including the adversarial families (prime laps, <em>m</em> ≡ 2 mod 4 laps where <em>every</em> prime sits on a non-seat tick, and 200 consecutive laps around the record). Small laps genuinely violate it — <em>m</em> = 20 has four primes, all left of the midpoint — so the mechanism doesn't kick in immediately; it stabilizes at 21. I know of no proof, and it does not follow from the seat palindrome. This is a fresh conjecture, narrower and more falsifiable than the parent one.</p>
+</div>
+
+<div class="finding pos">
+<p class="fh">FOUND — The twins</p>
+<p>The left and right margins (mouth width on each side of the midpoint) are distribution-twins — medians 11 and 12, p99 78 and 81 — while being <em>per-lap uncorrelated</em>. The value side casts a statistical shadow of the seat palindrome: symmetry in distribution, independence instance by instance. A precisely stated phenomenon no current mechanism explains.</p>
+</div>
+
+<p>Plus two exact curiosities. The lap's endpoints are forced: T(<em>m</em>) and T(<em>m</em>)−1 are never prime for <em>m</em> ≥ 4 — the lap's "1" is composite by identity <span class="tag e">E</span> — while its opening tick T(<em>m</em>−1)+1 is exactly <em>twice</em> as prime-rich as chance (ratio 2.000 over 119 laps), the lazy-caterer door. And when I went looking for the quadratic counter's lagged fingerprint in mouth widths, the first run showed a huge period-4 signal — <em>fake</em>: I'd applied the seat test to a value-side model, and on <em>m</em> ≡ 2 (mod 4) laps every real prime sits on a non-seat tick, so the filter blinded half the laps. The wall showed up inside my own probe code. Fixed and rerun: null. The counter is exact, drives everything, and is invisible in every aggregate mouth statistic tested.</p>
+
+<h2 id="wall"><span class="no">§6</span>The wall between pattern and value</h2>
+
+<p>Every result above is one of two kinds, and the border between them is the expedition's one standing wall.</p>
+
+<p>The wheel speaks <strong>ticks</strong>: residues, seats, offsets, orbits, covers. Everything tick-side is now mapped to high resolution — the stagger field, the parabolic orbits, the palindrome, the independence theorem. Primality speaks <strong>values</strong>: what T(<em>m</em>−1)+<em>k</em> actually factors into. The arcs only ever see the ticks.</p>
+
+<p>So the record mouth's story, told completely: the cover was thin at the rim <span class="tag f">F</span>, the rim's leftovers were all composite with both factors above the arcs' horizon <span class="tag e">E</span>, and <em>why the leftovers can't all be composite</em> — why at least one lip must be prime, every lap, to 2.8 billion — is precisely the part no wheel mechanism has yet connected. <span class="tag g">G</span></p>
+
+<div class="finding open">
+<p class="fh">THE GAP, STATED EXACTLY</p>
+<p>The stagger field is computable in O(<em>m</em>) work per read, but no compressed law of the field is known. The field alone determines every first-prime position (4,997/4,997). The open question is whether some property of the one quadratic counter's walk — the thing that makes it a parabolic palindrome convoy rather than a random tuple — constrains what the uncovered seats can be. The pattern is fully mapped. The connector from pattern to value is not. A gap left honestly open is better than an elegant theorem pasted over the wrong mechanism.</p>
+</div>
+
+<h2 id="bridge"><span class="no">§7</span>The other expedition</h2>
+
+<p>While this session worked the configuration side — what the one real alignment <em>does</em> — a parallel session worked the counterfactual side: what the arcs <em>could</em> do if freely turned. Two vocabularies, one wheel. The translation, for the record: its <em>rings</em> are our <em>arcs</em> (identical object, same landing formula); its <em>free phases</em> are our iid null; its <em>wipe</em> is a closed mouth that covers every seat; its <em>seam lanes</em> are our mouth columns.</p>
+
+<p>Its result is the wedge that now holds the whole problem:</p>
+
+<p><strong>Freely turned rings wipe out every layer from 41 to 391.</strong> The turning space — the set of all ways to set the arcs' phases — is full of total covers. Abundant, enumerated, exact. <span class="tag e">E</span></p>
+
+<p><strong>The realized turning never wipes.</strong> Every layer 21…100,000 has primes, at least one each side of the midpoint. <span class="tag e">E</span></p>
+
+<p>And the realized turning is not a random point of that space. It is <strong>one quadratic curve</strong> — the stagger law, proved: each arc's real phase across laps is a parabolic orbit of period <em>p</em>. So the parent conjecture now reads, in its cleanest form yet:</p>
+
+<div class="formula">The quadratic curve never enters the wipe set.</div>
+
+<p>One session mapped the wipe set — the exact counts of which turnings cover everything. The other mapped the curve. Nobody has yet measured the <em>distance between them per lap</em>: how close the realized stagger point comes, each layer, to the nearest total wipe. That distance is the conjecture's true object. It's also the honest face of the wall: the wipe set lives entirely on the tick side, the curve is the tick side's complete law, and the value side is still on the far side of the gap.</p>
+
+<p>Three facts both expeditions found <em>independently</em>, from opposite flanks, all agreeing — closing tick composite, the <em>m</em> ≡ 2 (mod 4) behavior, and the CRT lock on the stagger field. When two maps drawn by different hands agree at the border, the border is real.</p>
+
+<h2 id="queue"><span class="no">§8</span>What would change our minds</h2>
+
+<p>The queue, in order of information value. Everything below is pre-registered before the run, and failures get logged with their reasons — that discipline is now house law.</p>
+
+<ol>
+  <li><strong>J1 — Margin to wipe.</strong> Per lap, the distance from the realized stagger point to the nearest total-wipe turning. His enumeration × our offsets. This is the conjecture's true object, measured directly.</li>
+  <li><strong>J2 — Hole-pattern contrast.</strong> Our per-tick cover binaries against his free-phase samplers, same windows: does the realized alignment's hole pattern deviate from free-phase hole patterns in any statistic beyond width?</li>
+  <li><strong>J3 — The calm's slope.</strong> His open observation "why 7.5 points per tenfold" gets a precise stagger face: an arc of radius <em>p</em> finishes its lap over a stretch iff the stretch ≥ <em>p</em>, and its orbit across that stretch is a whole number of parabolas.</li>
+  <li><strong>P11 — The parity hint.</strong> A 2–4σ signal at lags ≡ 2 (mod 4), ring 2's parity flip. Replicate at 500k laps before believing it.</li>
+  <li><strong>The halves-claim draft.</strong> The m ≥ 21 conjecture, stated and tagged, for the paper — whenever we sit down to write §3/§4's new lines.</li>
+</ol>
+
+<p>And the standing invitations: if you can prove the halves-claim, refute it, or name where any piece of this already lives in the literature — open an issue. Absence from the literature is not a mechanism; similarity to it is not a proof.</p>
+
+<hr>
+
+<p class="small">Method note: this project runs on mechanism-first rules. Claims carry their epistemic status on their sleeve; connectors are attacked before endpoints; established science is used as a parts catalog, not a template; a gap is marked and kept, not decorated. The running lab notebook is <a href="https://github.com/Cosmolalia/prime-tread-wheel/blob/master/INSIGHTS.md">INSIGHTS.md</a>, updated before anything is allowed to live only in someone's head.</p>
+
+<footer>
+  <div class="row">
+    <a href="index.html">The wheel</a>
+    <a href="problem-wheels.html">Problem wheels</a>
+    <a href="globe.html">Geometric globe</a>
+    <a href="https://github.com/Cosmolalia/prime-tread-wheel">GitHub repo</a>
+    <a href="https://ostoe.com/entries/prime-tread-wheel.html">OSTOE registry entry</a>
+  </div>
+  <p class="credit">Made by Obi (Sylvan Gaskin), with Claude and Kimi. Code: MIT. Text: CC BY 4.0. Every number on this page reproduces from the repo's probes.</p>
+</footer>
+
+</main>
+</body>
+</html>
