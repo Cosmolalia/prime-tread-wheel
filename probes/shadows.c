@@ -74,6 +74,7 @@ typedef struct {
     uint64_t first_off, maxgap, gapat, prv_off;
     uint64_t iprimes, ifirst_off, imaxgap, igapat, iprv;  /* interval primes (any tick) */
     uint64_t ilprimes, irprimes;  /* interval primes left / right of lap midpoint */
+    uint64_t ilast_off, itrail;   /* last interval prime offset; trailing shut-run length */
     uint64_t mouth_seats, mouth_distinct, mouth_largest;   /* leading-run anatomy */
     int mprime, junction_prime;
     uint32_t *count;            /* count[p] = seats whose smallest covering prime is p */
@@ -123,6 +124,7 @@ static void run_layer(uint64_t m, Report *R, int dump_head, int want_mouth){
                 R->iprimes++;
                 if(!R->ifirst_off) R->ifirst_off = j;
                 if(2*j < m) R->ilprimes++; else if(2*j > m) R->irprimes++;
+                R->ilast_off = j;
                 if(R->iprv && j - R->iprv > R->imaxgap){
                     R->imaxgap = j - R->iprv; R->igapat = R->iprv;
                 }
@@ -158,6 +160,7 @@ static void run_layer(uint64_t m, Report *R, int dump_head, int want_mouth){
     }
     free(cov);
     R->overlap = R->sumcov - R->shadowed;   /* double-covered seats */
+    if(R->ilast_off) R->itrail = (m - 1) - R->ilast_off;  /* trailing shut-run after last prime */
 }
 
 int main(int argc, char **argv){
@@ -174,8 +177,9 @@ int main(int argc, char **argv){
             for(int s = 0; s < 2 && found < n; s++){
                 uint64_t m = ms[s];
                 if(m < 3 || (!any_m && !is_prime_trial(m))) continue;
-                Report R; run_layer(m, &R, 0, 1);
-                printf("B m=%llu mp=%d seats=%llu shadowed=%llu primes=%llu first_off=%llu maxgap=%llu gapat=%llu ifirst_off=%llu iprimes=%llu imaxgap=%llu igapat=%llu ilprimes=%llu irprimes=%llu mouth_ticks=%llu mouth_distinct=%llu mouth_largest=%llu\n",
+                int dump = m < 100000;                 /* head bins only for small laps */
+                Report R; run_layer(m, &R, dump, 1);
+                printf("B m=%llu mp=%d seats=%llu shadowed=%llu primes=%llu first_off=%llu maxgap=%llu gapat=%llu ifirst_off=%llu iprimes=%llu imaxgap=%llu igapat=%llu ilprimes=%llu irprimes=%llu ilast_off=%llu itrail=%llu mouth_ticks=%llu mouth_distinct=%llu mouth_largest=%llu\n",
                     (unsigned long long)m, R.mprime,
                     (unsigned long long)R.seats, (unsigned long long)R.shadowed,
                     (unsigned long long)R.primes,
@@ -183,6 +187,7 @@ int main(int argc, char **argv){
                     (unsigned long long)R.ifirst_off, (unsigned long long)R.iprimes,
                     (unsigned long long)R.imaxgap, (unsigned long long)R.igapat,
                     (unsigned long long)R.ilprimes, (unsigned long long)R.irprimes,
+                    (unsigned long long)R.ilast_off, (unsigned long long)R.itrail,
                     (unsigned long long)R.mouth_seats, (unsigned long long)R.mouth_distinct, (unsigned long long)R.mouth_largest);
                 fflush(stdout);
                 free(R.count);
@@ -201,10 +206,11 @@ int main(int argc, char **argv){
         printf("  first_off=%llu maxgap=%llu gapat=%llu junction_prime=%s\n",
             (unsigned long long)R.first_off, (unsigned long long)R.maxgap,
             (unsigned long long)R.gapat, R.junction_prime?"YES":"no");
-        printf("  ifirst_off=%llu iprimes=%llu imaxgap=%llu igapat=%llu ilprimes=%llu irprimes=%llu\n",
+        printf("  ifirst_off=%llu iprimes=%llu imaxgap=%llu igapat=%llu ilprimes=%llu irprimes=%llu ilast_off=%llu itrail=%llu\n",
             (unsigned long long)R.ifirst_off, (unsigned long long)R.iprimes,
             (unsigned long long)R.imaxgap, (unsigned long long)R.igapat,
-            (unsigned long long)R.ilprimes, (unsigned long long)R.irprimes);
+            (unsigned long long)R.ilprimes, (unsigned long long)R.irprimes,
+            (unsigned long long)R.ilast_off, (unsigned long long)R.itrail);
         for(uint64_t p = 2; p <= LIM; p++)
             if(R.count[p]) printf("COVER %llu %u\n", (unsigned long long)p, R.count[p]);
         free(R.count);

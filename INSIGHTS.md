@@ -101,3 +101,112 @@ tuple {o_p(m)} over all prior primes. (probes/stagger.py)
   profile {o_p/p} have a stable shape across lap sizes (cups picture)?
 - **Mirror-compensation at height** (needs k₀-per-striker dump from
   shadows.c): do late-opening mouths compensate on the mirror side?
+
+---
+
+## Night session 2026-10-08 (Sylvan sleeping, autonomous)
+
+### N1. Orbit-law search: closed negatively, and provably. [E]
+
+Question: do stagger orbits correlate across laps in a way that could
+constrain covers? Answer: NO — independence is exact, not approximate.
+
+- The joint field over a finite prime set {p_i} is the single counter
+  s(m) = -T(m-1) read mod each p_i. Over one joint period P = prod p_i,
+  the image of s is the FULL CARTESIAN PRODUCT of the individual images
+  (triangular numbers mod p_i), with multiplicity mult(a,b) = mult_p(a)·mult_q(b).
+  Proof: CRT. Verified numerically: (5,7): 12/12 configs exact; (3,5,7):
+  24/24; (5,11): 18/18; cov(o_5,o_7) = 0.000000.
+- Consequence: the stagger field has NO internal correlations to exploit.
+  Its entire law is the quadratic generator. Any wheel-native covering
+  constraint must come from the interaction of that ONE quadratic counter
+  with value arithmetic — not from field structure. The wall is now
+  located to a single point: one quadratic walk vs the compositeness of
+  the values it walks over.
+
+### N2. The exact composite-ness rule for the stagger model. [E]
+
+Tick k on lap m is SHUT iff exists prime p <= sqrt(T(m-1)+k) with
+k ≡ s(m) (mod p). Arcs from p > sqrt(value) NEVER witness compositeness:
+their only possible hits are the prime itself or multiples already
+witnessed by smaller factors. The first MC attempt capped primes at 4000
+and got layer 7's mouth wrong (26 vs 2) precisely because large-prime
+self-strikes spuriously marked prime ticks. With the sqrt rule and
+lap >> window (m >= 500 for KMAX 2000) the model is EXACT: composites
+always marked (least factor <= sqrt(v) <= sqrt(top of window)), primes
+never marked (their only divisor v > sqrt(top)). This is also why the
+real sieve limit is sqrt(T(m)): it is the exact witness bound, and the
+shadow map's "large one-time strikers" are the primes in
+(window, sqrt(v)] hitting a single tick.
+
+### N3. shadows.c extended: trailing-edge mirror fields.
+
+New per-lap fields: ilast_off (offset of last interval prime), itrail =
+(m-1) - ilast_off (trailing shut-run length). Head bins auto-dump for
+m < 100000 (small laps only; 40KB each vs 16MB at height). Record layer
+re-validated: ifirst_off=767, ilast_off=264800141, **itrail=15** —
+the record's RIGHT edge is nearly shut too. If mirror compensation
+(late left mouth <-> late right mouth) held strongly, the record should
+show a wide trailing run; it shows 15. One point, no conclusion — the
+batch decides (60 laps at height + 60 at m~1e4, running).
+
+### Running tonight
+
+- stagger_mc.py (PID 3847794): quad-counter vs i.i.d. mouth-width
+  distributions, m=500..20000, exact arc rule. Tests whether the quadratic
+  counter changes mouth STATISTICS vs the sieve's independent-lap model.
+- shadows mirror batch at height (PID 3848033): corr(ifirst_off, itrail).
+- small batch at m~1e4 (done, 61 laps): mirror corr at small scale +
+  scale comparison + hole factorization bins.
+
+### N4. Stagger MC: quad counter vs iid — mouths nearly identical; tail fattened ~1.5x. [E]
+
+stagger_mc.py (m=500..20000, exact sqrt arc rule, primes <= 14149):
+- Validation: quad-model mouth == actual first-prime offset on 400/400 laps.
+  Stagger-determinism holds at scale with the exact composite rule (N2).
+- QUAD median 10, p99 66, max 137. IID median 10, p99 59, max 136.
+  KS gap 0.060. Tail ratio P(W>=50): quad 3.17% vs iid 2.07% (1.54x, ~11 sigma);
+  P(W>=100): 1.24x.
+- MECHANISM of the difference, pinned exactly: N1 proved the field has ZERO
+  cross-prime correlation (exact CRT factorization). Therefore quad vs iid
+  differs ONLY in the one-dimensional marginals: quad offsets distribute as
+  triangular numbers mod p (the (p+1)/2-image, multiplicity 1-2), iid as
+  uniform. The wheel's entire statistical fingerprint at this resolution is
+  a MARGINAL distortion of each arc's landing distribution — not a weave,
+  a slight per-arc bias. It fattens the mouth tail directionally (wide mouths
+  ~50% more likely at w=50) but does not transform it.
+- Honest label: at m <= 2e4 the quadratic counter is statistically nearly
+  invisible; the record's 767 remains a tail event under both models.
+
+### N5. Hole arithmetic: honest negative, pinned to rough-number density. [E]
+
+Across 34 small-scale laps (m~1e4, 96 holes = mouth ticks covered only by
+primes >= mouth width): 74% semiprime, co-factor q ≈ T(m-1)/p BY IDENTITY
+(v = lo+k ~ lo, p >= W, so q = v/p ~ lo/p — not a discovery, a bookkeeping
+identity). The semiprime fraction is the Mertens rough-density prediction:
+hole v is W-rough with its smallest factor in [W, sqrt(v)]; among such,
+co-factor q is prime with fraction (1/ln q)/rough-density(p), rising with
+W — matches the observed W-bucket trend (43% at W<10 -> 85% at W~70).
+The first iid null (5.31%) was a MISMATCHED null: iid models random COVERS,
+not arithmetic; quad covers ARE the arithmetic (N2 exactness), so quad
+reproduces the hole set exactly by construction. Correct null = rough
+numbers; correct null matches. "Ratio as slip" finds nothing in hole
+co-factors at this resolution. [G remains: nothing wheel-native here.]
+
+### N6. Scale-invariance of mouth statistics: shape drifts, law survives. [E]
+
+Normalized mouth-width distributions (by median) at m~1e4 vs m~2.6e8:
+shape is NOT invariant — small laps have a large atom at W≈0-1
+(29/60 laps open immediately; p25/m = 0.12 vs 0.46-0.57 at height).
+Likely structural: short laps hit first-prime-at-tick-1/2 by plain density.
+BUT the width~strikers law IS scale-stable: spearman(W_L, mouth_distinct)
+= 0.995 at m~1e4 (replicates 0.981 at height). The invariant across scales
+is not the distribution shape — it is the identity "mouth width = number
+of outside primes jointly holding it", holding from 1e4 to 2.6e8.
+
+### N7. Mirror compensation: negative at small scale. [E]
+
+spearman(W_left, W_trailing) = -0.071 across 60 laps at m~1e4 (record layer
+itself: W_left 766, W_trailing 15 — no compensation). The seat palindrome
+(gcd symmetry) does NOT propagate to value-side mouth geometry. Batch at
+height (60 laps, ~30 min) will confirm or break this at 2.6e8. [running]
