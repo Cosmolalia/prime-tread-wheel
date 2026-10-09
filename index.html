@@ -2216,7 +2216,7 @@ details summary { cursor: pointer; }
           const fr = k / m, [wx, wy] = wpos(m, fr), X = SX(wx), Y = SY(wy);
           if (X < -20 || X > W + 20 || Y < -20 || Y > H + 20) continue;
           const a = G.cyl ? Math.PI / 2 : ang(fr) + G.turn, off = d + 9 * dpr; // on the drum, just above the tick
-          g.fillStyle = gg === 1 ? C.nw : C.muted;
+          g.fillStyle = gg === 1 ? C.text : C.muted;
           g.fillText(`${k / gg}/${b}`, X + Math.cos(a) * off, Y - Math.sin(a) * off);
           g.fillStyle = C.text; g.font = `${8 * dpr}px ${FONT_DATA}`;
           g.fillText(String(T(m - 1) + k), X + Math.cos(a) * (off + 10 * dpr), Y - Math.sin(a) * (off + 10 * dpr));
@@ -2673,18 +2673,18 @@ details summary { cursor: pointer; }
       case "spot": h = sw(C.nw, isFake() ? "a fake prime" : "a prime") + sw(C.ray, "a spot a prime could take") + sw(DIM_COL, "ruled out by the wheel: a third visit or later, or forced even") + "<span>each layer m has exactly φ(m) spots a prime can take</span>"; break;
       case "csteps": h = bar(COLL_RAMP, "few moves to reach 1", "the most"); break;
       case "cups": h = COLL_UP.map((c, u) => sw(c, u === 0 ? "falls 4 times" : u === 4 ? "climbs 4 times" : `climbs ${u} of 4`)).join("") + "<span>on a circle 16 around, every number on an arm makes the same first 4 moves</span>"; break;
-      case "newold": h = sw(C.nw, "makes a new line") + sw(C.hit, "lands on an older line") + sw(C.ray, "the seam"); break;
+      case "newold": h = sw(C.nw, "makes a new line") + sw(C.hit, "lands on an older line") + sw(C.ray, "the seam") + "<span>gold can be composite: any number first to reach its line</span>"; break;
       case "groups":
         h = look.groups.map((gr) => sw(gr.color, groupName(gr) + (gr.show ? "" : " (hidden)"))).join("") +
           sw(look.restColor, "everything else" + (look.restShow ? "" : " (hidden)")) +
           (look.dimOld ? "<span>dimmer: lands on an older line</span>" : "");
         break;
-      case "wheel": h = sw(C.nw, "makes a new line") + [2, 3, 5, 7, 11].map((q) => sw(WHEEL_COL[q], `cut by ${q}`)).join("") + sw(FAR_COL, "cut by 13 and up") + sw(C.ray, "the seam"); break;
+      case "wheel": h = sw(C.nw, "makes a new line") + [2, 3, 5, 7, 11].map((q) => sw(WHEEL_COL[q], `cut by ${q}`)).join("") + sw(FAR_COL, "cut by 13 and up") + sw(C.ray, "the seam") + "<span>gold can be composite: no wheel up to 11 reaches it</span>"; break;
       case "visit": h = sw(C.nw, "1st: makes its line") + bar(VISIT_RAMP, "2nd", "most visits") + sw(C.ray, "the seam"); break;
       case "birth": h = bar(BIRTH_RAMP, "line made by layer 1", "by the newest layer"); break;
       case "layermod": h = modItems("layer"); break;
       case "tickmod": h = modItems("tick"); break;
-      case "primes": h = sw(C.nw, "on a prime layer") + sw(DIM_COL, "on any other layer"); break;
+      case "primes": h = sw(C.nw, "on a prime layer — composites too") + sw(DIM_COL, "on any other layer"); break;
       case "slip": {
         const c = slipCols(), name = ["every layer: straight columns, round the seam", "every 2 layers: bricks, round the half-turn", "every 3: round the thirds", "every 4: round the quarters", "every 5: round the fifths", "every 6: round the sixths", "every 7 to 10"];
         h = c.map((col, i) => sw(col, name[i])).join("") + "<span>One layer out, the ticks slip by the fraction of the turn they sit at. The color says how many layers it takes for the stack to line up again, within a tenth of a unit. Bright: right on the spoke. Dim: the edge of its wedge.</span>";
