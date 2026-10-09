@@ -2,7 +2,7 @@
 
 *Oct 7, 2026 · @obi*
 
-> **Oct 8 update:** the research log continues — [Field Notes: The Stagger of the Number Line](field-notes.html). Shadows, one quadratic counter, a night shift that ruled out five roads, and the wall still standing.
+> **Oct 8 update:** the research log continues — [Field Notes: The Stagger of the Number Line](field-notes.html). Shadows, one quadratic counter, a night shift that ruled out five roads, and the wall still standing. And the wheel itself is right here: **[launch the wheel →](wheel.html)** — same page as the GitHub version, every layer, live.
 
 ## The itch
 
