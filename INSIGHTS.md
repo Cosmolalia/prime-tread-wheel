@@ -773,3 +773,30 @@ What the lap actually pays nearby: 500,000,499,959 = ratio 999959/1000000
 Lesson restated: fixed fractions are gears, not promises. The predictable
 columns are the DEAD ones (k = m−1, k = m, gcd >= 2 columns); primality
 at an eligible column is exactly the coin the sieve still flips.
+
+---
+
+## 2026-10-09 night — "the ratios land exact every time": THE TRIANGULAR-OFFSET THEOREM [F, exact]
+
+Sylvan, "Every number" lens (~l594-600): the labeled dots fall on persistent diagonal
+lines. Claim: the ratios land exact every layer, proportional.
+
+MECHANISM: a dot can recur EVERY layer iff its N is a polynomial in m with a closed-form
+factorization — because then nothing needs to be tested. The diagonal lines are exactly
+the linear families k = m - c, and:
+
+    N = T(m-1) + m - c = (m^2 + m - 2c)/2 = (m-j)(m+j+1)/2  iff  c = T(j) = j(j+1)/2
+
+So the PURE-composite diagonal lines sit at offsets that are triangular numbers:
+  k=m-1:  N=(m-1)(m+2)/2      k=m-3:  N=(m-2)(m+3)/2
+  k=m-6:  N=(m-3)(m+4)/2      k=m-10: N=(m-4)(m+5)/2   k=m-15: N=(m-5)(m+6)/2
+
+AUDIT (m=20..1500, calls written before running):
+  all five triangular offsets: 0 primes, zero exceptions.
+  every non-triangular offset c in {2,4,5,7,8,9,11,12}: carries primes (7-20% rate).
+  i.e. the pure lines are EXACTLY the triangular offsets.
+
+Same picture as always, one level deeper: the predictable positions are the dead ones,
+and their addresses are the triangular numbers. The "proportional" drift (k/m -> 1) is
+just c/m -> 0: all pure lines converge at the rim. The k=m-2 line (c=2, non-triangular)
+is a real coin line at 0.243 enriched by the parity escape (m=2 mod 4).
