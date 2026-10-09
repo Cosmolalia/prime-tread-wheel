@@ -640,3 +640,26 @@ log coords). Would separate metaphor from shared mechanism.
 Adjacent (analogy only, not imported): orthogonal arrays; sliding-periodic moire
 (Mirsky-Newman already imported from that shelf); retrieval-vs-compression attention
 interpretability literature.
+
+---
+
+## 2026-10-09 midday — the lens names the wall's exact shape [F]
+
+Screenshot (wheel.html, "Primes alone" lens): only primes visible to the center,
+every composite blocked. Sharp version:
+
+- The "Primes alone" view is VALUE-side: the app tests primality directly.
+- Pattern-side, the visible set is exact: tick k is uncovered at layer m
+  iff N = T(m-1)+k has no prime factor <= m ("m-rough").
+- Since N <= m^2/2, the m-rough numbers are: primes, plus semiprimes pq
+  with m < p <= q. So visible = primes + the m-rough semiprime sea.
+- Corollary [F]: a composite is UNBLOCKABLE by the address system iff all
+  its prime factors exceed m. No ring is big enough to reach it.
+- So the gap between the two pictures is not a vague haze — it is exactly
+  the semiprime channel p*q, both factors > m, below T(m) ~ m^2/2.
+  That is also precisely trial division's blind spot: certification of
+  these composites requires a factoring act, not a coverage act.
+
+The inference-locus image's "center reads darkness" now has an exact
+residue list: the darkness contains primes AND m-rough semiprimes, and
+telling them apart is the whole [G].
