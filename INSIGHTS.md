@@ -726,3 +726,29 @@ laps) exactly and forever; WHETHER a given lap rewards a given column is
 exactly the sieve's remaining work — no free lunch, but a geometric certificate.
 
 Probe: probes/column_law.py (calls pre-written, results above).
+
+---
+
+## 2026-10-09 night — "layer number −1 as a fraction will hit a p": audit [F]
+
+Sylvan's claim, two readings, measured both (m=2..1500, calls fixed before running):
+
+- LITERAL — the column k=m−1, ratio (m−1)/m, is prime at every layer:
+  DEAD BY ALGEBRA. N = T(m−1)+(m−1) = (m−1)(m+2)/2, a factor form.
+  Composite for all m>=4. 0/1497. Not a sieve fact — an identity.
+- NEAREST LIVE COLUMN — k=m−2 (ratio (m−2)/m, eligible by the column law):
+  prime on 302/1497 laps (~20%). Nothing special: the opening tick k=1
+  hits 261/1499 (~17%). All single columns are coin-flips modulo the gear rule.
+
+What IS guaranteed [F]: every layer has >=1 visible prime (no exceptions to
+m=1500; the lap holds ~m/(2 ln m) primes on average and all land in eligible
+columns). So "a p will hit at every layer" is TRUE — but the hit position is
+uniform across the lap's fractions: visible primes distribute evenly across
+k/m deciles (0.099–0.101 each). 94.7% of layers have a visible prime in the
+outer decile k/m >= 0.9, but 80 layers do not — the edge is not reserved.
+
+And his "it's just ratios on the current l and n" is exactly the column law:
+the hit list at layer m is a subset of the eligible fractions k/m —
+gcd(k,m)=1 plus the m=2 mod 4 parity escape — each hit a reduced ratio with
+denominator = current lap. The ratios are not the prediction; the ratios are
+the eligibility filter the sieve then thins.
