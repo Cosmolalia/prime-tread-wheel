@@ -800,3 +800,37 @@ Same picture as always, one level deeper: the predictable positions are the dead
 and their addresses are the triangular numbers. The "proportional" drift (k/m -> 1) is
 just c/m -> 0: all pure lines converge at the rim. The k=m-2 line (c=2, non-triangular)
 is a real coin line at 0.243 enriched by the parity escape (m=2 mod 4).
+
+---
+
+## 2026-10-09 late night — the variable tread: lap ratio as a playable dial [S→built]
+
+Sylvan: the wheel scales 1:1 (lap m brings m ticks); he wants to set the lap
+length to any ratio — 1:1.1, 1:2, 2:1 — and play with the spiral that results.
+
+Engineering call: the invariant "lap m has m ticks, N = T(m−1)+k" is woven
+through every subsystem of index.html (flat tick-index, found[] line-tracking,
+PI_T prefix arrays, sieve verdict, slip, Collatz). Changing it in place is a
+refactor, not an edit. So the variable version ships as a separate playground
+page, variable.html — the canonical wheel untouched.
+
+Mechanics of the toy, stated exactly:
+- Lap m lays L(m) = max(1, round(m·r)) ticks; base(m) = Σ_{j<m} L(j); tick k
+  of lap m is the integer N = base(m)+k. Numbers keep their order; only the
+  lattice reflows.
+- WHAT SURVIVES [F]: primality and divisibility are properties of the integer.
+  Gold still means prime; "cut by q" still means q | N — at any ratio.
+- WHAT DOES NOT SURVIVE [G→open]: the column law and the triangular dead-lines
+  were theorems about the 1:1 lattice (base = T(m−1)). At r ≠ 1 the eligibility
+  algebra re-derives from the new base — that re-derivation IS the toy.
+- Geometry mirrors the fixed-circle frame: ang(frac) = −π/2+2π·frac, radius
+  (m−0.5+frac)/2π, seam up. Hit-test inversion audited 0/24000 mismatches
+  across r ∈ {0.5, 1/1.1, 1, 1.1, 2, π}; r=1 reproduces T(m−1) bases exactly.
+- One bug caught pre-ship by the roundtrip audit: lap inference from radius
+  must be round(r·2π − ε), not round(r·2π + 1/2) — the latter assigns half of
+  every lap to the wrong lap.
+
+Discriminating observation the toy makes possible: at which ratios, if any,
+does the visible-set structure (primes = uncovered-by-small-wheels) re-form
+into clean lines? The 1:1 lattice's theorems are one point in ratio-space;
+whether any other ratio has its own algebra is now a probe-able question.

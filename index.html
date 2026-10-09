@@ -42,6 +42,7 @@ body { margin: 0; background: var(--night); color: var(--text); font-family: var
 .mast { position: absolute; top: 0; left: 0; max-width: 38ch; padding-inline: 20px; padding-block: 18px 0; display: flex; flex-direction: column; gap: 6px; pointer-events: none; }
 .mast h1 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem); letter-spacing: 0.01em; text-wrap: balance; }
 .mast p { margin: 0; color: var(--muted); font-size: 0.84rem; }
+.mast a { color: var(--hit); pointer-events: auto; }
 .now { position: absolute; left: 0; right: 0; bottom: 0; padding-inline: 20px; padding-block: 0 14px; font-family: var(--font-data); font-size: 0.8rem; color: var(--muted); font-variant-numeric: tabular-nums; pointer-events: none; min-height: 1.5em; }
 .now b { color: var(--text); font-weight: 500; }
 .now .n { color: var(--new); }
@@ -156,7 +157,7 @@ details summary { cursor: pointer; }
     <canvas id="cv" tabindex="0" role="img" aria-label="A wheel rolling along the number line. Each pass rolls the next strip of the line onto the wheel as a new layer, and each tick on that layer either lands on a line an older layer made or makes a new one. In the close look, plus and minus zoom, arrow keys move, 0 fits and Escape goes back to rolling."></canvas>
     <header class="mast">
       <h1>Prime Tread Wheel</h1>
-      <p id="mastText">The number line rolls up onto a wheel, one layer per pass. Layer n brings n evenly spaced ticks. A tick that lands on a line an older layer already made adds nothing. A layer whose ticks all make new lines is prime, and its ring stays gold.</p>
+      <p id="mastText">The number line rolls up onto a wheel, one layer per pass. Layer n brings n evenly spaced ticks. A tick that lands on a line an older layer already made adds nothing. A layer whose ticks all make new lines is prime, and its ring stays gold. <a href="variable.html">variable tread →</a></p>
     </header>
     <div class="now" id="now" aria-hidden="true"></div>
     <div class="stagebar">

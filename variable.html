@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Variable Tread — a prime-tread playground</title>
+<style>
+:root {
+  --night: #05070e; --stage-glow: #0e1531; --earth: #101527;
+  --new: #f0bf55; --hit: #86a0ec; --text: #dfe3f0; --muted: #8f97b5;
+  --panel: #0a0f1b; --line: #232b46;
+  --c2: #86a0ec; --c3: #6fd3a0; --c5: #c58cf0; --c7: #f07f6e; --c11: #5fc9d9; --dim: #5b6687; --far: #7c86a6;
+  --font-display: "Spectral", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body { margin: 0; background: var(--night); color: var(--text); font-family: var(--font-body); font-size: 14px; line-height: 1.5; }
+.app { height: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 320px; }
+.stage { position: relative; min-height: 0; overflow: hidden; background: radial-gradient(circle at 50% 45%, var(--stage-glow) 0%, var(--night) 68%); }
+.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; }
+.stage canvas.drag { cursor: grabbing; }
+.mast { position: absolute; top: 14px; left: 20px; pointer-events: none; max-width: 46ch; }
+.mast h1 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.3rem, 1rem + 1vw, 1.8rem); }
+.mast p { margin: 4px 0 0; color: var(--muted); font-size: 0.82rem; }
+.mast a { color: var(--hit); pointer-events: auto; }
+.now { position: absolute; left: 0; right: 0; bottom: 0; padding: 0 20px 12px; font-family: var(--font-data); font-size: 0.8rem; color: var(--muted); font-variant-numeric: tabular-nums; pointer-events: none; min-height: 1.5em; }
+.panel { background: var(--panel); border-left: 1px solid var(--line); padding: 14px 16px; overflow-y: auto; }
+.group { border-top: 1px solid var(--line); padding-block: 12px; display: grid; gap: 8px; align-content: start; }
+.group:first-child { border-top: 0; }
+.label { font-family: var(--font-data); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.note { margin: 0; color: var(--muted); font-size: 0.8rem; }
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+button { font: inherit; font-size: 0.82rem; color: var(--text); background: #131b31; border: 1px solid var(--line); border-radius: 8px; padding: 5px 10px; cursor: pointer; }
+button:hover { border-color: var(--hit); }
+input[type="range"] { width: 100%; accent-color: var(--new); }
+select, input[type="number"] { font: inherit; font-family: var(--font-data); font-size: 0.85rem; color: var(--text); background: var(--night); border: 1px solid var(--line); border-radius: 8px; padding: 5px 8px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips button { font-family: var(--font-data); font-size: 0.76rem; padding: 3px 8px; }
+.chips button[aria-pressed="true"] { border-color: var(--new); color: var(--new); }
+.stats { font-family: var(--font-data); font-size: 0.78rem; color: var(--muted); font-variant-numeric: tabular-nums; display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; }
+.stats b { color: var(--text); font-weight: 500; }
+.legend { display: grid; grid-template-columns: auto 1fr; gap: 3px 8px; font-size: 0.78rem; color: var(--muted); align-items: center; }
+.legend i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.howto { font-size: 0.8rem; }
+a { color: var(--hit); }
+@media (max-width: 760px) {
+  .app { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; }
+  .panel { border-left: 0; border-top: 1px solid var(--line); max-height: 44vh; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <main class="stage" id="stage">
+    <canvas id="cv" tabindex="0" role="img" aria-label="A variable prime tread. Each lap m lays a chosen number of ticks; every integer still gets one tick, colored by whether it is prime."></canvas>
+    <header class="mast">
+      <h1>Variable Tread</h1>
+      <p>Same numbers, same primes — but lap <i>m</i> no longer has to bring exactly <i>m</i> ticks. Set the lap ratio and the lattice reflows. <a href="index.html">the canonical wheel →</a></p>
+    </header>
+    <div class="now" id="now" aria-hidden="true"></div>
+  </main>
+
+  <aside class="panel" aria-label="Controls">
+    <div class="group">
+      <div class="label">Lap ratio <output id="ratioOut">1 : 1</output></div>
+      <input id="ratio" type="range" min="0.2" max="6" step="0.01" value="1" aria-label="Lap length to layer number ratio">
+      <div class="chips" id="ratioPresets" aria-label="Ratio presets"></div>
+      <p class="note">Lap <i>m</i> lays round(<i>m</i>·<i>r</i>) ticks. Numbers keep their order — tick <i>k</i> of lap <i>m</i> is the integer base(<i>m</i>)+<i>k</i> — only the lattice changes.</p>
+    </div>
+    <div class="group">
+      <label class="label" for="layers">Layers shown <output id="layersOut">120</output></label>
+      <input id="layers" type="range" min="10" max="500" step="5" value="120">
+    </div>
+    <div class="group">
+      <div class="label">Color</div>
+      <div class="row">
+        <select id="colorBy">
+          <option value="prime">Prime or not</option>
+          <option value="cuts">Cut by 2, 3, 5, 7, 11</option>
+        </select>
+      </div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div class="group">
+      <div class="label">Readout</div>
+      <div class="stats" id="stats"></div>
+      <p class="note">Hover a tick to interrogate it. Wheel or double-click zooms to the cursor, drag pans, 0 refits.</p>
+    </div>
+    <div class="group">
+      <p class="note howto"><b>What survives the ratio.</b> Primality and divisibility are properties of the integer, so gold still means prime and each cut color still means divisible by that wheel — at any ratio. What does <i>not</i> survive: the canonical wheel's column law and the triangular dead-lines. Those were theorems about the 1:1 lattice (base = T(<i>m</i>−1)); at any other ratio the eligibility algebra re-derives from the new base, and this page makes no claim about it. That re-derivation is the toy.</p>
+    </div>
+  </aside>
+</div>
+
+<script>
+"use strict";
+const TAU = Math.PI * 2;
+const $ = (id) => document.getElementById(id);
+const cv = $("cv"), ctx = cv.getContext("2d"), now = $("now");
+const stage = $("stage");
+const FONT_DATA = getComputedStyle(document.documentElement).getPropertyValue("--font-data");
+
+// ---------- the one dial that matters ----------
+let ratio = 1;            // lap length : layer number
+const MAXM = 500;         // deepest lap the tables are built for
+let L = new Int32Array(MAXM + 1);   // L[m] = ticks on lap m
+let B = new Int64();                 // B[m] = numbers rolled up before lap m
+
+function Int64() { return new Float64Array(MAXM + 2); } // exact integers to 2^53; deepest total ~ r·T(500) ≈ 751k
+
+function buildLaps() {
+  let base = 0;
+  B[0] = 0; B[1] = 0;
+  for (let m = 1; m <= MAXM; m++) {
+    L[m] = Math.max(1, Math.round(m * ratio));
+    B[m] = base;
+    base += L[m];
+  }
+  B[MAXM + 1] = base;
+  return base; // total ticks = highest number shown
+}
+
+// ---------- sieve: primality is a property of the number, not the lattice ----------
+let sieveMax = 0, isP = new Uint8Array(0);
+function buildSieve(upto) {
+  upto = Math.max(64, Math.ceil(upto));
+  if (upto <= sieveMax) return;
+  isP = new Uint8Array(upto + 1).fill(1);
+  isP[0] = isP[1] = 0;
+  for (let p = 2; p * p <= upto; p++) if (isP[p]) for (let q = p * p; q <= upto; q += p) isP[q] = 0;
+  sieveMax = upto;
+}
+
+// ---------- geometry (mirrors the canonical wheel's fixed-circle frame) ----------
+const ang = (frac) => -Math.PI / 2 + TAU * frac; // frac 1 lands on the seam, pointing up
+const xOf = (m, frac) => m - 0.5 + frac;
+const radOf = (x) => x / TAU;
+function wpos(m, frac) {
+  const r = radOf(xOf(m, frac)), a = ang(frac);
+  return [r * Math.cos(a), -r * Math.sin(a)];
+}
+
+let W = 2, H = 2, dpr = 1;
+const ex = { Z: 40, vx: 0, vy: 0 };
+const SX = (wx) => W / 2 + (wx - ex.vx) * ex.Z;
+const SY = (wy) => H / 2 + (wy - ex.vy) * ex.Z;
+const WX = (sx) => (sx - W / 2) / ex.Z + ex.vx;
+const WY = (sy) => (sy - H / 2) / ex.Z + ex.vy;
+const outerR = () => radOf(layersShown - 0.5 + 1);
+const fitZ = () => (0.46 * Math.min(W, H)) / Math.max(1e-6, outerR());
+function fitView() { ex.Z = fitZ(); ex.vx = 0; ex.vy = 0; }
+
+// ---------- view state ----------
+let layersShown = 120;
+let colorBy = "prime";
+let hover = null, pinned = null;
+
+// ---------- drawing ----------
+function resize() {
+  dpr = Math.min(2, window.devicePixelRatio || 1);
+  W = stage.clientWidth; H = stage.clientHeight;
+  cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  requestDraw();
+}
+
+const WCOL = { 2: "#86a0ec", 3: "#6fd3a0", 5: "#c58cf0", 7: "#f07f6e", 11: "#5fc9d9" };
+const CUTS = [2, 3, 5, 7, 11];
+const GOLD = "#f0bf55", DIM = "#5b6687", FAR = "#7c86a6", RING = "#2a3355", SEAM = "#8f97b5";
+
+function cutOf(N) { for (const q of CUTS) if (N % q === 0) return q; return 0; }
+
+function tickColor(N) {
+  if (colorBy === "prime") return isP[N] ? GOLD : DIM;
+  if (isP[N]) return GOLD;
+  const q = cutOf(N);
+  return q ? WCOL[q] : FAR;
+}
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  const zf = Math.max(1, Math.min(8, ex.Z / fitZ()));
+
+  // concentric lap circles + seam
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = RING;
+  for (let m = 2; m <= layersShown; m++) {
+    const r = radOf(m - 0.5) * ex.Z;
+    if (r < 3) continue;
+    ctx.beginPath(); ctx.arc(W / 2 - ex.vx * ex.Z, H / 2 - ex.vy * ex.Z, r, 0, TAU); ctx.stroke();
+  }
+  {
+    const [sx0, sy0] = [SX(0), SY(-0.02)], [sx1, sy1] = [SX(0), SY(-(outerR() + 0.6))];
+    ctx.strokeStyle = "rgba(143,151,181,0.35)";
+    ctx.beginPath(); ctx.moveTo(sx0, sy0); ctx.lineTo(sx1, sy1); ctx.stroke();
+  }
+
+  // ticks, bucketed by color so each bucket is one fill
+  const buckets = new Map();
+  const wantLabels = [];
+  for (let m = 1; m <= layersShown; m++) {
+    const Lm = L[m], Bm = B[m];
+    const onLap = (TAU * radOf(xOf(m, 0.5)) * ex.Z) / Lm; // screen px between neighbours on this lap
+    const dot = Math.max(0.6, Math.min(6 * zf * 0.4 + 0.8, 0.32 * onLap));
+    for (let k = 1; k <= Lm; k++) {
+      const N = Bm + k;
+      if (N > sieveMax) continue;
+      const [wx, wy] = wpos(m, k / Lm);
+      const X = SX(wx), Y = SY(wy);
+      if (X < -8 || X > W + 8 || Y < -8 || Y > H + 8) continue;
+      const col = tickColor(N);
+      let b = buckets.get(col);
+      if (!b) { b = []; buckets.set(col, b); }
+      b.push(X, Y, dot);
+      if (onLap > 26 * zf && wantLabels.length < 1800) wantLabels.push(m, k, N, X, Y, wx, wy);
+    }
+  }
+  for (const [col, pts] of buckets) {
+    ctx.fillStyle = col;
+    ctx.beginPath();
+    for (let i = 0; i < pts.length; i += 3) {
+      const d = pts[i + 2];
+      if (d >= 1.6) { ctx.moveTo(pts[i] + d, pts[i + 1]); ctx.arc(pts[i], pts[i + 1], d, 0, TAU); }
+      else ctx.rect(pts[i] - d, pts[i + 1] - d, 2 * d, 2 * d);
+    }
+    ctx.fill();
+  }
+
+  // labels: number outside, ratio inside, both grow with zoom (tonight's fix)
+  if (wantLabels.length) {
+    const fs = Math.max(9, Math.min(15, 9 * zf));
+    ctx.font = `${fs}px ${FONT_DATA}`;
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    const cell = Math.max(26, 3.2 * fs);
+    const grid = new Set();
+    for (let i = 0; i < wantLabels.length; i += 7) {
+      const m = wantLabels[i], k = wantLabels[i + 1], N = wantLabels[i + 2], X = wantLabels[i + 3], Y = wantLabels[i + 4];
+      const key = Math.round(X / cell) + ":" + Math.round(Y / cell);
+      if (grid.has(key)) continue;
+      grid.add(key);
+      const a = ang(k / L[m]), ca = Math.cos(a), sa = -Math.sin(a);
+      const off = 6 * zf + 4;
+      ctx.fillStyle = "rgba(5,7,14,0.72)";
+      const tx = X + ca * off, ty = Y + sa * off;
+      const label = String(N), w2 = ctx.measureText(label).width / 2 + 3;
+      ctx.fillRect(tx - w2, ty - fs * 0.62, 2 * w2, fs * 1.24);
+      ctx.fillStyle = "#dfe3f0";
+      ctx.fillText(label, tx, ty);
+      if (zf > 2.2) {
+        const rr = k + "/" + L[m];
+        const rx = X - ca * off * 0.6, ry = Y - sa * off * 0.6;
+        ctx.fillStyle = "rgba(5,7,14,0.6)";
+        const w3 = ctx.measureText(rr).width / 2 + 3;
+        ctx.fillRect(rx - w3, ry - fs * 0.5, 2 * w3, fs);
+        ctx.fillStyle = "#8f97b5";
+        ctx.font = `${fs * 0.82}px ${FONT_DATA}`;
+        ctx.fillText(rr, rx, ry);
+        ctx.font = `${fs}px ${FONT_DATA}`;
+      }
+    }
+  }
+
+  // highlight hover / pinned
+  const mark = hover || pinned;
+  if (mark) {
+    const [m, k] = mark, Lm = L[m];
+    const [wx, wy] = wpos(m, k / Lm);
+    const X = SX(wx), Y = SY(wy);
+    ctx.strokeStyle = GOLD; ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.arc(X, Y, 7 * zf + 3, 0, TAU); ctx.stroke();
+    ctx.strokeStyle = "rgba(240,191,85,0.35)";
+    ctx.beginPath(); ctx.arc(X, Y, 11 * zf + 5, 0, TAU); ctx.stroke();
+  }
+}
+
+// ---------- hit-testing: invert wpos by scanning the lap ----------
+function whereIs(sx, sy) {
+  const wx = WX(sx), wy = WY(sy);
+  const r = Math.hypot(wx, wy);
+  // lap m occupies radii [(m-0.5)/TAU, (m+0.5)/TAU]; the epsilon keeps k=L[m] (exactly on the outer edge) in its own lap
+  const m = Math.max(1, Math.min(layersShown, Math.round(r * TAU - 1e-9)));
+  const Lm = L[m];
+  // invert ang(frac) = -π/2 + TAU·frac with y = -r·sin(a)
+  const a = Math.atan2(-wy, wx);
+  const frac = ((a + Math.PI / 2) / TAU % 1 + 1) % 1;
+  let k = Math.round(frac * Lm);
+  if (k === 0) k = Lm;
+  const hitR = radOf(xOf(m, k / Lm));
+  if (Math.abs(hitR - r) > 0.75) return null;
+  return [m, k];
+}
+
+// ---------- readout ----------
+function factorBits(N) {
+  const bits = [];
+  for (const q of CUTS) if (N % q === 0) bits.push(q);
+  return bits;
+}
+function describe(m, k) {
+  const N = B[m] + k;
+  const g = gcd(k, L[m]);
+  const frac = k + "/" + L[m] + (g > 1 ? ` (= ${k / g}/${L[m] / g})` : "");
+  const p = isP[N];
+  let s = `layer ${m}, tick ${k} of ${L[m]} · ${frac} · N = ${N} — `;
+  if (p) s += "PRIME";
+  else {
+    const bits = factorBits(N);
+    s += "composite";
+    if (bits.length) s += ` · divisible by ${bits.join(", ")}`;
+  }
+  s += ` · gcd(k, lap) = ${g}`;
+  return s;
+}
+const gcd = (a, b) => (b ? gcd(b, a % b) : a);
+
+function updateStats() {
+  let total = 0, primes = 0, lastPrime = 0;
+  for (let m = 1; m <= layersShown; m++) for (let k = 1; k <= L[m]; k++) {
+    const N = B[m] + k;
+    if (N <= sieveMax) { total++; if (isP[N]) { primes++; lastPrime = N; } }
+  }
+  $("stats").innerHTML =
+    `<span>lap : layer</span><b>${fmtRatio(ratio)}</b>` +
+    `<span>ticks drawn</span><b>${total.toLocaleString()}</b>` +
+    `<span>primes among them</span><b>${primes.toLocaleString()}</b>` +
+    `<span>largest prime shown</span><b>${lastPrime.toLocaleString()}</b>`;
+  now.textContent = hover ? describe(...hover) : pinned ? describe(...pinned) :
+    `lap m brings round(m·${ratio}) ticks — ${fmtRatio(ratio)} — ${layersShown} laps, seam at top`;
+}
+const fmtRatio = (r) => {
+  for (const d of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]) {
+    const n = r * d;
+    if (Math.abs(n - Math.round(n)) < 1e-9) return `${Math.round(n)} : ${d}`;
+  }
+  return `${r.toFixed(2)} : 1`;
+};
+
+// ---------- controls ----------
+function requestDraw() {
+  buildSieve(B[Math.min(layersShown, MAXM) + 1] || 1024);
+  draw();
+  updateStats();
+}
+function setRatio(r, fromChip) {
+  ratio = Math.max(0.2, Math.min(6, r));
+  $("ratio").value = ratio;
+  $("ratioOut").textContent = fmtRatio(ratio);
+  document.querySelectorAll("#ratioPresets button").forEach((b) => b.setAttribute("aria-pressed", String(parseFloat(b.dataset.r) === ratio)));
+  const top = buildLaps();
+  buildSieve(top);
+  requestDraw();
+}
+$("ratio").addEventListener("input", (e) => setRatio(parseFloat(e.target.value)));
+{
+  const presets = [0.25, 0.5, 1 / 1.1, 1, 1.1, 2, 3, 4, 6];
+  const names = ["1:4", "1:2", "1:1.1", "1:1", "1.1:1", "2:1", "3:1", "4:1", "6:1"];
+  const box = $("ratioPresets");
+  presets.forEach((r, i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.textContent = names[i]; b.dataset.r = r;
+    b.setAttribute("aria-pressed", String(r === 1));
+    b.addEventListener("click", () => setRatio(r));
+    box.appendChild(b);
+  });
+}
+$("layers").addEventListener("input", (e) => {
+  layersShown = parseInt(e.target.value, 10);
+  $("layersOut").textContent = layersShown;
+  requestDraw();
+});
+$("colorBy").addEventListener("change", (e) => { colorBy = e.target.value; buildLegend(); requestDraw(); });
+
+function buildLegend() {
+  const el = $("legend");
+  el.innerHTML = "";
+  const items = colorBy === "prime"
+    ? [[GOLD, "prime"], [DIM, "composite"]]
+    : [[GOLD, "prime (no small wheel cuts it)"], ...CUTS.map((q) => [WCOL[q], `cut by ${q} — divisible by ${q}`]), [FAR, "composite, cut by nothing ≤ 11"]];
+  for (const [c, t] of items) {
+    const i = document.createElement("i"); i.style.background = c;
+    const s = document.createElement("span"); s.textContent = t;
+    el.appendChild(i); el.appendChild(s);
+  }
+}
+
+// ---------- pointer ----------
+let drag = null;
+cv.addEventListener("pointerdown", (e) => {
+  cv.setPointerCapture(e.pointerId);
+  drag = { x: e.clientX, y: e.clientY, vx: ex.vx, vy: ex.vy, moved: false };
+  cv.classList.add("drag");
+});
+cv.addEventListener("pointermove", (e) => {
+  const r = cv.getBoundingClientRect(), sx = e.clientX - r.left, sy = e.clientY - r.top;
+  if (drag) {
+    const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+    if (Math.abs(dx) + Math.abs(dy) > 3) drag.moved = true;
+    ex.vx = drag.vx - dx / ex.Z; ex.vy = drag.vy - dy / ex.Z;
+    requestDraw();
+    return;
+  }
+  const hit = whereIs(sx, sy);
+  const changed = JSON.stringify(hit) !== JSON.stringify(hover);
+  hover = hit;
+  if (changed) requestDraw();
+  else if (hit) now.textContent = describe(...hit);
+});
+cv.addEventListener("pointerup", (e) => {
+  cv.classList.remove("drag");
+  if (drag && !drag.moved) {
+    const r = cv.getBoundingClientRect();
+    pinned = whereIs(e.clientX - r.left, e.clientY - r.top);
+    requestDraw();
+  }
+  drag = null;
+});
+cv.addEventListener("pointerleave", () => { if (!drag) { hover = null; requestDraw(); } });
+cv.addEventListener("wheel", (e) => {
+  e.preventDefault();
+  const r = cv.getBoundingClientRect(), sx = e.clientX - r.left, sy = e.clientY - r.top;
+  const f = Math.exp(-e.deltaY * 0.0016);
+  const wx = WX(sx), wy = WY(sy);
+  ex.Z = Math.max(2, Math.min(4000, ex.Z * f));
+  ex.vx = wx - (sx - W / 2) / ex.Z;
+  ex.vy = wy - (sy - H / 2) / ex.Z;
+  requestDraw();
+}, { passive: false });
+cv.addEventListener("dblclick", () => fitView());
+window.addEventListener("keydown", (e) => { if (e.key === "0") { fitView(); requestDraw(); } });
+window.addEventListener("resize", resize);
+
+// ---------- go ----------
+buildLaps();
+buildLegend();
+resize();
+fitView();
+setRatio(1);
+</script>
+</body>
+</html>
