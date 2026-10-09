@@ -752,3 +752,24 @@ the hit list at layer m is a subset of the eligible fractions k/m —
 gcd(k,m)=1 plus the m=2 mod 4 parity escape — each hit a reduced ratio with
 denominator = current lap. The ratios are not the prediction; the ratios are
 the eligibility filter the sieve then thins.
+
+---
+
+## 2026-10-09 night — claim audit: "999999/1000000 at l=1000000 is prime" [S → REFUTED, F]
+
+Sylvan: the ratio 999999/1000000 at lap m=1000000 decomposes to a
+prime without checking. The identity decides it before any test:
+k = m−1 is the dead rim column — N = T(m−1)+(m−1) = (m−1)(m+2)/2,
+composite at EVERY layer m >= 4 (same forced-composite family as k=m).
+
+  N = 500,000,499,999 = 999999 × 500001 = 3^4 · 7 · 11 · 13 · 37 · 166667
+  isprime: False. Rim audit at this lap: k = 999997,999998,999999,1000000
+  all composite.
+
+What the lap actually pays nearby: 500,000,499,959 = ratio 999959/1000000
+(prime, same lap), and 500,000,500,001 = T(10^6)+1 = opening tick of lap
+1000001 (prime — an opening-tick coin that paid this time).
+
+Lesson restated: fixed fractions are gears, not promises. The predictable
+columns are the DEAD ones (k = m−1, k = m, gcd >= 2 columns); primality
+at an eligible column is exactly the coin the sieve still flips.
