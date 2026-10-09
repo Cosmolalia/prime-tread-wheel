@@ -603,3 +603,40 @@ first, then measure.
 - Calm-slope derivation (above), pre-registered.
 - Fold layers 52-63 firsts into the Platonic Map far-jump chart.
 - Sub-Poisson hint, tested properly (many more columns, pre-registered).
+
+---
+
+## 2026-10-09 morning — Sylvan's "inference locus" image (transformer bridge) [S]
+
+Stated hypothesis, not a result. Image: wheel center = inference locus; each prime =
+a thing visible from the center, irreducible to it; following non-primes = data about
+that thing, known but unseen until the vector is followed; center sees all primes at
+once; blocked positions set by other primes via each prime's address.
+
+Mechanism translation (what maps exactly):
+- [F] Visible set = uncovered ticks; center "sees" by ABSENCE of shadow (darkness-reader;
+  dual to every prior presence-based picture: cups/rainbows/mouths/strikers).
+- [F] Covered ticks are ATTRIBUTED: CRT gives joint coverage pattern of addresses p,q
+  period pq; data about p accumulates along its shadow's orbit (one position per lap).
+- [F] Economy: each prime p occludes fraction exactly 1/p of the field; visible density
+  = prod(1-1/p) = e^-gamma/ln m — Mertens; per-lap U(m)/m probe tracked it (med 0.96).
+- [F] Addresses move: the occlusion field is a moving moire, re-syncs only at LCM horizon.
+- New graded structure: coverage multiplicity (roughly Poisson, mean ~ ln ln m);
+  primes = multiplicity zero. Was not on the map before.
+
+Load-bearing flaw (the wall, same place): the center cannot distinguish "irreducible"
+from "merely not yet covered" — uncovered set = all primes + sea of composites.
+[F] Coverage is cheap (one congruence/address); certification is value-side and costly.
+The image fails exactly where the wheel fails — point in its favor as a model.
+
+[G] Transformer-side connector: in the wheel an address = periodic residue class
+(ocludes a fixed fraction with exact period p). What, if anything, plays periodicity
+in a real network's address system? Left open, not renamed.
+
+Discriminating observation if pushed: a system with residue-class-like addresses should
+show Mertens-shaped decay of its surprise/new-observation rate (slope -1 in the right
+log coords). Would separate metaphor from shared mechanism.
+
+Adjacent (analogy only, not imported): orthogonal arrays; sliding-periodic moire
+(Mirsky-Newman already imported from that shelf); retrieval-vs-compression attention
+interpretability literature.
