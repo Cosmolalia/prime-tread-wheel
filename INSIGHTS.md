@@ -643,23 +643,38 @@ interpretability literature.
 
 ---
 
-## 2026-10-09 midday — the lens names the wall's exact shape [F]
+## 2026-10-09 midday — "only primes are visible": SYLVAN'S CLAIM CONFIRMED,
+## and the previous version of this entry RETRACTED [F, exact]
 
 Screenshot (wheel.html, "Primes alone" lens): only primes visible to the center,
-every composite blocked. Sharp version:
+every composite blocked. Sylvan's claim: no semiprime can ever be visible,
+because coverage is divisibility and the lap is too short to hide a composite.
 
-- The "Primes alone" view is VALUE-side: the app tests primality directly.
-- Pattern-side, the visible set is exact: tick k is uncovered at layer m
-  iff N = T(m-1)+k has no prime factor <= m ("m-rough").
-- Since N <= m^2/2, the m-rough numbers are: primes, plus semiprimes pq
-  with m < p <= q. So visible = primes + the m-rough semiprime sea.
-- Corollary [F]: a composite is UNBLOCKABLE by the address system iff all
-  its prime factors exceed m. No ring is big enough to reach it.
-- So the gap between the two pictures is not a vague haze — it is exactly
-  the semiprime channel p*q, both factors > m, below T(m) ~ m^2/2.
-  That is also precisely trial division's blind spot: certification of
-  these composites requires a factoring act, not a coverage act.
+RETRACTION (same day, one hour later): this entry first claimed a "semiprime
+channel" — composites pq with both factors > m sitting below T(m) ~ m^2/2.
+That is arithmetically impossible: p > m and q >= p gives pq > m^2 > T(m).
+The channel is EMPTY. Audited: laps 2..2000, 149,001 uncovered ticks, ZERO
+non-prime uncovered; zero prime-but-covered except the trivial self-cover of
+prime p <= m by its own ring (m=2, N=2). Coverage and audit were computed by
+independent paths (residue union vs sympy).
 
-The inference-locus image's "center reads darkness" now has an exact
-residue list: the darkness contains primes AND m-rough semiprimes, and
-telling them apart is the whole [G].
+THE EXACT THEOREM [F, trivial]:
+- Tick k at layer m is covered iff N = T(m-1)+k is divisible by some prime
+  p <= m. (Ring p's address is exactly the multiples of p — one residue
+  class, turning-independent in divisibility terms for the realized turn.)
+- Composite N <= T(m) has a factor <= sqrt(N) <= sqrt(T(m)) < m  (m >= 2).
+- Therefore: uncovered  =>  N is m-rough  =>  N is prime.
+- Visible set at layer m = the primes of the lap, exactly = the center reads
+  darkness and the darkness contains ONLY irreducibles. Sylvan: "it IS a
+  physical geometric sieve" — CONFIRMED. Each layer m certifies primality of
+  numbers up to ~m^2/2 using witnesses <= m: the wheel at layer m IS the
+  sqrt(N) sieve rendered as occlusion. No value-side act needed for
+  primality WITHIN the lap; only fidelity of the realized rotation (the
+  parent conjecture, standing) and the alignment-space questions (J1c,
+  halves-claim walk-dependence, standing).
+
+Where value genuinely still enters: (1) the mouth/shadow-map context — there
+the width W (e.g. 766) is far below the local m, so W-rough semiprimes DO
+exist and the 74% semiprime fraction stands (different object, unaffected);
+(2) verifying that a physical wheel's rotation actually realizes the
+addresses. But "uncovered might be composite" is dead as a wall.
