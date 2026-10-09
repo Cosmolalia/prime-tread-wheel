@@ -2189,23 +2189,25 @@ details summary { cursor: pointer; }
     }
     if (look.showLabels && !G.rim && !G.fx) { // numbers once there is room for them
       g.globalAlpha = 1; g.textAlign = "center"; g.textBaseline = "middle";
-      g.font = `${10 * dpr}px ${FONT_DATA}`;
+      const zf = Math.min(8, Math.max(1, Z / fitZ())); // zoom factor: labels grow with zoom so they stay readable
+      const L = (px) => px * dpr * zf;
+      g.font = `${L(10)}px ${FONT_DATA}`;
       let count = 0;
       for (let m = G.lo; m <= G.hi && count < 600; m++) { // layer numbers, just before the seam
-        if (!shown(m) || !onScreen(m) || layerGap(m) < 14 * dpr) continue;
-        const t = String(m), w = g.measureText(t).width + 6 * dpr;
+        if (!shown(m) || !onScreen(m) || layerGap(m) < L(14)) continue;
+        const t = String(m), w = g.measureText(t).width + L(6);
         let X, Y;
-        if (G.cyl) { X = SX(-G.Wd / 2) - w / 2 - 4 * dpr; Y = SY(cylY(m - 0.5)); } // in the margin, left of the band
+        if (G.cyl) { X = SX(-G.Wd / 2) - w / 2 - L(4); Y = SY(cylY(m - 0.5)); } // in the margin, left of the band
         else {
-          const r = radOf(xOf(m, 1)), a = ang(1) + G.turn - ((G.flt ? primeDotSize(m) : dotSize(m)) + 5 * dpr + w / 2) / Math.max(1e-6, r * Z);
+          const r = radOf(xOf(m, 1)), a = ang(1) + G.turn - ((G.flt ? primeDotSize(m) : dotSize(m)) + L(5) + w / 2) / Math.max(1e-6, r * Z);
           X = SX(r * Math.cos(a)); Y = SY(-r * Math.sin(a));
         }
         if (X < -30 || X > W + 30 || Y < -30 || Y > H + 30) continue;
-        g.fillStyle = C.night; g.globalAlpha = 0.75; g.fillRect(X - w / 2, Y - 7 * dpr, w, 14 * dpr);
+        g.fillStyle = C.night; g.globalAlpha = 0.75; g.fillRect(X - w / 2, Y - L(7), w, L(14));
         g.globalAlpha = 1; g.fillStyle = primeLayer[m] ? C.nw : C.text; g.fillText(t, X, Y);
         count++;
       }
-      g.font = `${9 * dpr}px ${FONT_DATA}`;
+      g.font = `${L(9)}px ${FONT_DATA}`;
       let tcount = G.flt ? 2500 : 0; // with the numbers thinned out, each shown number's own value is the label instead (below)
       for (let m = G.lo; m <= G.hi && tcount < 2500; m++) { // each tick's line, as a fraction in lowest terms
         if (!shown(m) || !onScreen(m) || tickGap(m) < 40 * dpr || layerGap(m) < 18 * dpr) continue;
@@ -2215,21 +2217,21 @@ details summary { cursor: pointer; }
           if (!tickWanted(gg)) continue;
           const fr = k / m, [wx, wy] = wpos(m, fr), X = SX(wx), Y = SY(wy);
           if (X < -20 || X > W + 20 || Y < -20 || Y > H + 20) continue;
-          const a = G.cyl ? Math.PI / 2 : ang(fr) + G.turn, off = d + 9 * dpr; // on the drum, just above the tick
+          const a = G.cyl ? Math.PI / 2 : ang(fr) + G.turn, off = d + L(9); // on the drum, just above the tick
           g.fillStyle = gg === 1 ? C.text : C.muted;
           g.fillText(`${k / gg}/${b}`, X + Math.cos(a) * off, Y - Math.sin(a) * off);
-          g.fillStyle = C.text; g.font = `${8 * dpr}px ${FONT_DATA}`;
-          g.fillText(String(T(m - 1) + k), X + Math.cos(a) * (off + 10 * dpr), Y - Math.sin(a) * (off + 10 * dpr));
-          g.font = `${9 * dpr}px ${FONT_DATA}`;
+          g.fillStyle = C.text; g.font = `${L(8)}px ${FONT_DATA}`;
+          g.fillText(String(T(m - 1) + k), X + Math.cos(a) * (off + L(10)), Y - Math.sin(a) * (off + L(10)));
+          g.font = `${L(9)}px ${FONT_DATA}`;
           tcount++;
         }
       }
       if (G.flt) { // each shown number, once there is room, never on top of another
-        g.font = `${9.5 * dpr}px ${FONT_DATA}`;
-        const cell = 8 * dpr, used = new Set();
+        g.font = `${L(9.5)}px ${FONT_DATA}`;
+        const cell = L(8), used = new Set();
         let pc = 0;
         for (let m = G.lo; m <= G.hi && pc < 1500; m++) {
-          if (!shown(m) || !onScreen(m) || layerGap(m) < 12 * dpr) continue;
+          if (!shown(m) || !onScreen(m) || layerGap(m) < L(12)) continue;
           const d = primeDotSize(m), b0 = T(m - 1), f = found[m];
           for (let k = 1; k <= m && pc < 1500; k++) {
             const x = b0 + k;
@@ -2237,9 +2239,9 @@ details summary { cursor: pointer; }
             const fr = k / m, [wx, wy] = wpos(m, fr), X = SX(wx), Y = SY(wy);
             if (X < -40 || X > W + 40 || Y < -20 || Y > H + 20) continue;
             const t = String(x), w = g.measureText(t).width, a = G.cyl ? 0 : ang(fr) + G.turn, ca = Math.cos(a), sa = -Math.sin(a);
-            const off = d + 3 * dpr + Math.abs(ca) * (w / 2) + Math.abs(sa) * 6 * dpr; // just outside the dot, away from the hub
+            const off = d + L(3) + Math.abs(ca) * (w / 2) + Math.abs(sa) * L(6); // just outside the dot, away from the hub
             const LX = X + ca * off, LY = Y + sa * off;
-            const c0 = Math.floor((LX - w / 2) / cell), c1 = Math.floor((LX + w / 2) / cell), r0 = Math.floor((LY - 6 * dpr) / cell), r1 = Math.floor((LY + 6 * dpr) / cell);
+            const c0 = Math.floor((LX - w / 2) / cell), c1 = Math.floor((LX + w / 2) / cell), r0 = Math.floor((LY - L(6)) / cell), r1 = Math.floor((LY + L(6)) / cell);
             let free = true;
             for (let cc = c0; cc <= c1 && free; cc++) for (let rr = r0; rr <= r1; rr++) if (used.has(cc * 9973 + rr)) { free = false; break; }
             if (!free) continue;
