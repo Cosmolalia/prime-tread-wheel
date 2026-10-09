@@ -2218,6 +2218,9 @@ details summary { cursor: pointer; }
           const a = G.cyl ? Math.PI / 2 : ang(fr) + G.turn, off = d + 9 * dpr; // on the drum, just above the tick
           g.fillStyle = gg === 1 ? C.nw : C.muted;
           g.fillText(`${k / gg}/${b}`, X + Math.cos(a) * off, Y - Math.sin(a) * off);
+          g.fillStyle = C.text; g.font = `${8 * dpr}px ${FONT_DATA}`;
+          g.fillText(String(T(m - 1) + k), X + Math.cos(a) * (off + 10 * dpr), Y - Math.sin(a) * (off + 10 * dpr));
+          g.font = `${9 * dpr}px ${FONT_DATA}`;
           tcount++;
         }
       }
