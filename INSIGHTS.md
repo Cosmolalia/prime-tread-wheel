@@ -678,3 +678,51 @@ the width W (e.g. 766) is far below the local m, so W-rough semiprimes DO
 exist and the 74% semiprime fraction stands (different object, unaffected);
 (2) verifying that a physical wheel's rotation actually realizes the
 addresses. But "uncovered might be composite" is dead as a wall.
+
+---
+
+## 2026-10-09 evening — the column law: rational poles are prime-deserts BY ALGEBRA [F, audited]
+
+Sylvan, close-look at 680 layers (screenshots): the radial columns are rational
+poles labeled k/m; "the 2-prime rows bottom out"; primes sit in the gaps and
+"snake between"; "we can predict a prime along those center poles."
+
+THE COLUMN LAW. A prime N = T(m-1)+k can occur ONLY if gcd(k,m) = 1, or the
+parity escape gcd = 2 with m ≡ 2 (mod 4). One line: d = gcd(k,m) odd divides
+both m(m-1)/2 and k hence N; d even >= 4 gives (d/2) | N; d = 2 kills N by
+parity unless m ≡ 2 mod 4 (m/2 and m-1 both odd -> T(m-1) odd -> N odd).
+Audited m = 2..3000: 0 exceptions beyond the (m=2,k=2,N=3) edge.
+
+Consequences:
+- Every rational pole is composite at ALL depths (beyond its innermost point)
+  with NO occlusion needed. The dense bright columns are dense with composites.
+  "The 2-prime rows bottom" is exact: all gcd>=2 columns bottom forever; the
+  only resurrection is the m ≡ 2 mod 4 parity escape (m=6: 17, 19; m=10:
+  47, 53; m=14: 97, 101, 103), where the even-k columns carry exactly 2x the
+  prime density of coprime columns [E: 0.1734 vs 0.0866, laps 3..3000] —
+  the mechanism is purely the parity filter (odd-by-construction).
+- Eligibility is exactly predictable forever, for free: WHICH columns can
+  hold primes is a gcd law, no value test, no per-ring work. This is the
+  seats: phi(m) coprime ticks per lap = the wheel's habitat, and this
+  morning's theorem (uncovered <=> prime within the lap) closes the loop:
+  eligibility (algebra) + non-occlusion (addresses) = exact primality.
+- Census, laps 3..3000, 316,048 primes: 100% in eligible columns. 0 violations.
+- RELOCATION (C4): followed every prime to the next layer's same angular
+  column: 0.1413 vs 0.2289 random expectation — ANTI-correlated. The prime
+  does NOT follow its column; it jumps. What IS predictable is where the
+  SHADOWS will be (addresses shift by -m mod p each lap, periodic between
+  prime-layers). The primes are the negative space of a predictable moire;
+  predicting the moire is free, predicting the negative space is the sieve.
+- STRIP ENRICHMENT (C5, measurement only): eligible ticks within 1.5 ticks of
+  a low-denominator pole (b<=12) carry 0.1176 vs 0.1079 far — a 1.09x lean,
+  real but small; ~81% of primes live far from any strip. The strips' visual
+  dominance is candidate DENSITY (columns stack many ticks per screen column),
+  not prime concentration. The strip heart (the exact pole) is 100% dead.
+
+Open: the anti-correlation mechanism (C4) — primes avoid their own column's
+next-lap position at 0.62x chance. Descriptive only. Honest ceiling of
+"predictable": the wheel predicts WHERE primes may sit (columns, gaps, parity
+laps) exactly and forever; WHETHER a given lap rewards a given column is
+exactly the sieve's remaining work — no free lunch, but a geometric certificate.
+
+Probe: probes/column_law.py (calls pre-written, results above).
