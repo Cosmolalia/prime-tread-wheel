@@ -1,0 +1,695 @@
+<title>The Donut View</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Spectral:wght@500;600&display=swap">
+<style>
+/* The Donut View: what a counting creature in 4D sees. Two turning planes = two clocks at once, so the count winds a
+   knot around a donut. Dark only, like its sibling pages (Prime Tread Wheel, The Platonic Map, Geometric Math Globe). */
+:root {
+  --night: #05070d; --plot: #070b16; --panel: #0a0f1b; --line: #232b46; --ring: #3b4979; --grid: #161d33;
+  --text: #dfe3f0; --muted: #8f97b5; --gold: #f0bf55; --blue: #86a0ec; --cream: #ecdfc0;
+  --k1: #3987e5; --k2: #d95926; --k3: #199e70;
+  --font-display: "Spectral", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --night: #05070d; --plot: #070b16; --panel: #0a0f1b; --line: #232b46; --ring: #3b4979; --grid: #161d33;
+    --text: #dfe3f0; --muted: #8f97b5; --gold: #f0bf55; --blue: #86a0ec; --cream: #ecdfc0;
+    --k1: #3987e5; --k2: #d95926; --k3: #199e70; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --night: #05070d; --plot: #070b16; --panel: #0a0f1b; --line: #232b46; --ring: #3b4979; --grid: #161d33;
+  --text: #dfe3f0; --muted: #8f97b5; --gold: #f0bf55; --blue: #86a0ec; --cream: #ecdfc0;
+  --k1: #3987e5; --k2: #d95926; --k3: #199e70; color-scheme: dark;
+}
+html, body { height: 100%; }
+body { margin: 0; background: var(--night); color: var(--text); font-family: var(--font-body); font-size: 14px; line-height: 1.5; }
+.app { height: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 380px; }
+.stage { position: relative; min-height: 0; min-width: 0; overflow: hidden; background: radial-gradient(circle at 50% 55%, #0e1530 0%, var(--night) 70%); }
+#cv { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; cursor: grab; }
+#cv.dragging { cursor: grabbing; }
+.mast { position: absolute; z-index: 2; top: 0; left: 0; max-width: 46ch; padding-inline: 20px; padding-block: 14px 0; display: flex; flex-direction: column; gap: 4px; pointer-events: none; }
+.mast h1 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.35rem, 1.05rem + 1vw, 1.9rem); line-height: 1.2; text-shadow: 0 0 6px var(--night); }
+.mast p { margin: 0; color: var(--muted); font-size: 0.82rem; text-shadow: 0 0 4px var(--night); }
+.stagebar { position: absolute; z-index: 3; top: 12px; right: 12px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; max-width: 58%; }
+.stagebar .seg { display: flex; gap: 6px; flex-wrap: wrap; }
+.stagebar button { background: rgba(10, 15, 27, 0.9); }
+.now { position: absolute; left: 0; right: 0; bottom: 0; padding-inline: 20px; padding-block: 18px 10px; font-family: var(--font-data); font-size: 0.78rem; color: var(--muted); font-variant-numeric: tabular-nums; pointer-events: none; min-height: 1.5em; background: linear-gradient(rgba(5, 7, 13, 0), rgba(5, 7, 13, 0.85) 45%); }
+.now b { color: var(--text); font-weight: 500; }
+.g { color: var(--gold); } .b { color: var(--blue); } .c { color: var(--cream); }
+.panel { min-width: 0; min-height: 0; overflow-y: auto; background: var(--panel); border-left: 1px solid var(--line); padding-inline: 18px; padding-block: 16px; display: flex; flex-direction: column; gap: 20px; }
+.group { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+button { font: inherit; font-size: 0.82rem; font-weight: 500; color: var(--text); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+button:hover { border-color: var(--muted); }
+button.primary { background: var(--gold); border-color: var(--gold); color: var(--night); }
+button[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); }
+button:disabled { opacity: 0.4; cursor: default; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips button { padding: 3px 10px; font-size: 0.76rem; font-family: var(--font-data); }
+input[type="number"] { font: inherit; font-family: var(--font-data); font-size: 0.85rem; color: var(--text); background: var(--night); border: 1px solid var(--line); border-radius: 8px; padding: 5px 8px; width: 5em; min-width: 0; }
+input[type="range"] { width: 100%; accent-color: var(--gold); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+#cv:focus-visible { outline-offset: -3px; }
+.note { margin: 0; color: var(--muted); font-size: 0.82rem; }
+.note b { color: var(--text); font-weight: 500; }
+.verdict { margin: 0; font-family: var(--font-display); font-size: 1.02rem; line-height: 1.42; text-wrap: pretty; }
+.verdict b { font-weight: 600; }
+.keys { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 7px 8px; align-items: start; font-size: 0.8rem; color: var(--muted); }
+.sw { width: 18px; height: 14px; border-radius: 3px; margin-top: 2px; box-shadow: inset 0 0 0 1px rgba(143, 151, 181, 0.28); }
+.sw.open { background: #b8913f; }
+.sw.ca { background: #4d68c4; }
+.sw.cb { background: #2f7f93; }
+.sw.cab { background: #1c2547; }
+.sw.knot { background: linear-gradient(135deg, transparent 0 44%, var(--cream) 44% 56%, transparent 56% 100%); }
+.sw.mark { background: radial-gradient(circle, var(--text) 0 32%, transparent 36%); }
+.finds { margin: 0; padding-left: 1.9em; display: flex; flex-direction: column; gap: 12px; }
+.finds li { color: var(--muted); font-size: 0.82rem; }
+.finds li b { color: var(--text); font-weight: 500; }
+.finds li button { margin-top: 6px; padding: 3px 12px; font-size: 0.76rem; }
+.finds li .tag { font-family: var(--font-data); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); margin-left: 6px; }
+.facts { border-top: 1px solid var(--line); padding-top: 12px; }
+.facts p { margin: 0; color: var(--muted); font-size: 0.8rem; }
+.facts p + p { margin-top: 8px; }
+.facts b { color: var(--text); font-weight: 500; }
+.facts a, .note a { color: var(--text); }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.76rem; color: var(--muted); }
+.lk { display: inline-block; width: 16px; height: 0; border-top: 2px solid; vertical-align: 3px; margin-right: 6px; }
+.chartwrap { position: relative; min-width: 0; }
+.chartwrap canvas { width: 100%; height: 230px; display: block; border: 1px solid var(--line); border-radius: 6px; background: var(--plot); touch-action: pan-y; }
+.tip { position: absolute; top: 0; left: 0; display: none; pointer-events: none; background: rgba(10, 15, 27, 0.97); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 0.74rem; color: var(--muted); min-width: 160px; max-width: 240px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45); }
+.tip .h { color: var(--text); font-weight: 500; margin-bottom: 4px; }
+.tip .r { display: flex; align-items: baseline; gap: 8px; margin-top: 2px; }
+.tip .v { font-family: var(--font-data); color: var(--text); font-weight: 500; min-width: 2.8em; font-variant-numeric: tabular-nums; }
+.tip .k { display: inline-block; width: 12px; height: 0; border-top: 2px solid; vertical-align: 3px; flex: none; }
+details.tablev summary { cursor: pointer; color: var(--muted); font-size: 0.8rem; width: fit-content; }
+.tablewrap { max-height: 300px; overflow: auto; border: 1px solid var(--line); border-radius: 6px; margin-top: 8px; }
+table { border-collapse: collapse; font-family: var(--font-data); font-size: 0.72rem; font-variant-numeric: tabular-nums; width: 100%; }
+th, td { padding: 4px 8px; text-align: right; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+th { position: sticky; top: 0; background: var(--panel); color: var(--muted); font-weight: 500; font-family: var(--font-body); font-size: 0.7rem; }
+td { color: var(--text); }
+.howto { display: none; }
+@media (max-width: 760px) {
+  html, body { height: auto; }
+  .app { height: auto; grid-template-columns: minmax(0, 1fr); }
+  .stage { height: 72vh; min-height: 420px; }
+  .mast p { display: none; }
+  .howto { display: block; }
+  .panel { border-left: 0; border-top: 1px solid var(--line); overflow: visible; padding-inline: 16px; }
+  .stagebar { top: 52px; left: 16px; right: 16px; max-width: none; justify-content: flex-start; }
+  .stagebar button { padding: 5px 11px; font-size: 0.78rem; }
+  .mast, .now { padding-inline: 16px; }
+}
+</style>
+
+<div class="app" id="app">
+  <main class="stage" id="stage">
+    <canvas id="cv" tabindex="0" role="img" aria-label="A torus, the shape a 4D counting creature winds numbers onto. Its long way around is one clock, its short way around is a second clock, and every number sits on both at once. The cells where neither clock is at a shared factor are gold; the count is a line winding around the torus like a knot. Drag to turn it."></canvas>
+    <header class="mast" id="mast">
+      <h1>The Donut View</h1>
+      <p id="mastText">A 4D creature turns two planes at once, so it counts on two clocks at once. The numbers wind a knot around a donut, and every number sits on both clocks.</p>
+    </header>
+    <div class="stagebar" id="stagebar">
+      <div class="seg" role="group" aria-label="View">
+        <button type="button" id="vDonut" aria-pressed="true">Donut</button>
+        <button type="button" id="vFlat" aria-pressed="false">Unrolled</button>
+      </div>
+      <div class="seg">
+        <button type="button" id="bCount" class="primary">Let it count</button>
+      </div>
+    </div>
+    <div class="now" id="now" aria-hidden="true"></div>
+  </main>
+
+  <aside class="panel" aria-label="Controls and findings">
+    <p class="note howto" id="howto"></p>
+
+    <div class="group">
+      <div class="label">Reading the donut</div>
+      <div class="keys">
+        <span class="sw open"></span><span>An <b class="g">open cell</b>: neither clock shares a factor with the numbers there. Every prime past the clocks' own factors lands in one.</span>
+        <span class="sw ca"></span><span>Closed by the first clock (the long way around).</span>
+        <span class="sw cb"></span><span>Closed by the second clock (the short way around the tube).</span>
+        <span class="sw cab"></span><span>Closed by both.</span>
+        <span class="sw knot"></span><span>The count: one step moves both clocks one notch, so it winds around like a knot.</span>
+        <span class="sw mark"></span><span>Where the count is now.</span>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="label">Clocks</div>
+      <div class="row">
+        <label class="note" for="aIn">First</label><input type="number" id="aIn" min="2" max="40" value="5">
+        <label class="note" for="bIn">Second</label><input type="number" id="bIn" min="2" max="41" value="6">
+        <button type="button" id="abGo">Set</button>
+      </div>
+      <div class="chips" id="presets" role="group" aria-label="Clock presets"></div>
+      <p class="verdict" id="clockText" aria-live="polite"></p>
+    </div>
+
+    <div class="group">
+      <div class="label">4D tread wheel</div>
+      <p class="note">Both clocks grow by one each layer: layer m is one full lap of clocks m and m+1, so it holds m × (m+1) numbers.</p>
+      <div class="row">
+        <button type="button" id="lPrev" aria-label="Previous layer">◀</button>
+        <input type="number" id="lIn" min="2" max="40" value="7" aria-label="Layer">
+        <button type="button" id="lNext" aria-label="Next layer">▶</button>
+        <button type="button" id="lGo">Show it</button>
+      </div>
+      <p class="verdict" id="layerText" aria-live="polite"></p>
+    </div>
+
+    <div class="group" id="chartGroup">
+      <div class="label">Could the rings wipe out a layer?</div>
+      <p class="note">For each layer of each wheel: the most numbers in a row its deciding rings could cover, turned any way (ring 2 kept on the evens), divided by the layer's width. Above 1, some turning wipes the layer out. Across: the size of the numbers, on a log scale.</p>
+      <div class="legend" id="legend"></div>
+      <div class="chartwrap">
+        <canvas id="ch" tabindex="0" role="img" aria-label="Line chart against the size of the numbers on a log scale. One clock, our wheel: the share rises above 1 by about 800 and reaches about 2.4. Two clocks, the 4D wheel: stays below 1, about 0.26 at 75,000. Three clocks: below 0.1."></canvas>
+        <div class="tip" id="tip"></div>
+      </div>
+      <p class="note" id="chartNote"></p>
+      <details class="tablev"><summary>Show the numbers as a table</summary><div class="tablewrap"><table id="tab"></table></div></details>
+    </div>
+
+    <div class="group">
+      <div class="label">What the donut shows</div>
+      <ol class="finds" id="finds"></ol>
+    </div>
+
+    <div class="group facts">
+      <p><b>How it was checked.</b> All three wheels hold a prime on every layer up to 20 million. The most-in-a-row numbers come from <a href="https://oeis.org/A048670" target="_blank" rel="noopener">OEIS A048670</a>, with ring 2 kept on the evens; they're known for up to 58 rings, which reaches about 76,000. The prime-interval results are summarized on <a href="https://tme-emt-1f5ce3.pages.math.cnrs.fr/Art09.html" target="_blank" rel="noopener">Short intervals containing primes</a>.</p>
+      <p><b>Siblings.</b> <a href="https://claude.ai/artifact/N9XsAbV1xQ1gopzUGYjZiS" target="_blank" rel="noopener">The Platonic Map</a> (every ring at once: the endless-dimensional view) · <a href="https://claude.ai/artifact/1QykrbqEfox16Ma9QXaV11" target="_blank" rel="noopener">Prime Tread Wheel</a> · <a href="https://claude.ai/artifact/QziGWZKREbwCg6R7yZ7nDu" target="_blank" rel="noopener">The Wheel Atlas</a></p>
+    </div>
+  </aside>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const DATA = {"1":[[2,2,3,2,2,0,0,0],[3,4,6,3,1,1,1,1],[4,7,10,4,1,3,2,2],[5,11,15,5,2,2,2,2],[6,16,21,6,2,2,2,3],[7,22,28,7,1,5,3,5],[8,29,36,8,2,5,3,4],[9,37,45,9,3,3,3,4],[10,46,55,10,2,5,4,9],[11,56,66,11,2,5,4,9],[12,67,78,12,3,5,4,8],[13,79,91,13,3,5,4,8],[14,92,105,14,3,5,4,9],[15,106,120,15,3,7,4,9],[16,121,136,16,2,6,5,12],[17,137,153,17,4,9,5,12],[18,154,171,18,3,5,6,21],[19,172,190,19,3,9,6,21],[20,191,210,20,4,11,6,20],[21,211,231,21,4,11,6,20],[22,232,253,22,4,9,6,21],[23,254,276,23,4,5,6,21],[24,277,300,24,4,9,7,24],[25,301,325,25,4,8,7,24],[26,326,351,26,4,9,7,25],[27,352,378,27,4,7,8,33],[28,379,406,28,5,7,8,32],[29,407,435,29,5,9,8,32],[30,436,465,30,6,7,8,33],[31,466,496,31,4,11,8,33],[32,497,528,32,5,11,8,32],[33,529,561,33,3,12,9,38],[34,562,595,34,6,9,9,39],[35,596,630,35,6,11,9,39],[36,631,666,36,7,9,9,38],[37,667,703,37,5,9,9,38],[38,704,741,38,5,9,9,39],[39,742,780,39,6,7,9,39],[40,781,820,40,4,11,9,38],[41,821,861,41,8,13,10,44],[42,862,903,42,5,16,10,45],[43,904,946,43,6,9,10,45],[44,947,990,44,6,13,11,56],[45,991,1035,45,8,11,11,56],[46,1036,1081,46,6,12,11,57],[47,1082,1128,47,8,7,11,57],[48,1129,1176,48,5,21,11,56],[49,1177,1225,49,7,11,11,56],[50,1226,1275,50,5,16,11,57],[51,1276,1326,51,11,11,11,57],[52,1327,1378,52,4,33,12,64],[53,1379,1431,53,6,17,12,64],[54,1432,1485,54,9,11,12,65],[55,1486,1540,55,7,11,12,65],[56,1541,1596,56,8,13,12,64],[57,1597,1653,57,9,16,12,64],[58,1654,1711,58,8,23,13,73],[59,1712,1770,59,7,11,13,73],[60,1771,1830,60,7,11,13,72],[61,1831,1891,61,9,15,14,88],[62,1892,1953,62,7,17,14,89],[63,1954,2016,63,8,19,14,89],[64,2017,2080,64,7,13,14,88],[65,2081,2145,65,12,15,14,88],[66,2146,2211,66,5,23,15,99],[67,2212,2278,67,9,15,15,99],[68,2279,2346,68,9,21,15,98],[69,2347,2415,69,11,13,15,98],[70,2416,2485,70,9,13,15,99],[71,2486,2556,71,7,17,15,99],[72,2557,2628,72,7,21,15,98],[73,2629,2701,73,12,13,15,98],[74,2702,2775,74,10,13,15,99],[75,2776,2850,75,10,15,16,105],[76,2851,2926,76,9,17,16,104],[77,2927,3003,77,9,27,16,104],[78,3004,3081,78,9,13,16,105],[79,3082,3160,79,6,23,16,105],[80,3161,3240,80,11,11,16,104],[81,3241,3321,81,10,27,16,104],[82,3322,3403,82,11,15,16,105],[83,3404,3486,83,9,19,17,117],[84,3487,3570,84,12,11,17,116],[85,3571,3655,85,11,13,17,116],[86,3656,3741,86,12,13,18,131],[87,3742,3828,87,9,19,18,131],[88,3829,3916,88,10,17,18,130],[89,3917,4005,89,11,21,18,130],[90,4006,4095,90,12,21,18,131],[91,4096,4186,91,10,17,18,131],[92,4187,4278,92,13,14,18,130],[93,4279,4371,93,9,29,18,130],[94,4372,4465,94,11,17,18,131],[95,4466,4560,95,10,23,19,151],[96,4561,4656,96,12,17,19,150],[97,4657,4753,97,11,17,19,150],[98,4754,4851,98,10,23,19,151],[99,4852,4950,99,11,13,19,151],[100,4951,5050,100,14,15,20,172],[101,5051,5151,101,11,27,20,172],[102,5152,5253,102,11,17,20,173],[103,5254,5356,103,11,15,21,189],[104,5357,5460,104,13,24,21,188],[105,5461,5565,105,13,25,21,188],[106,5566,5671,106,13,31,21,189],[107,5672,5778,107,10,29,21,189],[108,5779,5886,108,18,11,21,188],[109,5887,5995,109,8,27,21,188],[110,5996,6105,110,13,17,21,189],[111,6106,6216,111,12,23,21,189],[112,6217,6328,112,15,17,22,198],[113,6329,6441,113,13,23,22,198],[114,6442,6555,114,11,29,22,199],[115,6556,6670,115,12,17,22,199],[116,6671,6786,116,14,23,22,198],[117,6787,6903,117,14,19,23,214],[118,6904,7021,118,16,29,23,215],[119,7022,7140,119,11,23,23,215],[120,7141,7260,120,14,17,23,214],[121,7261,7381,121,10,22,23,214],[122,7382,7503,122,12,17,23,215],[123,7504,7626,123,18,13,23,215],[124,7627,7750,124,14,19,23,214],[125,7751,7875,125,12,29,23,214],[126,7876,8001,126,13,29,24,233],[127,8002,8128,127,15,21,24,233],[128,8129,8256,128,13,18,24,232],[129,8257,8385,129,14,23,24,232],[130,8386,8515,130,12,33,24,233],[131,8516,8646,131,15,19,24,233],[132,8647,8778,132,17,17,24,232],[133,8779,8911,133,15,19,24,232],[134,8912,9045,134,16,27,24,233],[135,9046,9180,135,13,23,24,233],[136,9181,9316,136,15,19,24,232],[137,9317,9453,137,18,21,25,256],[138,9454,9591,138,14,35,25,257],[139,9592,9730,139,15,21,25,257],[140,9731,9870,140,18,17,25,256],[141,9871,10011,141,14,33,25,256],[142,10012,10153,142,15,25,25,257],[143,10154,10296,143,16,19,26,263],[144,10297,10440,144,15,27,26,262],[145,10441,10585,145,13,27,26,262],[146,10586,10731,146,18,19,27,281],[147,10732,10878,147,14,31,27,281],[148,10879,11026,148,14,27,27,280],[149,11027,11175,149,18,19,27,280],[150,11176,11325,150,15,25,27,281],[151,11326,11476,151,14,21,28,299],[152,11477,11628,152,15,27,28,298],[153,11629,11781,153,13,33,28,298],[154,11782,11935,154,19,23,29,311],[155,11936,12090,155,16,25,29,311],[156,12091,12246,156,17,33,29,310],[157,12247,12403,157,17,25,29,310],[158,12404,12561,158,20,15,29,311],[159,12562,12720,159,18,17,29,311],[160,12721,12880,160,14,27,30,328],[161,12881,13041,161,21,23,30,328],[162,13042,13203,162,17,29,30,329],[163,13204,13366,163,15,27,30,329],[164,13367,13530,164,17,19,30,328],[165,13531,13695,165,17,19,30,328],[166,13696,13861,166,18,21,30,329],[167,13862,14028,167,17,29,30,329],[168,14029,14196,168,15,35,30,328],[169,14197,14365,169,14,29,30,328],[170,14366,14535,170,18,17,30,329],[171,14536,14706,171,19,27,30,329],[172,14707,14878,172,22,15,30,328],[173,14879,15051,173,15,29,30,328],[174,15052,15225,174,19,17,30,329],[175,15226,15400,175,23,17,30,329],[176,15401,15576,176,17,19,30,328],[177,15577,15753,177,21,43,30,328],[178,15754,15931,178,20,35,30,329],[179,15932,16110,179,18,25,30,329],[180,16111,16290,180,16,41,31,352],[181,16291,16471,181,17,29,31,352],[182,16472,16653,182,18,29,31,353],[183,16654,16836,183,17,25,31,353],[184,16837,17020,184,18,27,31,352],[185,17021,17205,185,20,23,32,376],[186,17206,17391,186,19,33,32,377],[187,17392,17578,187,20,19,32,377],[188,17579,17766,188,19,29,32,376],[189,17767,17955,189,18,19,32,376],[190,17956,18145,190,23,27,32,377],[191,18146,18336,191,21,19,32,377],[192,18337,18528,192,21,19,32,376],[193,18529,18721,193,15,29,32,376],[194,18722,18915,194,15,35,33,387],[195,18916,19110,195,17,27,33,387],[196,19111,19306,196,19,23,33,386],[197,19307,19503,197,25,39,34,412],[198,19504,19701,198,17,51,34,413],[199,19702,19900,199,20,21,34,413],[200,19901,20100,200,21,17,34,412],[201,20101,20301,201,22,17,34,412],[202,20302,20503,202,20,33,34,413],[203,20504,20706,203,17,29,34,413],[204,20707,20910,204,22,39,34,412],[205,20911,21115,205,21,27,34,412],[206,21116,21321,206,21,29,34,413],[207,21322,21528,207,22,33,34,413],[208,21529,21736,208,21,29,34,412],[209,21737,21945,209,23,17,34,412],[210,21946,22155,210,24,15,34,413],[211,22156,22366,211,18,35,35,431],[212,22367,22578,212,22,23,35,430],[213,22579,22791,213,23,34,35,430],[214,22792,23005,214,18,35,36,449],[215,23006,23220,215,26,17,36,449],[216,23221,23436,216,18,27,36,448],[217,23437,23653,217,22,23,36,448],[218,23654,23871,218,23,29,36,449],[219,23872,24090,219,25,27,36,449],[220,24091,24310,220,21,29,36,448],[221,24311,24531,221,21,25,36,448],[222,24532,24753,222,17,27,37,475],[223,24754,24976,223,21,19,37,475],[224,24977,25200,224,22,23,37,474],[225,25201,25425,225,22,39,37,474],[226,25426,25651,226,22,51,37,475],[227,25652,25878,227,22,21,37,475],[228,25879,26106,228,21,29,37,474],[229,26107,26335,229,25,25,37,474],[230,26336,26565,230,22,25,37,475],[231,26566,26796,231,24,29,38,491],[232,26797,27028,232,24,21,38,490],[233,27029,27261,233,21,35,38,490],[234,27262,27495,234,20,29,38,491],[235,27496,27730,235,18,29,38,491],[236,27731,27966,236,30,31,39,508],[237,27967,28203,237,22,27,39,508],[238,28204,28441,238,21,47,39,509],[239,28442,28680,239,29,19,39,509],[240,28681,28920,240,23,21,39,508],[241,28921,29161,241,22,29,39,508],[242,29162,29403,242,26,19,39,509],[243,29404,29646,243,22,29,39,509],[244,29647,29890,244,21,33,39,508],[245,29891,30135,245,21,26,40,536],[246,30136,30381,246,23,21,40,537],[247,30382,30628,247,20,35,40,537],[248,30629,30876,248,28,29,40,536],[249,30877,31125,249,22,29,40,536],[250,31126,31375,250,28,29,40,537],[251,31376,31626,251,21,71,40,537],[252,31627,31878,252,23,29,40,536],[253,31879,32131,253,23,49,41,548],[254,32132,32385,254,29,35,41,549],[255,32386,32640,255,27,23,41,549],[256,32641,32896,256,22,33,42,572],[257,32897,33153,257,28,29,42,572],[258,33154,33411,258,25,39,42,573],[259,33412,33670,259,29,29,42,573],[260,33671,33930,260,25,23,42,572],[261,33931,34191,261,21,61,42,572],[262,34192,34453,262,26,21,42,573],[263,34454,34716,263,28,33,42,573],[264,34717,34980,264,24,25,42,572],[265,34981,35245,265,23,41,42,572],[266,35246,35511,266,26,29,42,573],[267,35512,35778,267,21,53,42,573],[268,35779,36046,268,28,21,42,572],[269,36047,36315,269,25,25,42,572],[270,36316,36585,270,25,43,43,599],[271,36586,36856,271,28,21,43,599],[272,36857,37128,272,28,25,43,598],[273,37129,37401,273,25,29,44,614],[274,37402,37675,274,30,19,44,615],[275,37676,37950,275,19,43,44,615],[276,37951,38226,276,25,29,44,614],[277,38227,38503,277,25,39,44,614],[278,38504,38781,278,27,39,44,615],[279,38782,39060,279,26,25,45,641],[280,39061,39340,280,28,41,45,640],[281,39341,39621,281,26,37,46,658],[282,39622,39903,282,30,27,46,659],[283,39904,40186,283,25,25,46,659],[284,40187,40470,284,20,53,46,658],[285,40471,40755,285,25,53,46,658],[286,40756,41041,286,29,23,46,659],[287,41042,41328,287,29,31,46,659],[288,41329,41616,288,28,29,46,658],[289,41617,41905,289,29,31,46,658],[290,41906,42195,290,30,29,46,659],[291,42196,42486,291,33,23,46,659],[292,42487,42778,292,29,29,46,658],[293,42779,43071,293,29,35,46,658],[294,43072,43365,294,20,34,46,659],[295,43366,43660,295,27,29,46,659],[296,43661,43956,296,23,51,46,658],[297,43957,44253,297,32,27,46,658],[298,44254,44551,298,28,57,47,685],[299,44552,44850,299,28,29,47,685],[300,44851,45150,300,27,39,47,684],[301,45151,45451,301,27,35,47,684],[302,45452,45753,302,25,29,47,685],[303,45754,46056,303,26,49,47,685],[304,46057,46360,304,29,29,47,684],[305,46361,46665,305,28,27,47,684],[306,46666,46971,306,27,35,47,685],[307,46972,47278,307,24,27,47,685],[308,47279,47586,308,32,31,47,684],[309,47587,47895,309,30,33,47,684],[310,47896,48205,310,28,35,47,685],[311,48206,48516,311,27,23,47,685],[312,48517,48828,312,32,51,47,684],[313,48829,49141,313,29,39,47,684],[314,49142,49455,314,30,29,47,685],[315,49456,49770,315,29,37,48,717],[316,49771,50086,316,31,33,48,716],[317,50087,50403,317,31,29,48,716],[318,50404,50721,318,25,35,48,717],[319,50722,51040,319,27,31,48,717],[320,51041,51360,320,30,37,48,716],[321,51361,51681,321,35,23,49,740],[322,51682,52003,322,30,27,49,741],[323,52004,52326,323,30,23,49,741],[324,52327,52650,324,26,41,50,760],[325,52651,52975,325,31,23,50,760],[326,52976,53301,326,31,29,50,761],[327,53302,53628,327,28,25,50,761],[328,53629,53956,328,32,27,50,760],[329,53957,54285,329,24,33,50,760],[330,54286,54615,330,36,23,51,797],[331,54616,54946,331,28,29,51,797],[332,54947,55278,332,30,29,51,796],[333,55279,55611,333,26,31,51,796],[334,55612,55945,334,38,29,51,797],[335,55946,56280,335,30,29,51,797],[336,56281,56616,336,32,25,51,796],[337,56617,56953,337,35,25,51,796],[338,56954,57291,338,35,37,52,809],[339,57292,57630,339,25,29,52,809],[340,57631,57970,340,34,23,52,808],[341,57971,58311,341,33,37,53,832],[342,58312,58653,342,30,29,53,833],[343,58654,58996,343,29,57,53,833],[344,58997,59340,344,34,51,53,832],[345,59341,59685,345,37,29,53,832],[346,59686,60031,346,27,33,53,833],[347,60032,60378,347,31,39,53,833],[348,60379,60726,348,29,49,53,832],[349,60727,61075,349,32,39,53,832],[350,61076,61425,350,27,41,53,833],[351,61426,61776,351,35,23,53,833],[352,61777,62128,352,29,31,53,832],[353,62129,62481,353,30,39,53,832],[354,62482,62835,354,31,25,53,833],[355,62836,63190,355,29,39,54,857],[356,63191,63546,356,36,29,54,856],[357,63547,63903,357,38,37,54,856],[358,63904,64261,358,27,27,54,857],[359,64262,64620,359,28,39,54,857],[360,64621,64980,360,30,31,54,856],[361,64981,65341,361,34,25,54,856],[362,65342,65703,362,37,29,54,857],[363,65704,66066,363,32,35,55,875],[364,66067,66430,364,28,35,55,874],[365,66431,66795,365,33,29,55,874],[366,66796,67161,366,35,29,55,875],[367,67162,67528,367,36,31,55,875],[368,67529,67896,368,35,27,55,874],[369,67897,68265,369,32,35,55,874],[370,68266,68635,370,28,37,55,875],[371,68636,69006,371,33,41,55,875],[372,69007,69378,372,30,49,56,906],[373,69379,69751,373,29,39,56,906],[374,69752,70125,374,35,31,56,907],[375,70126,70500,375,36,29,56,907],[376,70501,70876,376,31,29,56,906],[377,70877,71253,377,37,29,56,906],[378,71254,71631,378,38,34,56,907],[379,71632,72010,379,37,21,56,907],[380,72011,72390,380,36,37,57,924],[381,72391,72771,381,33,35,57,924],[382,72772,73153,382,35,35,57,925],[383,73154,73536,383,28,47,58,953],[384,73537,73920,384,35,35,58,952],[385,73921,74305,385,35,29,58,952],[386,74306,74691,386,33,33,58,953],[387,74692,75078,387,36,51,58,953],[388,75079,75466,388,35,29,58,952],[389,75467,75855,389,38,27,58,952],[390,75856,76245,390,31,43,58,953],[391,76246,76636,391,34,29,58,953]],"2":[[2,3,8,6,3,1,1,0],[3,9,20,12,4,3,2,2],[4,21,40,20,4,5,3,4],[5,41,70,30,7,5,4,8],[6,71,112,42,10,7,4,8],[7,113,168,56,10,13,5,12],[8,169,240,72,13,11,6,20],[9,241,330,90,14,13,7,24],[10,331,440,110,19,9,8,32],[11,441,572,132,20,17,9,38],[12,573,728,156,24,11,9,38],[13,729,910,182,26,19,10,44],[14,911,1120,210,32,17,11,56],[15,1121,1360,240,30,33,11,56],[16,1361,1632,272,41,17,12,64],[17,1633,1938,306,37,23,14,88],[18,1939,2280,342,43,23,15,98],[19,2281,2660,380,47,25,15,98],[20,2661,3080,420,55,27,16,104],[21,3081,3542,462,56,27,17,116],[22,3543,4048,506,61,21,18,130],[23,4049,4600,552,65,29,19,150],[24,4601,5200,600,70,29,20,172],[25,5201,5850,650,76,31,21,188],[26,5851,6552,702,78,29,22,198],[27,6553,7308,756,85,29,23,214],[28,7309,8120,812,90,29,24,232],[29,8121,8990,870,95,33,24,232],[30,8991,9920,930,106,35,25,256],[31,9921,10912,992,105,33,27,280],[32,10913,11968,1056,107,33,29,310],[33,11969,13090,1122,122,35,30,328],[34,13091,14280,1190,119,35,30,328],[35,14281,15540,1260,137,29,30,328],[36,15541,16872,1332,133,43,31,352],[37,16873,18278,1406,149,33,32,376],[38,18279,19760,1482,143,51,34,412],[39,19761,21320,1560,157,39,34,412],[40,21321,22960,1640,166,39,36,448],[41,22961,24682,1722,172,35,37,474],[42,24683,26488,1806,176,51,37,474],[43,26489,28380,1892,179,47,39,508],[44,28381,30360,1980,194,35,40,536],[45,30361,32430,2070,200,71,41,548],[46,32431,34592,2162,214,61,42,572],[47,34593,36848,2256,212,53,43,598],[48,36849,39200,2352,220,43,45,640],[49,39201,41650,2450,230,53,46,658],[50,41651,44200,2550,242,59,46,658],[51,44201,46852,2652,241,57,47,684],[52,46853,49608,2756,255,51,47,684],[53,49609,52470,2862,263,41,50,760],[54,52471,55440,2970,270,33,51,796],[55,55441,58520,3080,295,37,53,832],[56,58521,61712,3192,286,57,53,832],[57,61713,65018,3306,286,39,54,856],[58,65019,68440,3422,308,37,55,874],[59,68441,71980,3540,321,49,56,906],[60,71981,75640,3660,327,51,58,952]],"3":[[1,1,6,6,3,1,1,0],[2,7,30,24,7,5,3,4],[3,31,90,60,14,5,4,8],[4,91,210,120,22,13,6,20],[5,211,420,210,35,13,8,32],[6,421,756,336,52,17,9,38],[7,757,1260,504,72,21,11,56],[8,1261,1980,720,94,33,14,88],[9,1981,2970,990,129,25,16,104],[10,2971,4290,1320,161,27,18,130],[11,4291,6006,1716,194,31,21,188],[12,6007,8190,2184,244,29,24,232],[13,8191,10920,2730,300,35,27,280],[14,10921,14280,3360,348,35,30,328],[15,14281,18360,4080,428,43,32,376],[16,18361,23256,4896,490,51,36,448],[17,23257,29070,5814,568,51,39,508],[18,29071,35910,6840,653,71,42,572],[19,35911,43890,7980,753,59,46,658],[20,43891,53130,9240,854,57,50,760],[21,53131,63756,10626,972,57,54,856],[22,63757,75900,12144,1081,51,58,952]],"flag":{"1":0.4186873146529847,"2":0.723615613061183,"3":0.8003202102904255}};
+  const $ = (id) => document.getElementById(id);
+  const fmt = (n) => Number(n).toLocaleString("en-US");
+  const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) { [a, b] = [b, a % b]; } return a; };
+  const mod = (a, p) => ((a % p) + p) % p;
+  const T4 = (m) => (m * (m + 1) * (m + 2)) / 3;
+  const SN = 400000;
+  const comp = new Uint8Array(SN + 1); comp[0] = comp[1] = 1;
+  for (let i = 2; i * i <= SN; i++) if (!comp[i]) for (let j = i * i; j <= SN; j += i) comp[j] = 1;
+  const isPrime = (x) => x >= 2 && x <= SN && !comp[x];
+  const PRIMES = []; for (let i = 2; i < 1000; i++) if (!comp[i]) PRIMES.push(i);
+  function smallestFactor(x) { for (const p of PRIMES) { if (p * p > x) break; if (x % p === 0) return p; } return x; }
+  const SUP = "⁰¹²³⁴⁵⁶⁷⁸⁹";
+  function factorText(x) {
+    const parts = []; let y = x;
+    while (y > 1) { const p = smallestFactor(y); let e = 0; while (y % p === 0) { y /= p; e++; } parts.push(e > 1 ? p + String(e).split("").map((d) => SUP[+d]).join("") : String(p)); }
+    return parts.join(" × ");
+  }
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const touchLike = window.matchMedia("(pointer: coarse)").matches;
+  const DPR = () => Math.min(2, window.devicePixelRatio || 1);
+  const MONO = '"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace';
+  const SANS = '"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif';
+  const COL = { night: "#05070d", plot: "#070b16", line: "#232b46", ring: "#3b4979", grid: "#161d33", text: "#dfe3f0", muted: "#8f97b5", gold: "#f0bf55", cream: "#ecdfc0", k1: "#3987e5", k2: "#d95926", k3: "#199e70" };
+  const CELL = { open: [184, 145, 63], a: [77, 104, 196], b: [47, 127, 147], ab: [28, 37, 71], none: [18, 22, 36] };
+
+  // ---------- state ----------
+  const S = { view: "donut", a: 5, b: 6, mode: "clocks", layer: 7, x: 1, frac: 0, counting: false, yaw: 0.5, pitch: -1.05, spin: true };
+  const app = $("app"), stage = $("stage"), cv = $("cv"), ctx = cv.getContext("2d");
+
+  function clocks() { return S.mode === "layer" ? [S.layer, S.layer + 1] : [S.a, S.b]; }
+  function lapRange() {
+    if (S.mode === "layer") { const lo = T4(S.layer - 1) + 1; return [lo, T4(S.layer)]; }
+    const [a, b] = clocks(); const L = (a * b) / gcd(a, b); return [1, L];
+  }
+  function cellType(r, s, a, b) {
+    const oa = gcd(r, a) === 1, ob = gcd(s, b) === 1;
+    return oa && ob ? "open" : !oa && ob ? "a" : oa && !ob ? "b" : "ab";
+  }
+  // which cells the count ever visits, and the number shown in each (smallest in the lap)
+  function cellNumbers() {
+    const [a, b] = clocks(); const [lo, hi] = lapRange();
+    const num = new Int32Array(a * b).fill(0);
+    for (let x = lo; x <= hi; x++) { const k = mod(x, a) * b + mod(x, b); if (!num[k]) num[k] = x; }
+    return num;
+  }
+
+  // ---------- layout ----------
+  const LAY = { dpr: 1, W: 0, H: 0, top: 0, bottom: 0 };
+  function layout() {
+    const dpr = Math.min(1.5, DPR());
+    const r = stage.getBoundingClientRect();
+    cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr);
+    const mast = $("mast").getBoundingClientRect(), bar = $("stagebar").getBoundingClientRect();
+    LAY.dpr = dpr; LAY.W = cv.width; LAY.H = cv.height;
+    LAY.top = Math.round((Math.max(mast.bottom, bar.bottom) - r.top + 8) * dpr);
+    LAY.bottom = Math.round(cv.height - 44 * dpr);
+  }
+
+  // ---------- donut ----------
+  const R0 = 1, r0 = 0.44;
+  function rot(x, y, z) {
+    const cy = Math.cos(S.yaw), sy = Math.sin(S.yaw), cp = Math.cos(S.pitch), sp = Math.sin(S.pitch);
+    const x1 = x * cy - y * sy, y1 = x * sy + y * cy;
+    return [x1, y1 * cp - z * sp, y1 * sp + z * cp];
+  }
+  function drawDonut(t) {
+    const dpr = LAY.dpr, W = LAY.W, Hh = LAY.H;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, W, Hh);
+    const [a, b] = clocks();
+    const cx = W / 2, cy = (LAY.top + LAY.bottom) / 2;
+    const span = Math.min(W * 0.9, (LAY.bottom - LAY.top) * 1.25);
+    const D = 4.4, f = (span / 2) * D / (R0 + r0) * 0.92;
+    const proj = (p) => { const s = f / (D - p[2]); return [cx + p[0] * s, cy - p[1] * s, p[2]]; };
+    const su = Math.max(1, Math.ceil(48 / a)), sv = Math.max(1, Math.ceil(24 / b));
+    const NU = a * su, NV = b * sv;
+    const V = new Array((NU + 1) * (NV + 1));
+    for (let i = 0; i <= NU; i++) {
+      const u = (2 * Math.PI * i) / NU, cu = Math.cos(u), su_ = Math.sin(u);
+      for (let j = 0; j <= NV; j++) {
+        const v = (2 * Math.PI * j) / NV, cvv = Math.cos(v), sv_ = Math.sin(v);
+        V[i * (NV + 1) + j] = proj(rot((R0 + r0 * cvv) * cu, (R0 + r0 * cvv) * su_, r0 * sv_));
+      }
+    }
+    const visited = cellNumbers();
+    const L = [-0.35, 0.45, 0.82];
+    const quads = [];
+    for (let i = 0; i < NU; i++) {
+      const ci = Math.floor(i / su);
+      const uc = (2 * Math.PI * (i + 0.5)) / NU;
+      for (let j = 0; j < NV; j++) {
+        const cj = Math.floor(j / sv);
+        const vc = (2 * Math.PI * (j + 0.5)) / NV;
+        const n = rot(Math.cos(vc) * Math.cos(uc), Math.cos(vc) * Math.sin(uc), Math.sin(vc));
+        const p00 = V[i * (NV + 1) + j], p10 = V[(i + 1) * (NV + 1) + j], p11 = V[(i + 1) * (NV + 1) + j + 1], p01 = V[i * (NV + 1) + j + 1];
+        const z = (p00[2] + p10[2] + p11[2] + p01[2]) / 4;
+        const light = Math.max(0, n[0] * L[0] + n[1] * L[1] + n[2] * L[2]);
+        const typ = visited[ci * b + cj] ? cellType(ci, cj, a, b) : "none";
+        quads.push({ z, p00, p10, p11, p01, light, typ, edgeU: i % su === 0, edgeV: j % sv === 0, ci, cj });
+      }
+    }
+    quads.sort((q1, q2) => q1.z - q2.z);
+    ctx.lineJoin = "round";
+    for (const q of quads) {
+      const c = CELL[q.typ], k = 0.28 + 0.72 * q.light;
+      ctx.fillStyle = `rgb(${Math.round(c[0] * k)},${Math.round(c[1] * k)},${Math.round(c[2] * k)})`;
+      // grow each quad a hair around its middle so neighbours overlap and no seams show
+      const mx = (q.p00[0] + q.p10[0] + q.p11[0] + q.p01[0]) / 4, my = (q.p00[1] + q.p10[1] + q.p11[1] + q.p01[1]) / 4;
+      const grow = (pt) => { const dx = pt[0] - mx, dy = pt[1] - my, d = Math.hypot(dx, dy) || 1; return [pt[0] + (dx / d) * 0.7, pt[1] + (dy / d) * 0.7]; };
+      const g00 = grow(q.p00), g10 = grow(q.p10), g11 = grow(q.p11), g01 = grow(q.p01);
+      ctx.beginPath(); ctx.moveTo(g00[0], g00[1]); ctx.lineTo(g10[0], g10[1]); ctx.lineTo(g11[0], g11[1]); ctx.lineTo(g01[0], g01[1]); ctx.closePath();
+      ctx.fill();
+      if (q.edgeU || q.edgeV) {
+        ctx.strokeStyle = "rgba(5,7,13,0.55)"; ctx.lineWidth = Math.max(1, 0.9 * dpr);
+        ctx.beginPath();
+        if (q.edgeU) { ctx.moveTo(q.p00[0], q.p00[1]); ctx.lineTo(q.p01[0], q.p01[1]); }
+        if (q.edgeV) { ctx.moveTo(q.p00[0], q.p00[1]); ctx.lineTo(q.p10[0], q.p10[1]); }
+        ctx.stroke();
+      }
+    }
+    // the knot: one lap, each step drawn along the surface, front side only
+    const [lo, hi] = lapRange();
+    const at = (xr) => {           // continuous position of number xr on the torus (cell centers)
+      const u = (2 * Math.PI * (mod(xr, a) + 0.5)) / a, v = (2 * Math.PI * (mod(xr, b) + 0.5)) / b;
+      return [u, v];
+    };
+    const surf = (u, v) => {
+      const p = rot((R0 + r0 * Math.cos(v)) * Math.cos(u), (R0 + r0 * Math.cos(v)) * Math.sin(u), r0 * Math.sin(v));
+      const n = rot(Math.cos(v) * Math.cos(u), Math.cos(v) * Math.sin(u), Math.sin(v));
+      const view = [-p[0], -p[1], D - p[2]];
+      const front = n[0] * view[0] + n[1] * view[1] + n[2] * view[2] > 0;
+      const s = proj(p);
+      return [s[0], s[1], front];
+    };
+    const steps = Math.min(hi - lo, 4000);
+    ctx.lineWidth = Math.max(1.2, 1.6 * dpr); ctx.lineCap = "round";
+    const sub = steps > 600 ? 3 : 6;
+    for (let x = lo; x < lo + steps; x++) {
+      const [u0, v0] = at(x);
+      const du = (2 * Math.PI) / a, dv = (2 * Math.PI) / b;
+      let prev = surf(u0, v0);
+      for (let k = 1; k <= sub; k++) {
+        const cur = surf(u0 + (du * k) / sub, v0 + (dv * k) / sub);
+        if (prev[2] && cur[2]) {
+          ctx.strokeStyle = "rgba(236,223,192,0.78)";
+          ctx.beginPath(); ctx.moveTo(prev[0], prev[1]); ctx.lineTo(cur[0], cur[1]); ctx.stroke();
+        }
+        prev = cur;
+      }
+    }
+    // the counting marker
+    if (S.counting || S.x > lo) {
+      const [u0, v0] = at(S.x);
+      const u = u0 + ((2 * Math.PI) / a) * S.frac, v = v0 + ((2 * Math.PI) / b) * S.frac;
+      const m = surf(u, v);
+      ctx.beginPath(); ctx.arc(m[0], m[1], 6 * dpr, 0, Math.PI * 2);
+      ctx.fillStyle = COL.night; ctx.fill();
+      ctx.beginPath(); ctx.arc(m[0], m[1], 4.2 * dpr, 0, Math.PI * 2);
+      ctx.fillStyle = m[2] ? (isPrime(S.x) ? COL.gold : COL.text) : "rgba(223,227,240,0.35)"; ctx.fill();
+    }
+    // clock labels
+    ctx.font = `${11 * dpr}px ${SANS}`; ctx.fillStyle = COL.muted; ctx.textAlign = "center"; ctx.textBaseline = "top";
+    ctx.fillText(`first clock ${a} (the long way) · second clock ${b} (around the tube)`, cx, LAY.bottom - 16 * dpr);
+  }
+
+  // ---------- unrolled ----------
+  function drawFlat() {
+    const dpr = LAY.dpr, W = LAY.W;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, W, LAY.H);
+    const [a, b] = clocks();
+    const [lo, hi] = lapRange();
+    const num = cellNumbers();
+    const availH = LAY.bottom - LAY.top - 30 * dpr, availW = W - 40 * dpr;
+    const wide = availW > availH * 1.25;
+    const gridW = wide ? availW * 0.6 : availW, gridH = wide ? availH : availH * 0.62;
+    const cs = Math.max(4 * dpr, Math.min(64 * dpr, Math.floor(Math.min((gridW - 30 * dpr) / b, (gridH - 30 * dpr) / a))));
+    const gx = 20 * dpr + 24 * dpr + (wide ? 0 : Math.max(0, (gridW - 24 * dpr - cs * b) / 2));
+    const gy = LAY.top + 26 * dpr + (wide ? Math.max(0, (availH - 26 * dpr - cs * a) / 2) : 0);
+    const cellX = (s) => gx + s * cs, cellY = (r) => gy + r * cs;
+    ctx.font = `${10 * dpr}px ${MONO}`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    for (let r = 0; r < a; r++) for (let s = 0; s < b; s++) {
+      const x = num[r * b + s];
+      const typ = x ? cellType(r, s, a, b) : "none";
+      const c = CELL[typ];
+      ctx.fillStyle = `rgb(${c[0]},${c[1]},${c[2]})`;
+      ctx.fillRect(cellX(s) + 1, cellY(r) + 1, cs - 2, cs - 2);
+    }
+    // the knot on the grid: diagonal steps, wrapping (under the numbers)
+    ctx.strokeStyle = "rgba(236,223,192,0.32)"; ctx.lineWidth = Math.max(1, 1.2 * dpr);
+    const steps = Math.min(hi - lo, 1800);
+    if (cs >= 8 * dpr) {
+      for (let x = lo; x < lo + steps; x++) {
+        const r0_ = mod(x, a), s0 = mod(x, b), r1 = mod(x + 1, a), s1 = mod(x + 1, b);
+        const x0 = cellX(s0) + cs / 2, y0 = cellY(r0_) + cs / 2;
+        ctx.beginPath();
+        if (r1 === r0_ + 1 && s1 === s0 + 1) { ctx.moveTo(x0, y0); ctx.lineTo(x0 + cs, y0 + cs); }
+        else { ctx.moveTo(x0, y0); ctx.lineTo(x0 + cs * 0.45, y0 + cs * 0.45); const x1 = cellX(s1) + cs / 2, y1 = cellY(r1) + cs / 2; ctx.moveTo(x1 - cs * 0.45, y1 - cs * 0.45); ctx.lineTo(x1, y1); }
+        ctx.stroke();
+      }
+    }
+    for (let r = 0; r < a; r++) for (let s = 0; s < b; s++) {
+      const x = num[r * b + s];
+      if (!x || cs < 20 * dpr) continue;
+      const typ = cellType(r, s, a, b);
+      ctx.font = `${Math.min(12, Math.max(8, cs / dpr * 0.32)) * dpr}px ${MONO}`;
+      ctx.fillStyle = isPrime(x) ? "#fff4d6" : typ === "open" ? "#2a1f08" : "rgba(223,227,240,0.55)";
+      ctx.fillText(String(x), cellX(s) + cs / 2, cellY(r) + cs / 2 + 0.5 * dpr);
+    }
+    // row / column labels
+    ctx.font = `${10 * dpr}px ${MONO}`; ctx.fillStyle = COL.muted;
+    const every = Math.max(1, Math.ceil((12 * dpr) / cs));
+    for (let r = 0; r < a; r += every) { ctx.textAlign = "right"; ctx.fillText(String(r), gx - 6 * dpr, cellY(r) + cs / 2); }
+    for (let s = 0; s < b; s += every) { ctx.textAlign = "center"; ctx.fillText(String(s), cellX(s) + cs / 2, gy - 9 * dpr); }
+    ctx.textAlign = "left"; ctx.font = `${11 * dpr}px ${SANS}`;
+    ctx.fillText(`first clock ${a} ↓ · second clock ${b} →`, gx, gy - 22 * dpr);
+    // marker
+    if (S.counting || S.x > lo) {
+      const r = mod(S.x, a), s = mod(S.x, b);
+      ctx.strokeStyle = isPrime(S.x) ? COL.gold : COL.text; ctx.lineWidth = 2 * dpr;
+      ctx.strokeRect(cellX(s) + 1.5 * dpr, cellY(r) + 1.5 * dpr, cs - 3 * dpr, cs - 3 * dpr);
+    }
+    // one ring of the same period
+    const Lp = (a * b) / gcd(a, b);
+    const rx = wide ? gx + cs * b + (W - (gx + cs * b)) / 2 : W / 2;
+    const ringTop = wide ? LAY.top : gy + cs * a + 34 * dpr;
+    const ringH = wide ? LAY.bottom - LAY.top : LAY.bottom - ringTop;
+    const rad = Math.max(30 * dpr, Math.min((wide ? (W - (gx + cs * b)) : W) * 0.36, ringH * 0.36));
+    const ry = ringTop + ringH / 2;
+    ctx.strokeStyle = COL.ring; ctx.lineWidth = 1 * dpr;
+    ctx.beginPath(); ctx.arc(rx, ry, rad, 0, Math.PI * 2); ctx.stroke();
+    const dot = Math.max(1.6 * dpr, Math.min(5 * dpr, (Math.PI * rad) / Lp * 0.7));
+    for (let k = 0; k < Lp; k++) {
+      const ang = -Math.PI / 2 + (2 * Math.PI * k) / Lp;
+      const open = gcd(k, Lp) === 1;
+      ctx.beginPath(); ctx.arc(rx + rad * Math.cos(ang), ry + rad * Math.sin(ang), open ? dot * 1.25 : dot * 0.7, 0, Math.PI * 2);
+      ctx.fillStyle = open ? COL.gold : "#2c3a68"; ctx.fill();
+    }
+    if (S.counting || S.x > lo) {
+      const ang = -Math.PI / 2 + (2 * Math.PI * mod(S.x, Lp)) / Lp;
+      ctx.strokeStyle = COL.text; ctx.lineWidth = 1.5 * dpr;
+      ctx.beginPath(); ctx.arc(rx + rad * Math.cos(ang), ry + rad * Math.sin(ang), dot * 2.2, 0, Math.PI * 2); ctx.stroke();
+    }
+    ctx.fillStyle = COL.muted; ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.font = `${11 * dpr}px ${SANS}`;
+    let openCount = 0; for (let k = 0; k < Lp; k++) if (gcd(k, Lp) === 1) openCount++;
+    ctx.fillText(`the same ${Lp} spots on one ring: ${openCount} open, scattered`, rx, ry + rad + 12 * dpr);
+  }
+
+  function draw(t) {
+    if (S.view === "donut") drawDonut(t); else drawFlat();
+  }
+
+  // ---------- text ----------
+  function clockText() {
+    const [a, b] = clocks();
+    const g = gcd(a, b), L = (a * b) / g;
+    let oa = 0, ob = 0; for (let r = 0; r < a; r++) if (gcd(r, a) === 1) oa++; for (let s = 0; s < b; s++) if (gcd(s, b) === 1) ob++;
+    let s = `<b>${a} × ${b} = ${a * b} cells.</b> `;
+    if (g === 1) s += `Open: ${oa} rows × ${ob} columns = <b class="g">${oa * ob} cells</b>, a perfect grid. The count visits every cell once per lap of ${fmt(L)} numbers, because ${a} and ${b} share no factor. On one ring of ${fmt(L)}, the same ${oa * ob} open spots look scattered.`;
+    else s += `${a} and ${b} share the factor ${g}, so the count closes its knot after ${fmt(L)} steps and only ever visits ${fmt(L)} of the ${a * b} cells. The rest stay dark.`;
+    if (S.mode === "layer") s += " (Set by the 4D tread wheel below.)";
+    $("clockText").innerHTML = s;
+  }
+  function layerStats(m) {
+    const lo = T4(m - 1) + 1, hi = T4(m);
+    let primes = 0, best = 0, cur = 0, seats = 0;
+    for (let x = lo; x <= hi; x++) {
+      if (isPrime(x)) { primes++; cur = 0; } else { cur++; if (cur > best) best = cur; }
+      if (gcd(x, m) === 1 && gcd(x, m + 1) === 1) seats++;
+    }
+    const row = DATA["2"].find((r) => r[0] === m);
+    return { m, lo, hi, width: hi - lo + 1, primes, longest: best, seats, rings: row ? row[6] : null, cap: row ? row[7] : null };
+  }
+  function layerText() {
+    const st = layerStats(S.layer), m = st.m;
+    const offA = mod(st.lo - 1, m), offB = mod(st.lo - 1, m + 1);
+    const offTxt = (off, q) => (off === 0 ? `right at clock ${q}'s seam` : `two thirds of a turn past clock ${q}'s seam (3 divides ${q})`);
+    let s = `<b>Layer ${m}</b> holds ${fmt(st.lo)}–${fmt(st.hi)}: ${fmt(st.width)} numbers, one full lap of clocks ${m} and ${m + 1}. `;
+    s += `Its open cells hold ${fmt(st.seats)} of them, and <b class="g">${st.primes} are prime</b>. The longest run of composites is ${st.longest}. `;
+    if (st.cap != null) s += `Its deciding rings (2 to ${PRIMES[st.rings - 1]}), turned any way, can cover at most ${st.cap} in a row: ${Math.round((100 * st.cap) / st.width)}% of the layer, so <b>no turning can wipe it out</b>. `;
+    s += `It starts ${offTxt(offA, m)} and ${offTxt(offB, m + 1)}.`;
+    $("layerText").innerHTML = s;
+    $("lIn").value = String(m);
+  }
+  function nowText() {
+    const [a, b] = clocks(), x = S.x;
+    const ra = mod(x, a), rb = mod(x, b);
+    const typ = cellType(ra, rb, a, b);
+    let s = `<b>${fmt(x)}</b>`;
+    if (S.mode === "layer") s += ` (layer ${S.layer})`;
+    s += ` · clock ${a} at ${ra}${ra === 0 ? " (seam)" : ""} · clock ${b} at ${rb}${rb === 0 ? " (seam)" : ""} · `;
+    if (typ !== "open") return s + (isPrime(x) ? `closed, but <span class="g">prime</span>: it is one of the clocks' own factors` : `closed → ${x > 1 ? factorText(x) : "the unit"}`);
+    if (isPrime(x)) return s + `open → <span class="g">prime</span>`;
+    if (x === 1) return s + "open → the unit";
+    return s + `open, but ${factorText(x)}: caught by ring ${smallestFactor(x)}, which this donut doesn't have`;
+  }
+  function nowIdle() {
+    const n = $("now");
+    if (S.counting || S.x > lapRange()[0]) { n.innerHTML = nowText(); return; }
+    n.textContent = touchLike ? "drag to turn the donut · Let it count" : "drag to turn the donut · Let it count · arrow keys step the count";
+  }
+
+  // ---------- render loop ----------
+  let last = 0, raf = 0, dirty = true;
+  let onScreen = true;
+  new IntersectionObserver((es) => { onScreen = es.some((e) => e.isIntersecting); if (onScreen) kick(); }).observe(stage);
+  function frame(t) {
+    raf = requestAnimationFrame(frame);
+    if (!onScreen || document.hidden) { last = t; return; }
+    const dt = last ? Math.min(0.1, (t - last) / 1000) : 0; last = t;
+    let changed = dirty;
+    if (S.view === "donut" && S.spin && !drag && !reduced.matches) { S.yaw += dt * 0.18; changed = true; }
+    if (S.counting) {
+      const [lo, hi] = lapRange();
+      const rate = Math.max(2, Math.min(30, (hi - lo + 1) / 12));
+      S.frac += dt * rate;
+      while (S.frac >= 1) { S.frac -= 1; S.x += 1; if (S.mode === "layer" && S.x > hi) S.x = lo; }
+      changed = true;
+    }
+    if (changed) { draw(t); nowIdle(); dirty = false; }
+  }
+  function kick() { dirty = true; }
+
+  // ---------- controls ----------
+  function setView(v) {
+    S.view = v;
+    $("vDonut").setAttribute("aria-pressed", String(v === "donut"));
+    $("vFlat").setAttribute("aria-pressed", String(v === "flat"));
+    kick();
+  }
+  function setClocks(a, b) {
+    S.mode = "clocks";
+    S.a = Math.max(2, Math.min(40, Math.round(a))); S.b = Math.max(2, Math.min(41, Math.round(b)));
+    $("aIn").value = String(S.a); $("bIn").value = String(S.b);
+    S.x = 1; S.frac = 0;
+    clockText(); kick();
+  }
+  function setLayer(m) {
+    S.mode = "layer";
+    S.layer = Math.max(2, Math.min(40, Math.round(m)));
+    const [lo] = lapRange(); S.x = lo; S.frac = 0;
+    $("aIn").value = String(S.layer); $("bIn").value = String(S.layer + 1);
+    clockText(); layerText(); kick();
+  }
+  function setCounting(on) {
+    S.counting = on;
+    $("bCount").textContent = on ? "Pause" : "Let it count";
+    if (on) { const [lo] = lapRange(); if (S.x < lo) S.x = lo; }
+    kick();
+  }
+  $("vDonut").addEventListener("click", () => setView("donut"));
+  $("vFlat").addEventListener("click", () => setView("flat"));
+  $("bCount").addEventListener("click", () => setCounting(!S.counting));
+  $("abGo").addEventListener("click", () => setClocks(+$("aIn").value || 2, +$("bIn").value || 3));
+  for (const id of ["aIn", "bIn"]) $(id).addEventListener("keydown", (e) => { if (e.key === "Enter") setClocks(+$("aIn").value || 2, +$("bIn").value || 3); });
+  $("lPrev").addEventListener("click", () => setLayer(S.layer - 1));
+  $("lNext").addEventListener("click", () => setLayer(S.layer + 1));
+  $("lGo").addEventListener("click", () => setLayer(+$("lIn").value || 7));
+  $("lIn").addEventListener("keydown", (e) => { if (e.key === "Enter") setLayer(+$("lIn").value || 7); });
+  const PRESETS = [[2, 3, "2 × 3"], [5, 6, "5 × 6"], [7, 30, "7 × 30"], [8, 9, "8 × 9"], [11, 12, "11 × 12"], [4, 6, "4 × 6 (shared factor)"]];
+  for (const [a, b, label] of PRESETS) {
+    const btn = document.createElement("button"); btn.type = "button"; btn.textContent = label;
+    btn.addEventListener("click", () => setClocks(a, b));
+    $("presets").appendChild(btn);
+  }
+
+  let drag = null;
+  cv.addEventListener("pointerdown", (e) => { if (S.view !== "donut") return; drag = { x: e.clientX, y: e.clientY, yaw: S.yaw, pitch: S.pitch, id: e.pointerId }; cv.classList.add("dragging"); try { cv.setPointerCapture(e.pointerId); } catch (_) {} });
+  cv.addEventListener("pointermove", (e) => {
+    if (!drag || drag.id !== e.pointerId) return;
+    S.yaw = drag.yaw + (e.clientX - drag.x) * 0.008;
+    S.pitch = Math.max(-1.55, Math.min(-0.15, drag.pitch + (e.clientY - drag.y) * 0.006));
+    kick();
+  });
+  const endDrag = () => { drag = null; cv.classList.remove("dragging"); };
+  cv.addEventListener("pointerup", endDrag); cv.addEventListener("pointercancel", endDrag);
+  cv.addEventListener("keydown", (e) => {
+    const [lo, hi] = lapRange();
+    if (e.key === "ArrowRight") { S.x = S.mode === "layer" && S.x >= hi ? lo : S.x + 1; S.frac = 0; }
+    else if (e.key === "ArrowLeft") { S.x = Math.max(S.mode === "layer" ? lo : 1, S.x - 1); S.frac = 0; }
+    else if (e.key === "ArrowUp") { S.pitch = Math.max(-1.55, S.pitch - 0.08); }
+    else if (e.key === "ArrowDown") { S.pitch = Math.min(-0.15, S.pitch + 0.08); }
+    else return;
+    e.preventDefault(); kick();
+  });
+
+  // ---------- chart: could the rings wipe out a layer? ----------
+  const SERIES = [
+    { k: "1", name: "1 clock (our wheel)", color: COL.k1 },
+    { k: "2", name: "2 clocks (4D)", color: COL.k2 },
+    { k: "3", name: "3 clocks (6D)", color: COL.k3 },
+  ].map((s) => ({ ...s, pts: DATA[s.k].filter((r) => r[2] >= 10).map((r) => ({ m: r[0], hi: r[2], width: r[3], cap: r[7], v: r[7] / r[3] })) }));
+  (() => {
+    const el = $("legend");
+    for (const s of SERIES) { const sp = document.createElement("span"); const k = document.createElement("span"); k.className = "lk"; k.style.borderColor = s.color; sp.appendChild(k); sp.appendChild(document.createTextNode(s.name)); el.appendChild(sp); }
+    const sp = document.createElement("span"); const k = document.createElement("span"); k.className = "lk"; k.style.borderColor = COL.ring; sp.appendChild(k); sp.appendChild(document.createTextNode("the whole layer")); el.appendChild(sp);
+  })();
+  let chHover = null;
+  function chGeom(w, h) {
+    const pad = { l: 34, r: 12, t: 12, b: 30 };
+    const X0 = 1, X1 = 5, YM = 2.6;
+    return { pad, xs: (x) => pad.l + ((Math.log10(x) - X0) / (X1 - X0)) * (w - pad.l - pad.r), xinv: (px) => 10 ** (X0 + ((px - pad.l) / (w - pad.l - pad.r)) * (X1 - X0)), ys: (v) => h - pad.b - (Math.min(v, YM) / YM) * (h - pad.t - pad.b) };
+  }
+  function drawChart() {
+    const c = $("ch"); if (!c.clientWidth) return;
+    const dpr = DPR(), w = c.clientWidth, h = c.clientHeight;
+    c.width = Math.round(w * dpr); c.height = Math.round(h * dpr);
+    const g = c.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const { pad, xs, ys } = chGeom(w, h);
+    g.fillStyle = COL.plot; g.fillRect(0, 0, w, h);
+    g.font = `10px ${MONO}`; g.textAlign = "right"; g.textBaseline = "middle"; g.lineWidth = 1;
+    for (const v of [0, 0.5, 1, 1.5, 2, 2.5]) { const y = Math.round(ys(v)) + 0.5; g.strokeStyle = v === 1 ? COL.ring : COL.grid; g.lineWidth = v === 1 ? 1.5 : 1; g.beginPath(); g.moveTo(pad.l, y); g.lineTo(w - pad.r, y); g.stroke(); g.fillStyle = COL.muted; g.fillText(String(v), pad.l - 6, y); }
+    g.textAlign = "center"; g.textBaseline = "top"; g.lineWidth = 1;
+    for (const [x, lab] of [[10, "10"], [100, "100"], [1000, "1,000"], [10000, "10,000"], [100000, "100,000"]]) { const px = Math.round(xs(x)) + 0.5; g.strokeStyle = COL.grid; g.beginPath(); g.moveTo(px, ys(2.6)); g.lineTo(px, ys(0) + 4); g.stroke(); g.fillStyle = COL.muted; g.textAlign = x === 100000 ? "right" : x === 10 ? "left" : "center"; g.fillText(lab, x === 100000 ? px + 2 : x === 10 ? px - 2 : px, ys(0) + 7); }
+    g.textAlign = "left"; g.textBaseline = "alphabetic"; g.font = `10px ${SANS}`; g.fillStyle = COL.text; g.fillText("the whole layer", pad.l + 4, ys(1) - 6);
+    for (const s of SERIES) {
+      g.beginPath(); s.pts.forEach((p, i) => (i ? g.lineTo(xs(p.hi), ys(p.v)) : g.moveTo(xs(p.hi), ys(p.v))));
+      g.strokeStyle = s.color; g.lineWidth = 2; g.lineJoin = "round"; g.stroke();
+    }
+    if (chHover != null) {
+      const px = xs(chHover); g.strokeStyle = "rgba(223,227,240,0.45)"; g.lineWidth = 1; g.beginPath(); g.moveTo(px, ys(2.6)); g.lineTo(px, ys(0)); g.stroke();
+      for (const s of SERIES) { const p = nearest(s, chHover); if (!p) continue; g.beginPath(); g.arc(xs(p.hi), ys(p.v), 6, 0, 7); g.fillStyle = COL.plot; g.fill(); g.beginPath(); g.arc(xs(p.hi), ys(p.v), 4, 0, 7); g.fillStyle = s.color; g.fill(); }
+    }
+  }
+  function nearest(s, x) {
+    let best = null, bd = Infinity;
+    for (const p of s.pts) { const d = Math.abs(Math.log10(p.hi) - Math.log10(x)); if (d < bd) { bd = d; best = p; } }
+    return bd < 0.25 ? best : null;
+  }
+  function showTip(px, py) {
+    const tip = $("tip"), wrap = $("ch").parentElement;
+    let html = `<div class="h">Numbers near ${fmt(Math.round(chHover))}</div>`;
+    for (const s of SERIES) { const p = nearest(s, chHover); if (!p) continue; html += `<div class="r"><span class="k" style="border-color:${s.color}"></span><span class="v">${p.v.toFixed(2)}</span><span>${s.name.split(" (")[0]}, layer ${p.m}: ${p.cap} of ${fmt(p.width)}</span></div>`; }
+    tip.innerHTML = html; tip.style.display = "block";
+    const ww = wrap.clientWidth, tw = tip.offsetWidth, th = tip.offsetHeight;
+    let left = px + 12; if (left + tw > ww - 4) left = px - tw - 12; if (left < 4) left = 4;
+    let top = py - th - 8; if (top < 4) top = py + 12;
+    tip.style.transform = `translate(${Math.round(left)}px, ${Math.round(top)}px)`;
+  }
+  const ch = $("ch");
+  const chMove = (e) => { const r = ch.getBoundingClientRect(); const { xinv } = chGeom(ch.clientWidth, ch.clientHeight); chHover = Math.max(10, Math.min(100000, xinv(e.clientX - r.left))); drawChart(); showTip(e.clientX - r.left, e.clientY - r.top); };
+  ch.addEventListener("pointermove", chMove); ch.addEventListener("pointerdown", chMove);
+  ch.addEventListener("pointerleave", () => { chHover = null; $("tip").style.display = "none"; drawChart(); });
+  ch.addEventListener("keydown", (e) => {
+    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return; e.preventDefault();
+    chHover = Math.max(10, Math.min(100000, (chHover || 1000) * (e.key === "ArrowRight" ? 1.25 : 0.8)));
+    drawChart(); const { xs } = chGeom(ch.clientWidth, ch.clientHeight); showTip(xs(chHover), 30);
+  });
+  ch.addEventListener("blur", () => { chHover = null; $("tip").style.display = "none"; drawChart(); });
+  (() => {
+    const t = $("tab");
+    const head = ["Wheel", "Layer", "Numbers", "Width", "Rings up to", "Most in a row", "Share"];
+    const thead = document.createElement("thead"), tr = document.createElement("tr");
+    for (const h of head) { const th = document.createElement("th"); th.textContent = h; tr.appendChild(th); }
+    thead.appendChild(tr); t.appendChild(thead);
+    const tb = document.createElement("tbody");
+    for (const s of SERIES) for (const r of DATA[s.k]) {
+      if (r[2] < 10) continue;
+      const row = document.createElement("tr");
+      for (const v of [s.name.split(" (")[0], r[0], `${fmt(r[1])}–${fmt(r[2])}`, fmt(r[3]), r[6] ? PRIMES[r[6] - 1] : "–", r[7], (r[7] / r[3]).toFixed(2)]) { const td = document.createElement("td"); td.textContent = String(v); row.appendChild(td); }
+      tb.appendChild(row);
+    }
+    t.appendChild(tb);
+    const last2 = DATA["2"][DATA["2"].length - 1], last1 = DATA["1"][DATA["1"].length - 1];
+    $("chartNote").innerHTML = `Our wheel's line crosses 1 by layer 41 and reaches ${(last1[7] / last1[3]).toFixed(2)} at layer 391. The 4D wheel never gets near 1: at layer 60 its rings can cover ${Math.round((100 * last2[7]) / last2[3])}% of the layer. Its layers are wider than any turning of the rings can cover, so they're safe by width alone, like Goldbach's pairs.`;
+  })();
+
+  // ---------- findings ----------
+  const FINDS = [
+    { tag: "classical", html: "<b>Spheres can't hold counting.</b> A circle splits evenly into any number of points. The ordinary sphere only splits evenly into 4, 6, 8, 12 or 20, the corners of the regular solids. So in any number of dimensions a count runs on circles.", go: () => { setView("donut"); setClocks(2, 3); } },
+    { tag: "classical", html: "<b>Every two dimensions add a clock.</b> A rotation in 2D or 3D turns one plane. In 4D it can turn two planes at once, so each step of the count moves two clocks, and the numbers wind a knot around a donut.", go: () => { setView("donut"); setClocks(5, 6); setCounting(true); } },
+    { tag: "classical, now visible", html: "<b>The scatter is a shadow.</b> On one ring of 30, the 8 spots a prime past 5 can land on look scattered. On the 5 × 6 donut they're a perfect grid: 4 open rows crossed with 2 open columns. Flattening the grid onto one circle is what scatters it.", go: () => { setView("flat"); setClocks(5, 6); } },
+    { tag: "classical, now visible", html: "<b>“One more or one less than a multiple of 6” is two cells.</b> With clocks 2 and 3, the donut has 6 cells and only 2 are open. Every prime past 3 lands in one of them.", go: () => { setView("flat"); setClocks(2, 3); setCounting(true); } },
+    { tag: "noticed building", html: "<b>A 4D tread wheel stacks pyramids.</b> Let both clocks grow by one each layer: layer m is one lap of clocks m and m+1, so it holds m × (m+1) numbers, and the running totals are pyramid numbers instead of triangle numbers.", go: () => { setView("flat"); setLayer(7); } },
+    { tag: "checked", html: "<b>In 4D every layer is safe by width.</b> No turning of the rings can wipe out any 4D layer from 2 to 60; at layer 60 they can cover only about a quarter of it in a row. In our wheel, every layer from 41 on can be wiped. Ours is the only rung where the rings can aim at a whole layer.", go: () => { $("chartGroup").scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth", block: "start" }); } },
+    { tag: "checked", html: "<b>The mirror grows an axis.</b> Our layers start right at their seam or half a turn past it: the parity mirror, from the halving in triangle numbers. 4D layers start right at the seam or two thirds of a turn past it, exactly when 3 divides that clock: the third in pyramid numbers. It doesn't keep going; 6D layers only show halves.", go: () => { setView("flat"); setLayer(9); } },
+    { tag: "checked", html: "<b>Its own clocks see more.</b> With no division, a 4D creature's two clocks flag 72% of the composites on their own layer, because one clock is always even. Three clocks flag 80%. Our single ring flags 42%, or 64% with the mirror.", go: () => { setView("flat"); setLayer(12); } },
+    { tag: "classical", html: "<b>Our wheel sits on the square-root wall.</b> Our layers are about as wide as the square root of where they sit; 4D layers grow like the two-thirds power. Known math proves a prime in every stretch a little wider than the square root, once the numbers are large enough, so every large enough 4D layer provably holds one. Even assuming the Riemann Hypothesis, the best result needs the square root times a log, which is still wider than our layers. Ours is the one wheel where the question is open.", go: () => { $("chartGroup").scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth", block: "start" }); } },
+  ];
+  (() => {
+    const ol = $("finds");
+    for (const f of FINDS) {
+      const li = document.createElement("li");
+      li.innerHTML = `${f.html}<span class="tag">${f.tag}</span><br>`;
+      const btn = document.createElement("button"); btn.type = "button"; btn.textContent = "Show me";
+      btn.addEventListener("click", () => { f.go(); if (window.matchMedia("(max-width: 760px)").matches && !f.html.includes("safe by width") && !f.html.includes("square-root wall")) stage.scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth" }); });
+      li.appendChild(btn); ol.appendChild(li);
+    }
+  })();
+
+  // ---------- start ----------
+  $("howto").textContent = touchLike ? "Drag the donut to turn it. Let it count to watch the knot; Unrolled shows the same cells flat." : "Drag the donut to turn it. Let it count to watch the knot; Unrolled shows the same cells flat, beside one ring of the same size.";
+  function onResize() { layout(); drawChart(); kick(); }
+  new ResizeObserver(onResize).observe(stage);
+  window.addEventListener("resize", onResize);
+  layout(); clockText(); layerText(); drawChart();
+  requestAnimationFrame(frame);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { layout(); drawChart(); kick(); });
+  window.__dv = { S, setClocks, setLayer, setView, setCounting, layerStats, cellType, cellNumbers, clocks, lapRange, isPrime, DATA };
+})();
+</script>

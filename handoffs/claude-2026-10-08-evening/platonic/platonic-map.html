@@ -1,0 +1,1279 @@
+<title>The Platonic Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Spectral:wght@500;600&display=swap">
+<style>
+/* The Platonic Map. Every number sits on every ring at once: numbers run left to right, rings stack upward,
+   a mark wherever a number lands on a ring's seam. Primes are the columns no deciding ring marks.
+   A second view holds the free-phase vs counting-from-1 margin, layer by layer.
+   Deliberately dark only, like its sibling pages (Prime Tread Wheel, Problem Wheels, Geometric Math Globe). */
+:root {
+  --night: #05070d;
+  --plot: #070b16;
+  --panel: #0a0f1b;
+  --line: #232b46;
+  --ring: #3b4979;
+  --grid: #161d33;
+  --text: #dfe3f0;
+  --muted: #8f97b5;
+  --gold: #f0bf55;
+  --blue: #86a0ec;
+  --cream: #ecdfc0;
+  --s-free: #3987e5;
+  --s-real: #c98500;
+  --font-display: "Spectral", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --night: #05070d; --plot: #070b16; --panel: #0a0f1b; --line: #232b46; --ring: #3b4979; --grid: #161d33;
+    --text: #dfe3f0; --muted: #8f97b5; --gold: #f0bf55; --blue: #86a0ec; --cream: #ecdfc0; --s-free: #3987e5; --s-real: #c98500;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --night: #05070d; --plot: #070b16; --panel: #0a0f1b; --line: #232b46; --ring: #3b4979; --grid: #161d33;
+  --text: #dfe3f0; --muted: #8f97b5; --gold: #f0bf55; --blue: #86a0ec; --cream: #ecdfc0; --s-free: #3987e5; --s-real: #c98500;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body { margin: 0; background: var(--night); color: var(--text); font-family: var(--font-body); font-size: 14px; line-height: 1.5; }
+.app { height: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 360px; }
+.stage { position: relative; min-height: 0; min-width: 0; overflow: hidden; background: var(--night); }
+#cv { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; cursor: grab; }
+#cv.dragging { cursor: grabbing; }
+#cv.turn { cursor: ew-resize; }
+.mast { position: absolute; z-index: 2; top: 0; left: 0; max-width: 46ch; padding-inline: 20px; padding-block: 14px 0; display: flex; flex-direction: column; gap: 4px; pointer-events: none; }
+.mast h1 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.35rem, 1.05rem + 1vw, 1.9rem); letter-spacing: 0.01em; line-height: 1.2; }
+.mast p { margin: 0; color: var(--muted); font-size: 0.82rem; }
+.stagebar { position: absolute; z-index: 3; top: 12px; right: 12px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; max-width: 58%; }
+.stagebar .seg { display: flex; gap: 6px; flex-wrap: wrap; }
+.stagebar button { background: rgba(10, 15, 27, 0.9); }
+.zoombar { position: absolute; right: 12px; display: flex; gap: 6px; }
+.zoombar button { width: 34px; height: 30px; padding: 0; font-family: var(--font-data); font-size: 1rem; line-height: 1; background: rgba(10, 15, 27, 0.9); }
+.now { position: absolute; left: 0; right: 0; bottom: 0; padding-inline: 20px; padding-block: 0 8px; font-family: var(--font-data); font-size: 0.76rem; color: var(--muted); font-variant-numeric: tabular-nums; pointer-events: none; min-height: 1.5em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.now b { color: var(--text); font-weight: 500; }
+.g { color: var(--gold); }
+.b { color: var(--blue); }
+.c { color: var(--cream); }
+.panel { min-width: 0; min-height: 0; overflow-y: auto; background: var(--panel); border-left: 1px solid var(--line); padding-inline: 18px; padding-block: 16px; display: flex; flex-direction: column; gap: 20px; }
+.group { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+button { font: inherit; font-size: 0.82rem; font-weight: 500; color: var(--text); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+button:hover { border-color: var(--muted); }
+button.primary { background: var(--gold); border-color: var(--gold); color: var(--night); }
+button.primary:hover { border-color: var(--cream); }
+button[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); }
+button:disabled { opacity: 0.4; cursor: default; }
+input[type="range"] { width: 100%; accent-color: var(--gold); }
+input[type="number"] { font: inherit; font-family: var(--font-data); font-size: 0.85rem; color: var(--text); background: var(--night); border: 1px solid var(--line); border-radius: 8px; padding: 5px 8px; width: 6.5em; min-width: 0; }
+output { font-family: var(--font-data); color: var(--text); letter-spacing: 0; text-transform: none; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+#cv:focus-visible { outline-offset: -3px; }
+.note { margin: 0; color: var(--muted); font-size: 0.82rem; }
+.note b { color: var(--text); font-weight: 500; }
+.note a, .facts a { color: var(--text); }
+.verdict { margin: 0; font-family: var(--font-display); font-size: 1.04rem; line-height: 1.4; text-wrap: pretty; }
+.verdict b { font-weight: 600; }
+.check { display: flex; align-items: flex-start; gap: 8px; font-size: 0.82rem; color: var(--muted); cursor: pointer; }
+.check input { accent-color: var(--gold); margin: 3px 0 0; }
+.keys { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 7px 8px; align-items: start; font-size: 0.8rem; color: var(--muted); }
+.sw { width: 18px; height: 14px; border-radius: 2px; margin-top: 2px; box-shadow: inset 0 0 0 1px rgba(143, 151, 181, 0.28); }
+.sw.seam { background: linear-gradient(90deg, #121b38 0 60%, var(--blue) 60% 100%); }
+.sw.clean { background: linear-gradient(90deg, #121b38 0 30%, #9d8045 30% 70%, #121b38 70% 100%); box-shadow: inset 0 -3px 0 var(--gold), inset 0 0 0 1px rgba(143, 151, 181, 0.28); }
+.sw.dim { background: linear-gradient(90deg, #0a0e1b 0 60%, #2e3b66 60% 100%); }
+.sw.edge { background: linear-gradient(135deg, transparent 0 46%, var(--cream) 46% 56%, transparent 56% 100%); }
+.sw.free { background: linear-gradient(90deg, #121b38 0 30%, #7a7a83 30% 70%, #121b38 70% 100%); box-shadow: inset 0 0 0 1px rgba(236, 223, 192, 0.45); }
+.sw.strip { background: linear-gradient(90deg, #0d1428 0 50%, #19224a 50% 100%); height: 9px; margin-top: 5px; }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.chip { font-family: var(--font-data); font-size: 0.72rem; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; }
+.chip.hit { color: var(--night); background: var(--blue); border-color: var(--blue); }
+.finds { margin: 0; padding-left: 1.9em; display: flex; flex-direction: column; gap: 12px; }
+.finds li { color: var(--muted); font-size: 0.82rem; }
+.finds li b { color: var(--text); font-weight: 500; }
+.finds li button { margin-top: 6px; padding: 3px 12px; font-size: 0.76rem; }
+.finds li .tag { font-family: var(--font-data); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); margin-left: 6px; }
+.facts { border-top: 1px solid var(--line); padding-top: 12px; }
+.facts p { margin: 0; color: var(--muted); font-size: 0.8rem; }
+.facts p + p { margin-top: 8px; }
+.facts b { color: var(--text); font-weight: 500; }
+.howto { display: none; }
+.freeOnly { display: none; }
+.app.free .freeOnly { display: flex; }
+.app.free p.freeOnly, .app.free span.freeOnly { display: block; }
+/* margin view */
+.marginView { display: none; position: absolute; z-index: 1; inset: 64px 0 0 0; overflow-y: auto; padding: 10px 24px 40px; }
+.app.view-margin .marginView { display: block; }
+.app.view-margin #cv, .app.view-margin .now, .app.view-margin .zoombar, .app.view-margin .phaseSeg { display: none; }
+.mv-inner { max-width: 940px; margin: 0 auto; display: flex; flex-direction: column; gap: 34px; }
+.fig { margin: 0; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.fig h2 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 1.22rem; line-height: 1.3; }
+.fig .sub { margin: 0; color: var(--muted); font-size: 0.84rem; max-width: 74ch; }
+.fig .sub b { color: var(--text); font-weight: 500; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 0.78rem; color: var(--muted); }
+.lk { display: inline-block; width: 16px; height: 0; border-top: 2px solid; vertical-align: 3px; margin-right: 6px; }
+.dk { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
+.chartwrap { position: relative; min-width: 0; }
+.chartwrap canvas { width: 100%; height: 320px; display: block; border: 1px solid var(--line); border-radius: 8px; background: var(--plot); touch-action: pan-y; }
+.tip { position: absolute; top: 0; left: 0; display: none; pointer-events: none; background: rgba(10, 15, 27, 0.97); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 0.76rem; color: var(--muted); min-width: 170px; max-width: 260px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45); }
+.tip .h { color: var(--text); font-weight: 500; margin-bottom: 4px; }
+.tip .r { display: flex; align-items: baseline; gap: 8px; margin-top: 2px; }
+.tip .v { font-family: var(--font-data); color: var(--text); font-weight: 500; min-width: 3.2em; font-variant-numeric: tabular-nums; }
+.tip .k { display: inline-block; width: 12px; height: 0; border-top: 2px solid; vertical-align: 3px; flex: none; }
+.tip .kd { display: inline-block; width: 8px; height: 8px; border-radius: 50%; flex: none; }
+details.tablev summary { cursor: pointer; color: var(--muted); font-size: 0.8rem; width: fit-content; }
+details.tablev summary:hover { color: var(--text); }
+.tablewrap { max-height: 340px; overflow: auto; border: 1px solid var(--line); border-radius: 6px; margin-top: 8px; }
+table { border-collapse: collapse; font-family: var(--font-data); font-size: 0.74rem; font-variant-numeric: tabular-nums; width: 100%; }
+th, td { padding: 4px 10px; text-align: right; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+th { position: sticky; top: 0; background: var(--panel); color: var(--muted); font-weight: 500; font-family: var(--font-body); font-size: 0.72rem; }
+td { color: var(--text); }
+@media (max-width: 760px) {
+  html, body { height: auto; }
+  .app { height: auto; grid-template-columns: minmax(0, 1fr); }
+  .stage { height: 72vh; min-height: 420px; }
+  .app.view-margin .stage { height: auto; min-height: 0; }
+  .app.view-margin .marginView { position: static; padding: 112px 16px 28px; }
+  .mast p { display: none; }
+  .howto { display: block; }
+  .panel { border-left: 0; border-top: 1px solid var(--line); overflow: visible; padding-inline: 16px; }
+  .stagebar { top: 52px; left: 16px; right: 16px; max-width: none; justify-content: flex-start; }
+  .stagebar button { padding: 5px 11px; font-size: 0.78rem; }
+  .mast, .now { padding-inline: 16px; }
+  .chartwrap canvas { height: 260px; }
+}
+</style>
+
+<div class="app" id="app">
+  <main class="stage" id="stage">
+    <canvas id="cv" tabindex="0" role="img" aria-label="The Platonic Map: numbers run left to right and rings are stacked upward, ring 2 at the bottom. Each cell shows where a number sits on a ring; a bright mark means the number lands on that ring's seam. Columns with no mark from a deciding ring are the primes. Arrow keys move along the numbers, plus and minus zoom."></canvas>
+    <header class="mast" id="mast">
+      <h1>The Platonic Map</h1>
+      <p id="mastText"></p>
+    </header>
+    <div class="stagebar" id="stagebar">
+      <div class="seg" role="group" aria-label="View">
+        <button type="button" id="vMap" aria-pressed="true">Map</button>
+        <button type="button" id="vMargin" aria-pressed="false">Margin</button>
+      </div>
+      <div class="seg phaseSeg" role="group" aria-label="Phases">
+        <button type="button" id="mReal" aria-pressed="true">Counting from 1</button>
+        <button type="button" id="mFree" aria-pressed="false">Free phases</button>
+      </div>
+    </div>
+    <div class="zoombar" id="zoombar" role="group" aria-label="Zoom">
+      <button type="button" id="zOut" aria-label="Show more numbers">−</button>
+      <button type="button" id="zIn" aria-label="Show fewer numbers">+</button>
+    </div>
+    <div class="now" id="now" aria-hidden="true"></div>
+
+    <section class="marginView" id="marginView" aria-label="The margin, layer by layer">
+      <div class="mv-inner">
+        <figure class="fig" id="figA">
+          <h2>How much of each layer its rings can cover in a row</h2>
+          <p class="sub">Each layer is decided by the prime rings up to the square root of its last number. <b>Free phases:</b> the most those rings could ever cover in a row, with ring 2 held on the evens and every odd ring turned any way you like. <b>Counting from 1:</b> the longest stretch they actually cover inside the layer. Both are divided by the layer's width, so <b>1 means the whole layer</b>. Above the line, some turning of the rings would wipe the layer out.</p>
+          <div class="legend" id="legA"></div>
+          <div class="chartwrap">
+            <canvas id="chA" tabindex="0" role="img" aria-label="Line chart over layers 2 to 390 on a log scale. Free phases, with ring 2 held on the evens: the most the deciding rings can cover in a row, as a share of the layer, rises from below 1 to about 2.4. Counting from 1: the longest covered stretch inside the layer, falls from about 0.75 on the smallest layers to about 0.1. A reference line marks 1, the whole layer."></canvas>
+            <div class="tip" id="tipA"></div>
+          </div>
+          <p class="note" id="noteA"></p>
+          <details class="tablev"><summary>Show the numbers as a table</summary><div class="tablewrap"><table id="tabA"></table></div></details>
+        </figure>
+        <figure class="fig" id="figB">
+          <h2>Where the wiping patterns turn up, counting from 1</h2>
+          <p class="sub">Every way of turning the rings 2 to p happens somewhere on the real number line, once in every 2·3·5·…·p numbers. So the patterns that wipe out a layer do occur. For each layer, the dot is the <b>first place</b> where the same rings cover as many numbers in a row as the layer is wide, starting on an even or odd number just like the layer. The line is where the layer itself ends.</p>
+          <div class="legend" id="legB"></div>
+          <div class="chartwrap">
+            <canvas id="chB" tabindex="0" role="img" aria-label="Dot chart over layers 18 to 51, log scale upward from 100 to 10 billion. A line shows where each layer ends, between 171 and 1,326. Dots show the first place the same rings cover a stretch as long as the layer, between 9,440 and 3.7 billion: 45 to 3 million times farther out."></canvas>
+            <div class="tip" id="tipB"></div>
+          </div>
+          <p class="note" id="noteB"></p>
+          <details class="tablev"><summary>Show the numbers as a table</summary><div class="tablewrap"><table id="tabB"></table></div></details>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <aside class="panel" aria-label="Controls and findings">
+    <p class="note howto" id="howto"></p>
+
+    <div class="group">
+      <div class="label">Reading the map</div>
+      <div class="keys">
+        <span class="sw seam"></span><span id="keySeam"></span>
+        <span class="sw clean"></span><span>A <b class="g">gold column</b>: no deciding ring marks it. That's a prime. True primes also get a gold tick under the numbers, in every mode.</span>
+        <span class="sw dim"></span><span>Dim cells: rings that don't decide those numbers yet. A ring starts deciding at the layer that reaches its square.</span>
+        <span class="sw edge"></span><span>The cream line is that square-root edge.</span>
+        <span class="sw strip"></span><span>The strip under the numbers is the tread wheel's layers: layer m runs from T(m−1)+1 to T(m).</span>
+        <span class="sw free freeOnly"></span><span class="freeOnly">With free phases, a <b class="c">cream column</b> is clean under the current turning. It's no longer a prime.</span>
+      </div>
+      <p class="note">Shading inside a row is where each number sits on that ring: darkest just past the seam, brightening toward the next one.</p>
+    </div>
+
+    <div class="group">
+      <div class="label">Layer</div>
+      <div class="row">
+        <button type="button" id="lPrev" aria-label="Previous layer">◀</button>
+        <input type="number" id="lIn" min="2" max="774" step="1" value="15" aria-label="Layer number">
+        <button type="button" id="lNext" aria-label="Next layer">▶</button>
+        <button type="button" id="lGo">Frame it</button>
+      </div>
+      <p class="verdict" id="layerText" aria-live="polite"></p>
+      <div class="row freeOnly">
+        <button type="button" id="bBlank" class="primary">Wipe out this layer</button>
+        <button type="button" id="bRand">Random phases</button>
+        <button type="button" id="bZero">All back to 0</button>
+      </div>
+      <p class="note freeOnly" id="placeText" aria-live="polite"></p>
+    </div>
+
+    <div class="group">
+      <div class="label">Picked number</div>
+      <div class="row">
+        <input type="number" id="pIn" min="1" max="300000" step="1" value="221" aria-label="Pick a number">
+        <button type="button" id="pGo">Pick</button>
+      </div>
+      <p class="verdict" id="pickText" aria-live="polite"></p>
+      <div class="chips" id="pickChips"></div>
+    </div>
+
+    <div class="group">
+      <div class="label">Window</div>
+      <div class="row">
+        <label class="note" for="xIn">Start at</label>
+        <input type="number" id="xIn" min="1" max="300000" step="1" value="1">
+        <button type="button" id="xGo">Go</button>
+      </div>
+      <label class="label" for="nIn">Numbers in view <output id="nOut"></output></label>
+      <input id="nIn" type="range" min="12" max="2400" step="1" value="120">
+      <div class="row" role="group" aria-label="Rings shown">
+        <button type="button" id="rPrime" aria-pressed="true">Prime rings</button>
+        <button type="button" id="rAll" aria-pressed="false">Every ring</button>
+      </div>
+      <label class="check"><input type="checkbox" id="shade" checked><span>Shade where each number sits on each ring</span></label>
+      <label class="check"><input type="checkbox" id="seams" checked><span>Draw the layer seams through the map</span></label>
+    </div>
+
+    <div class="group">
+      <div class="label">What the map shows</div>
+      <ol class="finds" id="finds"></ol>
+    </div>
+
+    <div class="group facts">
+      <p><b>How the margin was measured.</b> Free phases keep ring 2 on the evens, since no even past 2 is prime, and let every odd ring turn. The most the odd rings 3 to p can cover is j − 1 odds in a row, where j is the Jacobsthal function of 3·5·…·p. That's exactly half the published value for 2·3·5·…·p (<a href="https://oeis.org/A048670" target="_blank" rel="noopener">OEIS A048670</a>). An exact search here agrees with the published values for rings up to 29, and with the halving for rings up to 23. The first wiping stretches come from a full scan from 0 for rings up to 29 and a scan to 3.7 billion for rings up to 31. The settings that wipe out layers past 51 were built by a greedy search and checked number by number.</p>
+      <p><b>The open question.</b> Does every layer hold a prime? That's the conjecture that a prime lies between any two consecutive triangular numbers (<a href="https://oeis.org/A066888" target="_blank" rel="noopener">OEIS A066888</a>). No layer from 2 to 10,000 is empty.</p>
+      <p><b>Siblings.</b> <a href="https://claude.ai/artifact/1QykrbqEfox16Ma9QXaV11" target="_blank" rel="noopener">Prime Tread Wheel</a> · <a href="https://claude.ai/artifact/8Zks8nfHufo3Ud1x2ADVWj" target="_blank" rel="noopener">Problem Wheels</a> · <a href="https://claude.ai/artifact/UgGWaEyUJBjGRogwFScmbM" target="_blank" rel="noopener">Geometric Math Globe</a> · <a href="https://claude.ai/artifact/EpCvqcUdx2j9xp9MommVu2" target="_blank" rel="noopener">I Rolled the Number Line Onto a Wheel</a> · <a href="https://claude.ai/artifact/QziGWZKREbwCg6R7yZ7nDu" target="_blank" rel="noopener">The Wheel Atlas</a></p>
+    </div>
+  </aside>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const DATA = {"H":[2,4,6,10,14,22,26,34,40,46,58,66,74,90,100,106,118,132,152,174,190,200,216,234,258,264,282,300,312,330,354,378,388,414,432,450,476,492,510,538,550,574,600,616,642,660,686,718,742,762,798,810,834,858,876,908,926,954],"rows":[[2,0,0,2,null,0,0],[3,1,1,1,null,1,0],[4,2,3,1,null,2,0],[5,2,2,2,null,2,0],[6,2,2,2,null,3,0],[7,3,5,1,null,5,0],[8,3,5,2,null,4,0],[9,3,3,3,null,4,0],[10,4,5,2,null,9,0],[11,4,5,2,null,9,0],[12,4,5,3,null,8,0],[13,4,5,3,null,8,0],[14,4,5,3,null,9,0],[15,4,7,3,null,9,0],[16,5,6,2,null,12,0],[17,5,9,4,null,12,0],[18,6,5,3,9440,21,1],[19,6,9,3,9440,21,1],[20,6,11,4,9441,20,1],[21,6,11,4,null,20,0],[22,6,9,4,null,21,0],[23,6,5,4,null,21,0],[24,7,9,4,217129,24,1],[25,7,8,4,null,24,0],[26,7,9,4,null,25,0],[27,8,7,4,60044,33,1],[28,8,7,5,60045,32,1],[29,8,9,5,60045,32,1],[30,8,7,6,60044,33,1],[31,8,11,4,60044,33,1],[32,8,11,5,60045,32,1],[33,9,12,3,8302459,38,1],[34,9,9,6,8302458,39,1],[35,9,11,6,8302458,39,1],[36,9,9,7,20332473,38,1],[37,9,9,5,20332473,38,1],[38,9,9,5,20332472,39,1],[39,9,7,6,20332472,39,1],[40,9,11,4,null,38,0],[41,10,13,8,417086649,44,1],[42,10,16,5,417086648,45,1],[43,10,9,6,417086648,45,1],[44,11,13,6,7006075,56,1],[45,11,11,8,7006075,56,1],[46,11,12,6,7006074,57,1],[47,11,7,8,7006074,57,1],[48,11,21,5,689448379,56,1],[49,11,11,7,3734704161,56,1],[50,11,16,5,3734704160,57,1],[51,11,11,11,3734704160,57,1],[52,12,33,4,null,64,1],[53,12,17,6,null,64,1],[54,12,11,9,null,65,1],[55,12,11,7,null,65,1],[56,12,13,8,null,64,1],[57,12,16,9,null,64,1],[58,13,23,8,null,73,1],[59,13,11,7,null,73,1],[60,13,11,7,null,72,1],[61,14,15,9,null,88,1],[62,14,17,7,null,89,1],[63,14,19,8,null,89,1],[64,14,13,7,null,88,1],[65,14,15,12,null,88,1],[66,15,23,5,null,99,1],[67,15,15,9,null,99,1],[68,15,21,9,null,98,1],[69,15,13,11,null,98,1],[70,15,13,9,null,99,1],[71,15,17,7,null,99,1],[72,15,21,7,null,98,1],[73,15,13,12,null,98,1],[74,15,13,10,null,99,1],[75,16,15,10,null,105,1],[76,16,17,9,null,104,1],[77,16,27,9,null,104,1],[78,16,13,9,null,105,1],[79,16,23,6,null,105,1],[80,16,11,11,null,104,1],[81,16,27,10,null,104,1],[82,16,15,11,null,105,1],[83,17,19,9,null,117,1],[84,17,11,12,null,116,1],[85,17,13,11,null,116,1],[86,18,13,12,null,131,1],[87,18,19,9,null,131,1],[88,18,17,10,null,130,1],[89,18,21,11,null,130,1],[90,18,21,12,null,131,1],[91,18,17,10,null,131,1],[92,18,14,13,null,130,1],[93,18,29,9,null,130,1],[94,18,17,11,null,131,1],[95,19,23,10,null,151,1],[96,19,17,12,null,150,1],[97,19,17,11,null,150,1],[98,19,23,10,null,151,1],[99,19,13,11,null,151,1],[100,20,15,14,null,172,1],[101,20,27,11,null,172,1],[102,20,17,11,null,173,1],[103,21,15,11,null,189,1],[104,21,24,13,null,188,1],[105,21,25,13,null,188,1],[106,21,31,13,null,189,1],[107,21,29,10,null,189,1],[108,21,11,18,null,188,1],[109,21,27,8,null,188,1],[110,21,17,13,null,189,1],[111,21,23,12,null,189,1],[112,22,17,15,null,198,1],[113,22,23,13,null,198,1],[114,22,29,11,null,199,1],[115,22,17,12,null,199,1],[116,22,23,14,null,198,1],[117,23,19,14,null,214,1],[118,23,29,16,null,215,1],[119,23,23,11,null,215,1],[120,23,17,14,null,214,1],[121,23,22,10,null,214,1],[122,23,17,12,null,215,1],[123,23,13,18,null,215,1],[124,23,19,14,null,214,1],[125,23,29,12,null,214,1],[126,24,29,13,null,233,1],[127,24,21,15,null,233,1],[128,24,18,13,null,232,1],[129,24,23,14,null,232,1],[130,24,33,12,null,233,1],[131,24,19,15,null,233,1],[132,24,17,17,null,232,1],[133,24,19,15,null,232,1],[134,24,27,16,null,233,1],[135,24,23,13,null,233,1],[136,24,19,15,null,232,1],[137,25,21,18,null,256,1],[138,25,35,14,null,257,1],[139,25,21,15,null,257,1],[140,25,17,18,null,256,1],[141,25,33,14,null,256,1],[142,25,25,15,null,257,1],[143,26,19,16,null,263,1],[144,26,27,15,null,262,1],[145,26,27,13,null,262,1],[146,27,19,18,null,281,1],[147,27,31,14,null,281,1],[148,27,27,14,null,280,1],[149,27,19,18,null,280,1],[150,27,25,15,null,281,1],[151,28,21,14,null,299,1],[152,28,27,15,null,298,1],[153,28,33,13,null,298,1],[154,29,23,19,null,311,1],[155,29,25,16,null,311,1],[156,29,33,17,null,310,1],[157,29,25,17,null,310,1],[158,29,15,20,null,311,1],[159,29,17,18,null,311,1],[160,30,27,14,null,328,1],[161,30,23,21,null,328,1],[162,30,29,17,null,329,1],[163,30,27,15,null,329,1],[164,30,19,17,null,328,1],[165,30,19,17,null,328,1],[166,30,21,18,null,329,1],[167,30,29,17,null,329,1],[168,30,35,15,null,328,1],[169,30,29,14,null,328,1],[170,30,17,18,null,329,1],[171,30,27,19,null,329,1],[172,30,15,22,null,328,1],[173,30,29,15,null,328,1],[174,30,17,19,null,329,1],[175,30,17,23,null,329,1],[176,30,19,17,null,328,1],[177,30,43,21,null,328,1],[178,30,35,20,null,329,1],[179,30,25,18,null,329,1],[180,31,41,16,null,352,1],[181,31,29,17,null,352,1],[182,31,29,18,null,353,1],[183,31,25,17,null,353,1],[184,31,27,18,null,352,1],[185,32,23,20,null,376,1],[186,32,33,19,null,377,1],[187,32,19,20,null,377,1],[188,32,29,19,null,376,1],[189,32,19,18,null,376,1],[190,32,27,23,null,377,1],[191,32,19,21,null,377,1],[192,32,19,21,null,376,1],[193,32,29,15,null,376,1],[194,33,35,15,null,387,1],[195,33,27,17,null,387,1],[196,33,23,19,null,386,1],[197,34,39,25,null,412,1],[198,34,51,17,null,413,1],[199,34,21,20,null,413,1],[200,34,17,21,null,412,1],[201,34,17,22,null,412,1],[202,34,33,20,null,413,1],[203,34,29,17,null,413,1],[204,34,39,22,null,412,1],[205,34,27,21,null,412,1],[206,34,29,21,null,413,1],[207,34,33,22,null,413,1],[208,34,29,21,null,412,1],[209,34,17,23,null,412,1],[210,34,15,24,null,413,1],[211,35,35,18,null,431,1],[212,35,23,22,null,430,1],[213,35,34,23,null,430,1],[214,36,35,18,null,449,1],[215,36,17,26,null,449,1],[216,36,27,18,null,448,1],[217,36,23,22,null,448,1],[218,36,29,23,null,449,1],[219,36,27,25,null,449,1],[220,36,29,21,null,448,1],[221,36,25,21,null,448,1],[222,37,27,17,null,475,1],[223,37,19,21,null,475,1],[224,37,23,22,null,474,1],[225,37,39,22,null,474,1],[226,37,51,22,null,475,1],[227,37,21,22,null,475,1],[228,37,29,21,null,474,1],[229,37,25,25,null,474,1],[230,37,25,22,null,475,1],[231,38,29,24,null,491,1],[232,38,21,24,null,490,1],[233,38,35,21,null,490,1],[234,38,29,20,null,491,1],[235,38,29,18,null,491,1],[236,39,31,30,null,508,1],[237,39,27,22,null,508,1],[238,39,47,21,null,509,1],[239,39,19,29,null,509,1],[240,39,21,23,null,508,1],[241,39,29,22,null,508,1],[242,39,19,26,null,509,1],[243,39,29,22,null,509,1],[244,39,33,21,null,508,1],[245,40,26,21,null,536,1],[246,40,21,23,null,537,1],[247,40,35,20,null,537,1],[248,40,29,28,null,536,1],[249,40,29,22,null,536,1],[250,40,29,28,null,537,1],[251,40,71,21,null,537,1],[252,40,29,23,null,536,1],[253,41,49,23,null,548,1],[254,41,35,29,null,549,1],[255,41,23,27,null,549,1],[256,42,33,22,null,572,1],[257,42,29,28,null,572,1],[258,42,39,25,null,573,1],[259,42,29,29,null,573,1],[260,42,23,25,null,572,1],[261,42,61,21,null,572,1],[262,42,21,26,null,573,1],[263,42,33,28,null,573,1],[264,42,25,24,null,572,1],[265,42,41,23,null,572,1],[266,42,29,26,null,573,1],[267,42,53,21,null,573,1],[268,42,21,28,null,572,1],[269,42,25,25,null,572,1],[270,43,43,25,null,599,1],[271,43,21,28,null,599,1],[272,43,25,28,null,598,1],[273,44,29,25,null,614,1],[274,44,19,30,null,615,1],[275,44,43,19,null,615,1],[276,44,29,25,null,614,1],[277,44,39,25,null,614,1],[278,44,39,27,null,615,1],[279,45,25,26,null,641,1],[280,45,41,28,null,640,1],[281,46,37,26,null,658,1],[282,46,27,30,null,659,1],[283,46,25,25,null,659,1],[284,46,53,20,null,658,1],[285,46,53,25,null,658,1],[286,46,23,29,null,659,1],[287,46,31,29,null,659,1],[288,46,29,28,null,658,1],[289,46,31,29,null,658,1],[290,46,29,30,null,659,1],[291,46,23,33,null,659,1],[292,46,29,29,null,658,1],[293,46,35,29,null,658,1],[294,46,34,20,null,659,1],[295,46,29,27,null,659,1],[296,46,51,23,null,658,1],[297,46,27,32,null,658,1],[298,47,57,28,null,685,1],[299,47,29,28,null,685,1],[300,47,39,27,null,684,1],[301,47,35,27,null,684,1],[302,47,29,25,null,685,1],[303,47,49,26,null,685,1],[304,47,29,29,null,684,1],[305,47,27,28,null,684,1],[306,47,35,27,null,685,1],[307,47,27,24,null,685,1],[308,47,31,32,null,684,1],[309,47,33,30,null,684,1],[310,47,35,28,null,685,1],[311,47,23,27,null,685,1],[312,47,51,32,null,684,1],[313,47,39,29,null,684,1],[314,47,29,30,null,685,1],[315,48,37,29,null,717,1],[316,48,33,31,null,716,1],[317,48,29,31,null,716,1],[318,48,35,25,null,717,1],[319,48,31,27,null,717,1],[320,48,37,30,null,716,1],[321,49,23,35,null,740,1],[322,49,27,30,null,741,1],[323,49,23,30,null,741,1],[324,50,41,26,null,760,1],[325,50,23,31,null,760,1],[326,50,29,31,null,761,1],[327,50,25,28,null,761,1],[328,50,27,32,null,760,1],[329,50,33,24,null,760,1],[330,51,23,36,null,797,1],[331,51,29,28,null,797,1],[332,51,29,30,null,796,1],[333,51,31,26,null,796,1],[334,51,29,38,null,797,1],[335,51,29,30,null,797,1],[336,51,25,32,null,796,1],[337,51,25,35,null,796,1],[338,52,37,35,null,809,1],[339,52,29,25,null,809,1],[340,52,23,34,null,808,1],[341,53,37,33,null,832,1],[342,53,29,30,null,833,1],[343,53,57,29,null,833,1],[344,53,51,34,null,832,1],[345,53,29,37,null,832,1],[346,53,33,27,null,833,1],[347,53,39,31,null,833,1],[348,53,49,29,null,832,1],[349,53,39,32,null,832,1],[350,53,41,27,null,833,1],[351,53,23,35,null,833,1],[352,53,31,29,null,832,1],[353,53,39,30,null,832,1],[354,53,25,31,null,833,1],[355,54,39,29,null,857,1],[356,54,29,36,null,856,1],[357,54,37,38,null,856,1],[358,54,27,27,null,857,1],[359,54,39,28,null,857,1],[360,54,31,30,null,856,1],[361,54,25,34,null,856,1],[362,54,29,37,null,857,1],[363,55,35,32,null,875,1],[364,55,35,28,null,874,1],[365,55,29,33,null,874,1],[366,55,29,35,null,875,1],[367,55,31,36,null,875,1],[368,55,27,35,null,874,1],[369,55,35,32,null,874,1],[370,55,37,28,null,875,1],[371,55,41,33,null,875,1],[372,56,49,30,null,906,1],[373,56,39,29,null,906,1],[374,56,31,35,null,907,1],[375,56,29,36,null,907,1],[376,56,29,31,null,906,1],[377,56,29,37,null,906,1],[378,56,34,38,null,907,1],[379,56,21,37,null,907,1],[380,57,37,36,null,924,1],[381,57,35,33,null,924,1],[382,57,35,35,null,925,1],[383,58,47,28,null,953,1],[384,58,35,35,null,952,1],[385,58,29,35,null,952,1],[386,58,33,33,null,953,1],[387,58,51,36,null,953,1],[388,58,29,35,null,952,1],[389,58,27,38,null,952,1],[390,58,43,31,null,953,1]],"covers":[[1,1,[0]],[3,1,[0,1]],[5,1,[0,1,3]],[9,1,[0,1,3,5]],[13,1,[0,0,1,5,7]],[21,1,[0,1,0,3,9,11]],[25,1,[0,0,2,5,1,11,13]],[33,1,[0,1,1,2,5,3,0,15]],[39,1,[0,1,3,1,5,9,4,17,11]],[45,1,[0,1,2,1,0,9,5,3,21,23]],[57,0,[0,1,3,0,6,2,11,9,5,0,27]],[65,0,[0,0,1,0,3,3,2,5,13,17,6,23]],[71,0,[0,0,0,5,1,4,7,11,13,0,0,0,12]],[89,0,[0,1,1,3,9,5,12,8,0,18,15,35,33,39]],[93,0,[0,1,1,5,6,9,12,15,0,19,3,8,27,16,10]],[99,0,[0,1,0,4,3,12,6,2,17,0,27,9,11,28,41,33]],[107,0,[0,1,0,3,0,5,12,13,1,23,9,32,27,21,39,0,41]],[121,0,[0,0,0,5,9,10,7,10,14,13,11,17,31,36,30,1,43,59]],[143,0,[0,1,0,1,8,7,0,9,16,11,21,27,5,3,23,0,22,16,26]],[172,0,[0,1,0,3,5,11,0,9,7,4,7,2,29,21,23,41,18,22,57,10]],[179,0,[0,0,2,5,7,0,2,11,9,1,9,4,31,23,25,43,20,24,17,12,35]],[184,0,[0,1,3,5,4,12,1,8,11,0,12,8,17,9,41,18,47,39,34,21,38,28]],[202,0,[0,1,0,1,8,7,0,9,16,27,25,3,7,7,6,11,41,8,14,12,21,23,18]],[211,0,[0,1,3,5,4,12,1,8,11,3,10,0,17,9,21,29,12,45,38,30,14,39,78,18]],[222,0,[0,1,0,3,5,11,0,9,7,4,23,29,25,25,34,24,24,57,39,60,40,21,34,41,69]],[240,0,[0,1,2,1,0,10,4,5,14,16,3,14,9,20,41,0,36,32,2,59,39,32,35,16,74,30]],[243,0,[0,1,0,3,5,11,13,1,0,28,22,4,37,37,9,21,29,38,51,12,33,28,34,59,14,30,10]],[253,0,[0,2,4,0,9,2,4,13,11,3,27,33,37,25,12,28,28,60,1,14,45,25,32,33,43,73,90,10]],[263,0,[0,0,1,5,7,11,15,5,17,27,13,18,15,20,35,27,20,53,10,67,23,59,25,65,16,6,24,18,54]],[276,0,[0,1,0,2,0,3,1,15,18,25,21,27,8,25,32,17,12,39,50,59,57,63,30,64,22,47,21,89,74,34]],[291,0,[0,1,0,2,0,3,1,15,17,18,21,27,0,1,42,2,12,57,50,48,38,39,64,35,34,12,21,96,44,59,14]],[311,0,[0,0,2,1,7,0,11,4,2,5,18,4,18,19,15,0,31,58,58,62,10,35,20,55,48,84,48,92,89,101,118,0]],[324,0,[1,2,2,3,8,8,4,8,7,6,27,18,40,14,23,37,36,27,63,16,51,69,31,48,29,54,92,37,28,78,29,0,14]],[342,0,[0,2,4,3,7,2,10,6,9,17,26,17,21,37,38,28,33,13,60,34,29,43,28,39,1,33,97,104,19,28,26,121,88,68]],[360,0,[1,1,1,6,2,6,10,4,3,21,12,33,18,11,8,14,35,30,3,21,65,0,45,14,60,21,11,38,60,16,98,39,91,29,1]],[365,0,[0,1,3,0,5,2,5,11,6,11,7,6,13,3,17,45,2,38,14,65,62,37,72,12,57,47,62,51,9,59,55,88,129,10,88,116]],[389,0,[0,1,0,3,9,8,6,1,2,2,20,7,0,7,11,30,55,5,63,66,38,25,78,42,27,29,33,5,92,18,69,36,96,107,94,149,5]],[414,0,[1,2,1,3,1,6,4,16,18,3,18,28,6,0,30,23,0,16,37,48,8,40,31,44,63,79,22,60,3,42,82,53,78,70,86,119,120,132]],[425,0,[0,0,1,3,2,7,16,0,14,26,16,16,7,33,9,24,29,23,39,26,25,20,5,57,65,43,46,49,70,42,125,92,56,78,139,36,107,21,162]],[440,0,[0,1,0,3,0,8,0,9,3,2,24,34,3,25,8,30,39,23,49,60,20,24,41,24,57,6,81,66,50,8,74,6,53,52,29,27,69,136,63,84]],[440,0,[1,0,4,2,10,7,16,8,2,1,27,6,13,28,22,29,12,26,62,24,47,23,40,23,56,70,92,65,1,30,38,106,52,68,93,87,2,158,11,17,4]],[487,0,[0,2,3,2,6,9,14,18,22,1,18,18,28,11,19,4,27,48,7,15,65,11,21,71,18,58,35,41,67,81,25,64,44,41,147,120,110,85,58,166,20,23]],[498,0,[0,2,3,0,9,5,1,7,15,0,19,18,3,29,16,10,4,45,44,25,19,51,30,88,77,94,79,27,37,99,67,88,110,72,117,0,140,1,70,127,39,44,139]],[519,0,[0,1,3,5,1,4,5,9,18,23,12,17,21,34,1,12,11,10,15,48,59,5,29,46,13,36,99,84,51,5,27,35,125,57,96,57,62,69,101,106,91,176,36,154]],[531,0,[0,1,0,3,2,3,0,2,7,6,24,29,33,28,42,41,23,47,27,6,42,73,32,61,9,30,8,63,39,83,80,18,69,62,144,11,55,21,113,137,91,170,82,134,115]],[549,0,[0,1,0,3,3,3,0,14,7,11,7,9,0,20,21,7,57,50,27,46,35,45,31,5,92,77,38,30,39,23,80,108,36,93,89,26,134,146,106,108,167,70,7,63,89,177]],[561,0,[0,1,0,3,0,11,3,9,22,11,15,2,27,21,18,28,29,50,19,12,51,53,23,1,12,30,93,43,31,41,117,19,119,13,0,52,20,1,162,85,60,57,61,28,54,63,106]],[578,0,[0,1,0,3,0,8,0,9,3,6,15,2,27,28,16,28,6,57,41,46,29,58,53,32,12,89,8,43,50,54,80,107,102,69,0,38,131,83,30,50,147,173,23,56,90,15,9,104]],[604,0,[1,2,0,6,3,3,7,14,22,22,15,8,28,23,34,25,18,43,20,8,11,4,33,69,54,11,2,37,88,20,21,72,64,75,15,106,142,96,12,13,86,87,176,178,67,153,2,28,155]],[611,0,[0,0,2,5,1,7,6,17,6,20,25,4,11,31,25,20,43,18,1,65,13,16,18,53,88,8,3,44,57,4,71,39,2,83,32,88,34,143,38,56,72,23,7,9,151,34,24,150,113,35]],[633,0,[0,1,1,6,0,9,15,15,0,17,28,26,25,3,45,13,36,32,65,39,47,26,51,57,12,72,67,96,97,1,55,5,55,38,90,104,149,154,12,97,29,165,159,155,123,135,147,197,78,164,24]],[653,0,[0,0,2,5,9,5,11,16,3,10,24,23,18,29,5,41,25,4,1,27,57,22,40,86,13,5,48,14,43,9,91,19,74,135,50,58,34,125,38,71,85,40,153,47,139,133,112,52,66,162,98,150]],[672,0,[1,1,0,1,7,5,15,0,8,14,26,0,15,34,3,12,12,3,19,61,31,2,68,9,19,48,95,100,47,13,57,10,21,16,15,22,108,42,15,69,102,144,20,65,27,65,24,83,28,34,21,6,71]],[683,0,[0,0,2,1,0,10,2,13,12,1,10,12,38,9,44,40,31,25,66,54,10,5,10,62,57,10,86,1,73,32,45,62,115,65,33,131,88,130,109,139,56,82,1,119,117,16,10,119,45,61,15,191,60,164]],[701,0,[0,1,3,3,5,2,9,5,6,2,21,33,39,29,1,9,43,8,31,32,0,51,34,83,11,37,35,24,65,20,121,18,133,2,91,116,57,99,125,78,177,135,47,105,18,38,46,8,114,155,136,78,45,101,38]],[710,0,[0,1,0,6,9,12,13,10,16,28,13,33,21,7,5,30,4,18,22,0,28,68,17,28,11,22,18,92,23,90,55,90,90,3,113,1,59,128,35,24,12,68,161,104,66,44,159,136,114,10,87,184,225,192,171,216]],[741,0,[0,1,0,2,3,1,0,9,5,2,12,17,22,25,34,23,57,13,29,65,32,55,0,53,4,77,71,59,17,33,32,39,73,11,143,54,78,141,36,0,120,87,41,21,184,99,171,106,137,30,160,55,238,243,117,120,122]],[759,0,[0,1,0,1,6,8,0,11,3,12,7,31,13,38,23,48,33,46,48,0,15,9,53,35,72,89,93,4,34,35,62,129,126,104,13,8,63,55,90,27,173,137,0,104,77,28,20,64,59,209,18,147,190,123,250,58,60,22]]],"pin":{"m":390,"upTo":83,"pinned":23,"left":44,"real":31,"free":{"89":62,"97":2,"101":39,"103":6,"107":50,"109":16,"113":1,"127":44,"131":23,"137":41,"139":48,"149":109,"151":139,"157":100,"163":115,"167":65,"173":0,"179":87,"181":30,"191":141,"193":182,"197":152,"199":73,"211":73,"223":60,"227":149,"229":123,"233":10,"239":119,"241":32,"251":199,"257":57,"263":72,"269":181,"271":169}}};
+
+  // ---------- arithmetic ----------
+  const $ = (id) => document.getElementById(id);
+  const fmt = (n) => Number(n).toLocaleString("en-US");
+  const T = (m) => (m * (m + 1)) / 2;
+  const mod = (a, p) => ((a % p) + p) % p;
+  const isqrt = (n) => { let r = Math.floor(Math.sqrt(n)); while (r * r > n) r--; while ((r + 1) * (r + 1) <= n) r++; return r; };
+  function layerOf(x) {
+    let m = Math.max(1, Math.round((Math.sqrt(8 * x + 1) - 1) / 2));
+    while (T(m) < x) m++;
+    while (m > 1 && T(m - 1) >= x) m--;
+    return m;
+  }
+  const XMAX = 300000;
+  const LAYER_MAX = layerOf(XMAX) - 1;
+  const SN = XMAX + 2000;
+  const comp = new Uint8Array(SN + 1);
+  comp[0] = 1; comp[1] = 1;
+  for (let i = 2; i * i <= SN; i++) if (!comp[i]) for (let j = i * i; j <= SN; j += i) comp[j] = 1;
+  const isPrime = (x) => x >= 2 && x <= SN && !comp[x];
+  const PRIMES = [];
+  for (let i = 2; i <= 1500; i++) if (!comp[i]) PRIMES.push(i);
+  function kOf(m) { const r = isqrt(T(m)); let k = 0; while (k < PRIMES.length && PRIMES[k] <= r) k++; return k; }
+  function smallestFactor(x) { for (const p of PRIMES) { if (p * p > x) break; if (x % p === 0) return p; } return x; }
+  const SUP = "⁰¹²³⁴⁵⁶⁷⁸⁹";
+  const sup = (n) => String(n).split("").map((d) => SUP[+d]).join("");
+  function factorText(x) {
+    const parts = []; let y = x;
+    while (y > 1) { const p = smallestFactor(y); let e = 0; while (y % p === 0) { y /= p; e++; } parts.push(e > 1 ? p + sup(e) : String(p)); }
+    return parts.join(" × ");
+  }
+  function inv(a, p) {
+    let t = 0, nt = 1, r = p, nr = mod(a, p);
+    while (nr !== 0) { const q = Math.floor(r / nr); [t, nt] = [nt, t - q * nt]; [r, nr] = [nr, r - q * nr]; }
+    return mod(t, p);
+  }
+  function timesText(r) {
+    if (r < 10) return r.toFixed(1);
+    if (r < 1e6) return fmt(Math.round(r));
+    if (r < 1e9) return (r / 1e6).toFixed(1).replace(/\.0$/, "") + " million";
+    if (r < 1e12) return (r / 1e9).toFixed(1).replace(/\.0$/, "") + " billion";
+    const e = Math.floor(Math.log10(r));
+    return `about 10${sup(e)}`;
+  }
+
+  // ---------- precomputed margin data ----------
+  const H = DATA.H;
+  // rows: [layer, rings, longest covered stretch, primes, first wiping stretch (ring 2 on the evens), most in a row, wipeable]
+  const ROW = new Map(DATA.rows.map((r) => [r[0], { k: r[1], real: r[2], primes: r[3], first: r[4], free: r[5], can: !!r[6] }]));
+
+  function stats(m) {
+    const lo = T(m - 1) + 1, hi = T(m), k = kOf(m);
+    let primes = 0, real = 0, cur = 0;
+    for (let x = lo; x <= hi; x++) {
+      if (isPrime(x)) { primes++; cur = 0; } else { cur++; if (cur > real) real = cur; }
+    }
+    // free phases keep ring 2 on the evens; the odd rings, turned freely, cover at most h/2 - 1 odds in a row
+    const h = k >= 1 && k <= H.length ? H[k - 1] : null;
+    const odds = Math.floor((hi + 1) / 2) - Math.floor(lo / 2);
+    const oddMax = h === null ? null : k >= 2 ? h / 2 - 1 : 0;
+    const free = k === 0 ? 0 : h === null ? null : h - 1 - (lo % 2);
+    const can = h !== null && k >= 2 && odds <= oddMax;
+    const row = ROW.get(m);
+    return { m, lo, hi, k, gear: k ? PRIMES[k - 1] : null, primes, real, free, odds, oddMax, can, first: row ? row.first : null };
+  }
+
+  // ---------- state ----------
+  const S = {
+    view: "map", mode: "real", rings: "prime", shade: true, seams: true,
+    x0: 1, n: 120, layer: 15, pick: 221, hover: null, cursor: null, cursorRow: 0,
+    ph: new Map(), blankSource: null, blankLayer: null,
+  };
+  const phaseOf = (p) => (S.mode === "free" && p !== 2 ? S.ph.get(p) || 0 : 0);   // ring 2 always stays on the evens
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const DPR = () => Math.min(2, window.devicePixelRatio || 1);
+  const MONO = '"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace';
+  const SANS = '"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif';
+  const COL = {
+    night: "#05070d", plot: "#070b16", line: "#232b46", ring: "#3b4979", grid: "#161d33",
+    text: "#dfe3f0", muted: "#8f97b5", gold: "#f0bf55", blue: "#86a0ec", cream: "#ecdfc0",
+    free: "#3987e5", real: "#c98500",
+  };
+  const app = $("app"), stage = $("stage"), cv = $("cv"), ctx = cv.getContext("2d");
+  const touchLike = window.matchMedia("(pointer: coarse)").matches;
+
+  // ---------- rings and cells ----------
+  function ringList() {
+    const x1 = S.x0 + S.n - 1;
+    const rdec = isqrt(T(layerOf(x1)));
+    const out = [];
+    if (S.rings === "all" && S.mode === "real") {
+      const want = Math.max(rdec + 2, 12);
+      for (let r = 2; r <= Math.min(want, 64); r++) out.push(r);
+      return out;
+    }
+    let dec = 0;
+    for (const p of PRIMES) if (p <= rdec) dec++;
+    const total = Math.max(dec + 2, 10);
+    return PRIMES.slice(0, total);
+  }
+  const RGB = {
+    dec0: [12, 18, 38], dec1: [33, 46, 92],
+    non0: [7, 10, 20], non1: [14, 19, 37],
+    hit: [134, 160, 236], hitDim: [44, 57, 100],
+    gold: [240, 191, 85], cream: [236, 223, 192],
+  };
+  const pack = (r, g, b) => ((255 << 24) | (Math.round(b) << 16) | (Math.round(g) << 8) | Math.round(r)) >>> 0;
+  const BG = pack(5, 7, 13);
+  const cellCv = document.createElement("canvas");
+  const cellCtx = cellCv.getContext("2d");
+  let cellImg = null;
+  // One bitmap row per ring, one bitmap pixel per screen pixel across: columns get exact integer edges.
+  function buildCells(rings, x0, n, pw, gapW) {
+    const R = rings.length;
+    if (!cellImg || cellCv.width !== pw || cellCv.height !== R) {
+      cellCv.width = pw; cellCv.height = R; cellImg = cellCtx.createImageData(pw, R);
+    }
+    const buf = new Uint32Array(cellImg.data.buffer);
+    const top = new Float64Array(n), clean = new Uint8Array(n), real = new Uint8Array(n);
+    let m = layerOf(x0), tm = T(m), rd = isqrt(tm);
+    for (let j = 0; j < n; j++) {
+      const x = x0 + j;
+      while (x > tm) { m++; tm = T(m); rd = isqrt(tm); }
+      top[j] = tm;
+      let c = 1;
+      for (let i = 0; i < PRIMES.length && PRIMES[i] <= rd; i++) {
+        const p = PRIMES[i];
+        if (mod(x - phaseOf(p), p) === 0) { c = 0; break; }
+      }
+      clean[j] = x > 1 ? c : 0;
+      real[j] = isPrime(x) ? 1 : 0;
+    }
+    const pxCol = new Int32Array(pw), pxGap = new Uint8Array(pw);
+    for (let px = 0; px < pw; px++) pxCol[px] = Math.min(n - 1, Math.floor((px * n) / pw));
+    if (gapW > 0) for (let px = 1; px < pw; px++) if (pxCol[px] !== pxCol[px - 1]) for (let g = 0; g < gapW && px + g < pw; g++) pxGap[px + g] = 1;
+    const tint = S.mode === "free" ? RGB.cream : RGB.gold;
+    const aDec = S.mode === "free" ? 0.46 : 0.6, aNon = S.mode === "free" ? 0.16 : 0.2;
+    const colr = new Uint32Array(n);
+    for (let i = 0; i < R; i++) {
+      const r = rings[i];
+      const ph = r <= 1500 && !comp[r] ? phaseOf(r) : 0;
+      const rr = r * r, y = R - 1 - i;
+      for (let j = 0; j < n; j++) {
+        const x = x0 + j, pos = mod(x - ph, r), dec = rr <= top[j];
+        let c0, c1, c2;
+        if (pos === 0) {
+          const h = dec ? RGB.hit : RGB.hitDim; c0 = h[0]; c1 = h[1]; c2 = h[2];
+        } else {
+          const t = S.shade ? pos / r : 0.45;
+          const a = dec ? RGB.dec0 : RGB.non0, b = dec ? RGB.dec1 : RGB.non1;
+          c0 = a[0] + (b[0] - a[0]) * t; c1 = a[1] + (b[1] - a[1]) * t; c2 = a[2] + (b[2] - a[2]) * t;
+          if (clean[j]) {
+            const al = dec ? aDec : aNon;
+            c0 += (tint[0] - c0) * al; c1 += (tint[1] - c1) * al; c2 += (tint[2] - c2) * al;
+          } else if (x === 1) {
+            c0 += (RGB.cream[0] - c0) * 0.1; c1 += (RGB.cream[1] - c1) * 0.1; c2 += (RGB.cream[2] - c2) * 0.1;
+          }
+        }
+        colr[j] = pack(c0, c1, c2);
+      }
+      const base = y * pw;
+      for (let px = 0; px < pw; px++) buf[base + px] = pxGap[px] ? BG : colr[pxCol[px]];
+    }
+    cellCtx.putImageData(cellImg, 0, 0);
+    return { top, clean, real };
+  }
+
+  // ---------- layout ----------
+  const LAY = { W: 0, H: 0, dpr: 1, plotL: 0, plotR: 0, plotT: 0, plotB: 0 };
+  let G = null;
+  function layout() {
+    const dpr = DPR();
+    const r = stage.getBoundingClientRect();
+    const cssW = Math.max(1, r.width), cssH = Math.max(1, r.height);
+    cv.width = Math.round(cssW * dpr); cv.height = Math.round(cssH * dpr);
+    const narrow = cssW < 560;
+    const mast = $("mast").getBoundingClientRect(), bar = $("stagebar").getBoundingClientRect();
+    const topCss = Math.max(mast.bottom, bar.bottom) - r.top + (narrow ? 14 : 18);
+    const bottomCss = 48 + 26;
+    LAY.W = cv.width; LAY.H = cv.height; LAY.dpr = dpr; LAY.narrow = narrow;
+    LAY.plotL = Math.round((narrow ? 30 : 40) * dpr);
+    LAY.plotR = Math.round((cssW - (narrow ? 10 : 16)) * dpr);
+    LAY.plotT = Math.round(topCss * dpr);
+    LAY.plotB = Math.round((cssH - bottomCss) * dpr);
+    $("zoombar").style.top = `${topCss - (narrow ? 38 : 40)}px`;
+    const nMax = Math.max(24, Math.min(2400, LAY.plotR - LAY.plotL));
+    $("nIn").max = String(nMax);
+    if (S.n > nMax) S.n = nMax;
+    clampWindow();
+  }
+  const nMaxNow = () => +$("nIn").max;
+  function clampWindow() {
+    S.n = Math.max(12, Math.min(nMaxNow(), Math.round(S.n)));
+    S.x0 = Math.max(1, Math.min(XMAX - S.n + 1, Math.round(S.x0)));
+  }
+
+  // ---------- drawing the map ----------
+  function drawMap() {
+    if (S.view !== "map") return;
+    const dpr = LAY.dpr, W = LAY.W, Hh = LAY.H;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = COL.night; ctx.fillRect(0, 0, W, Hh);
+    const n = S.n, x0 = S.x0, x1 = x0 + n - 1;
+    const L = LAY.plotL, B = LAY.plotB, pw = LAY.plotR - LAY.plotL;
+    const cw = pw / n;
+    const rings = ringList(), R = rings.length;
+    const rhF = Math.min((B - LAY.plotT) / R, 64 * dpr);
+    const rowTop = (i) => B - Math.round((i + 1) * rhF);   // top edge of ring row i (row 0 = ring 2, at the bottom)
+    const top = rowTop(R - 1), plotH = B - top;
+    const colLeft = (j) => L + Math.ceil((j * pw) / n - 1e-9);
+    const colX = (x) => colLeft(x - x0);
+    const gapW = cw >= 5 * dpr ? Math.max(1, Math.round(dpr)) : 0;
+    const info = buildCells(rings, x0, n, pw, gapW);
+    G = { cw, pw, n, x0, rings, rhF, top, B, info, colLeft };
+    ctx.imageSmoothingEnabled = false;
+    for (let i = 0; i < R; i++) {
+      const yt = rowTop(i), yb = i === 0 ? B : rowTop(i - 1);
+      const gapR = yb - yt >= 6 * dpr ? Math.max(1, Math.round(dpr)) : 0;
+      ctx.drawImage(cellCv, 0, R - 1 - i, pw, 1, L, yt + gapR, pw, yb - yt - gapR);
+    }
+    // layer seams of the tread wheel
+    const m0 = layerOf(x0), m1 = layerOf(x1);
+    if (S.seams) {
+      ctx.fillStyle = "rgba(146, 160, 214, 0.42)";
+      const w = Math.max(1, Math.round(dpr));
+      for (let m = m0; m < m1; m++) {
+        const px = colX(T(m) + 1);
+        if (px > L && px < L + pw) ctx.fillRect(px - (gapW ? 0 : Math.floor(w / 2)), top - 3 * dpr, w, plotH + 3 * dpr + 46 * dpr);
+      }
+    }
+    // the square-root edge: ring r starts deciding at the first number of the layer that reaches r^2
+    ctx.beginPath();
+    let started = false;
+    for (let i = 0; i < R; i++) {
+      const r = rings[i];
+      const join = T(layerOf(r * r) - 1) + 1;
+      if (join <= x0) continue;                  // this ring already decides the whole window
+      const yb = i === 0 ? B : rowTop(i - 1), yt = rowTop(i);
+      const beyond = join > x1;
+      const px = beyond ? L + pw : colX(join);
+      if (!started) { ctx.moveTo(i === 0 ? px : L, yb); started = true; }
+      ctx.lineTo(px, yb);
+      if (beyond) break;
+      ctx.lineTo(px, yt);
+    }
+    ctx.strokeStyle = "rgba(236, 223, 192, 0.85)";
+    ctx.lineWidth = 1.5 * dpr; ctx.lineJoin = "round";
+    ctx.stroke();
+    // framed layer
+    const fl = S.layer, flo = T(fl - 1) + 1, fhi = T(fl);
+    if (fhi >= x0 && flo <= x1) {
+      const a = Math.max(L, colX(flo)), b = Math.min(L + pw, colX(fhi + 1));
+      ctx.strokeStyle = S.mode === "free" ? COL.cream : COL.gold;
+      ctx.lineWidth = 1.5 * dpr;
+      ctx.strokeRect(a + 0.75 * dpr, top - 5 * dpr, b - a - 1.5 * dpr, plotH + 6 * dpr);
+      ctx.font = `500 ${11 * dpr}px ${SANS}`;
+      ctx.fillStyle = COL.text; ctx.textBaseline = "bottom"; ctx.textAlign = "left";
+      const lab = `layer ${fl}`;
+      const tw = ctx.measureText(lab).width;
+      const lx = Math.max(L, Math.min(L + pw - tw, (a + b) / 2 - tw / 2));
+      if (top - 8 * dpr > LAY.plotT - 4 * dpr) ctx.fillText(lab, lx, top - 8 * dpr);
+    }
+    // picked number
+    if (S.pick != null && S.pick >= x0 && S.pick <= x1) {
+      const a = colX(S.pick), b = colX(S.pick + 1);
+      ctx.strokeStyle = "rgba(240, 191, 85, 0.95)"; ctx.lineWidth = Math.max(1, dpr);
+      ctx.strokeRect(a + 0.5, top + 0.5, Math.max(b - a - 1, 1), plotH - 1);
+    }
+    // hover / keyboard cursor
+    const hv = S.hover;
+    if (hv && hv.x != null && hv.x >= x0 && hv.x <= x1) {
+      const a = colX(hv.x), b = colX(hv.x + 1);
+      ctx.strokeStyle = "rgba(223, 227, 240, 0.85)"; ctx.lineWidth = Math.max(1, dpr);
+      ctx.strokeRect(a + 0.5, top + 0.5, Math.max(b - a - 1, 1), plotH + 16 * dpr);
+      if (hv.row != null && hv.row < R) {
+        const yt = rowTop(hv.row), yb = hv.row === 0 ? B : rowTop(hv.row - 1);
+        ctx.strokeStyle = "rgba(223, 227, 240, 0.35)";
+        ctx.strokeRect(L + 0.5, yt + 0.5, pw - 1, yb - yt - 1);
+      }
+    }
+    // axis: true primes, numbers, layers
+    const tickY = B + 5 * dpr, numY = B + 13 * dpr, stripY = B + 30 * dpr, stripH = 14 * dpr;
+    ctx.fillStyle = COL.gold;
+    for (let j = 0; j < n; j++) {
+      if (!info.real[j]) continue;
+      const a = colLeft(j), b = colLeft(j + 1), inset = b - a >= 4 * dpr ? Math.round(dpr) : 0;
+      ctx.fillRect(a + inset, tickY, Math.max(1, b - a - 2 * inset), 5 * dpr);
+    }
+    const steps = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000];
+    ctx.font = `${10 * dpr}px ${MONO}`;
+    const wide = ctx.measureText(fmt(x1)).width + 14 * dpr;
+    const step = steps.find((s) => s * cw >= wide) || 100000;
+    ctx.fillStyle = COL.muted; ctx.textBaseline = "top"; ctx.textAlign = "center";
+    for (let x = Math.ceil(x0 / step) * step; x <= x1; x += step) ctx.fillText(fmt(x), (colX(x) + colX(x + 1)) / 2, numY);
+    for (let m = m0; m <= m1; m++) {
+      const a = Math.max(L, colX(T(m - 1) + 1)), b = Math.min(L + pw, colX(T(m) + 1));
+      ctx.fillStyle = m % 2 ? "#0e1530" : "#162047";
+      ctx.fillRect(a, stripY, b - a, stripH);
+      if (m === S.layer) { ctx.strokeStyle = S.mode === "free" ? COL.cream : COL.gold; ctx.lineWidth = Math.max(1, dpr); ctx.strokeRect(a + 0.5, stripY + 0.5, b - a - 1, stripH - 1); }
+      const lab = String(m), tw = ctx.measureText(lab).width;
+      if (b - a > tw + 8 * dpr) { ctx.fillStyle = m === S.layer ? COL.text : COL.muted; ctx.textBaseline = "middle"; ctx.fillText(lab, (a + b) / 2, stripY + stripH / 2 + 0.5 * dpr); }
+    }
+    // ring labels
+    ctx.font = `${10 * dpr}px ${MONO}`; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    const every = Math.max(1, Math.ceil((11 * dpr) / rhF));
+    for (let i = 0; i < R; i += every) {
+      const r = rings[i], decides = r * r <= info.top[n - 1];
+      const yt = rowTop(i), yb = i === 0 ? B : rowTop(i - 1);
+      ctx.fillStyle = decides ? COL.muted : "#4d5677";
+      ctx.fillText(String(r), L - 6 * dpr, (yt + yb) / 2);
+    }
+    ctx.textAlign = "left";
+    if (S.rings === "all" && S.mode === "real" && rings[rings.length - 1] === 64 && isqrt(info.top[n - 1]) > 62) {
+      ctx.fillStyle = COL.muted; ctx.font = `${10 * dpr}px ${SANS}`; ctx.textBaseline = "bottom";
+      ctx.fillText("showing rings 2 to 64", L, top - 6 * dpr);
+    }
+  }
+
+  // ---------- describing numbers ----------
+  function deciders(x) { const r = isqrt(T(layerOf(x))); return PRIMES.filter((p) => p <= r); }
+  function nowText(x, ring) {
+    if (x === 1) return "<b>1</b> · the unit, where counting starts · no ring decides it";
+    const m = layerOf(x), tick = x - T(m - 1), ds = deciders(x);
+    const hits = ds.filter((p) => mod(x - phaseOf(p), p) === 0);
+    let s = `<b>${fmt(x)}</b> · layer ${m}, tick ${tick} · `;
+    if (!ds.length) s += `no ring decides layer ${m} yet`;
+    else if (hits.length) s += `on the seam of ${hits.join(", ")}`;
+    else s += `misses every seam of rings ${ds.length === 1 ? "2" : "2–" + ds[ds.length - 1]}`;
+    if (S.mode === "real") s += hits.length || x === 1 ? ` → composite (${factorText(x)})` : ` → <span class="g">prime</span>`;
+    else s += hits.length ? " → covered" : ` → <span class="c">clean</span>${isPrime(x) ? "" : ` (really ${factorText(x)})`}`;
+    if (ring) {
+      const pos = mod(x - (comp[ring] ? 0 : phaseOf(ring)), ring);
+      s += ` · ring ${ring}: ${pos === 0 ? "on its seam" : `${pos} of ${ring} around`}`;
+      if (ring * ring > T(m)) s += " (doesn't decide yet)";
+      else if (ring === 2 && S.mode === "free") s += " (stays on the evens)";
+    }
+    return s;
+  }
+  function pickText() {
+    const x = S.pick;
+    const el = $("pickText"), chips = $("pickChips");
+    chips.textContent = "";
+    if (x == null) { el.textContent = ""; return; }
+    if (x === 1) { el.innerHTML = "<b>1</b> is the unit. It sits on layer 1 alone, and no ring decides it: it's where counting starts, neither prime nor composite."; return; }
+    const m = layerOf(x), tick = x - T(m - 1), ds = deciders(x);
+    const hits = ds.filter((p) => mod(x - phaseOf(p), p) === 0);
+    let s = `<b>${fmt(x)}</b> sits on layer ${m}, tick ${tick} of ${m}. `;
+    if (!ds.length) s += `No ring decides layer ${m} yet, so it's clean: <b class="g">prime</b>.`;
+    else {
+      s += `The rings that decide it are ${ds.length === 1 ? "ring 2" : `2 to ${ds[ds.length - 1]}`}. `;
+      if (S.mode === "real") {
+        s += hits.length
+          ? `It lands on the seam of ${hits.length === 1 ? "ring " + hits[0] : "rings " + hits.join(" and ")}: composite, ${factorText(x)}.`
+          : `It misses every one of their seams: <b class="g">prime</b>.`;
+      } else {
+        s += hits.length
+          ? `With these phases it lands on the turned seam of ${hits.length === 1 ? "ring " + hits[0] : "rings " + hits.join(" and ")}: covered.`
+          : `With these phases it misses every seam: <b class="c">clean</b>.`;
+        s += isPrime(x) ? " Counting from 1, it's prime." : ` Counting from 1, it's ${factorText(x)}.`;
+      }
+    }
+    el.innerHTML = s;
+    for (const p of ds) {
+      const pos = mod(x - phaseOf(p), p);
+      const c = document.createElement("span");
+      c.className = "chip" + (pos === 0 ? " hit" : "");
+      c.textContent = `${p} · ${pos}`;
+      c.title = pos === 0 ? `on ring ${p}'s seam` : `${pos} of ${p} around ring ${p}`;
+      chips.appendChild(c);
+    }
+  }
+
+  // ---------- free phases: wiping out a layer ----------
+  function cleanInLayer(m) {
+    const st = stats(m), ps = PRIMES.slice(0, st.k);
+    let c = 0;
+    for (let x = st.lo; x <= st.hi; x++) {
+      let hit = false;
+      for (const p of ps) if (mod(x - phaseOf(p), p) === 0) { hit = true; break; }
+      if (!hit) c++;
+    }
+    return c;
+  }
+  function blankSetting(m) {
+    const st = stats(m);
+    if (!st.k || st.k > DATA.covers.length) return null;
+    const ps = PRIMES.slice(0, st.k);
+    // a real stretch starting at y shows up on this layer when every ring p is turned to (lo - y) mod p
+    if (st.can && st.first != null) return { st, ps, phases: ps.map((p) => mod(st.lo - st.first, p)), source: "first", t: 0 };
+    const [L, exact, res] = DATA.covers[st.k - 1];
+    const t = mod(st.lo + res[0], 2);            // slide the covering stretch by t so ring 2 lands on the evens
+    return { st, ps, phases: ps.map((p, i) => mod(st.lo - t + res[i], p)), source: st.can ? "built" : "best", t, L, exact };
+  }
+  function crtPlace(m) {
+    const st = stats(m), ps = PRIMES.slice(0, st.k);
+    let y = 0n, M = 1n;
+    for (const p of ps) {
+      const bp = BigInt(p);
+      const want = mod(st.lo - phaseOf(p), p);
+      const have = Number(y % bp), Mp = Number(M % bp);
+      const t = (mod(want - have, p) * inv(Mp, p)) % p;
+      y += M * BigInt(t); M *= bp;
+    }
+    return { y, M, st };
+  }
+  let animTimer = null;
+  function pinDemo() {
+    clearInterval(animTimer); $("bBlank").disabled = false;
+    setView("map"); setMode("free", false);
+    S.ph.clear();
+    for (const [p, r] of Object.entries(DATA.pin.free)) S.ph.set(+p, r);
+    S.blankSource = "pin"; S.blankLayer = DATA.pin.m;
+    setLayer(DATA.pin.m, true);
+  }
+  function blank(m, animate = true) {
+    const b = blankSetting(m);
+    if (!b) return;
+    clearInterval(animTimer);
+    setMode("free", false);
+    setLayer(m, true);
+    S.blankSource = b.source; S.blankLayer = m; S.blankT = b.t;
+    const steps = b.ps.map((p, i) => [p, b.phases[i]]).filter(([p]) => p !== 2);
+    if (!steps.length) { render(); return; }
+    if (!animate || reduced.matches) { for (const [p, f] of steps) S.ph.set(p, f); render(); return; }
+    let i = 0;
+    const dt = Math.max(45, Math.min(220, 1500 / steps.length));
+    $("bBlank").disabled = true;
+    animTimer = setInterval(() => {
+      const [p, f] = steps[i++];
+      S.ph.set(p, f);
+      render();
+      if (i >= steps.length) { clearInterval(animTimer); $("bBlank").disabled = false; render(); }
+    }, dt);
+  }
+
+  // ---------- panel text ----------
+  function layerText() {
+    const st = stats(S.layer);
+    const rings = st.k === 1 ? "Ring 2 decides it" : `Rings 2 to ${st.gear} decide it`;
+    let s = `<b>Layer ${st.m}</b> holds ${fmt(st.lo)}–${fmt(st.hi)}. `;
+    if (!st.k) s += `No ring decides it yet: √${st.hi} is less than 2. `;
+    else s += `${rings} (√${fmt(st.hi)} ≈ ${Math.sqrt(st.hi).toFixed(1)}). `;
+    if (S.mode === "real") {
+      s += `Counting from 1 they leave <b class="g">${st.primes} clean column${st.primes === 1 ? "" : "s"}</b>, its primes. `;
+      if (st.k) s += `Their longest covered stretch inside the layer is ${st.real} of ${st.m}. `;
+      if (!st.k) {}
+      else if (st.free === null) s += "How much they could cover turned freely isn't tabulated this far out.";
+      else if (st.k === 1) s += "Ring 2 alone never lands on an odd number, so no turning can wipe it out.";
+      else if (st.can) s += `Keep ring 2 on the evens and turn the odd rings freely: they can cover <b>${st.oddMax} odds in a row</b>, and the layer has only ${st.odds}. Some turning wipes it out.`;
+      else s += `Keep ring 2 on the evens and turn the odd rings freely: they cover at most ${st.oddMax} odds in a row, and the layer has ${st.odds}. <b>No turning can wipe it out.</b>`;
+    } else {
+      const c = cleanInLayer(S.layer);
+      s += c === 0
+        ? `<b>With these phases the layer is wiped out:</b> every one of its ${st.m} numbers lands on a seam.`
+        : `With these phases <b class="c">${c} clean column${c === 1 ? "" : "s"}</b> remain${c === 1 ? "s" : ""}.`;
+      if (c > 0 && S.blankLayer === S.layer && S.blankSource === "best")
+        s += st.k >= 2 ? ` That's the best these rings can do: the odd rings cover at most ${st.oddMax} odds in a row, and the layer has ${st.odds}.` : " Ring 2 alone can't do better.";
+    }
+    $("layerText").innerHTML = s;
+    const b = $("bBlank");
+    const can = st.k && st.k <= DATA.covers.length;
+    b.disabled = !can || (animTimer && $("bBlank").disabled);
+    b.textContent = st.can ? "Wipe out this layer" : "Try to wipe it out";
+    $("lIn").value = String(S.layer);
+  }
+  function bigText(b) {
+    const t = b.toString();
+    if (t.length <= 18) return b.toLocaleString("en-US");
+    return `a ${t.length}-digit number, about ${t[0]}.${t.slice(1, 3)} × 10${sup(t.length - 1)}`;
+  }
+  function placeText() {
+    const el = $("placeText");
+    if (S.mode !== "free") { el.textContent = ""; return; }
+    const st = stats(S.layer);
+    if (!st.k) { el.textContent = "No ring decides this layer yet, so there's nothing to turn."; return; }
+    const ps = PRIMES.slice(0, st.k);
+    if (ps.every((p) => phaseOf(p) === 0)) {
+      el.innerHTML = "The deciding rings all sit at their real phases: this is counting from 1. Press <b>Wipe out this layer</b> to turn them, or drag a ring.";
+      return;
+    }
+    const { y, M } = crtPlace(S.layer);
+    const ringsTxt = st.k === 1 ? "ring 2" : `rings 2 to ${st.gear}`;
+    const cyc = st.k <= 5 ? ps.join("·") : `2·3·5·…·${st.gear}`;
+    const Mt = M.toString();
+    let s = `Counting from 1, these same phases of ${ringsTxt} line up on the numbers starting at <b>${bigText(y)}</b>. `;
+    s += Mt.length <= 18 ? `The pattern comes around again every ${M.toLocaleString("en-US")} numbers (${cyc}).` : `The pattern comes around again every ${cyc} numbers, a ${Mt.length}-digit cycle.`;
+    const c = cleanInLayer(S.layer);
+    const mine = S.blankLayer === S.layer;
+    if (c === 0) {
+      const yn = Number(y);
+      if (yn > st.hi) {
+        const wideThere = yn < 1e30 ? fmt(Math.round(Math.sqrt(2 * yn))) : "10" + sup(Math.round(Math.log10(Math.sqrt(2 * yn))));
+        s += ` That's ${timesText(yn / st.hi)} times farther out than this layer. Layers there are about ${wideThere} wide, so the same ${st.m} covered numbers are just a short run of composites.`;
+      } else if (yn < st.lo) s += " That's before this layer.";
+      if (mine && S.blankSource === "first" && st.first != null && y === BigInt(st.first))
+        s += ` It's the first place on the number line where these rings cover ${st.m} in a row starting on an ${st.lo % 2 ? "odd" : "even"} number, like this layer (exact search).`;
+      else if (mine && S.blankSource === "built")
+        s += " Other turnings might line up sooner. For rings this big, the earliest one hasn't been searched.";
+      else if (mine && S.blankSource === "pin")
+        s += ` Every ring up to ${DATA.pin.upTo} sits exactly where counting from 1 puts it. Only the ${Object.keys(DATA.pin.free).length} bigger rings are turned.`;
+    } else if (mine && S.blankSource === "best" && st.k >= 2 && DATA.covers[st.k - 1][1] === 1 && S.blankT === 0 && y > BigInt(st.gear)) {
+      s += ` That's the first place these rings cover ${DATA.covers[st.k - 1][0]} in a row, the most they ever can.`;
+    }
+    if (st.k > DATA.covers.length) s += " (Wiping settings are only built here up to layer 391.)";
+    el.innerHTML = s;
+  }
+  function mastText() {
+    $("mastText").textContent = S.view === "margin"
+      ? "Free phases against counting from 1, layer by layer: how close the rings could come to wiping a layer out, and how close they do."
+      : S.mode === "free"
+      ? "Free phases: drag any odd ring sideways to turn it. Ring 2 stays on the evens, since no even past 2 is prime."
+      : "Every number sits on every ring at once. A ring marks a number when it lands on the ring's seam. Primes are the columns no deciding ring marks.";
+    $("keySeam").innerHTML = S.mode === "free"
+      ? "A <b class=\"b\">blue mark</b>: the number lands on that ring's turned seam. Ring 2 never turns: it stays on the evens."
+      : "A <b class=\"b\">blue mark</b>: the number lands on that ring's seam, so the ring divides it.";
+    $("howto").textContent = touchLike
+      ? (S.mode === "free" ? "Drag a ring sideways to turn it. Tap a column to pick it; − and + zoom." : "Drag to slide along the numbers. Tap a column to pick it; − and + zoom.")
+      : (S.mode === "free" ? "Drag a ring sideways to turn it. Click a column to pick it; scroll to zoom." : "Drag to slide along the numbers. Click a column to pick it; scroll to zoom.");
+  }
+  function nowIdle() {
+    const n = $("now");
+    if (S.hover && S.hover.x != null) { n.innerHTML = nowText(S.hover.x, S.hover.ring); return; }
+    if (S.pickShown && S.pick != null && S.pick >= S.x0 && S.pick < S.x0 + S.n) { n.innerHTML = nowText(S.pick, null); return; }
+    n.textContent = touchLike
+      ? (S.mode === "free" ? "drag a ring to turn it · tap a column" : "drag to slide · tap a column · − + to zoom")
+      : (S.mode === "free" ? "drag a ring sideways to turn it · click a column · scroll to zoom" : "hover a column · drag to slide · scroll to zoom · arrow keys move");
+  }
+
+  // ---------- render ----------
+  let raf = 0;
+  function render() {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      raf = 0;
+      drawMap();
+      layerText(); placeText(); pickText(); nowIdle();
+      $("nIn").value = String(S.n); $("nOut").textContent = fmt(S.n);
+      if (document.activeElement !== $("xIn")) $("xIn").value = String(S.x0);
+    });
+  }
+
+  // ---------- controls ----------
+  function placeMarginView() {
+    const mv = $("marginView"), r = stage.getBoundingClientRect();
+    const mast = $("mast").getBoundingClientRect(), bar = $("stagebar").getBoundingClientRect();
+    const head = Math.ceil(Math.max(mast.bottom, bar.bottom) - r.top + 6);
+    if (window.matchMedia("(max-width: 760px)").matches) { mv.style.top = ""; mv.style.paddingTop = `${head + 12}px`; }
+    else { mv.style.top = `${head}px`; mv.style.paddingTop = ""; }
+  }
+  function setView(v) {
+    S.view = v;
+    app.classList.toggle("view-margin", v === "margin");
+    $("vMap").setAttribute("aria-pressed", String(v === "map"));
+    $("vMargin").setAttribute("aria-pressed", String(v === "margin"));
+    mastText();
+    if (v === "map") { layout(); render(); } else { placeMarginView(); drawCharts(); }
+  }
+  function setMode(md, doRender = true) {
+    if (md === "real") { clearInterval(animTimer); $("bBlank").disabled = false; }
+    S.mode = md;
+    app.classList.toggle("free", md === "free");
+    $("mReal").setAttribute("aria-pressed", String(md === "real"));
+    $("mFree").setAttribute("aria-pressed", String(md === "free"));
+    if (md === "free" && S.rings === "all") setRings("prime", false);
+    $("rAll").disabled = md === "free";
+    $("rAll").title = md === "free" ? "Every ring is shown only when counting from 1" : "";
+    mastText();
+    if (doRender) render();
+  }
+  function setRings(r, doRender = true) {
+    S.rings = r;
+    $("rPrime").setAttribute("aria-pressed", String(r === "prime"));
+    $("rAll").setAttribute("aria-pressed", String(r === "all"));
+    if (doRender) render();
+  }
+  function setWindow(x0, n) { S.x0 = x0; S.n = n; clampWindow(); render(); }
+  function setLayer(m, frame = true) {
+    S.layer = Math.max(2, Math.min(LAYER_MAX, Math.round(m)));
+    if (frame) {
+      const lo = T(S.layer - 1) + 1, hi = T(S.layer), w = S.layer;
+      if (w > 0.8 * S.n) S.n = Math.min(nMaxNow(), Math.ceil(w / 0.55));
+      if (lo < S.x0 || hi > S.x0 + S.n - 1) S.x0 = lo - Math.floor((S.n - w) / 2);
+      clampWindow();
+    }
+    render();
+  }
+  function zoom(factor, anchorCol) {
+    const old = S.n;
+    const nn = Math.max(12, Math.min(nMaxNow(), Math.round(old * factor)));
+    if (nn === old) return;
+    const a = anchorCol == null ? old / 2 : anchorCol;
+    const ax = S.x0 + a;
+    S.n = nn; S.x0 = Math.round(ax - (a * nn) / old);
+    clampWindow(); render();
+  }
+
+  $("vMap").addEventListener("click", () => setView("map"));
+  $("vMargin").addEventListener("click", () => setView("margin"));
+  $("mReal").addEventListener("click", () => setMode("real"));
+  $("mFree").addEventListener("click", () => setMode("free"));
+  $("rPrime").addEventListener("click", () => setRings("prime"));
+  $("rAll").addEventListener("click", () => setRings("all"));
+  $("zIn").addEventListener("click", () => zoom(1 / 1.5));
+  $("zOut").addEventListener("click", () => zoom(1.5));
+  $("shade").addEventListener("change", (e) => { S.shade = e.target.checked; render(); });
+  $("seams").addEventListener("change", (e) => { S.seams = e.target.checked; render(); });
+  $("nIn").addEventListener("input", (e) => { zoom(+e.target.value / S.n); });
+  $("xGo").addEventListener("click", () => setWindow(+$("xIn").value || 1, S.n));
+  $("xIn").addEventListener("keydown", (e) => { if (e.key === "Enter") setWindow(+$("xIn").value || 1, S.n); });
+  $("lPrev").addEventListener("click", () => setLayer(S.layer - 1));
+  $("lNext").addEventListener("click", () => setLayer(S.layer + 1));
+  $("lGo").addEventListener("click", () => setLayer(+$("lIn").value || 2));
+  $("lIn").addEventListener("keydown", (e) => { if (e.key === "Enter") setLayer(+$("lIn").value || 2); });
+  $("lIn").max = String(LAYER_MAX);
+  $("pGo").addEventListener("click", () => pickNumber(+$("pIn").value || 1, true));
+  $("pIn").addEventListener("keydown", (e) => { if (e.key === "Enter") pickNumber(+$("pIn").value || 1, true); });
+  $("bBlank").addEventListener("click", () => blank(S.layer));
+  $("bRand").addEventListener("click", () => {
+    clearInterval(animTimer); $("bBlank").disabled = false;
+    for (const p of PRIMES.slice(1, 120)) S.ph.set(p, Math.floor(Math.random() * p));
+    S.blankSource = null; render();
+  });
+  $("bZero").addEventListener("click", () => { clearInterval(animTimer); $("bBlank").disabled = false; S.ph.clear(); S.blankSource = null; render(); });
+
+  function pickNumber(x, frame) {
+    x = Math.max(1, Math.min(XMAX, Math.round(x)));
+    S.pick = x; S.pickShown = true; $("pIn").value = String(x);
+    if (frame && (x < S.x0 || x > S.x0 + S.n - 1)) { S.x0 = x - Math.floor(S.n / 2); clampWindow(); }
+    render();
+  }
+
+  // pointer: drag to pan (or to turn a ring in free mode), click to pick, wheel to zoom
+  function hit(clientX, clientY) {
+    if (!G) return null;
+    const r = cv.getBoundingClientRect();
+    const px = (clientX - r.left) * LAY.dpr, py = (clientY - r.top) * LAY.dpr;
+    const col = Math.floor(((px - LAY.plotL) * G.n) / G.pw);
+    const inCols = px >= LAY.plotL && col >= 0 && col < G.n;
+    let row = null;
+    if (py >= G.top && py < LAY.plotB) row = Math.max(0, Math.min(G.rings.length - 1, Math.floor((LAY.plotB - py) / G.rhF)));
+    const inAxis = py >= LAY.plotB && py < LAY.plotB + 46 * LAY.dpr;
+    return { col: inCols ? col : null, x: inCols ? G.x0 + col : null, row, ring: row != null ? G.rings[row] : null, region: !inCols ? "none" : row != null ? "plot" : inAxis ? "axis" : "none" };
+  }
+  let drag = null;
+  cv.addEventListener("pointerdown", (e) => {
+    if (e.button !== 0 && e.pointerType === "mouse") return;
+    const h = hit(e.clientX, e.clientY);
+    const turn = S.mode === "free" && h && h.region === "plot" && h.ring != null && !comp[h.ring] && h.ring !== 2;
+    drag = { id: e.pointerId, x: e.clientX, y: e.clientY, x0: S.x0, moved: false, kind: turn ? "turn" : "pan", ring: h ? h.ring : null, ph0: turn ? phaseOf(h.ring) : 0, h };
+    try { cv.setPointerCapture(e.pointerId); } catch (_) {}
+  });
+  cv.addEventListener("pointermove", (e) => {
+    if (drag && drag.id === e.pointerId) {
+      const dx = e.clientX - drag.x;
+      if (!drag.moved && Math.abs(dx) > 4) { drag.moved = true; cv.classList.add(drag.kind === "turn" ? "turn" : "dragging"); }
+      if (drag.moved && G) {
+        const cols = Math.round((dx * LAY.dpr) / G.cw);
+        if (drag.kind === "pan") { S.x0 = drag.x0 - cols; clampWindow(); }
+        else { S.ph.set(drag.ring, mod(drag.ph0 + cols, drag.ring)); S.blankSource = null; }
+        render();
+      }
+      return;
+    }
+    const h = hit(e.clientX, e.clientY);
+    S.hover = h && h.x != null && h.region !== "none" ? { x: h.x, row: h.row, ring: h.ring } : null;
+    cv.classList.toggle("turn", S.mode === "free" && !!h && h.region === "plot" && h.ring !== 2);
+    render();
+  });
+  function endDrag(e) {
+    if (!drag || drag.id !== e.pointerId) return;
+    if (!drag.moved && drag.h && drag.h.x != null && drag.h.region !== "none") pickNumber(drag.h.x, false);
+    drag = null; cv.classList.remove("dragging");
+  }
+  cv.addEventListener("pointerup", endDrag);
+  cv.addEventListener("pointercancel", (e) => { if (drag && drag.id === e.pointerId) { drag = null; cv.classList.remove("dragging"); } });
+  cv.addEventListener("pointerleave", () => { if (!drag) { S.hover = null; render(); } });
+  cv.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    const h = hit(e.clientX, e.clientY);
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey) {
+      const d = e.shiftKey ? e.deltaY : e.deltaX;
+      S.x0 += Math.round((d * LAY.dpr) / (G ? G.cw : 1)); clampWindow(); render(); return;
+    }
+    zoom(Math.exp(e.deltaY * 0.0016), h && h.col != null ? h.col : null);
+  }, { passive: false });
+  cv.addEventListener("keydown", (e) => {
+    const cur = S.hover && S.hover.x != null ? S.hover.x : S.pick != null ? S.pick : S.x0 + Math.floor(S.n / 2);
+    let x = cur, row = S.hover && S.hover.row != null ? S.hover.row : 0;
+    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+      const dir = e.key === "ArrowRight" ? 1 : -1;
+      if (e.shiftKey && S.mode === "free" && S.hover && S.hover.ring && !comp[S.hover.ring] && S.hover.ring !== 2) {
+        const r = S.hover.ring; S.ph.set(r, mod(phaseOf(r) + dir, r)); S.blankSource = null;
+      } else {
+        x = Math.max(1, Math.min(XMAX, cur + dir * (e.shiftKey ? 10 : 1)));
+        if (x < S.x0) S.x0 = x; if (x > S.x0 + S.n - 1) S.x0 = x - S.n + 1; clampWindow();
+      }
+    } else if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+      row = Math.max(0, Math.min((G ? G.rings.length : 1) - 1, row + (e.key === "ArrowUp" ? 1 : -1)));
+    } else if (e.key === "+" || e.key === "=") { zoom(1 / 1.5); e.preventDefault(); return; }
+    else if (e.key === "-" || e.key === "_") { zoom(1.5); e.preventDefault(); return; }
+    else if (e.key === "Enter" || e.key === " ") { pickNumber(cur, false); e.preventDefault(); return; }
+    else return;
+    e.preventDefault();
+    S.hover = { x, row, ring: G ? G.rings[row] : null };
+    render();
+  });
+
+  // ---------- findings ----------
+  const FINDS = [
+    { tag: "classical", html: "<b>Primes are the clean columns.</b> Every number sits on every ring at once. A number is prime exactly when it misses the seam of every ring that decides it. This is the sieve of Eratosthenes, drawn whole instead of run step by step.",
+      go: () => { setView("map"); setMode("real"); setRings("prime"); S.x0 = 1; S.n = Math.min(120, nMaxNow()); setLayer(15, false); clampWindow(); render(); } },
+    { tag: "classical", html: "<b>A ring starts deciding once a layer reaches its square.</b> Before that, every mark it makes is its own number or a repeat of a smaller ring's mark. The edge of the lit region is the square-root curve.",
+      go: () => { setView("map"); setMode("real"); setRings("prime"); setWindow(1, Math.min(1000, nMaxNow())); setLayer(41, false); } },
+    { tag: "classical", html: "<b>Composite rings add nothing.</b> Ring 6 lands on its seam only where rings 2 and 3 both do, and ring 4 only where ring 2 already did. Only prime rings put down a mark nobody else made.",
+      go: () => { setView("map"); setMode("real"); setRings("all"); setWindow(1, Math.min(90, nMaxNow())); } },
+    { tag: "checked", html: "<b>Turned freely, the rings can wipe out whole layers.</b> Ring 2 stays on the evens, where it really is, and only the odd rings turn. On every layer from 41 to 391, and on layers 18–20, 24 and 27–39, some turning of the odd rings marks every odd number in the layer. On layers 200–390 they could cover about 2 to 2½ layers' worth in a row.",
+      go: () => { setView("map"); blank(41); } },
+    { tag: "checked", html: "<b>A few layers are safe by width alone.</b> On layers 2–17, 21–23, 25, 26 and 40, the odd rings can't cover that many odds in a row however they're turned. Layer 22's odd rings (3 to 13) top out at 10 odds in a row, and it has 11.",
+      go: () => { setView("map"); blank(22); } },
+    { tag: "checked", html: "<b>Counting from 1, they never come close.</b> From layer 100 to 390, no layer's longest covered stretch reaches 30% of its width. On layers 200–390 it averages 11%, while free phases could cover about twice the layer.",
+      go: () => { setView("margin"); $("figA").scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth", block: "start" }); } },
+    { tag: "checked", html: "<b>The wiping patterns do happen, far out.</b> Every turning of the rings up to p shows up once in every 2·3·5·…·p numbers. For rings up to 29, the first run of 42 covered numbers starts at 417,086,648, where layers are about 28,900 wide. Across layers 18–51, the first wiping stretch sits 45 to 3 million times farther out than the layer.",
+      go: () => { setView("margin"); $("figB").scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth", block: "start" }); } },
+    { tag: "checked", html: "<b>The protection is in the big rings.</b> Hold every ring up to 83 exactly where counting from 1 puts it: on layer 390 they cover all but 44 of its numbers, just as in reality. Where counting from 1 puts them, the 35 bigger rings catch 13 of those 44 and leave 31 holes, the layer's primes. Turned freely, they catch all 44. Hold the big rings real and free the small ones instead, and no setting wiped out any layer checked.",
+      go: () => pinDemo() },
+    { tag: "open", html: "<b>So the open question is about alignment, not amounts.</b> Each ring marks one number in p whichever way it's turned. An argument that only counts how much each ring covers can't settle whether every layer keeps a prime: free phases cover the same amounts and do wipe layers out. Whatever keeps every layer open has to come from how the rings line up, all starting at their seams together at 0.",
+      go: () => { setView("map"); setMode("real"); setRings("prime"); setLayer(41); } },
+  ];
+  (() => {
+    const ol = $("finds");
+    for (const f of FINDS) {
+      const li = document.createElement("li");
+      li.innerHTML = `${f.html}<span class="tag">${f.tag}</span><br>`;
+      const b = document.createElement("button");
+      b.type = "button"; b.textContent = "Show me";
+      b.addEventListener("click", () => { f.go(); if (window.matchMedia("(max-width: 760px)").matches) stage.scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth" }); });
+      li.appendChild(b);
+      ol.appendChild(li);
+    }
+  })();
+
+  // ---------- margin charts ----------
+  const ROWS = DATA.rows.map((r) => ({ m: r[0], k: r[1], real: r[2], primes: r[3], first: r[4], free: r[5], can: !!r[6] }));
+  function rangesText(list) {
+    const parts = []; let i = 0;
+    while (i < list.length) { let j = i; while (j + 1 < list.length && list[j + 1] === list[j] + 1) j++; parts.push(j - i >= 2 ? `${list[i]}–${list[j]}` : j > i ? `${list[i]}, ${list[j]}` : `${list[i]}`); i = j + 1; }
+    return parts.length > 1 ? parts.slice(0, -1).join(", ") + " and " + parts[parts.length - 1] : parts[0] || "";
+  }
+  function legend(id, items) {
+    const el = $(id); el.textContent = "";
+    for (const it of items) {
+      const s = document.createElement("span");
+      const k = document.createElement("span");
+      k.className = it.dot ? "dk" : "lk";
+      if (it.dot) k.style.background = it.color; else k.style.borderColor = it.color;
+      s.appendChild(k); s.appendChild(document.createTextNode(it.label));
+      el.appendChild(s);
+    }
+  }
+  legend("legA", [
+    { color: COL.free, label: "Free phases (ring 2 on the evens): the most the rings could cover" },
+    { color: COL.real, label: "Counting from 1: what they do cover" },
+    { color: COL.ring, label: "The whole layer" },
+  ]);
+  legend("legB", [
+    { color: COL.free, label: "First run as long as the layer, counting from 1", dot: true },
+    { color: COL.muted, label: "Where the layer itself ends" },
+  ]);
+  function setupCanvas(c) {
+    const dpr = DPR();
+    const w = c.clientWidth, h = c.clientHeight;
+    c.width = Math.round(w * dpr); c.height = Math.round(h * dpr);
+    const g = c.getContext("2d");
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { g, w, h };
+  }
+  function polyline(g, pts, color, width) {
+    g.beginPath();
+    pts.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y)));
+    g.strokeStyle = color; g.lineWidth = width; g.lineJoin = "round"; g.lineCap = "round"; g.stroke();
+  }
+  function dot(g, x, y, color) {
+    g.beginPath(); g.arc(x, y, 6, 0, Math.PI * 2); g.fillStyle = COL.plot; g.fill();
+    g.beginPath(); g.arc(x, y, 4, 0, Math.PI * 2); g.fillStyle = color; g.fill();
+  }
+  function showTip(tip, wrap, px, py, html) {
+    tip.innerHTML = html; tip.style.display = "block";
+    const ww = wrap.clientWidth, tw = tip.offsetWidth, th = tip.offsetHeight;
+    let left = px + 14; if (left + tw > ww - 4) left = px - tw - 14; if (left < 4) left = 4;
+    let topp = py - th - 10; if (topp < 4) topp = py + 14;
+    tip.style.transform = `translate(${Math.round(left)}px, ${Math.round(topp)}px)`;
+  }
+  const CA = { hover: null }, CB = { hover: null };
+  function chartAGeom(w, h) {
+    const narrow = w < 560;
+    const pad = { l: 40, r: narrow ? 14 : 132, t: 30, b: 40 };
+    const X0 = Math.log(2), X1 = Math.log(390), YMAX = 2.6;
+    const xs = (m) => pad.l + ((Math.log(m) - X0) / (X1 - X0)) * (w - pad.l - pad.r);
+    const xinv = (px) => Math.exp(X0 + ((px - pad.l) / (w - pad.l - pad.r)) * (X1 - X0));
+    const ys = (v) => h - pad.b - (v / YMAX) * (h - pad.t - pad.b);
+    return { pad, xs, xinv, ys, narrow };
+  }
+  function drawChartA() {
+    const c = $("chA"); if (!c.clientWidth) return;
+    const { g, w, h } = setupCanvas(c);
+    const { pad, xs, ys, narrow } = chartAGeom(w, h);
+    g.fillStyle = COL.plot; g.fillRect(0, 0, w, h);
+    g.font = `10px ${MONO}`; g.lineWidth = 1;
+    g.textAlign = "right"; g.textBaseline = "middle";
+    for (const v of [0, 0.5, 1, 1.5, 2, 2.5]) {
+      const y = Math.round(ys(v)) + 0.5;
+      g.strokeStyle = v === 1 ? COL.ring : COL.grid;
+      g.lineWidth = v === 1 ? 1.5 : 1;
+      g.beginPath(); g.moveTo(pad.l, y); g.lineTo(w - pad.r, y); g.stroke();
+      g.fillStyle = COL.muted; g.fillText(v === 0 ? "0" : String(v), pad.l - 7, y);
+    }
+    g.textAlign = "center"; g.textBaseline = "top"; g.lineWidth = 1;
+    for (const m of [2, 5, 10, 20, 50, 100, 200, 390]) {
+      const x = Math.round(xs(m)) + 0.5;
+      g.strokeStyle = COL.grid; g.beginPath(); g.moveTo(x, ys(2.6)); g.lineTo(x, ys(0) + 4); g.stroke();
+      g.fillStyle = COL.muted; g.fillText(String(m), x, ys(0) + 7);
+    }
+    g.textAlign = "left"; g.textBaseline = "alphabetic"; g.font = `11px ${SANS}`; g.fillStyle = COL.muted;
+    g.fillText("share of the layer covered in a row", pad.l, 16);
+    g.textAlign = "right"; g.fillText("layer (log scale)", w - pad.r, h - 6);
+    g.textAlign = "left"; g.fillStyle = COL.text;
+    g.fillText("the whole layer", xs(2.15), ys(1) - 7);
+    const fpts = ROWS.map((r) => [xs(r.m), ys(r.free / r.m)]);
+    const rpts = ROWS.map((r) => [xs(r.m), ys(r.real / r.m)]);
+    polyline(g, rpts, COL.real, 2);
+    polyline(g, fpts, COL.free, 2);
+    if (!narrow) {
+      const last = ROWS[ROWS.length - 1];
+      g.font = `11px ${SANS}`; g.textBaseline = "middle";
+      const lab = (y, color, text, sub) => {
+        const x = w - pad.r + 10;
+        g.strokeStyle = color; g.lineWidth = 2; g.beginPath(); g.moveTo(x, y); g.lineTo(x + 12, y); g.stroke();
+        g.fillStyle = COL.text; g.fillText(text, x + 17, y - (sub ? 6 : 0));
+        if (sub) { g.fillStyle = COL.muted; g.fillText(sub, x + 17, y + 8); }
+      };
+      lab(ys(last.free / last.m), COL.free, "free phases", `${(last.free / last.m).toFixed(2)} at layer 390`);
+      lab(ys(last.real / last.m), COL.real, "counting from 1", `${(last.real / last.m).toFixed(2)} at layer 390`);
+    }
+    const hv = CA.hover;
+    if (hv) {
+      const r = ROWS[hv - 2]; const x = Math.round(xs(r.m)) + 0.5;
+      g.strokeStyle = "rgba(223, 227, 240, 0.45)"; g.lineWidth = 1;
+      g.beginPath(); g.moveTo(x, ys(2.6)); g.lineTo(x, ys(0)); g.stroke();
+      dot(g, xs(r.m), ys(r.real / r.m), COL.real);
+      dot(g, xs(r.m), ys(r.free / r.m), COL.free);
+    }
+  }
+  function tipA(m) {
+    const r = ROWS[m - 2];
+    const rings = r.k === 0 ? "no ring decides it" : r.k === 1 ? "ring 2 decides it" : `rings 2–${PRIMES[r.k - 1]} decide it`;
+    const verdict = r.can ? "some turning wipes it out" : "no turning can wipe it out";
+    return `<div class="h">Layer ${m} · ${m} wide · ${rings}</div>` +
+      `<div class="r"><span class="k" style="border-color:${COL.free}"></span><span class="v">${(r.free / m).toFixed(2)}</span><span>free phases: ${r.free} in a row</span></div>` +
+      `<div class="r"><span class="k" style="border-color:${COL.real}"></span><span class="v">${(r.real / m).toFixed(2)}</span><span>counting from 1: ${r.real} in a row</span></div>` +
+      `<div class="r"><span>${verdict}; it holds ${r.primes} prime${r.primes === 1 ? "" : "s"}</span></div>`;
+  }
+  function hoverA(px, py) {
+    const c = $("chA"), { xinv } = chartAGeom(c.clientWidth, c.clientHeight);
+    const m = Math.max(2, Math.min(390, Math.round(xinv(px))));
+    CA.hover = m; drawChartA();
+    const { xs } = chartAGeom(c.clientWidth, c.clientHeight);
+    showTip($("tipA"), c.parentElement, xs(m), py, tipA(m));
+  }
+  function chartBGeom(w, h) {
+    const narrow = w < 560;
+    const pad = { l: narrow ? 58 : 84, r: narrow ? 14 : 24, t: 30, b: 40 };
+    const xs = (m) => pad.l + ((m - 17.5) / (51.5 - 17.5)) * (w - pad.l - pad.r);
+    const xinv = (px) => 17.5 + ((px - pad.l) / (w - pad.l - pad.r)) * (51.5 - 17.5);
+    const ys = (v) => h - pad.b - ((Math.log10(v) - 2) / 8) * (h - pad.t - pad.b);
+    return { pad, xs, xinv, ys, narrow };
+  }
+  const BROWS = ROWS.filter((r) => r.m >= 18 && r.m <= 51);
+  function drawChartB() {
+    const c = $("chB"); if (!c.clientWidth) return;
+    const { g, w, h } = setupCanvas(c);
+    const { pad, xs, ys, narrow } = chartBGeom(w, h);
+    g.fillStyle = COL.plot; g.fillRect(0, 0, w, h);
+    g.font = `10px ${MONO}`; g.textAlign = "right"; g.textBaseline = "middle"; g.lineWidth = 1;
+    const ylab = narrow ? { 2: "100", 4: "10K", 6: "1M", 8: "100M", 10: "10B" } : { 2: "100", 4: "10,000", 6: "1 million", 8: "100 million", 10: "10 billion" };
+    for (const e of [2, 3, 4, 5, 6, 7, 8, 9, 10]) {
+      const y = Math.round(ys(10 ** e)) + 0.5;
+      g.strokeStyle = COL.grid; g.beginPath(); g.moveTo(pad.l, y); g.lineTo(w - pad.r, y); g.stroke();
+      if (ylab[e]) { g.fillStyle = COL.muted; g.fillText(ylab[e], pad.l - 7, y); }
+    }
+    g.textAlign = "center"; g.textBaseline = "top";
+    for (const m of [18, 20, 25, 30, 35, 40, 45, 50]) {
+      const x = Math.round(xs(m)) + 0.5;
+      g.strokeStyle = COL.grid; g.beginPath(); g.moveTo(x, ys(1e10)); g.lineTo(x, ys(100) + 4); g.stroke();
+      g.fillStyle = COL.muted; g.fillText(String(m), x, ys(100) + 7);
+    }
+    g.textAlign = "left"; g.textBaseline = "alphabetic"; g.font = `11px ${SANS}`; g.fillStyle = COL.muted;
+    g.fillText("position on the number line (log scale)", pad.l, 16);
+    g.textAlign = "right"; g.fillText("layer", w - pad.r, h - 6);
+    polyline(g, BROWS.map((r) => [xs(r.m), ys(T(r.m))]), COL.muted, 2);
+    for (const r of BROWS) if (r.first != null) dot(g, xs(r.m), ys(r.first), COL.free);
+    g.font = `11px ${SANS}`; g.fillStyle = COL.text; g.textBaseline = "middle"; g.textAlign = "left";
+    const dots = BROWS.filter((r) => r.first != null);
+    const lowR = dots.reduce((a, r) => (r.first / T(r.m) < a.first / T(a.m) ? r : a));
+    const highR = dots.reduce((a, r) => (r.first / T(r.m) > a.first / T(a.m) ? r : a));
+    g.fillText(`${timesText(lowR.first / T(lowR.m))}× farther out`, xs(lowR.m) + 9, ys(lowR.first) - 12);
+    g.textAlign = "right";
+    g.fillText(`${timesText(highR.first / T(highR.m))}× farther out`, xs(highR.m) - 9, ys(highR.first) - 2);
+    g.fillStyle = COL.muted; g.textAlign = "left";
+    g.fillText("where each layer ends", xs(26.4), ys(T(26)) - 11);
+    const hv = CB.hover;
+    if (hv) {
+      const x = Math.round(xs(hv)) + 0.5;
+      g.strokeStyle = "rgba(223, 227, 240, 0.45)"; g.lineWidth = 1;
+      g.beginPath(); g.moveTo(x, ys(1e10)); g.lineTo(x, ys(100)); g.stroke();
+      const r = ROWS[hv - 2];
+      dot(g, xs(hv), ys(T(hv)), COL.muted);
+      if (r.first != null) dot(g, xs(hv), ys(r.first), COL.free);
+    }
+  }
+  function tipB(m) {
+    const r = ROWS[m - 2], hi = T(m), g = PRIMES[r.k - 1];
+    let s = `<div class="h">Layer ${m} · ${fmt(T(m - 1) + 1)}–${fmt(hi)} · rings 2–${g}</div>`;
+    if (r.first == null) return s + `<div class="r"><span>With ring 2 on the evens, these rings can't cover this layer's odds in a row, however they're turned.</span></div>`;
+    s += `<div class="r"><span class="kd" style="background:${COL.free}"></span><span class="v">${fmt(r.first)}</span></div>`;
+    s += `<div class="r"><span>first run of ${m} covered numbers starting on an ${(T(m - 1) + 1) % 2 ? "odd" : "even"} number, like the layer: ${timesText(r.first / hi)} times farther out, where layers are about ${fmt(Math.round(Math.sqrt(2 * r.first)))} wide</span></div>`;
+    return s;
+  }
+  function hoverB(px, py) {
+    const c = $("chB"), geo = chartBGeom(c.clientWidth, c.clientHeight);
+    const m = Math.max(18, Math.min(51, Math.round(geo.xinv(px))));
+    CB.hover = m; drawChartB();
+    showTip($("tipB"), c.parentElement, geo.xs(m), py, tipB(m));
+  }
+  function wireChart(id, tipId, onHover, state, draw, lo, hi) {
+    const c = $(id);
+    c.addEventListener("pointermove", (e) => { const r = c.getBoundingClientRect(); onHover(e.clientX - r.left, e.clientY - r.top); });
+    c.addEventListener("pointerdown", (e) => { const r = c.getBoundingClientRect(); onHover(e.clientX - r.left, e.clientY - r.top); });
+    c.addEventListener("pointerleave", () => { state.hover = null; $(tipId).style.display = "none"; draw(); });
+    c.addEventListener("blur", () => { state.hover = null; $(tipId).style.display = "none"; draw(); });
+    c.addEventListener("keydown", (e) => {
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+      e.preventDefault();
+      const m = Math.max(lo, Math.min(hi, (state.hover || lo) + (e.key === "ArrowRight" ? 1 : -1) * (e.shiftKey ? 10 : 1)));
+      const geo = id === "chA" ? chartAGeom(c.clientWidth, c.clientHeight) : chartBGeom(c.clientWidth, c.clientHeight);
+      state.hover = m; draw();
+      const html = id === "chA" ? tipA(m) : tipB(m);
+      showTip($(tipId), c.parentElement, geo.xs(m), 40, html);
+    });
+  }
+  wireChart("chA", "tipA", hoverA, CA, drawChartA, 2, 390);
+  wireChart("chB", "tipB", hoverB, CB, drawChartB, 18, 51);
+  function drawCharts() { drawChartA(); drawChartB(); }
+  (() => {
+    const a = $("tabA");
+    const head = ["Layer", "Numbers", "Rings up to", "Free phases: most in a row", "Counting from 1: longest inside", "Primes on it"];
+    const thead = document.createElement("thead"), tr = document.createElement("tr");
+    for (const t of head) { const th = document.createElement("th"); th.textContent = t; tr.appendChild(th); }
+    thead.appendChild(tr); a.appendChild(thead);
+    const tb = document.createElement("tbody");
+    for (const r of ROWS) {
+      const row = document.createElement("tr");
+      for (const v of [r.m, `${fmt(T(r.m - 1) + 1)}–${fmt(T(r.m))}`, r.k ? PRIMES[r.k - 1] : "–", r.free, r.real, r.primes]) { const td = document.createElement("td"); td.textContent = String(v); row.appendChild(td); }
+      tb.appendChild(row);
+    }
+    a.appendChild(tb);
+    const b = $("tabB");
+    const headB = ["Layer", "Ends at", "Rings up to", "First wiping run starts at", "Times farther out", "Layers there are about"];
+    const theadB = document.createElement("thead"), trB = document.createElement("tr");
+    for (const t of headB) { const th = document.createElement("th"); th.textContent = t; trB.appendChild(th); }
+    theadB.appendChild(trB); b.appendChild(theadB);
+    const tbB = document.createElement("tbody");
+    for (const r of BROWS) {
+      const row = document.createElement("tr");
+      const vals = r.first == null
+        ? [r.m, fmt(T(r.m)), PRIMES[r.k - 1], "can't be wiped", "–", "–"]
+        : [r.m, fmt(T(r.m)), PRIMES[r.k - 1], fmt(r.first), timesText(r.first / T(r.m)), fmt(Math.round(Math.sqrt(2 * r.first)))];
+      for (const v of vals) { const td = document.createElement("td"); td.textContent = String(v); row.appendChild(td); }
+      tbB.appendChild(row);
+    }
+    b.appendChild(tbB);
+    const n200 = ROWS.filter((r) => r.m >= 200);
+    const minF = Math.min(...n200.map((r) => r.free / r.m)), avgR = n200.reduce((s, r) => s + r.real / r.m, 0) / n200.length;
+    const cant = ROWS.filter((r) => !r.can).map((r) => r.m);
+    $("noteA").innerHTML = `Ring 2 stays on the evens throughout, since no even past 2 is prime. Below the line are the layers no turning can wipe out: ${rangesText(cant)}. On layers 200–390 the free-phase line never drops below ${minF.toFixed(2)}, while the counting-from-1 line averages ${avgR.toFixed(2)}. Hover or tab into the chart for any layer.`;
+    const noDot = BROWS.filter((r) => r.first == null).map((r) => r.m);
+    $("noteB").innerHTML = `Layers ${rangesText(noDot)} have no dot: with ring 2 on the evens, their odd rings can't cover that many odds in a row at all. Every covered stretch starts and ends on an even, so a layer that starts on an odd number needs a stretch one longer. Dots stay level across neighboring layers because one long stretch can serve several widths.`;
+  })();
+
+  // ---------- start ----------
+  function onResize() { if (S.view === "map") { layout(); render(); } else { placeMarginView(); drawCharts(); } }
+  new ResizeObserver(onResize).observe(stage);
+  window.addEventListener("resize", onResize);
+  setMode("real", false); setRings("prime", false); mastText();
+  layout();
+  if (LAY.narrow) S.n = Math.min(S.n, 64);
+  setLayer(15, true);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { layout(); render(); if (S.view === "margin") drawCharts(); });
+
+  // test hooks for checking the page against the computation
+  window.__pm = { S, stats, blankSetting, cleanInLayer, crtPlace, layerOf, setMode, setLayer, setWindow, setView, blankNow: (m) => blank(m, false), pinDemo, phaseOf, ROWS, PRIMES, isPrime, G: () => G, DATA };
+})();
+</script>

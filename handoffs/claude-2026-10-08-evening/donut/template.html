@@ -1,0 +1,695 @@
+<title>The Donut View</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Spectral:wght@500;600&display=swap">
+<style>
+/* The Donut View: what a counting creature in 4D sees. Two turning planes = two clocks at once, so the count winds a
+   knot around a donut. Dark only, like its sibling pages (Prime Tread Wheel, The Platonic Map, Geometric Math Globe). */
+:root {
+  --night: #05070d; --plot: #070b16; --panel: #0a0f1b; --line: #232b46; --ring: #3b4979; --grid: #161d33;
+  --text: #dfe3f0; --muted: #8f97b5; --gold: #f0bf55; --blue: #86a0ec; --cream: #ecdfc0;
+  --k1: #3987e5; --k2: #d95926; --k3: #199e70;
+  --font-display: "Spectral", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --night: #05070d; --plot: #070b16; --panel: #0a0f1b; --line: #232b46; --ring: #3b4979; --grid: #161d33;
+    --text: #dfe3f0; --muted: #8f97b5; --gold: #f0bf55; --blue: #86a0ec; --cream: #ecdfc0;
+    --k1: #3987e5; --k2: #d95926; --k3: #199e70; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --night: #05070d; --plot: #070b16; --panel: #0a0f1b; --line: #232b46; --ring: #3b4979; --grid: #161d33;
+  --text: #dfe3f0; --muted: #8f97b5; --gold: #f0bf55; --blue: #86a0ec; --cream: #ecdfc0;
+  --k1: #3987e5; --k2: #d95926; --k3: #199e70; color-scheme: dark;
+}
+html, body { height: 100%; }
+body { margin: 0; background: var(--night); color: var(--text); font-family: var(--font-body); font-size: 14px; line-height: 1.5; }
+.app { height: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 380px; }
+.stage { position: relative; min-height: 0; min-width: 0; overflow: hidden; background: radial-gradient(circle at 50% 55%, #0e1530 0%, var(--night) 70%); }
+#cv { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; cursor: grab; }
+#cv.dragging { cursor: grabbing; }
+.mast { position: absolute; z-index: 2; top: 0; left: 0; max-width: 46ch; padding-inline: 20px; padding-block: 14px 0; display: flex; flex-direction: column; gap: 4px; pointer-events: none; }
+.mast h1 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.35rem, 1.05rem + 1vw, 1.9rem); line-height: 1.2; text-shadow: 0 0 6px var(--night); }
+.mast p { margin: 0; color: var(--muted); font-size: 0.82rem; text-shadow: 0 0 4px var(--night); }
+.stagebar { position: absolute; z-index: 3; top: 12px; right: 12px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; max-width: 58%; }
+.stagebar .seg { display: flex; gap: 6px; flex-wrap: wrap; }
+.stagebar button { background: rgba(10, 15, 27, 0.9); }
+.now { position: absolute; left: 0; right: 0; bottom: 0; padding-inline: 20px; padding-block: 18px 10px; font-family: var(--font-data); font-size: 0.78rem; color: var(--muted); font-variant-numeric: tabular-nums; pointer-events: none; min-height: 1.5em; background: linear-gradient(rgba(5, 7, 13, 0), rgba(5, 7, 13, 0.85) 45%); }
+.now b { color: var(--text); font-weight: 500; }
+.g { color: var(--gold); } .b { color: var(--blue); } .c { color: var(--cream); }
+.panel { min-width: 0; min-height: 0; overflow-y: auto; background: var(--panel); border-left: 1px solid var(--line); padding-inline: 18px; padding-block: 16px; display: flex; flex-direction: column; gap: 20px; }
+.group { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+button { font: inherit; font-size: 0.82rem; font-weight: 500; color: var(--text); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+button:hover { border-color: var(--muted); }
+button.primary { background: var(--gold); border-color: var(--gold); color: var(--night); }
+button[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); }
+button:disabled { opacity: 0.4; cursor: default; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips button { padding: 3px 10px; font-size: 0.76rem; font-family: var(--font-data); }
+input[type="number"] { font: inherit; font-family: var(--font-data); font-size: 0.85rem; color: var(--text); background: var(--night); border: 1px solid var(--line); border-radius: 8px; padding: 5px 8px; width: 5em; min-width: 0; }
+input[type="range"] { width: 100%; accent-color: var(--gold); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+#cv:focus-visible { outline-offset: -3px; }
+.note { margin: 0; color: var(--muted); font-size: 0.82rem; }
+.note b { color: var(--text); font-weight: 500; }
+.verdict { margin: 0; font-family: var(--font-display); font-size: 1.02rem; line-height: 1.42; text-wrap: pretty; }
+.verdict b { font-weight: 600; }
+.keys { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 7px 8px; align-items: start; font-size: 0.8rem; color: var(--muted); }
+.sw { width: 18px; height: 14px; border-radius: 3px; margin-top: 2px; box-shadow: inset 0 0 0 1px rgba(143, 151, 181, 0.28); }
+.sw.open { background: #b8913f; }
+.sw.ca { background: #4d68c4; }
+.sw.cb { background: #2f7f93; }
+.sw.cab { background: #1c2547; }
+.sw.knot { background: linear-gradient(135deg, transparent 0 44%, var(--cream) 44% 56%, transparent 56% 100%); }
+.sw.mark { background: radial-gradient(circle, var(--text) 0 32%, transparent 36%); }
+.finds { margin: 0; padding-left: 1.9em; display: flex; flex-direction: column; gap: 12px; }
+.finds li { color: var(--muted); font-size: 0.82rem; }
+.finds li b { color: var(--text); font-weight: 500; }
+.finds li button { margin-top: 6px; padding: 3px 12px; font-size: 0.76rem; }
+.finds li .tag { font-family: var(--font-data); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); margin-left: 6px; }
+.facts { border-top: 1px solid var(--line); padding-top: 12px; }
+.facts p { margin: 0; color: var(--muted); font-size: 0.8rem; }
+.facts p + p { margin-top: 8px; }
+.facts b { color: var(--text); font-weight: 500; }
+.facts a, .note a { color: var(--text); }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.76rem; color: var(--muted); }
+.lk { display: inline-block; width: 16px; height: 0; border-top: 2px solid; vertical-align: 3px; margin-right: 6px; }
+.chartwrap { position: relative; min-width: 0; }
+.chartwrap canvas { width: 100%; height: 230px; display: block; border: 1px solid var(--line); border-radius: 6px; background: var(--plot); touch-action: pan-y; }
+.tip { position: absolute; top: 0; left: 0; display: none; pointer-events: none; background: rgba(10, 15, 27, 0.97); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 0.74rem; color: var(--muted); min-width: 160px; max-width: 240px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45); }
+.tip .h { color: var(--text); font-weight: 500; margin-bottom: 4px; }
+.tip .r { display: flex; align-items: baseline; gap: 8px; margin-top: 2px; }
+.tip .v { font-family: var(--font-data); color: var(--text); font-weight: 500; min-width: 2.8em; font-variant-numeric: tabular-nums; }
+.tip .k { display: inline-block; width: 12px; height: 0; border-top: 2px solid; vertical-align: 3px; flex: none; }
+details.tablev summary { cursor: pointer; color: var(--muted); font-size: 0.8rem; width: fit-content; }
+.tablewrap { max-height: 300px; overflow: auto; border: 1px solid var(--line); border-radius: 6px; margin-top: 8px; }
+table { border-collapse: collapse; font-family: var(--font-data); font-size: 0.72rem; font-variant-numeric: tabular-nums; width: 100%; }
+th, td { padding: 4px 8px; text-align: right; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+th { position: sticky; top: 0; background: var(--panel); color: var(--muted); font-weight: 500; font-family: var(--font-body); font-size: 0.7rem; }
+td { color: var(--text); }
+.howto { display: none; }
+@media (max-width: 760px) {
+  html, body { height: auto; }
+  .app { height: auto; grid-template-columns: minmax(0, 1fr); }
+  .stage { height: 72vh; min-height: 420px; }
+  .mast p { display: none; }
+  .howto { display: block; }
+  .panel { border-left: 0; border-top: 1px solid var(--line); overflow: visible; padding-inline: 16px; }
+  .stagebar { top: 52px; left: 16px; right: 16px; max-width: none; justify-content: flex-start; }
+  .stagebar button { padding: 5px 11px; font-size: 0.78rem; }
+  .mast, .now { padding-inline: 16px; }
+}
+</style>
+
+<div class="app" id="app">
+  <main class="stage" id="stage">
+    <canvas id="cv" tabindex="0" role="img" aria-label="A torus, the shape a 4D counting creature winds numbers onto. Its long way around is one clock, its short way around is a second clock, and every number sits on both at once. The cells where neither clock is at a shared factor are gold; the count is a line winding around the torus like a knot. Drag to turn it."></canvas>
+    <header class="mast" id="mast">
+      <h1>The Donut View</h1>
+      <p id="mastText">A 4D creature turns two planes at once, so it counts on two clocks at once. The numbers wind a knot around a donut, and every number sits on both clocks.</p>
+    </header>
+    <div class="stagebar" id="stagebar">
+      <div class="seg" role="group" aria-label="View">
+        <button type="button" id="vDonut" aria-pressed="true">Donut</button>
+        <button type="button" id="vFlat" aria-pressed="false">Unrolled</button>
+      </div>
+      <div class="seg">
+        <button type="button" id="bCount" class="primary">Let it count</button>
+      </div>
+    </div>
+    <div class="now" id="now" aria-hidden="true"></div>
+  </main>
+
+  <aside class="panel" aria-label="Controls and findings">
+    <p class="note howto" id="howto"></p>
+
+    <div class="group">
+      <div class="label">Reading the donut</div>
+      <div class="keys">
+        <span class="sw open"></span><span>An <b class="g">open cell</b>: neither clock shares a factor with the numbers there. Every prime past the clocks' own factors lands in one.</span>
+        <span class="sw ca"></span><span>Closed by the first clock (the long way around).</span>
+        <span class="sw cb"></span><span>Closed by the second clock (the short way around the tube).</span>
+        <span class="sw cab"></span><span>Closed by both.</span>
+        <span class="sw knot"></span><span>The count: one step moves both clocks one notch, so it winds around like a knot.</span>
+        <span class="sw mark"></span><span>Where the count is now.</span>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="label">Clocks</div>
+      <div class="row">
+        <label class="note" for="aIn">First</label><input type="number" id="aIn" min="2" max="40" value="5">
+        <label class="note" for="bIn">Second</label><input type="number" id="bIn" min="2" max="41" value="6">
+        <button type="button" id="abGo">Set</button>
+      </div>
+      <div class="chips" id="presets" role="group" aria-label="Clock presets"></div>
+      <p class="verdict" id="clockText" aria-live="polite"></p>
+    </div>
+
+    <div class="group">
+      <div class="label">4D tread wheel</div>
+      <p class="note">Both clocks grow by one each layer: layer m is one full lap of clocks m and m+1, so it holds m × (m+1) numbers.</p>
+      <div class="row">
+        <button type="button" id="lPrev" aria-label="Previous layer">◀</button>
+        <input type="number" id="lIn" min="2" max="40" value="7" aria-label="Layer">
+        <button type="button" id="lNext" aria-label="Next layer">▶</button>
+        <button type="button" id="lGo">Show it</button>
+      </div>
+      <p class="verdict" id="layerText" aria-live="polite"></p>
+    </div>
+
+    <div class="group" id="chartGroup">
+      <div class="label">Could the rings wipe out a layer?</div>
+      <p class="note">For each layer of each wheel: the most numbers in a row its deciding rings could cover, turned any way (ring 2 kept on the evens), divided by the layer's width. Above 1, some turning wipes the layer out. Across: the size of the numbers, on a log scale.</p>
+      <div class="legend" id="legend"></div>
+      <div class="chartwrap">
+        <canvas id="ch" tabindex="0" role="img" aria-label="Line chart against the size of the numbers on a log scale. One clock, our wheel: the share rises above 1 by about 800 and reaches about 2.4. Two clocks, the 4D wheel: stays below 1, about 0.26 at 75,000. Three clocks: below 0.1."></canvas>
+        <div class="tip" id="tip"></div>
+      </div>
+      <p class="note" id="chartNote"></p>
+      <details class="tablev"><summary>Show the numbers as a table</summary><div class="tablewrap"><table id="tab"></table></div></details>
+    </div>
+
+    <div class="group">
+      <div class="label">What the donut shows</div>
+      <ol class="finds" id="finds"></ol>
+    </div>
+
+    <div class="group facts">
+      <p><b>How it was checked.</b> All three wheels hold a prime on every layer up to 20 million. The most-in-a-row numbers come from <a href="https://oeis.org/A048670" target="_blank" rel="noopener">OEIS A048670</a>, with ring 2 kept on the evens; they're known for up to 58 rings, which reaches about 76,000. The prime-interval results are summarized on <a href="https://tme-emt-1f5ce3.pages.math.cnrs.fr/Art09.html" target="_blank" rel="noopener">Short intervals containing primes</a>.</p>
+      <p><b>Siblings.</b> <a href="https://claude.ai/artifact/N9XsAbV1xQ1gopzUGYjZiS" target="_blank" rel="noopener">The Platonic Map</a> (every ring at once: the endless-dimensional view) · <a href="https://claude.ai/artifact/1QykrbqEfox16Ma9QXaV11" target="_blank" rel="noopener">Prime Tread Wheel</a> · <a href="https://claude.ai/artifact/QziGWZKREbwCg6R7yZ7nDu" target="_blank" rel="noopener">The Wheel Atlas</a></p>
+    </div>
+  </aside>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const DATA = __DATA__;
+  const $ = (id) => document.getElementById(id);
+  const fmt = (n) => Number(n).toLocaleString("en-US");
+  const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) { [a, b] = [b, a % b]; } return a; };
+  const mod = (a, p) => ((a % p) + p) % p;
+  const T4 = (m) => (m * (m + 1) * (m + 2)) / 3;
+  const SN = 400000;
+  const comp = new Uint8Array(SN + 1); comp[0] = comp[1] = 1;
+  for (let i = 2; i * i <= SN; i++) if (!comp[i]) for (let j = i * i; j <= SN; j += i) comp[j] = 1;
+  const isPrime = (x) => x >= 2 && x <= SN && !comp[x];
+  const PRIMES = []; for (let i = 2; i < 1000; i++) if (!comp[i]) PRIMES.push(i);
+  function smallestFactor(x) { for (const p of PRIMES) { if (p * p > x) break; if (x % p === 0) return p; } return x; }
+  const SUP = "⁰¹²³⁴⁵⁶⁷⁸⁹";
+  function factorText(x) {
+    const parts = []; let y = x;
+    while (y > 1) { const p = smallestFactor(y); let e = 0; while (y % p === 0) { y /= p; e++; } parts.push(e > 1 ? p + String(e).split("").map((d) => SUP[+d]).join("") : String(p)); }
+    return parts.join(" × ");
+  }
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const touchLike = window.matchMedia("(pointer: coarse)").matches;
+  const DPR = () => Math.min(2, window.devicePixelRatio || 1);
+  const MONO = '"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace';
+  const SANS = '"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif';
+  const COL = { night: "#05070d", plot: "#070b16", line: "#232b46", ring: "#3b4979", grid: "#161d33", text: "#dfe3f0", muted: "#8f97b5", gold: "#f0bf55", cream: "#ecdfc0", k1: "#3987e5", k2: "#d95926", k3: "#199e70" };
+  const CELL = { open: [184, 145, 63], a: [77, 104, 196], b: [47, 127, 147], ab: [28, 37, 71], none: [18, 22, 36] };
+
+  // ---------- state ----------
+  const S = { view: "donut", a: 5, b: 6, mode: "clocks", layer: 7, x: 1, frac: 0, counting: false, yaw: 0.5, pitch: -1.05, spin: true };
+  const app = $("app"), stage = $("stage"), cv = $("cv"), ctx = cv.getContext("2d");
+
+  function clocks() { return S.mode === "layer" ? [S.layer, S.layer + 1] : [S.a, S.b]; }
+  function lapRange() {
+    if (S.mode === "layer") { const lo = T4(S.layer - 1) + 1; return [lo, T4(S.layer)]; }
+    const [a, b] = clocks(); const L = (a * b) / gcd(a, b); return [1, L];
+  }
+  function cellType(r, s, a, b) {
+    const oa = gcd(r, a) === 1, ob = gcd(s, b) === 1;
+    return oa && ob ? "open" : !oa && ob ? "a" : oa && !ob ? "b" : "ab";
+  }
+  // which cells the count ever visits, and the number shown in each (smallest in the lap)
+  function cellNumbers() {
+    const [a, b] = clocks(); const [lo, hi] = lapRange();
+    const num = new Int32Array(a * b).fill(0);
+    for (let x = lo; x <= hi; x++) { const k = mod(x, a) * b + mod(x, b); if (!num[k]) num[k] = x; }
+    return num;
+  }
+
+  // ---------- layout ----------
+  const LAY = { dpr: 1, W: 0, H: 0, top: 0, bottom: 0 };
+  function layout() {
+    const dpr = Math.min(1.5, DPR());
+    const r = stage.getBoundingClientRect();
+    cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr);
+    const mast = $("mast").getBoundingClientRect(), bar = $("stagebar").getBoundingClientRect();
+    LAY.dpr = dpr; LAY.W = cv.width; LAY.H = cv.height;
+    LAY.top = Math.round((Math.max(mast.bottom, bar.bottom) - r.top + 8) * dpr);
+    LAY.bottom = Math.round(cv.height - 44 * dpr);
+  }
+
+  // ---------- donut ----------
+  const R0 = 1, r0 = 0.44;
+  function rot(x, y, z) {
+    const cy = Math.cos(S.yaw), sy = Math.sin(S.yaw), cp = Math.cos(S.pitch), sp = Math.sin(S.pitch);
+    const x1 = x * cy - y * sy, y1 = x * sy + y * cy;
+    return [x1, y1 * cp - z * sp, y1 * sp + z * cp];
+  }
+  function drawDonut(t) {
+    const dpr = LAY.dpr, W = LAY.W, Hh = LAY.H;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, W, Hh);
+    const [a, b] = clocks();
+    const cx = W / 2, cy = (LAY.top + LAY.bottom) / 2;
+    const span = Math.min(W * 0.9, (LAY.bottom - LAY.top) * 1.25);
+    const D = 4.4, f = (span / 2) * D / (R0 + r0) * 0.92;
+    const proj = (p) => { const s = f / (D - p[2]); return [cx + p[0] * s, cy - p[1] * s, p[2]]; };
+    const su = Math.max(1, Math.ceil(48 / a)), sv = Math.max(1, Math.ceil(24 / b));
+    const NU = a * su, NV = b * sv;
+    const V = new Array((NU + 1) * (NV + 1));
+    for (let i = 0; i <= NU; i++) {
+      const u = (2 * Math.PI * i) / NU, cu = Math.cos(u), su_ = Math.sin(u);
+      for (let j = 0; j <= NV; j++) {
+        const v = (2 * Math.PI * j) / NV, cvv = Math.cos(v), sv_ = Math.sin(v);
+        V[i * (NV + 1) + j] = proj(rot((R0 + r0 * cvv) * cu, (R0 + r0 * cvv) * su_, r0 * sv_));
+      }
+    }
+    const visited = cellNumbers();
+    const L = [-0.35, 0.45, 0.82];
+    const quads = [];
+    for (let i = 0; i < NU; i++) {
+      const ci = Math.floor(i / su);
+      const uc = (2 * Math.PI * (i + 0.5)) / NU;
+      for (let j = 0; j < NV; j++) {
+        const cj = Math.floor(j / sv);
+        const vc = (2 * Math.PI * (j + 0.5)) / NV;
+        const n = rot(Math.cos(vc) * Math.cos(uc), Math.cos(vc) * Math.sin(uc), Math.sin(vc));
+        const p00 = V[i * (NV + 1) + j], p10 = V[(i + 1) * (NV + 1) + j], p11 = V[(i + 1) * (NV + 1) + j + 1], p01 = V[i * (NV + 1) + j + 1];
+        const z = (p00[2] + p10[2] + p11[2] + p01[2]) / 4;
+        const light = Math.max(0, n[0] * L[0] + n[1] * L[1] + n[2] * L[2]);
+        const typ = visited[ci * b + cj] ? cellType(ci, cj, a, b) : "none";
+        quads.push({ z, p00, p10, p11, p01, light, typ, edgeU: i % su === 0, edgeV: j % sv === 0, ci, cj });
+      }
+    }
+    quads.sort((q1, q2) => q1.z - q2.z);
+    ctx.lineJoin = "round";
+    for (const q of quads) {
+      const c = CELL[q.typ], k = 0.28 + 0.72 * q.light;
+      ctx.fillStyle = `rgb(${Math.round(c[0] * k)},${Math.round(c[1] * k)},${Math.round(c[2] * k)})`;
+      // grow each quad a hair around its middle so neighbours overlap and no seams show
+      const mx = (q.p00[0] + q.p10[0] + q.p11[0] + q.p01[0]) / 4, my = (q.p00[1] + q.p10[1] + q.p11[1] + q.p01[1]) / 4;
+      const grow = (pt) => { const dx = pt[0] - mx, dy = pt[1] - my, d = Math.hypot(dx, dy) || 1; return [pt[0] + (dx / d) * 0.7, pt[1] + (dy / d) * 0.7]; };
+      const g00 = grow(q.p00), g10 = grow(q.p10), g11 = grow(q.p11), g01 = grow(q.p01);
+      ctx.beginPath(); ctx.moveTo(g00[0], g00[1]); ctx.lineTo(g10[0], g10[1]); ctx.lineTo(g11[0], g11[1]); ctx.lineTo(g01[0], g01[1]); ctx.closePath();
+      ctx.fill();
+      if (q.edgeU || q.edgeV) {
+        ctx.strokeStyle = "rgba(5,7,13,0.55)"; ctx.lineWidth = Math.max(1, 0.9 * dpr);
+        ctx.beginPath();
+        if (q.edgeU) { ctx.moveTo(q.p00[0], q.p00[1]); ctx.lineTo(q.p01[0], q.p01[1]); }
+        if (q.edgeV) { ctx.moveTo(q.p00[0], q.p00[1]); ctx.lineTo(q.p10[0], q.p10[1]); }
+        ctx.stroke();
+      }
+    }
+    // the knot: one lap, each step drawn along the surface, front side only
+    const [lo, hi] = lapRange();
+    const at = (xr) => {           // continuous position of number xr on the torus (cell centers)
+      const u = (2 * Math.PI * (mod(xr, a) + 0.5)) / a, v = (2 * Math.PI * (mod(xr, b) + 0.5)) / b;
+      return [u, v];
+    };
+    const surf = (u, v) => {
+      const p = rot((R0 + r0 * Math.cos(v)) * Math.cos(u), (R0 + r0 * Math.cos(v)) * Math.sin(u), r0 * Math.sin(v));
+      const n = rot(Math.cos(v) * Math.cos(u), Math.cos(v) * Math.sin(u), Math.sin(v));
+      const view = [-p[0], -p[1], D - p[2]];
+      const front = n[0] * view[0] + n[1] * view[1] + n[2] * view[2] > 0;
+      const s = proj(p);
+      return [s[0], s[1], front];
+    };
+    const steps = Math.min(hi - lo, 4000);
+    ctx.lineWidth = Math.max(1.2, 1.6 * dpr); ctx.lineCap = "round";
+    const sub = steps > 600 ? 3 : 6;
+    for (let x = lo; x < lo + steps; x++) {
+      const [u0, v0] = at(x);
+      const du = (2 * Math.PI) / a, dv = (2 * Math.PI) / b;
+      let prev = surf(u0, v0);
+      for (let k = 1; k <= sub; k++) {
+        const cur = surf(u0 + (du * k) / sub, v0 + (dv * k) / sub);
+        if (prev[2] && cur[2]) {
+          ctx.strokeStyle = "rgba(236,223,192,0.78)";
+          ctx.beginPath(); ctx.moveTo(prev[0], prev[1]); ctx.lineTo(cur[0], cur[1]); ctx.stroke();
+        }
+        prev = cur;
+      }
+    }
+    // the counting marker
+    if (S.counting || S.x > lo) {
+      const [u0, v0] = at(S.x);
+      const u = u0 + ((2 * Math.PI) / a) * S.frac, v = v0 + ((2 * Math.PI) / b) * S.frac;
+      const m = surf(u, v);
+      ctx.beginPath(); ctx.arc(m[0], m[1], 6 * dpr, 0, Math.PI * 2);
+      ctx.fillStyle = COL.night; ctx.fill();
+      ctx.beginPath(); ctx.arc(m[0], m[1], 4.2 * dpr, 0, Math.PI * 2);
+      ctx.fillStyle = m[2] ? (isPrime(S.x) ? COL.gold : COL.text) : "rgba(223,227,240,0.35)"; ctx.fill();
+    }
+    // clock labels
+    ctx.font = `${11 * dpr}px ${SANS}`; ctx.fillStyle = COL.muted; ctx.textAlign = "center"; ctx.textBaseline = "top";
+    ctx.fillText(`first clock ${a} (the long way) · second clock ${b} (around the tube)`, cx, LAY.bottom - 16 * dpr);
+  }
+
+  // ---------- unrolled ----------
+  function drawFlat() {
+    const dpr = LAY.dpr, W = LAY.W;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, W, LAY.H);
+    const [a, b] = clocks();
+    const [lo, hi] = lapRange();
+    const num = cellNumbers();
+    const availH = LAY.bottom - LAY.top - 30 * dpr, availW = W - 40 * dpr;
+    const wide = availW > availH * 1.25;
+    const gridW = wide ? availW * 0.6 : availW, gridH = wide ? availH : availH * 0.62;
+    const cs = Math.max(4 * dpr, Math.min(64 * dpr, Math.floor(Math.min((gridW - 30 * dpr) / b, (gridH - 30 * dpr) / a))));
+    const gx = 20 * dpr + 24 * dpr + (wide ? 0 : Math.max(0, (gridW - 24 * dpr - cs * b) / 2));
+    const gy = LAY.top + 26 * dpr + (wide ? Math.max(0, (availH - 26 * dpr - cs * a) / 2) : 0);
+    const cellX = (s) => gx + s * cs, cellY = (r) => gy + r * cs;
+    ctx.font = `${10 * dpr}px ${MONO}`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    for (let r = 0; r < a; r++) for (let s = 0; s < b; s++) {
+      const x = num[r * b + s];
+      const typ = x ? cellType(r, s, a, b) : "none";
+      const c = CELL[typ];
+      ctx.fillStyle = `rgb(${c[0]},${c[1]},${c[2]})`;
+      ctx.fillRect(cellX(s) + 1, cellY(r) + 1, cs - 2, cs - 2);
+    }
+    // the knot on the grid: diagonal steps, wrapping (under the numbers)
+    ctx.strokeStyle = "rgba(236,223,192,0.32)"; ctx.lineWidth = Math.max(1, 1.2 * dpr);
+    const steps = Math.min(hi - lo, 1800);
+    if (cs >= 8 * dpr) {
+      for (let x = lo; x < lo + steps; x++) {
+        const r0_ = mod(x, a), s0 = mod(x, b), r1 = mod(x + 1, a), s1 = mod(x + 1, b);
+        const x0 = cellX(s0) + cs / 2, y0 = cellY(r0_) + cs / 2;
+        ctx.beginPath();
+        if (r1 === r0_ + 1 && s1 === s0 + 1) { ctx.moveTo(x0, y0); ctx.lineTo(x0 + cs, y0 + cs); }
+        else { ctx.moveTo(x0, y0); ctx.lineTo(x0 + cs * 0.45, y0 + cs * 0.45); const x1 = cellX(s1) + cs / 2, y1 = cellY(r1) + cs / 2; ctx.moveTo(x1 - cs * 0.45, y1 - cs * 0.45); ctx.lineTo(x1, y1); }
+        ctx.stroke();
+      }
+    }
+    for (let r = 0; r < a; r++) for (let s = 0; s < b; s++) {
+      const x = num[r * b + s];
+      if (!x || cs < 20 * dpr) continue;
+      const typ = cellType(r, s, a, b);
+      ctx.font = `${Math.min(12, Math.max(8, cs / dpr * 0.32)) * dpr}px ${MONO}`;
+      ctx.fillStyle = isPrime(x) ? "#fff4d6" : typ === "open" ? "#2a1f08" : "rgba(223,227,240,0.55)";
+      ctx.fillText(String(x), cellX(s) + cs / 2, cellY(r) + cs / 2 + 0.5 * dpr);
+    }
+    // row / column labels
+    ctx.font = `${10 * dpr}px ${MONO}`; ctx.fillStyle = COL.muted;
+    const every = Math.max(1, Math.ceil((12 * dpr) / cs));
+    for (let r = 0; r < a; r += every) { ctx.textAlign = "right"; ctx.fillText(String(r), gx - 6 * dpr, cellY(r) + cs / 2); }
+    for (let s = 0; s < b; s += every) { ctx.textAlign = "center"; ctx.fillText(String(s), cellX(s) + cs / 2, gy - 9 * dpr); }
+    ctx.textAlign = "left"; ctx.font = `${11 * dpr}px ${SANS}`;
+    ctx.fillText(`first clock ${a} ↓ · second clock ${b} →`, gx, gy - 22 * dpr);
+    // marker
+    if (S.counting || S.x > lo) {
+      const r = mod(S.x, a), s = mod(S.x, b);
+      ctx.strokeStyle = isPrime(S.x) ? COL.gold : COL.text; ctx.lineWidth = 2 * dpr;
+      ctx.strokeRect(cellX(s) + 1.5 * dpr, cellY(r) + 1.5 * dpr, cs - 3 * dpr, cs - 3 * dpr);
+    }
+    // one ring of the same period
+    const Lp = (a * b) / gcd(a, b);
+    const rx = wide ? gx + cs * b + (W - (gx + cs * b)) / 2 : W / 2;
+    const ringTop = wide ? LAY.top : gy + cs * a + 34 * dpr;
+    const ringH = wide ? LAY.bottom - LAY.top : LAY.bottom - ringTop;
+    const rad = Math.max(30 * dpr, Math.min((wide ? (W - (gx + cs * b)) : W) * 0.36, ringH * 0.36));
+    const ry = ringTop + ringH / 2;
+    ctx.strokeStyle = COL.ring; ctx.lineWidth = 1 * dpr;
+    ctx.beginPath(); ctx.arc(rx, ry, rad, 0, Math.PI * 2); ctx.stroke();
+    const dot = Math.max(1.6 * dpr, Math.min(5 * dpr, (Math.PI * rad) / Lp * 0.7));
+    for (let k = 0; k < Lp; k++) {
+      const ang = -Math.PI / 2 + (2 * Math.PI * k) / Lp;
+      const open = gcd(k, Lp) === 1;
+      ctx.beginPath(); ctx.arc(rx + rad * Math.cos(ang), ry + rad * Math.sin(ang), open ? dot * 1.25 : dot * 0.7, 0, Math.PI * 2);
+      ctx.fillStyle = open ? COL.gold : "#2c3a68"; ctx.fill();
+    }
+    if (S.counting || S.x > lo) {
+      const ang = -Math.PI / 2 + (2 * Math.PI * mod(S.x, Lp)) / Lp;
+      ctx.strokeStyle = COL.text; ctx.lineWidth = 1.5 * dpr;
+      ctx.beginPath(); ctx.arc(rx + rad * Math.cos(ang), ry + rad * Math.sin(ang), dot * 2.2, 0, Math.PI * 2); ctx.stroke();
+    }
+    ctx.fillStyle = COL.muted; ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.font = `${11 * dpr}px ${SANS}`;
+    let openCount = 0; for (let k = 0; k < Lp; k++) if (gcd(k, Lp) === 1) openCount++;
+    ctx.fillText(`the same ${Lp} spots on one ring: ${openCount} open, scattered`, rx, ry + rad + 12 * dpr);
+  }
+
+  function draw(t) {
+    if (S.view === "donut") drawDonut(t); else drawFlat();
+  }
+
+  // ---------- text ----------
+  function clockText() {
+    const [a, b] = clocks();
+    const g = gcd(a, b), L = (a * b) / g;
+    let oa = 0, ob = 0; for (let r = 0; r < a; r++) if (gcd(r, a) === 1) oa++; for (let s = 0; s < b; s++) if (gcd(s, b) === 1) ob++;
+    let s = `<b>${a} × ${b} = ${a * b} cells.</b> `;
+    if (g === 1) s += `Open: ${oa} rows × ${ob} columns = <b class="g">${oa * ob} cells</b>, a perfect grid. The count visits every cell once per lap of ${fmt(L)} numbers, because ${a} and ${b} share no factor. On one ring of ${fmt(L)}, the same ${oa * ob} open spots look scattered.`;
+    else s += `${a} and ${b} share the factor ${g}, so the count closes its knot after ${fmt(L)} steps and only ever visits ${fmt(L)} of the ${a * b} cells. The rest stay dark.`;
+    if (S.mode === "layer") s += " (Set by the 4D tread wheel below.)";
+    $("clockText").innerHTML = s;
+  }
+  function layerStats(m) {
+    const lo = T4(m - 1) + 1, hi = T4(m);
+    let primes = 0, best = 0, cur = 0, seats = 0;
+    for (let x = lo; x <= hi; x++) {
+      if (isPrime(x)) { primes++; cur = 0; } else { cur++; if (cur > best) best = cur; }
+      if (gcd(x, m) === 1 && gcd(x, m + 1) === 1) seats++;
+    }
+    const row = DATA["2"].find((r) => r[0] === m);
+    return { m, lo, hi, width: hi - lo + 1, primes, longest: best, seats, rings: row ? row[6] : null, cap: row ? row[7] : null };
+  }
+  function layerText() {
+    const st = layerStats(S.layer), m = st.m;
+    const offA = mod(st.lo - 1, m), offB = mod(st.lo - 1, m + 1);
+    const offTxt = (off, q) => (off === 0 ? `right at clock ${q}'s seam` : `two thirds of a turn past clock ${q}'s seam (3 divides ${q})`);
+    let s = `<b>Layer ${m}</b> holds ${fmt(st.lo)}–${fmt(st.hi)}: ${fmt(st.width)} numbers, one full lap of clocks ${m} and ${m + 1}. `;
+    s += `Its open cells hold ${fmt(st.seats)} of them, and <b class="g">${st.primes} are prime</b>. The longest run of composites is ${st.longest}. `;
+    if (st.cap != null) s += `Its deciding rings (2 to ${PRIMES[st.rings - 1]}), turned any way, can cover at most ${st.cap} in a row: ${Math.round((100 * st.cap) / st.width)}% of the layer, so <b>no turning can wipe it out</b>. `;
+    s += `It starts ${offTxt(offA, m)} and ${offTxt(offB, m + 1)}.`;
+    $("layerText").innerHTML = s;
+    $("lIn").value = String(m);
+  }
+  function nowText() {
+    const [a, b] = clocks(), x = S.x;
+    const ra = mod(x, a), rb = mod(x, b);
+    const typ = cellType(ra, rb, a, b);
+    let s = `<b>${fmt(x)}</b>`;
+    if (S.mode === "layer") s += ` (layer ${S.layer})`;
+    s += ` · clock ${a} at ${ra}${ra === 0 ? " (seam)" : ""} · clock ${b} at ${rb}${rb === 0 ? " (seam)" : ""} · `;
+    if (typ !== "open") return s + (isPrime(x) ? `closed, but <span class="g">prime</span>: it is one of the clocks' own factors` : `closed → ${x > 1 ? factorText(x) : "the unit"}`);
+    if (isPrime(x)) return s + `open → <span class="g">prime</span>`;
+    if (x === 1) return s + "open → the unit";
+    return s + `open, but ${factorText(x)}: caught by ring ${smallestFactor(x)}, which this donut doesn't have`;
+  }
+  function nowIdle() {
+    const n = $("now");
+    if (S.counting || S.x > lapRange()[0]) { n.innerHTML = nowText(); return; }
+    n.textContent = touchLike ? "drag to turn the donut · Let it count" : "drag to turn the donut · Let it count · arrow keys step the count";
+  }
+
+  // ---------- render loop ----------
+  let last = 0, raf = 0, dirty = true;
+  let onScreen = true;
+  new IntersectionObserver((es) => { onScreen = es.some((e) => e.isIntersecting); if (onScreen) kick(); }).observe(stage);
+  function frame(t) {
+    raf = requestAnimationFrame(frame);
+    if (!onScreen || document.hidden) { last = t; return; }
+    const dt = last ? Math.min(0.1, (t - last) / 1000) : 0; last = t;
+    let changed = dirty;
+    if (S.view === "donut" && S.spin && !drag && !reduced.matches) { S.yaw += dt * 0.18; changed = true; }
+    if (S.counting) {
+      const [lo, hi] = lapRange();
+      const rate = Math.max(2, Math.min(30, (hi - lo + 1) / 12));
+      S.frac += dt * rate;
+      while (S.frac >= 1) { S.frac -= 1; S.x += 1; if (S.mode === "layer" && S.x > hi) S.x = lo; }
+      changed = true;
+    }
+    if (changed) { draw(t); nowIdle(); dirty = false; }
+  }
+  function kick() { dirty = true; }
+
+  // ---------- controls ----------
+  function setView(v) {
+    S.view = v;
+    $("vDonut").setAttribute("aria-pressed", String(v === "donut"));
+    $("vFlat").setAttribute("aria-pressed", String(v === "flat"));
+    kick();
+  }
+  function setClocks(a, b) {
+    S.mode = "clocks";
+    S.a = Math.max(2, Math.min(40, Math.round(a))); S.b = Math.max(2, Math.min(41, Math.round(b)));
+    $("aIn").value = String(S.a); $("bIn").value = String(S.b);
+    S.x = 1; S.frac = 0;
+    clockText(); kick();
+  }
+  function setLayer(m) {
+    S.mode = "layer";
+    S.layer = Math.max(2, Math.min(40, Math.round(m)));
+    const [lo] = lapRange(); S.x = lo; S.frac = 0;
+    $("aIn").value = String(S.layer); $("bIn").value = String(S.layer + 1);
+    clockText(); layerText(); kick();
+  }
+  function setCounting(on) {
+    S.counting = on;
+    $("bCount").textContent = on ? "Pause" : "Let it count";
+    if (on) { const [lo] = lapRange(); if (S.x < lo) S.x = lo; }
+    kick();
+  }
+  $("vDonut").addEventListener("click", () => setView("donut"));
+  $("vFlat").addEventListener("click", () => setView("flat"));
+  $("bCount").addEventListener("click", () => setCounting(!S.counting));
+  $("abGo").addEventListener("click", () => setClocks(+$("aIn").value || 2, +$("bIn").value || 3));
+  for (const id of ["aIn", "bIn"]) $(id).addEventListener("keydown", (e) => { if (e.key === "Enter") setClocks(+$("aIn").value || 2, +$("bIn").value || 3); });
+  $("lPrev").addEventListener("click", () => setLayer(S.layer - 1));
+  $("lNext").addEventListener("click", () => setLayer(S.layer + 1));
+  $("lGo").addEventListener("click", () => setLayer(+$("lIn").value || 7));
+  $("lIn").addEventListener("keydown", (e) => { if (e.key === "Enter") setLayer(+$("lIn").value || 7); });
+  const PRESETS = [[2, 3, "2 × 3"], [5, 6, "5 × 6"], [7, 30, "7 × 30"], [8, 9, "8 × 9"], [11, 12, "11 × 12"], [4, 6, "4 × 6 (shared factor)"]];
+  for (const [a, b, label] of PRESETS) {
+    const btn = document.createElement("button"); btn.type = "button"; btn.textContent = label;
+    btn.addEventListener("click", () => setClocks(a, b));
+    $("presets").appendChild(btn);
+  }
+
+  let drag = null;
+  cv.addEventListener("pointerdown", (e) => { if (S.view !== "donut") return; drag = { x: e.clientX, y: e.clientY, yaw: S.yaw, pitch: S.pitch, id: e.pointerId }; cv.classList.add("dragging"); try { cv.setPointerCapture(e.pointerId); } catch (_) {} });
+  cv.addEventListener("pointermove", (e) => {
+    if (!drag || drag.id !== e.pointerId) return;
+    S.yaw = drag.yaw + (e.clientX - drag.x) * 0.008;
+    S.pitch = Math.max(-1.55, Math.min(-0.15, drag.pitch + (e.clientY - drag.y) * 0.006));
+    kick();
+  });
+  const endDrag = () => { drag = null; cv.classList.remove("dragging"); };
+  cv.addEventListener("pointerup", endDrag); cv.addEventListener("pointercancel", endDrag);
+  cv.addEventListener("keydown", (e) => {
+    const [lo, hi] = lapRange();
+    if (e.key === "ArrowRight") { S.x = S.mode === "layer" && S.x >= hi ? lo : S.x + 1; S.frac = 0; }
+    else if (e.key === "ArrowLeft") { S.x = Math.max(S.mode === "layer" ? lo : 1, S.x - 1); S.frac = 0; }
+    else if (e.key === "ArrowUp") { S.pitch = Math.max(-1.55, S.pitch - 0.08); }
+    else if (e.key === "ArrowDown") { S.pitch = Math.min(-0.15, S.pitch + 0.08); }
+    else return;
+    e.preventDefault(); kick();
+  });
+
+  // ---------- chart: could the rings wipe out a layer? ----------
+  const SERIES = [
+    { k: "1", name: "1 clock (our wheel)", color: COL.k1 },
+    { k: "2", name: "2 clocks (4D)", color: COL.k2 },
+    { k: "3", name: "3 clocks (6D)", color: COL.k3 },
+  ].map((s) => ({ ...s, pts: DATA[s.k].filter((r) => r[2] >= 10).map((r) => ({ m: r[0], hi: r[2], width: r[3], cap: r[7], v: r[7] / r[3] })) }));
+  (() => {
+    const el = $("legend");
+    for (const s of SERIES) { const sp = document.createElement("span"); const k = document.createElement("span"); k.className = "lk"; k.style.borderColor = s.color; sp.appendChild(k); sp.appendChild(document.createTextNode(s.name)); el.appendChild(sp); }
+    const sp = document.createElement("span"); const k = document.createElement("span"); k.className = "lk"; k.style.borderColor = COL.ring; sp.appendChild(k); sp.appendChild(document.createTextNode("the whole layer")); el.appendChild(sp);
+  })();
+  let chHover = null;
+  function chGeom(w, h) {
+    const pad = { l: 34, r: 12, t: 12, b: 30 };
+    const X0 = 1, X1 = 5, YM = 2.6;
+    return { pad, xs: (x) => pad.l + ((Math.log10(x) - X0) / (X1 - X0)) * (w - pad.l - pad.r), xinv: (px) => 10 ** (X0 + ((px - pad.l) / (w - pad.l - pad.r)) * (X1 - X0)), ys: (v) => h - pad.b - (Math.min(v, YM) / YM) * (h - pad.t - pad.b) };
+  }
+  function drawChart() {
+    const c = $("ch"); if (!c.clientWidth) return;
+    const dpr = DPR(), w = c.clientWidth, h = c.clientHeight;
+    c.width = Math.round(w * dpr); c.height = Math.round(h * dpr);
+    const g = c.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const { pad, xs, ys } = chGeom(w, h);
+    g.fillStyle = COL.plot; g.fillRect(0, 0, w, h);
+    g.font = `10px ${MONO}`; g.textAlign = "right"; g.textBaseline = "middle"; g.lineWidth = 1;
+    for (const v of [0, 0.5, 1, 1.5, 2, 2.5]) { const y = Math.round(ys(v)) + 0.5; g.strokeStyle = v === 1 ? COL.ring : COL.grid; g.lineWidth = v === 1 ? 1.5 : 1; g.beginPath(); g.moveTo(pad.l, y); g.lineTo(w - pad.r, y); g.stroke(); g.fillStyle = COL.muted; g.fillText(String(v), pad.l - 6, y); }
+    g.textAlign = "center"; g.textBaseline = "top"; g.lineWidth = 1;
+    for (const [x, lab] of [[10, "10"], [100, "100"], [1000, "1,000"], [10000, "10,000"], [100000, "100,000"]]) { const px = Math.round(xs(x)) + 0.5; g.strokeStyle = COL.grid; g.beginPath(); g.moveTo(px, ys(2.6)); g.lineTo(px, ys(0) + 4); g.stroke(); g.fillStyle = COL.muted; g.textAlign = x === 100000 ? "right" : x === 10 ? "left" : "center"; g.fillText(lab, x === 100000 ? px + 2 : x === 10 ? px - 2 : px, ys(0) + 7); }
+    g.textAlign = "left"; g.textBaseline = "alphabetic"; g.font = `10px ${SANS}`; g.fillStyle = COL.text; g.fillText("the whole layer", pad.l + 4, ys(1) - 6);
+    for (const s of SERIES) {
+      g.beginPath(); s.pts.forEach((p, i) => (i ? g.lineTo(xs(p.hi), ys(p.v)) : g.moveTo(xs(p.hi), ys(p.v))));
+      g.strokeStyle = s.color; g.lineWidth = 2; g.lineJoin = "round"; g.stroke();
+    }
+    if (chHover != null) {
+      const px = xs(chHover); g.strokeStyle = "rgba(223,227,240,0.45)"; g.lineWidth = 1; g.beginPath(); g.moveTo(px, ys(2.6)); g.lineTo(px, ys(0)); g.stroke();
+      for (const s of SERIES) { const p = nearest(s, chHover); if (!p) continue; g.beginPath(); g.arc(xs(p.hi), ys(p.v), 6, 0, 7); g.fillStyle = COL.plot; g.fill(); g.beginPath(); g.arc(xs(p.hi), ys(p.v), 4, 0, 7); g.fillStyle = s.color; g.fill(); }
+    }
+  }
+  function nearest(s, x) {
+    let best = null, bd = Infinity;
+    for (const p of s.pts) { const d = Math.abs(Math.log10(p.hi) - Math.log10(x)); if (d < bd) { bd = d; best = p; } }
+    return bd < 0.25 ? best : null;
+  }
+  function showTip(px, py) {
+    const tip = $("tip"), wrap = $("ch").parentElement;
+    let html = `<div class="h">Numbers near ${fmt(Math.round(chHover))}</div>`;
+    for (const s of SERIES) { const p = nearest(s, chHover); if (!p) continue; html += `<div class="r"><span class="k" style="border-color:${s.color}"></span><span class="v">${p.v.toFixed(2)}</span><span>${s.name.split(" (")[0]}, layer ${p.m}: ${p.cap} of ${fmt(p.width)}</span></div>`; }
+    tip.innerHTML = html; tip.style.display = "block";
+    const ww = wrap.clientWidth, tw = tip.offsetWidth, th = tip.offsetHeight;
+    let left = px + 12; if (left + tw > ww - 4) left = px - tw - 12; if (left < 4) left = 4;
+    let top = py - th - 8; if (top < 4) top = py + 12;
+    tip.style.transform = `translate(${Math.round(left)}px, ${Math.round(top)}px)`;
+  }
+  const ch = $("ch");
+  const chMove = (e) => { const r = ch.getBoundingClientRect(); const { xinv } = chGeom(ch.clientWidth, ch.clientHeight); chHover = Math.max(10, Math.min(100000, xinv(e.clientX - r.left))); drawChart(); showTip(e.clientX - r.left, e.clientY - r.top); };
+  ch.addEventListener("pointermove", chMove); ch.addEventListener("pointerdown", chMove);
+  ch.addEventListener("pointerleave", () => { chHover = null; $("tip").style.display = "none"; drawChart(); });
+  ch.addEventListener("keydown", (e) => {
+    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return; e.preventDefault();
+    chHover = Math.max(10, Math.min(100000, (chHover || 1000) * (e.key === "ArrowRight" ? 1.25 : 0.8)));
+    drawChart(); const { xs } = chGeom(ch.clientWidth, ch.clientHeight); showTip(xs(chHover), 30);
+  });
+  ch.addEventListener("blur", () => { chHover = null; $("tip").style.display = "none"; drawChart(); });
+  (() => {
+    const t = $("tab");
+    const head = ["Wheel", "Layer", "Numbers", "Width", "Rings up to", "Most in a row", "Share"];
+    const thead = document.createElement("thead"), tr = document.createElement("tr");
+    for (const h of head) { const th = document.createElement("th"); th.textContent = h; tr.appendChild(th); }
+    thead.appendChild(tr); t.appendChild(thead);
+    const tb = document.createElement("tbody");
+    for (const s of SERIES) for (const r of DATA[s.k]) {
+      if (r[2] < 10) continue;
+      const row = document.createElement("tr");
+      for (const v of [s.name.split(" (")[0], r[0], `${fmt(r[1])}–${fmt(r[2])}`, fmt(r[3]), r[6] ? PRIMES[r[6] - 1] : "–", r[7], (r[7] / r[3]).toFixed(2)]) { const td = document.createElement("td"); td.textContent = String(v); row.appendChild(td); }
+      tb.appendChild(row);
+    }
+    t.appendChild(tb);
+    const last2 = DATA["2"][DATA["2"].length - 1], last1 = DATA["1"][DATA["1"].length - 1];
+    $("chartNote").innerHTML = `Our wheel's line crosses 1 by layer 41 and reaches ${(last1[7] / last1[3]).toFixed(2)} at layer 391. The 4D wheel never gets near 1: at layer 60 its rings can cover ${Math.round((100 * last2[7]) / last2[3])}% of the layer. Its layers are wider than any turning of the rings can cover, so they're safe by width alone, like Goldbach's pairs.`;
+  })();
+
+  // ---------- findings ----------
+  const FINDS = [
+    { tag: "classical", html: "<b>Spheres can't hold counting.</b> A circle splits evenly into any number of points. The ordinary sphere only splits evenly into 4, 6, 8, 12 or 20, the corners of the regular solids. So in any number of dimensions a count runs on circles.", go: () => { setView("donut"); setClocks(2, 3); } },
+    { tag: "classical", html: "<b>Every two dimensions add a clock.</b> A rotation in 2D or 3D turns one plane. In 4D it can turn two planes at once, so each step of the count moves two clocks, and the numbers wind a knot around a donut.", go: () => { setView("donut"); setClocks(5, 6); setCounting(true); } },
+    { tag: "classical, now visible", html: "<b>The scatter is a shadow.</b> On one ring of 30, the 8 spots a prime past 5 can land on look scattered. On the 5 × 6 donut they're a perfect grid: 4 open rows crossed with 2 open columns. Flattening the grid onto one circle is what scatters it.", go: () => { setView("flat"); setClocks(5, 6); } },
+    { tag: "classical, now visible", html: "<b>“One more or one less than a multiple of 6” is two cells.</b> With clocks 2 and 3, the donut has 6 cells and only 2 are open. Every prime past 3 lands in one of them.", go: () => { setView("flat"); setClocks(2, 3); setCounting(true); } },
+    { tag: "noticed building", html: "<b>A 4D tread wheel stacks pyramids.</b> Let both clocks grow by one each layer: layer m is one lap of clocks m and m+1, so it holds m × (m+1) numbers, and the running totals are pyramid numbers instead of triangle numbers.", go: () => { setView("flat"); setLayer(7); } },
+    { tag: "checked", html: "<b>In 4D every layer is safe by width.</b> No turning of the rings can wipe out any 4D layer from 2 to 60; at layer 60 they can cover only about a quarter of it in a row. In our wheel, every layer from 41 on can be wiped. Ours is the only rung where the rings can aim at a whole layer.", go: () => { $("chartGroup").scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth", block: "start" }); } },
+    { tag: "checked", html: "<b>The mirror grows an axis.</b> Our layers start right at their seam or half a turn past it: the parity mirror, from the halving in triangle numbers. 4D layers start right at the seam or two thirds of a turn past it, exactly when 3 divides that clock: the third in pyramid numbers. It doesn't keep going; 6D layers only show halves.", go: () => { setView("flat"); setLayer(9); } },
+    { tag: "checked", html: "<b>Its own clocks see more.</b> With no division, a 4D creature's two clocks flag 72% of the composites on their own layer, because one clock is always even. Three clocks flag 80%. Our single ring flags 42%, or 64% with the mirror.", go: () => { setView("flat"); setLayer(12); } },
+    { tag: "classical", html: "<b>Our wheel sits on the square-root wall.</b> Our layers are about as wide as the square root of where they sit; 4D layers grow like the two-thirds power. Known math proves a prime in every stretch a little wider than the square root, once the numbers are large enough, so every large enough 4D layer provably holds one. Even assuming the Riemann Hypothesis, the best result needs the square root times a log, which is still wider than our layers. Ours is the one wheel where the question is open.", go: () => { $("chartGroup").scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth", block: "start" }); } },
+  ];
+  (() => {
+    const ol = $("finds");
+    for (const f of FINDS) {
+      const li = document.createElement("li");
+      li.innerHTML = `${f.html}<span class="tag">${f.tag}</span><br>`;
+      const btn = document.createElement("button"); btn.type = "button"; btn.textContent = "Show me";
+      btn.addEventListener("click", () => { f.go(); if (window.matchMedia("(max-width: 760px)").matches && !f.html.includes("safe by width") && !f.html.includes("square-root wall")) stage.scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth" }); });
+      li.appendChild(btn); ol.appendChild(li);
+    }
+  })();
+
+  // ---------- start ----------
+  $("howto").textContent = touchLike ? "Drag the donut to turn it. Let it count to watch the knot; Unrolled shows the same cells flat." : "Drag the donut to turn it. Let it count to watch the knot; Unrolled shows the same cells flat, beside one ring of the same size.";
+  function onResize() { layout(); drawChart(); kick(); }
+  new ResizeObserver(onResize).observe(stage);
+  window.addEventListener("resize", onResize);
+  layout(); clockText(); layerText(); drawChart();
+  requestAnimationFrame(frame);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { layout(); drawChart(); kick(); });
+  window.__dv = { S, setClocks, setLayer, setView, setCounting, layerStats, cellType, cellNumbers, clocks, lapRange, isPrime, DATA };
+})();
+</script>

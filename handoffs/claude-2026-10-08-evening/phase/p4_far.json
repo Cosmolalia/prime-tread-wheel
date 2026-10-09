@@ -1,0 +1,58 @@
+{
+ "1000": {
+  "wiped": 3,
+  "of": 12,
+  "mean_real_pairs": 25.166666666666668,
+  "candidates": 240,
+  "rings": 10
+ },
+ "2000": {
+  "wiped": 0,
+  "of": 12,
+  "mean_real_pairs": 41.416666666666664,
+  "candidates": 484,
+  "rings": 13
+ },
+ "4000": {
+  "wiped": 0,
+  "of": 12,
+  "mean_real_pairs": 73.58333333333333,
+  "candidates": 974,
+  "rings": 17
+ },
+ "8000": {
+  "wiped": 0,
+  "of": 12,
+  "mean_real_pairs": 121.41666666666667,
+  "candidates": 1961,
+  "rings": 23
+ },
+ "16000": {
+  "wiped": 0,
+  "of": 12,
+  "mean_real_pairs": 213.83333333333334,
+  "candidates": 3943,
+  "rings": 29
+ },
+ "32000": {
+  "wiped": 0,
+  "of": 12,
+  "mean_real_pairs": 365.1666666666667,
+  "candidates": 7917,
+  "rings": 39
+ },
+ "64000": {
+  "wiped": 0,
+  "of": 12,
+  "mean_real_pairs": 645.0,
+  "candidates": 15879,
+  "rings": 53
+ },
+ "128000": {
+  "wiped": 0,
+  "of": 12,
+  "mean_real_pairs": 1119.0,
+  "candidates": 31827,
+  "rings": 70
+ }
+}

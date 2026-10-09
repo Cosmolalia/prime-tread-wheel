@@ -232,9 +232,11 @@ measured, small, mechanism unpinned. [G: minor]
   point — is NEVER prime. [trivial identity]
 - T(m)-1 = (m-1)(m+2)/2 is composite for all m >= 4 (the lap's last tick).
   So itrail >= 1 universally: the right edge is always shut, forced. [E]
-- Opening tick T(m-1)+1 is odd by construction -> prime at exactly 2x
-  random-density (observed 2385 vs 1193 expected for m<=2e4 = ratio 2.000 —
-  pure parity selection, no structure). [E]
+- Opening tick T(m-1)+1 lift RETRACTED as mechanism (evening session):
+  "odd by construction" is false — exactly half of opening ticks are even;
+  the 2.000 was a small-range artifact. Over m = 3..200000 the lift is
+  1.9668 vs either baseline, and conditioned on odd it matches the gear
+  rule for lane c=1 (D=-7 -> 1.973, his P2). See evening session below. [E]
 Wheel reading: "the leading corner always falls a little short" has an exact
 trivial instance at the right edge — the last two ticks of every lap are
 arithmetically forbidden primes. Mechanism: identities, not geometry.
@@ -509,3 +511,95 @@ values composite = A066888 failure).
 
 J1c (true Hamming distance to nearest wipe turning, value side) remains
 open — needs Claude's SAT/anneal machinery (p4_sat.py); joint.
+
+---
+
+## Evening session 2026-10-08 — Claude's second handoff received, bridged, answered
+
+### Received (his afternoon/evening, all pre-registered, predictions written before checks)
+- P2 HELD: 18 seam lanes to layer 100M, gear-rule match within 0.09% worst,
+  rich-to-poor order right in all 153 pairs; bonus sub-Poisson hint (sum z^2 =
+  7.1 vs ~18 for coin flips).
+- P3 FAILED with mechanism: first wiping stretch = min of N scattered CRT
+  landings ~ lap/(N+1). p3_count counts N exactly. Lesson logged: ring-count
+  jumps are lumpy; never extrapolate the trend.
+- P8 HELD (pre-registered): rings to 43, first run >= 63 at 3,732,574,514 vs
+  2.7B estimate.
+- P9 HELD, all four calls: seam lanes calmer than coin flips; straight line
+  0.075/tenfold (worst rung miss 0.0066); schedule cut-off experiment
+  (rings <=1000 on schedule) reproduces the calm short-range then flattens
+  near 0.64 — the calm is MADE by rings finishing laps. Same straight-line
+  law as Montgomery-Soundararajan for plain primes; the wheel shows the gears.
+- P10 HELD, all three calls (the big one for our frame): rings CONFINED to
+  their triangular-image phases — our stagger parabola confinement, run
+  through his wipe machinery — save 21 layers that free rings wipe
+  (18-20,24,29-32,34-43,49,53,56,57); first confined wipe at 27 (free: 18);
+  every layer wipeable again from 58 through 256. Slack table: slack 0-1
+  layers all saved, slack >= 6 all wipeable, 2-5 ragged. Meaning: structure
+  alone proves a prime in every layer to 57; from 58 only the walk protects.
+  In this frame OUR ROUTING WALL STARTS AT LAYER 58.
+  [resolution limit: confined results 36-256 are search + re-verified, not
+  exhaustive; brute force covers 18-35.]
+
+### Proved here: confined orbit law (confined-N1) [E]
+Ring p's confined phase set = negatives of triangular residues mod p,
+(p+1)/2 values. CLAIM: as m ranges over a full period of the confined
+system, the joint phase tuple hits EVERY tuple in the product of the
+confined sets. PROOF: prescribed tuple means T(m-1) ≡ c_p (mod p) with
+-c_p triangular, i.e. c_p = T(j_p) for some j_p. Then m(m-1) ≡ j_p(j_p+1)
+(mod p) ⇔ (2m-1)^2 ≡ (2j_p+1)^2 ⇔ m ≡ j_p+1 or m ≡ -j_p (mod p) — always
+solvable. CRT joins the per-prime solutions. So P10's independence
+assumption is exact, not heuristic — confinement is an
+independent-restriction model.
+
+### RECONCILE items — answered
+(1) SEATS: accepted, same mechanism different cut. His seat = the phi(m)
+    ticks a prime can take (fresh + second visits at m≡2 mod 4); ours =
+    strict gcd(k,m)=1 filter used in the stagger MC. Note the value-side
+    candidate filter is neither: it is the per-lap sieve bound
+    p <= sqrt(T(m-1)+W) (P12b). On m≡2 mod 4 laps ALL real primes sit on
+    non-coprime ticks (shared theorem) — that is why the seat test blinded
+    half the laps in the ACF probe.
+(2) OPENING TICK 2.000 — RETRACTED as mechanism. Reproduced: over m<=2e4,
+    observed 2385 vs expected 1192.8 under random-INTEGER density (my
+    baseline). Because exactly half of opening ticks are even, the
+    random-ODD baseline is numerically identical (1192.6) — the two never
+    diverge. Over m = 3..200000: lift = 1.9668 vs EITHER baseline; my
+    "odd by construction" claim was false (half are even: 99999/199998) and
+    "pure parity, no structure" was false too: the lift IS the gear rule
+    for lane c=1 (D=-7 -> 1.973), his P2 confirmed it to 0.005% over 100M
+    layers. The 2.000 was a small-range artifact. Logged as correction in
+    essay.html §5 + §9; N9 entry in this file now carries the retraction.
+(3) No-empty-layer supersession: acknowledged — our direct check to 1e9
+    (2.83e9 via prime-gap data) is the standing verification.
+
+### Fired on arrival: halves_struct.py (BRIDGE 2 resolved) [E]
+Pre-registered calls all resolved:
+(a) Width NEVER obstructs a half-cover: for m = 21..270 (full A048670
+    table range), required run < h(pi(m))-1 everywhere; min ratio 2.6x at
+    m=28, 6.9x at m=270, and h grows superlinearly -> no width obstruction
+    at ANY scale. (Ring 2 left free = strongest adversary, documented.)
+(b) Exact DFS (first-uncovered-tick branching, capacity pruning): left
+    half of EVERY layer m = 21..60 is coverable by free rings (<= 12 nodes
+    each). Greedy alone failed everywhere — logged as a greedy-vs-exact
+    lesson, not a result.
+=> THE HALVES-CLAIM HAS ZERO STRUCTURAL SUPPORT AT ANY SCALE. It rides
+   entirely on the realized stagger. Contrast: no-empty-layer is
+   structure-supported to layer 57 (confined) / 40 (free width). Two
+   claims, two protection regimes — the paper's framing just got sharper.
+
+### J3 status update
+Our stagger face of the calm (arc p finishes its lap over a stretch iff
+stretch >= p) is now MECHANISM-CONFIRMED by his cut-off experiment. Next:
+derive the 0.075 slope from gear-rule luck shares (one ring-decade of
+coin-flip variance removed per tenfold of stretch) — write the number
+first, then measure.
+
+### Queue for next session (both sides)
+- J1c: true Hamming distance realized-turning to nearest wipe (needs his
+  SAT/anneal machinery).
+- Confined half-cover scan: does confinement save any HALF-layer?
+  (his p10 bitsets, confined target = half window)
+- Calm-slope derivation (above), pre-registered.
+- Fold layers 52-63 firsts into the Platonic Map far-jump chart.
+- Sub-Poisson hint, tested properly (many more columns, pre-registered).

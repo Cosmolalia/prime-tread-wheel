@@ -1,0 +1,306 @@
+{
+ "500": [
+  {
+   "2n": 500,
+   "best_uncovered": 2,
+   "candidates": 114,
+   "real_pairs": 12
+  },
+  {
+   "2n": 502,
+   "best_uncovered": 0,
+   "candidates": 115,
+   "real_pairs": 13
+  },
+  {
+   "2n": 504,
+   "best_uncovered": 10,
+   "candidates": 115,
+   "real_pairs": 24
+  },
+  {
+   "2n": 506,
+   "best_uncovered": 1,
+   "candidates": 116,
+   "real_pairs": 12
+  },
+  {
+   "2n": 508,
+   "best_uncovered": 0,
+   "candidates": 116,
+   "real_pairs": 12
+  },
+  {
+   "2n": 510,
+   "best_uncovered": 15,
+   "candidates": 117,
+   "real_pairs": 29
+  }
+ ],
+ "700": [
+  {
+   "2n": 700,
+   "best_uncovered": 6,
+   "candidates": 162,
+   "real_pairs": 22
+  },
+  {
+   "2n": 702,
+   "best_uncovered": 11,
+   "candidates": 163,
+   "real_pairs": 29
+  },
+  {
+   "2n": 704,
+   "best_uncovered": 1,
+   "candidates": 163,
+   "real_pairs": 16
+  },
+  {
+   "2n": 706,
+   "best_uncovered": 0,
+   "candidates": 164,
+   "real_pairs": 17
+  },
+  {
+   "2n": 708,
+   "best_uncovered": 7,
+   "candidates": 164,
+   "real_pairs": 22
+  },
+  {
+   "2n": 710,
+   "best_uncovered": 3,
+   "candidates": 165,
+   "real_pairs": 15
+  }
+ ],
+ "1000": [
+  {
+   "2n": 1000,
+   "best_uncovered": 2,
+   "candidates": 234,
+   "real_pairs": 24
+  },
+  {
+   "2n": 1002,
+   "best_uncovered": 7,
+   "candidates": 235,
+   "real_pairs": 32
+  },
+  {
+   "2n": 1004,
+   "best_uncovered": 0,
+   "candidates": 235,
+   "real_pairs": 16
+  },
+  {
+   "2n": 1006,
+   "best_uncovered": 0,
+   "candidates": 236,
+   "real_pairs": 16
+  },
+  {
+   "2n": 1008,
+   "best_uncovered": 12,
+   "candidates": 236,
+   "real_pairs": 39
+  },
+  {
+   "2n": 1010,
+   "best_uncovered": 3,
+   "candidates": 237,
+   "real_pairs": 23
+  }
+ ],
+ "2000": [
+  {
+   "2n": 2000,
+   "best_uncovered": 7,
+   "candidates": 478,
+   "real_pairs": 34
+  },
+  {
+   "2n": 2002,
+   "best_uncovered": 11,
+   "candidates": 479,
+   "real_pairs": 40
+  },
+  {
+   "2n": 2004,
+   "best_uncovered": 18,
+   "candidates": 479,
+   "real_pairs": 54
+  },
+  {
+   "2n": 2006,
+   "best_uncovered": 3,
+   "candidates": 480,
+   "real_pairs": 31
+  },
+  {
+   "2n": 2008,
+   "best_uncovered": 1,
+   "candidates": 480,
+   "real_pairs": 25
+  },
+  {
+   "2n": 2010,
+   "best_uncovered": 31,
+   "candidates": 481,
+   "real_pairs": 77
+  }
+ ],
+ "4000": [
+  {
+   "2n": 4000,
+   "best_uncovered": 15,
+   "candidates": 968,
+   "real_pairs": 63
+  },
+  {
+   "2n": 4002,
+   "best_uncovered": 43,
+   "candidates": 969,
+   "real_pairs": 104
+  },
+  {
+   "2n": 4004,
+   "best_uncovered": 21,
+   "candidates": 969,
+   "real_pairs": 69
+  },
+  {
+   "2n": 4006,
+   "best_uncovered": 4,
+   "candidates": 970,
+   "real_pairs": 48
+  },
+  {
+   "2n": 4008,
+   "best_uncovered": 32,
+   "candidates": 970,
+   "real_pairs": 99
+  },
+  {
+   "2n": 4010,
+   "best_uncovered": 13,
+   "candidates": 971,
+   "real_pairs": 62
+  }
+ ],
+ "8000": [
+  {
+   "2n": 8000,
+   "best_uncovered": 31,
+   "candidates": 1955,
+   "real_pairs": 102
+  },
+  {
+   "2n": 8002,
+   "best_uncovered": 13,
+   "candidates": 1956,
+   "real_pairs": 78
+  },
+  {
+   "2n": 8004,
+   "best_uncovered": 74,
+   "candidates": 1956,
+   "real_pairs": 173
+  },
+  {
+   "2n": 8006,
+   "best_uncovered": 9,
+   "candidates": 1957,
+   "real_pairs": 73
+  },
+  {
+   "2n": 8008,
+   "best_uncovered": 38,
+   "candidates": 1957,
+   "real_pairs": 118
+  },
+  {
+   "2n": 8010,
+   "best_uncovered": 107,
+   "candidates": 1958,
+   "real_pairs": 213
+  }
+ ],
+ "16000": [
+  {
+   "2n": 16000,
+   "best_uncovered": 62,
+   "candidates": 3937,
+   "real_pairs": 188
+  },
+  {
+   "2n": 16002,
+   "best_uncovered": 180,
+   "candidates": 3938,
+   "real_pairs": 325
+  },
+  {
+   "2n": 16004,
+   "best_uncovered": 35,
+   "candidates": 3938,
+   "real_pairs": 137
+  },
+  {
+   "2n": 16006,
+   "best_uncovered": 37,
+   "candidates": 3939,
+   "real_pairs": 146
+  },
+  {
+   "2n": 16008,
+   "best_uncovered": 156,
+   "candidates": 3939,
+   "real_pairs": 299
+  },
+  {
+   "2n": 16010,
+   "best_uncovered": 67,
+   "candidates": 3940,
+   "real_pairs": 183
+  }
+ ],
+ "32000": [
+  {
+   "2n": 32000,
+   "best_uncovered": 134,
+   "candidates": 7911,
+   "real_pairs": 306
+  },
+  {
+   "2n": 32002,
+   "best_uncovered": 76,
+   "candidates": 7912,
+   "real_pairs": 245
+  },
+  {
+   "2n": 32004,
+   "best_uncovered": 341,
+   "candidates": 7912,
+   "real_pairs": 590
+  },
+  {
+   "2n": 32006,
+   "best_uncovered": 90,
+   "candidates": 7913,
+   "real_pairs": 255
+  },
+  {
+   "2n": 32008,
+   "best_uncovered": 74,
+   "candidates": 7913,
+   "real_pairs": 234
+  },
+  {
+   "2n": 32010,
+   "best_uncovered": 462,
+   "candidates": 7914,
+   "real_pairs": 715
+  }
+ ]
+}
