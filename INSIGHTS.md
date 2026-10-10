@@ -1139,3 +1139,28 @@ classes, rank by yield.
   is aperiodically ordered (Sturmian), the coloring is sieve exclusions plus
   nothing detectable, and the certificate algebra is absent. Ordered floor,
   sieve furniture, no deed to the land.
+
+---
+
+## 2026-10-09 deep night — GPU FRONTIER (pygame + cupy on the RTX 4070)
+
+The roll engine, one ring per GPU lane. [F] Same stagger-field mechanism as
+the Living Prime Map; the GPU port adds closed-form jump seeding (mod-2p
+halving trick, one uint64 multiply — no bignums) and a stamp kernel whose
+first-stamp index uses a double-reciprocal estimate + integer correction
+(a 64-bit div per ring per layer would dominate the whole kernel).
+
+Verified chain: startup self-check (seed at 1,234,567, 8 layers x 1024 ticks
+vs CPU span sieve, 0 mismatches) + exact audit of a dump-band at layer
+6e9 (N ~ 1.8e19): 6,002/6,002 listed primes exact (deterministic MR),
+1,952/1,952 non-listed composites — zero errors both directions.
+
+The wall's true name, measured: BANDWIDTH. Every ring costs 20 B/layer of
+traffic; ~3.7 GiB/layer at 6e9 caps at ~32 layers/s (~256 GB/s bus). Wide
+window (1M ticks) holds certified throughput at ~33M numbers/s at 6e9 and
+~100M/s at 282M. uint32 regs cap the dial at m < 2^32*sqrt(2); uint64 would
+double per-ring traffic for a higher ceiling.
+
+Ships: gpu-frontier/gpu_frontier.py (+ run.sh, README.md). Modes: windowed
+pygame app (jump dial, save gold bands with sha256), --benchmark, --dump-band
+(the certified-prime frontier service cut), --frames smoke test.
