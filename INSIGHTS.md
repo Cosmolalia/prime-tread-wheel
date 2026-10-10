@@ -834,3 +834,32 @@ Discriminating observation the toy makes possible: at which ratios, if any,
 does the visible-set structure (primes = uncovered-by-small-wheels) re-form
 into clean lines? The 1:1 lattice's theorems are one point in ratio-space;
 whether any other ratio has its own algebra is now a probe-able question.
+
+---
+
+## 2026-10-09 deep night — the ratio sweep: 165 ratios, 5M sieve, four laws
+
+Probe: probes/ratio_sweep.py. Wheel rules as in variable.html: L[m] = max(1, round(m·r)),
+N = base(m)+k. Families scanned: k = round(f·L[m])+b for f = j/48 (j=1..48), b = −20..+8,
+m ≤ M with base(M) ≤ 5e6. Rational grid a/b (a,b ≤ 16, coprime) + irrationals (√2, √3, √5, π, e, φ, ln2, √2−1) + extremes (1e±2..1e±6).
+
+**L1 — no all-prime line exists anywhere in ratio space [F, zero instances].** 165 ratios ×
+~1400 families ≈ 230k family scans: ZERO families with ≥8 samples 100% prime. At rational r the
+obstruction is exact (N(m) is a quadratic quasi-polynomial; a nonconstant such sequence takes
+composite values). The "always p on a line" pattern is not hiding at any ratio.
+
+**L2 — rational ⟺ has dead lines [E, measured].** Pure-dead families (0 primes, ≥40 samples,
+expectation ≥4) at EVERY rational a/b tested — always including f=1 (rim) families — and at ZERO
+irrationals. r=1 reproduces the triangular theorem exactly: dead at b = −1,−3,−6,−10,−15 (f=1).
+Non-integer rationals have their own dead offsets (1:2 → f=0.5 b=−1,−5,−17; 2:3 → f=1 b=−4,−10,−16).
+The exact indexing formula for dead offsets at general a/b [G].
+
+**L3 — the parity escape is universal [E, 2.00× exact everywhere].** At every ratio, the
+(m mod 4 × k parity) classes where N is forced odd carry exactly 2.00× prime density; classes where
+N is forced even are prime-deserts. Not an r=1 quirk — a constant of the whole tread family. The
+"sweep's m%4==3 dead annotations" were these parity-desert classes, not new structure.
+
+**L4 — seam (cumulative totals base(m)) laws [F + E].** Integer r: base(m) = r·T(m−1) exactly →
+seam composite ∀m≥3 (r=1: except T(2)=3; r≥2: except N=r at lap 1). 10:3 worked in full: k≡0 mod 3
+→ even and ×5; k≡1 mod 3 → even; k≡2 mod 3 → divisible by 3 — every residue class killed, seam dead
+except base(2)=3. Non-exceptional rationals (3:2 etc.): seam prime-normal ~7%.
