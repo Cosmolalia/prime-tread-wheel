@@ -999,3 +999,68 @@ usual. This entry is a map, not new results.
 - G8 (joint w/ Claude) J1c wipe-Hamming distance; confined half-cover scan;
   sub-Poisson tested properly; calm-slope derivation pre-registered.
 - G9 C4 anti-correlation mechanism hunt.
+
+---
+
+## 2026-10-09 night — G1 closed, and the seam gives up its engine
+
+### The fine-resolution lock (L3 upgraded from law to mechanism)
+
+The m%4 "diluted escape" at non-1:1 ratios was an ALIASING ARTIFACT. Re-scanning
+at resolution m mod 4b: EVERY rational shows the same pure lock as 1:1 — every
+m-residue class is either exactly 2.00x or exactly 0.00x, nothing between
+(residuals at 1:14/1:16 were under-resolution, cap was 48 < 4b).
+
+Mechanism [F]: deadness of an odd-k tick is decided purely by B[m] mod 2, which
+is periodic in m with period dividing ~4b (B[m] is a quasi-polynomial). Classes
+with B[m] even: odd ticks all-odd -> exactly 2x density. Classes with B[m] odd:
+odd ticks all even -> totally dead. The 1:1 wheel's lock period (4) is the only
+one coarse enough for the eye; larger denominators hide the identical law in
+fine structure. This is WHY 1:1 looks special (Claude's lock observation) —
+it isn't special, it's just legible.
+
+### The seam map (all coprime a/b, a,b <= 18)
+
+Every integer ratio dead (seam = a*T(m), known). Row a=1: ALL dead.
+b=4 column closed: dead iff a = +/-1 mod 8 (verified through a=21).
+General closed form [G] — the map is the classification for now; it is a
+fixed-divisor problem over quasi-polynomials (classically hard in general).
+
+### The three-layer deadness engine (the night's real prize)
+
+Layer 1 — content/gcd: within a constant-L block the seam values are an AP with
+difference L; if gcd(first, L) > 1 the whole block is composite. Universal,
+exact, sieve-free. Verified: zero violations at 5:8, 2:3 across all blocks.
+
+Layer 2 — quasi-polynomial factorization: on each residue class m = R*t + r
+(R = 2b * (power of 2)), the seam N(t) is an EXACT quadratic in t. If the
+discriminant is a perfect square, N factors over the rationals and the class is
+identically composite. Exhibit, 3:8, m = 16t+2: N = 48t^2 + 16t + 1 =
+(4t+1)(12t+1). 3:8 has ALL 16 classes factorable -> seam fully dead, mechanism
+closed (no sieve input at any point). 5:8: 8 factorable + 8 non-factorable;
+every seam prime lives in a non-factorable class (classes 8, 10 are
+non-factorable but unlucky in range — possible-in-principle is not obligated).
+
+Layer 3 — only after layers 1-2 pass does the sieve actually get consulted.
+
+7:4 anomaly resolved: 2 non-factorable classes but zero primes — they carry a
+content obstruction (parity-class deadness), i.e. layer 1, not a violation.
+
+### Unification
+
+This is ONE engine behind: L2's dead lines (same square-discriminant classes at
+other fracs/offsets), the seam map, and the Ulam connection. Euler's
+n^2-n+41 = NON-factorable quadratic (disc = -163) living on a live class at 2:1.
+The dead/live boundary everywhere is: square discriminant (factors) vs not
+(can be prime). And 5:8's non-factorable seam classes run ~0.26 prime density —
+prime-rich quadratic real estate exists at OTHER ratios, not just 2:1. G6
+(hunt Euler-class quadratics) now has a mechanism: enumerate non-factorable
+classes, rank by yield.
+
+### Status changes
+- L3: [E] mechanism-known (was empirical law)
+- D21 power-of-2 pattern: SUPERSEDED — the lock is universal at 4b resolution;
+  powers of 2 only fold it back to mod-4 legibility
+- G1: CLOSED (with engine)
+- G2: mostly closed by the same engine; the "formula" is now an enumeration
+  recipe [F], closed-form classification still [G]
