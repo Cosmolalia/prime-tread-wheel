@@ -1064,3 +1064,78 @@ classes, rank by yield.
 - G1: CLOSED (with engine)
 - G2: mostly closed by the same engine; the "formula" is now an enumeration
   recipe [F], closed-form classification still [G]
+
+---
+
+## 2026-10-09 late night — THE CENSUS, G5 CLOSED, ROLL ENGINE VERIFIED
+
+### The Living Prime Map (Claude's roll engine) — connector proved here, feedback applied
+
+- [F] Verified the connector myself rather than trusting the 30M-tick sample:
+  landing-seed −T(m−1) mod p is exact (0 mismatches, rings to 2×10⁸, layers to
+  282M); the add-and-wrap recurrence reproduces the stagger field exactly
+  (0 mismatches, 4 rings × 3 starts × 199 layers); full stamped output equals
+  primality on 40,660 consecutive ticks.
+- [F] The engine is one telescoping identity: o(m₀+Δ) ≡ seed − [T(m₀+Δ−1) −
+  T(m₀−1)] (mod p) in closed form. Roll is Jump at consecutive-layer
+  resolution; for sparse visits, roll IS jump with a telescoped seed.
+- [F] The wall's true name: holding every prime up to √N is the information
+  price of an EXACT certificate — any deterministic exact sieve must pay it.
+  The doors past it are different mechanisms, not optimizations: probabilistic
+  certificates (Miller–Rabin: no ring list, tiny lie probability) and
+  structure (decoding the stagger field — standing wall #32).
+- [F] Layer-skipping can't pay: pointer maintenance is Θ(rings) per layer
+  regardless of window, and locating a ring's next window-hit is a quadratic
+  congruence costing more than the layers saved. The honest speedup is
+  hardware: every ring's state machine is independent and 32-bit — one ring
+  per GPU lane, two uint32s each. Stated as a direction, not built.
+- Cleaned the page of Claude frame-runtime junk (the artifact export carried
+  claudeusercontent.com infrastructure), applied the above as copy, shipped
+  as living-prime-map.html with sibling links.
+
+### The census (probes/census.py + class_no.py) — 9,216 integer-ratio offset forms + 176 seam classes, LIMIT 5M
+
+- [E] The discriminant engine is exact. 0 / 9,216 square-D offset forms contain
+  a prime. The 41 / 176 square-D seam classes that showed 1–2 primes are
+  unit-factor leaks at t=0..1 only (e.g. the pronic class N=(t+1)(t+2) is
+  "prime" at t=0 where a factor equals 1): densities ≤ 0.001 vs live classes
+  ≥ 0.15, streaks 1–2 then stop. Dead ⟺ square-D, past the unit boundary.
+- [E] Euler is champion but NOT unique. Runner-up: a=6, c=0, b=23 →
+  N = 3m²−3m+23, D = −267, streak 19 vs Euler's 20, density 0.430. h(−267) = 2
+  (counted exactly). It dies at m=23: N = 1541 = 23·67 — the form's own
+  constant is one of the factors.
+- [E] Euler's fundamental class recurs: a=8, c=2, b=41 → 4m²−2m+41,
+  D = −652 = 4·(−163), density 0.502 against Euler's 0.501. h(−652) = 3
+  exactly — so equal density across different class numbers is itself an
+  observation worth a look someday.
+- [E] Heegner reachability is ratio-gated. All twelve class-number-1 |D|
+  occur somewhere in range, but the champions −43, −67, −163 occur at fixed
+  offsets ONLY at a=2: the reachability congruence (c−c₀)² + 163 = 4c₀·b has
+  no integer solutions for c₀ = 2, 3, 4. So 2:1 is the COMPLETE Heegner host;
+  a=4, a=6 host none of the big three (a=6 hosts −3 via 3m²−3m+1 and the
+  h=2 −267 champion); a=8 hosts −163 only as the conductor-2 order (−652).
+- [E] Seam real estate is second-class. Best live seam class: 2:5, class
+  m0=2, N = 5t²+5t+2, D = −15 (h=2), streak 7, density 0.355. Heegner seam
+  hits: only −16 (4:5) and −28 (2:7). Where the wheel's algebra is strongest
+  (the seam), survival is marginal; prime-rich lines want integer-ratio
+  offsets, where B[m] is exactly quadratic with leading coefficient a/2.
+- [G] follow-ups: a = 9..16 extension; offset lines at non-integer rationals
+  (still quadratic on residue classes — unenumerated); LIMIT beyond 5M.
+
+### G5 Sturmian (probes/g5_sturmian.py) — CLOSED
+
+- [E] Substrate is exactly Sturmian: lap word w[m]=L[m+1]−L[m] at r = √2, φ,
+  π, e all have factor complexity p(n) = n+1 through n = 12. Rational
+  controls bounded as the theory demands (5/3 → p saturates at 3; 7/4 at 4).
+- [E] The wheel is the sieve at irrational ratios too: on deep laps at √2,
+  zero gold ticks violate k ≢ −B[m] (mod p) for p = 2, 3, 5, 7.
+- [E] The residue "structure" of the coloring is the forced exclusion
+  exactly: raw χ²(q=3) ≈ 124–133 vs the forced-exclusion prediction 0.03–0.15.
+- [E, current resolution] Beyond the sieve: χ² over the allowed classes mod 11
+  = 2.7–7.6 (df 9 — ordinary); lag-1 autocorrelation within the mod-6-allowed
+  classes = −0.050, −0.019, −0.065 (se 0.028; inconsistent in sign, ≤ 2.3σ).
+  No detected order beyond the sieve.
+- So L2's "structureless" is now precise: at irrational ratios the substrate
+  is aperiodically ordered (Sturmian), the coloring is sieve exclusions plus
+  nothing detectable, and the certificate algebra is absent. Ordered floor,
+  sieve furniture, no deed to the land.

@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en" data-theme="dark" style="color-scheme: dark;">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Living Prime Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
+</style>
+<style><style>
+/* Layout: an observatory instrument. Controls in a left column, the plate (canvas) to the right, readout under it. Stacks on phones. */
+:root {
+  --bg: #0b1020; --panel: #121a30; --line: #24304f; --fg: #e6e9f2; --muted: #9aa4bf;
+  --gold: #f2bf4a; --ink: #0b1020; --accent: #8fb3ff;
+  --c-small: #1d2a55; --c-big: #9fe3d6;
+  --f-display: "Newsreader", Georgia, serif;
+  --f-body: "Atkinson Hyperlegible", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) {
+  --bg: #f3f1ea; --panel: #fbfaf6; --line: #d9d4c5; --fg: #1c2133; --muted: #5d6478;
+  --gold: #b67900; --ink: #ffffff; --accent: #2f56b8; --c-small: #c9cee0; --c-big: #1f7a6c; color-scheme: light } }
+:root[data-theme="light"] {
+  --bg: #f3f1ea; --panel: #fbfaf6; --line: #d9d4c5; --fg: #1c2133; --muted: #5d6478;
+  --gold: #b67900; --ink: #ffffff; --accent: #2f56b8; --c-small: #c9cee0; --c-big: #1f7a6c; color-scheme: light }
+html, body { background: var(--bg); color: var(--fg); }
+body { font: 15px/1.5 var(--f-body); padding-inline: 16px; padding-block: 20px 32px; }
+.wrap { max-width: 1280px; margin: 0 auto; display: grid; gap: 18px; }
+header h1 { font: 600 clamp(28px, 4vw, 40px)/1.1 var(--f-display); margin: 0; text-wrap: balance; }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 70ch; }
+.main { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 18px; align-items: start; }
+@media (max-width: 820px) { .main { grid-template-columns: 1fr; } }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: grid; gap: 14px; }
+.panel h2 { font: 700 11px/1 var(--f-body); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0; }
+.field { display: grid; gap: 6px; }
+.field label { font-size: 13px; color: var(--muted); }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+input[type=text], input[type=number] { font: 15px var(--f-mono); background: var(--bg); color: var(--fg); border: 1px solid var(--line); border-radius: 6px; padding: 7px 9px; min-width: 0; flex: 1; }
+button { font: 600 13px var(--f-body); background: transparent; color: var(--fg); border: 1px solid var(--line); border-radius: 6px; padding: 7px 11px; cursor: pointer; }
+button.primary { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+button:hover { border-color: var(--accent); }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.presets { display: flex; flex-wrap: wrap; gap: 6px; }
+.presets button { font-weight: 400; padding: 5px 9px; }
+.plate { display: grid; gap: 10px; min-width: 0; }
+.canvasbox { position: relative; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--bg); }
+canvas { display: block; width: 100%; height: auto; touch-action: none; cursor: crosshair; }
+.sel { position: absolute; top: 0; bottom: 0; background: color-mix(in srgb, var(--accent) 22%, transparent); border-inline: 1px solid var(--accent); pointer-events: none; }
+.axis { display: flex; justify-content: space-between; font: 12px var(--f-mono); color: var(--muted); }
+.readout { font: 13px/1.6 var(--f-mono); background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; min-height: 5.2em; overflow-wrap: anywhere; }
+.readout b { color: var(--gold); font-weight: 600; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
+.stat { font: 12px var(--f-mono); color: var(--muted); }
+.stat span { display: block; font-size: 17px; color: var(--fg); font-variant-numeric: tabular-nums; }
+.legend { display: grid; gap: 6px; font-size: 13px; color: var(--muted); }
+.ramp { height: 10px; border-radius: 3px; background: linear-gradient(90deg, var(--c-small), var(--c-big)); }
+.sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px; background: var(--gold); vertical-align: -1px; margin-right: 6px; }
+.note { font-size: 13px; color: var(--muted); }
+.note p { margin: 0 0 8px; }
+.status { font: 12px var(--f-mono); color: var(--accent); min-height: 1.4em; }
+.seg { display: flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.seg button { flex: 1; border: 0; border-radius: 0; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--ink); }
+.note.eng { margin: 0; }
+.siblings { font: 12px var(--f-mono); color: var(--muted); margin: -6px 0 14px; }
+.siblings a { color: var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <h1>Living Prime Map</h1>
+    <p>Jump to any layer of the tread wheel and draw it from scratch. 
+Each prime in the inner half of the wheel drops onto the new layer at 
+one spot (−T(m−1) mod p) and stamps every p-th tick from there. Whatever
+ no ring lands on is prime. Nothing inside the layer is ever divided. In
+ Roll mode the rings carry their landing spots forward layer to layer by
+ adding and wrapping, so the big numbers are never even formed.</p>
+    <p class="siblings">Siblings: <a href="wheel.html">Prime Tread Wheel</a> · <a href="variable.html">Variable tread</a> · <a href="globe.html">The globe</a> · <a href="problem-wheels.html">Problem wheels</a> · <a href="essay.html">Field notes</a></p>
+  </header>
+
+  <div class="main">
+    <aside class="panel" aria-label="Controls">
+      <div class="field">
+        <h2>Where</h2>
+        <label for="layerIn">First layer m</label>
+        <div class="row"><input id="layerIn" type="text" inputmode="numeric" value="1000"><button id="goLayer" class="primary">Draw</button></div>
+        <label for="numIn">Or any number, to land on its layer</label>
+        <div class="row"><input id="numIn" type="text" inputmode="numeric" placeholder="e.g. 1000000007"><button id="goNum">Find</button></div>
+        <label for="rowsIn">Layers stacked (rows)</label>
+        <input id="rowsIn" type="number" min="1" max="400" value="160">
+      </div>
+      <div class="field">
+        <h2>Engine</h2>
+        <div class="seg" role="group" aria-label="Engine"><button id="engJump" aria-pressed="true">Jump</button><button id="engRoll" aria-pressed="false">Roll</button></div>
+        <p class="note eng" id="engNote">Each layer: every ring works out its landing spot from the layer's first number, one multiply-and-wrap. Any layer, in any order.</p>
+        <button id="rollOn">Roll on to the next layers ↓</button>
+      </div>
+      <div class="field">
+        <h2>Angle window</h2>
+        <p class="note" style="margin:0">Drag across the plate to zoom into a slice of the turn. Spokes stay straight because x is the tick's angle k/m.</p>
+        <div class="row"><button id="zoomOut">Zoom out ×4</button><button id="fullTurn">Full turn</button></div>
+      </div>
+      <div class="field">
+        <h2>Go to</h2>
+        <div class="presets">
+          <button data-m="20" data-r="60">Layer 20</button>
+          <button data-m="1000" data-r="160">Layer 1,000</button>
+          <button data-m="1000000" data-r="40" data-a="0.45" data-b="0.55">Layer 1,000,000</button>
+          <button data-m="44721359" data-r="12" data-a="0.4999" data-b="0.5001">Near 10¹⁵</button>
+          <button data-m="133999990" data-r="6" data-a="0" data-b="0.00002">The old edge</button>
+          <button data-m="250000000" data-r="6" data-a="0.5" data-b="0.50001" data-e="roll">Past it (rolling)</button>
+        </div>
+      </div>
+      <div class="legend">
+        <h2>Key</h2>
+        <div><span class="sw"></span>prime: no ring landed</div>
+        <div>composite, shaded by the smallest ring that landed on it</div>
+        <div class="ramp" aria-hidden="true"></div>
+        <div class="axis"><span>ring 2</span><span>biggest deciding ring</span></div>
+        <div>Zoomed out, a pixel holds many ticks: it shades toward gold by how prime-rich they are against chance.</div>
+      </div>
+      <div class="note">
+        <p>Jump works out each ring's landing spot from the layer's 
+starting number, so it stops at layer about 134 million (numbers up to 
+9·10¹⁵, where browser arithmetic stays exact).</p>
+        <p>Roll never forms the numbers. Each ring keeps two pointers, 
+where it lands and how far it slides next, and both step by one 
+add-and-wrap per layer. The pointers are dropped in once, where you 
+start; after that it's pure geometry. Its wall is the ring list instead:
+ every prime up to about m/√2 has to be held. Here that's capped at 
+rings up to 200 million (11 million rings), which is layer about 282 
+million.</p>
+        <p><b>The wall's true name.</b> Holding every prime up to √N is
+not an engineering limit of this engine — it is the price of an exact
+certificate. Any deterministic method that proves N prime must exclude
+every prime up to √N; that is the information the certificate contains.
+The doors past it are not optimizations: probabilistic certificates
+(Miller–Rabin — no ring list at all, a tiny chance of lying) and
+structure (decoding the stagger field into something compressed — the
+standing open problem). Different mechanisms, not a bigger browser tab.</p>
+        <p><b>Where the real speedup lives.</b> Skipping layers can't
+help: a ring's two pointers must each step once per layer no matter what,
+and locating a ring's next hit on a far window is a quadratic congruence
+that costs more than the layers it saves. But every ring's state machine
+is independent, and every register stays under 32 bits — one ring per GPU
+lane, two uint32s of state each, layers as sequential ticks. That is
+where Roll stops being a browser trick and becomes the stagger field's
+native hardware. (Stated as a direction, not built.)</p>
+        <p>It factors everything it draws: the rings that land on a tick
+ are its prime factors. It can't factor one giant number on its own, 
+because that would need every prime up to the number's square root as a 
+ring.</p>
+      </div>
+    </aside>
+
+    <section class="plate">
+      <div class="status" id="status" aria-live="polite"></div>
+      <div class="canvasbox" id="box"><canvas id="cv" width="938" height="480" aria-label="Rows are layers, x is the angle of each tick; gold marks primes"></canvas><div class="sel" id="sel" hidden=""></div></div>
+      <div class="axis"><span id="axL">0</span><span id="axM">½</span><span id="axR">1 turn</span></div>
+      <div class="readout" id="readout">layer <b>1,057</b> · tick 106 of 1,057 · angle 106/1057 (new line)<br>number <b>558,202</b> → composite = 2 × 71 × 3931<br>rings that landed: 2, 71</div>
+      <div class="stats">
+        <div class="stat">layers<span id="sLayers">1,000–1,159</span></div>
+        <div class="stat">ticks stamped<span id="sTicks">172,720</span></div>
+        <div class="stat">primes lit<span id="sPrimes">12,983</span></div>
+        <div class="stat">deciding rings<span id="sRings">141</span></div>
+        <div class="stat">time<span id="sTime">32 ms</span></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+(() => {
+  const MAXM = 134000000;        // Jump: last layer whose numbers stay exact in browser arithmetic
+  const RINGCAP = 200000000;     // Roll: biggest ring we are willing to hold (11 million rings)
+  const MAXR = 282000000;        // Roll: last layer whose deciding rings fit under RINGCAP
+  const T = n => n * (n + 1) / 2;
+  const B = BigInt;
+  const $ = id => document.getElementById(id);
+  const cv = $("cv"), ctx = cv.getContext("2d");
+  const S = { m0: 1000, rows: 160, a: 0, b: 1, engine: "jump" };
+  let ringP = new Uint32Array([2]), ringLimit = 2;
+
+  // Rings: odd-only bitset sieve up to lim, grown on demand.
+  function ensureRings(lim) {
+    lim = Math.ceil(lim);
+    if (lim <= ringLimit) return;
+    const n = (lim >> 1) + 1, bits = new Uint32Array((n >> 5) + 1);
+    const r = Math.floor(Math.sqrt(lim));
+    for (let i = 3; i <= r; i += 2) {
+      const ii = i >> 1;
+      if (bits[ii >> 5] & (1 << (ii & 31))) continue;
+      for (let j = (i * i) >> 1; j < n; j += i) bits[j >> 5] |= 1 << (j & 31);
+    }
+    let count = 1;
+    for (let j = 1; j < n && 2 * j + 1 <= lim; j++) if (!(bits[j >> 5] & (1 << (j & 31)))) count++;
+    const out = new Uint32Array(count); out[0] = 2; let c = 1;
+    for (let j = 1; j < n && 2 * j + 1 <= lim; j++) if (!(bits[j >> 5] & (1 << (j & 31)))) out[c++] = 2 * j + 1;
+    ringP = out; ringLimit = lim; R = null;   // a new ring list means the rolling pointers must be dropped again
+  }
+  function ringsUpTo(x) { let lo = 0, hi = ringP.length; while (lo < hi) { const md = (lo + hi) >> 1; if (ringP[md] <= x) lo = md + 1; else hi = md; } return lo; }
+
+  // Stamp ticks k0..k1 of layer m. Returns smallest landing ring per tick (0 = no ring = prime).
+  function stampLayer(m, k0, k1) {
+    const base = T(m - 1), top = base + m, n = k1 - k0 + 1;
+    const out = new Uint32Array(n);
+    const nr = ringsUpTo(Math.floor(Math.sqrt(top)));
+    for (let i = 0; i < nr; i++) {
+      const p = ringP[i];
+      const r = (p - (base % p)) % p;              // ring p lands where k = -T(m-1) mod p
+      let k = k0 + (((r - k0) % p) + p) % p;
+      for (; k <= k1; k += p) { const j = k - k0; if (!out[j] && base + k !== p) out[j] = p; }
+    }
+    return { out, nr };
+  }
+
+  // ---- Roll engine: the rings carry their landing spots forward; layer numbers are never formed ----
+  function isqrtB(n) { if (n < 2n) return n; let x = B(Math.floor(Math.sqrt(Number(n)))); while (x * x > n) x--; while ((x + 1n) * (x + 1n) <= n) x++; return x; }
+  function deciding(m) { return ringsUpTo(Number(isqrtB(B(m) * B(m + 1) / 2n))); }   // rings with p² ≤ T(m)
+  function mulmod(a, b, p) { return ((a * Math.floor(b / 65536)) % p * 65536 + a * (b % 65536)) % p; }
+  // Where ring p lands on layer m: −T(m−1) mod p, from m's remainders only (used once per ring, when it is dropped in).
+  function seed(p, m) {
+    const x = m - 1; let a, b;
+    if (x % 2 === 0) { a = (x / 2) % p; b = m % p; } else { a = x % p; b = (m / 2) % p; }
+    const t = mulmod(a, b, p); return t === 0 ? 0 : p - t;
+  }
+  let R = null;   // { m: next layer, o: landing spot per ring, d: slide per ring (= m mod p), nr, drops }
+  function rollStart(m) { R = { m, o: new Uint32Array(ringP.length), d: new Uint32Array(ringP.length), nr: 0, drops: 0, ref: ringP }; }
+  // Stamp layer R.m (ticks k0..k1), then slide every pointer on to the next layer: o ← o − d, d ← d + 1, both wrapping at p.
+  function rollLayer(k0, k1) {
+    const m = R.m, nr = deciding(m), o = R.o, d = R.d;
+    for (let i = R.nr; i < nr; i++) { const p = ringP[i]; o[i] = seed(p, m); d[i] = m % p; R.drops++; }   // a ring joins: drop its pointer once
+    if (nr > R.nr) R.nr = nr;
+    const n = Math.max(0, k1 - k0 + 1), out = new Uint32Array(n), tiny = m < 2000;
+    for (let i = 0; i < R.nr; i++) {
+      const p = ringP[i], oi = o[i];
+      if (n) { let k = k0 + (((oi - k0) % p) + p) % p; for (; k <= k1; k += p) { const j = k - k0; if (!out[j] && !(tiny && T(m - 1) + k === p)) out[j] = p; } }
+      let no = oi - d[i]; if (no < 0) no += p; o[i] = no;
+      let nd = d[i] + 1; if (nd === p) nd = 0; d[i] = nd;
+    }
+    R.m = m + 1;
+    return { out, nr: R.nr };
+  }
+  // Test hook: roll n layers from m0 with fresh pointers, ticks k0..k1 (clamped to each layer).
+  function rollRun(m0, n, k0, k1) {
+    ensureRings(Math.min(RINGCAP, Math.sqrt(T(m0 + n)) + 2)); rollStart(m0);
+    const res = []; for (let i = 0; i < n; i++) { const m = m0 + i; res.push(Array.from(rollLayer(Math.max(1, k0), Math.min(m, k1)).out)); }
+    return res;
+  }
+  // Readout: which rings land on tick k of layer m (same rule, any layer), and the exact number as a BigInt.
+  function landedAt(m, k) {
+    const nr = deciding(m), v = (B(m) - 1n) * B(m) / 2n + B(k), L = [];
+    for (let i = 0; i < nr; i++) { const p = ringP[i]; if (k % p === seed(p, m) && B(p) !== v) L.push(p); }
+    return { L, v };
+  }
+
+  function layerOf(x) { return Math.max(1, Math.ceil((Math.sqrt(8 * x + 1) - 1) / 2)); }
+  function gcd(a, b) { while (b) [a, b] = [b, a % b]; return a; }
+  function factor(v) {
+    const f = []; let x = v;
+    for (let i = 0; i < ringP.length; i++) { const p = ringP[i]; if (p * p > x) break; while (x % p === 0) { f.push(p); x /= p; } }
+    if (x > 1) f.push(x);
+    return f;
+  }
+  function tok(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function hexRgb(h) { h = h.replace("#", ""); if (h.length === 3) h = h.split("").map(c => c + c).join(""); const n = parseInt(h, 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
+
+  let job = 0, last = null;
+  function draw() {
+    const my = ++job;
+    const W = Math.min(1600, Math.max(320, Math.round($("box").clientWidth * Math.min(devicePixelRatio || 1, 2))));
+    const rows = S.rows, rowH = Math.max(1, Math.floor(Math.min(900, Math.max(rows * 3, 360)) / rows));
+    const H = rowH * rows;
+    cv.width = W; cv.height = H;
+    const mTop = S.m0 + rows - 1;
+    $("status").textContent = "Sieving the deciding rings…";
+    const t0 = performance.now();
+    setTimeout(() => {
+      if (my !== job) return;
+      const roll = S.engine === "roll";
+      if (roll) {
+        ensureRings(Math.min(RINGCAP, Math.sqrt(T(mTop)) * 1.02 + 2));
+        if (!R || R.m !== S.m0 || R.ref !== ringP) rollStart(S.m0);
+      } else ensureRings(Math.sqrt(T(mTop)) + 1);
+      const drops0 = roll ? R.drops : 0, fresh = roll && R.m === S.m0 && R.nr === 0;
+      const img = ctx.createImageData(W, H), d = img.data;
+      const bg = hexRgb(tok("--bg")), gold = hexRgb(tok("--gold")), cs = hexRgb(tok("--c-small")), cb = hexRgb(tok("--c-big"));
+      for (let i = 0; i < d.length; i += 4) { d[i] = bg[0]; d[i+1] = bg[1]; d[i+2] = bg[2]; d[i+3] = 255; }
+      let row = 0, ticks = 0, primes = 0, ringsTop = 0;
+      const pPrime = new Float32Array(W), pCount = new Float32Array(W), pRing = new Float32Array(W);
+      function step() {
+        if (my !== job) return;
+        const tEnd = performance.now() + 30;
+        while (row < rows && performance.now() < tEnd) {
+          const m = S.m0 + row;
+          const k0 = Math.max(1, Math.ceil(S.a * m - 1e-9)), k1 = Math.min(m, Math.floor(S.b * m + 1e-9));
+          pPrime.fill(0); pCount.fill(0); pRing.fill(0);
+          if (roll && k1 < k0) rollLayer(1, 0);      // nothing to draw on this row, but the pointers still slide on
+          if (k1 >= k0) {
+            const { out, nr } = roll ? rollLayer(k0, k1) : stampLayer(m, k0, k1);
+            ringsTop = nr; ticks += out.length;
+            const lnTop = Math.log(Math.max(3, Math.sqrt(T(m))));
+            for (let j = 0; j < out.length; j++) {
+              const k = k0 + j, frac = (k / m - S.a) / (S.b - S.a);
+              const px = Math.min(W - 1, Math.max(0, Math.floor(frac * W)));
+              pCount[px]++;
+              if (out[j] === 0 && (m > 1 || k > 1)) { pPrime[px]++; primes++; }
+              else { const s = Math.log(out[j] || 2) / lnTop; if (s > pRing[px]) pRing[px] = s; }
+            }
+          }
+          for (let px = 0; px < W; px++) {
+            if (!pCount[px]) continue;
+            const s = Math.min(1, pRing[px]);
+            const comp = [cs[0] + (cb[0]-cs[0])*s, cs[1] + (cb[1]-cs[1])*s, cs[2] + (cb[2]-cs[2])*s];
+            let c;
+            if (pCount[px] < 1.5) c = pPrime[px] ? gold : comp;            // one tick per pixel: exact
+            else {                                                         // many ticks: prime density against chance (1/ln v)
+              const rel = pPrime[px] / pCount[px] * Math.log(T(m)), f = Math.min(1, rel / 2.5);
+              c = [comp[0] + (gold[0]-comp[0])*f, comp[1] + (gold[1]-comp[1])*f, comp[2] + (gold[2]-comp[2])*f];
+            }
+            for (let y = row * rowH; y < (row + 1) * rowH; y++) { const o = (y * W + px) * 4; d[o] = c[0]; d[o+1] = c[1]; d[o+2] = c[2]; }
+          }
+          row++;
+        }
+        ctx.putImageData(img, 0, 0);
+        $("status").textContent = row < rows ? `${roll ? "Rolling" : "Stamping"} layer ${(S.m0 + row).toLocaleString()} (${row}/${rows})…`
+          : roll ? (fresh ? `Rolled: dropped ${(R.drops - drops0).toLocaleString()} ring pointers at layer ${S.m0.toLocaleString()}, then every layer after was add-and-wrap.`
+                          : `Rolled on from the last layer: ${(R.drops - drops0).toLocaleString()} new rings joined; nothing was recomputed.`) : "";
+        if (row < rows) { requestAnimationFrame(step); return; }
+        const ms = performance.now() - t0;
+        last = { W, H, rowH, rows };
+        $("sLayers").textContent = `${S.m0.toLocaleString()}–${mTop.toLocaleString()}`;
+        $("sTicks").textContent = ticks.toLocaleString();
+        $("sPrimes").textContent = primes.toLocaleString();
+        $("sRings").textContent = ringsTop.toLocaleString();
+        $("sTime").textContent = ms < 1000 ? `${ms.toFixed(0)} ms` : `${(ms / 1000).toFixed(1)} s`;
+        window.__lm.lastStats = { ticks, primes, ringsTop, ms };
+      }
+      step();
+    }, 20);
+    $("axL").textContent = fmtA(S.a); $("axR").textContent = fmtA(S.b); $("axM").textContent = fmtA((S.a + S.b) / 2);
+  }
+  function fmtA(x) { if (x === 0) return "0"; if (x === 1) return "1 turn"; if (x === .5) return "½"; return x.toPrecision(6).replace(/0+$/, "").replace(/\.$/, ""); }
+
+  function readAt(ev) {
+    if (!last) return;
+    if (S.m0 > 2000000 && ev.type === "pointermove") {   // big layers: checking every ring takes a moment, so settle first
+      clearTimeout(readAt.t); readAt.t = setTimeout(() => readAt({ clientX: ev.clientX, clientY: ev.clientY, type: "settled" }), 140); return;
+    }
+    const r = cv.getBoundingClientRect();
+    const fx = (ev.clientX - r.left) / r.width, fy = (ev.clientY - r.top) / r.height;
+    const row = Math.min(last.rows - 1, Math.max(0, Math.floor(fy * last.rows)));
+    const m = S.m0 + row, ang = S.a + fx * (S.b - S.a);
+    const k = Math.min(m, Math.max(1, Math.round(ang * m)));
+    const g = gcd(k, m);
+    const perPx = (S.b - S.a) * m / last.W;
+    const { L: landed, v } = landedAt(m, k);
+    const isP = landed.length === 0 && v > 1n;
+    const f = []; let x = v;
+    for (const p of landed) { const bp = B(p); while (x % bp === 0n) { f.push(p); x /= bp; } }
+    if (x > 1n && !isP) f.push(x);              // what's left after the landed rings is 1 or one prime above √v
+    $("readout").innerHTML =
+      `layer <b>${m.toLocaleString()}</b> · tick ${k.toLocaleString()} of ${m.toLocaleString()} · angle ${k / g}/${m / g}${g > 1 ? ` (visit ${g})` : " (new line)"}<br>` +
+      `number <b>${v.toLocaleString()}</b> → ${isP ? "<b>prime</b>: no ring landed here" : `composite = ${f.join(" × ")}<br>rings that landed: ${landed.join(", ")}`}` +
+      (perPx > 1.5 ? `<br><span style="color:var(--muted)">This pixel holds about ${Math.round(perPx)} ticks; drag to zoom in for single ticks.</span>` : "");
+  }
+
+  let drag = null;
+  cv.addEventListener("pointerdown", e => { drag = { x0: e.clientX }; cv.setPointerCapture(e.pointerId); });
+  cv.addEventListener("pointermove", e => {
+    readAt(e);
+    if (!drag) return;
+    const r = cv.getBoundingClientRect(), x1 = Math.min(drag.x0, e.clientX) - r.left, x2 = Math.max(drag.x0, e.clientX) - r.left;
+    if (x2 - x1 > 4) { const s = $("sel"); s.hidden = false; s.style.left = x1 + "px"; s.style.width = (x2 - x1) + "px"; }
+  });
+  cv.addEventListener("pointerup", e => {
+    const r = cv.getBoundingClientRect(); $("sel").hidden = true;
+    if (drag && Math.abs(e.clientX - drag.x0) > 6) {
+      const f1 = (Math.min(drag.x0, e.clientX) - r.left) / r.width, f2 = (Math.max(drag.x0, e.clientX) - r.left) / r.width;
+      const w = S.b - S.a; const a = S.a + w * Math.max(0, f1), b = S.a + w * Math.min(1, f2);
+      if (b - a > 1e-12) { S.a = a; S.b = b; draw(); }
+    } else readAt(e);
+    drag = null;
+  });
+
+  function setLayer(m, rows) {
+    m = Math.floor(Number(String(m).replace(/[,_\s]/g, "")));
+    if (!Number.isFinite(m) || m < 1) { $("status").textContent = "Enter a whole number for the layer."; return; }
+    rows = Math.max(1, Math.min(400, Math.floor(rows || S.rows)));
+    if (m + rows - 1 > MAXR) { $("status").textContent = `Past layer ${MAXR.toLocaleString()} the ring list (every prime up to m/√2) gets too big to hold in a browser tab. That, not the size of the numbers, is the wall now.`; return; }
+    if (m + rows - 1 > MAXM && S.engine === "jump") { setEngine("roll", true); $("status").textContent = "Past layer 134 million Jump can't form the numbers exactly, so switching to Roll."; }
+    S.m0 = m; S.rows = rows; $("layerIn").value = m; $("rowsIn").value = rows; draw();
+  }
+  $("goLayer").onclick = () => setLayer($("layerIn").value, Number($("rowsIn").value));
+  $("layerIn").addEventListener("keydown", e => { if (e.key === "Enter") $("goLayer").click(); });
+  $("goNum").onclick = () => {
+    const raw = $("numIn").value.replace(/[,_\s]/g, ""), top = B(MAXR) * B(MAXR + 1) / 2n;
+    if (!/^\d+$/.test(raw) || B(raw) < 1n || B(raw) > top) { $("status").textContent = `Enter a whole number from 1 to ${top.toLocaleString()}.`; return; }
+    const xb = B(raw); let mb = (isqrtB(8n * xb + 1n) - 1n) / 2n; if (mb * (mb + 1n) / 2n < xb) mb++;
+    const m = Number(mb), k = Number(xb - (mb - 1n) * mb / 2n), x = xb;
+    const rows = Math.min(S.rows, 40), start = Math.max(1, m - Math.floor(rows / 2));
+    const w = Math.min(1, 400 / m); S.a = Math.max(0, k / m - w / 2); S.b = Math.min(1, S.a + w);
+    setLayer(start, rows);
+    $("readout").innerHTML = `${x.toLocaleString()} sits on layer <b>${m.toLocaleString()}</b>, tick ${k.toLocaleString()}. Hover its row to read it.`;
+  };
+  $("numIn").addEventListener("keydown", e => { if (e.key === "Enter") $("goNum").click(); });
+  $("rowsIn").addEventListener("change", () => setLayer(S.m0, Number($("rowsIn").value)));
+  $("zoomOut").onclick = () => { const c = (S.a + S.b) / 2, w = Math.min(1, (S.b - S.a) * 4); S.a = Math.max(0, c - w / 2); S.b = Math.min(1, S.a + w); S.a = Math.max(0, S.b - w); draw(); };
+  $("fullTurn").onclick = () => { S.a = 0; S.b = 1; draw(); };
+  document.querySelectorAll(".presets button").forEach(b => b.onclick = () => {
+    S.a = Number(b.dataset.a || 0); S.b = Number(b.dataset.b || 1);
+    if (b.dataset.e) setEngine(b.dataset.e, true);
+    setLayer(Number(b.dataset.m), Number(b.dataset.r));
+  });
+  const ENG = {
+    jump: "Each layer: every ring works out its landing spot from the layer's first number, one multiply-and-wrap. Any layer, in any order.",
+    roll: "Each layer: every ring slides its landing spot back by its stride, and the stride grows by one, both wrapping at the ring's size. The layer's numbers are never formed."
+  };
+  function setEngine(e, quiet) {
+    S.engine = e; $("engJump").setAttribute("aria-pressed", e === "jump"); $("engRoll").setAttribute("aria-pressed", e === "roll");
+    $("engNote").textContent = ENG[e];
+    if (!quiet) { if (e === "jump" && S.m0 + S.rows - 1 > MAXM) { $("status").textContent = "Jump only reaches layer 134 million; staying on Roll here."; setEngine("roll", true); return; } draw(); }
+  }
+  $("engJump").onclick = () => setEngine("jump");
+  $("engRoll").onclick = () => setEngine("roll");
+  $("rollOn").onclick = () => { if (S.engine !== "roll") setEngine("roll", true); setLayer(S.m0 + S.rows, S.rows); };
+  setEngine("jump", true);
+  let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(draw, 200); });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", draw);
+
+  window.__lm = { stampLayer, ensureRings, T, factor, S, draw, rollRun, landedAt, seed, deciding, get R() { return R; } };
+  draw();
+})();
+</script>
+
+</body></html>
