@@ -21,6 +21,9 @@ independent CPU span sieve before the app opens.
 
 ## Controls
 
+Send `SIGUSR1` to a running instance to dump all thread stacks into its
+log (startup hangs are otherwise silent).
+
 | key | action |
 |---|---|
 | space | pause |
@@ -63,7 +66,12 @@ correction — a 64-bit division per ring per layer would dominate the whole
 kernel), `advance_kernel` (two wraps). `roll()` re-contracts the ring count as
 the frontier climbs (primes up to m/√2 must all hold rings; newly activated
 rings are reseeded at the current layer — without this, semiprimes of two
-stale-bound primes stamp nothing and read as primes). Self-check on every
+stale-bound primes stamp nothing and read as primes). The re-contract walks
+from a cached index in 1M-element strides and only binary-searches the final
+window — a full-array `searchsorted` probes the 800 MB prime table ~28 times,
+and under memory-bandwidth contention on this box each probe measured 6+
+seconds (2026-10-09: startup "hang" was verify's 8 roll-contracts, not a
+deadlock). Self-check on every
 startup; exact audit of the dump-band output on 2026-10-09; discriminating
 test 2026-10-09 (seed 50,000, roll 20,000 layers: frozen contract certifies 2
 false primes, growing contract certifies 0).

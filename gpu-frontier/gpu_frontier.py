@@ -33,13 +33,17 @@ Controls (windowed mode):
 """
 
 import argparse
+import faulthandler
 import hashlib
 import math
 import os
+import signal
 import sys
 import time
 
 import numpy as np
+
+faulthandler.register(signal.SIGUSR1, all_threads=True)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CACHE = os.path.join(HERE, "cache")
@@ -166,6 +170,8 @@ class Engine:
               f"MiB host)", flush=True)
         self.n_all = len(self.primes_host)
         self.n_active = self.n_all
+        self._n_active_idx = self.n_all      # _contract walks from here
+        self._bound = self.bound             # target bound: all rings in
         self.ringP = cp.array(self.primes_host, dtype=cp.uint32)
         self.ringO = cp.empty(self.n_all, dtype=cp.uint32)
         self.ringD = cp.empty(self.n_all, dtype=cp.uint32)
@@ -179,12 +185,35 @@ class Engine:
     def _grid(self, n):
         return ((n + BLOCK - 1) // BLOCK,)
 
+    def _contract(self, bound):
+        """Set n_active = #{primes <= bound}, walking from the cached index.
+
+        Gallops in fixed 1M-element strides and only binary-searches the
+        final window: a full-array searchsorted probes an 800 MB table
+        ~28 times, and under memory-bandwidth contention (a mining
+        workload on this box) each probe is a cache miss that measured
+        6+ seconds. The stride walk touches one element per stride and
+        the residual window is <= 4 MB.
+        """
+        ph = self.primes_host
+        n = self._n_active_idx
+        step = 1 << 20
+        if n < self.n_all and ph[n] <= bound:
+            lo, hi = n, min(n + step, self.n_all)
+            while hi < self.n_all and ph[hi - 1] <= bound:
+                lo, hi = hi, min(hi + step, self.n_all)
+        else:
+            lo, hi = max(n - step, 0), n
+            while lo > 0 and ph[lo] > bound:
+                lo, hi = max(lo - step, 0), lo
+        self._n_active_idx = lo + int(np.searchsorted(ph[lo:hi], bound,
+                                                      side="right"))
+        self.n_active = self._n_active_idx
+        self._bound = bound
+
     def set_layer(self, m):
         """Contract ring count: primes p <= m/sqrt(2) certify layer m."""
-        bound = int((m + 1) / math.sqrt(2)) + 1
-        self.n_active = int(np.searchsorted(self.primes_host, bound,
-                                            side="right"))
-        self._bound = bound
+        self._contract(int((m + 1) / math.sqrt(2)) + 1)
 
     def seed(self, m0):
         cp = self.cp
@@ -209,9 +238,7 @@ class Engine:
         # as primes).
         bound = int((self.m + 1) / math.sqrt(2)) + 1
         if bound > self._bound:
-            self.n_active = int(np.searchsorted(self.primes_host, bound,
-                                                side="right"))
-            self._bound = bound
+            self._contract(bound)
             # newly activated rings hold stale/garbage pointers — reseed
             # the whole active set at the current layer (idempotent: the
             # closed form reproduces exactly what advance would carry)
