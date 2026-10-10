@@ -473,6 +473,40 @@ periodic — periodicity trivializes curves.
 - **[user decision]** Phase 0.6 kernel-v2 integration into the production GPU
   engine (bit-exact prototype verified 24×; engine surgery is Sylvan's call).
 
+## 14. Relation to existing work (deep sweep, 2026-10-10)
+
+Full ledger: `lab/LITERATURE_SWEEP_2026-10-10.md` (four search agents, ~40 query
+rounds). Verdicts, compressed:
+
+**What is classical and now cited, not claimed.** The lane test and the column
+density constant C(k) are exactly the Hardy–Littlewood Conjecture F singular
+series for the quadratic m²−m+2k (D = 1−8k, ω(p) = 1+(D|p)): Hardy &
+Littlewood 1923, Bateman & Horn 1962, written verbatim in
+Zomlefer–Garcia–Fukshansky 2020. The "dead class ⟺ square discriminant"
+criterion is reducibility over ℚ — textbook (Boston & Greenwood 1995). The
+wheel's [F] derivations were never claimed as new theorems and stand unchanged.
+
+**What the sweep did not find, anywhere indexed.** The triangular-tick wheel
+enumeration with visibility rules; the two-prime channels / φ(m) seats theorem;
+the dead-class taxonomy applied as an organized classification of a ratio
+family; and the column engine as an assembly (solve-once + hop, one byte per
+layer, no ring list, deterministic-MR certified at 20 digits). Components are
+standard (the hop is the quadratic sieve's inner loop — Pomerance 1996); the
+assembly appears unpublished. Caveat: web-scale sweep, not a MathSciNet
+full-text scan; one more pass is owed before any external submission.
+
+**A collision worth noting.** The Rabinowitsch criterion (1913; class number
+one settled by Heegner 1952 / Baker 1966 / Stark 1967) governs column
+discriminants D = 1−8k = 1−4A with A = 2k. Among integer start-columns the
+only class-number-one hit is k=1 (D=−7, checked arithmetically: of the six
+Heegner discriminants, only −7 ≡ 1 mod 8). The prime-richness ranking of
+columns (richest.py) is a k-parametrized instance of the Jacobson–Williams
+2003 extremal-density program. Both connections are formal homes, labeled as
+such — they deepen the columns; they do not touch the wheel theorems.
+
+**Naming.** "Prime tread wheel" carries no indexed collision; "wheel sieve"
+alone is taken (Pritchard 1981) and is never used here.
+
 ## Reproduce
 
 ```
@@ -508,6 +542,16 @@ Session-state map: `HANDOFF.md`.
 8. T. Oliveira e Silva, S. Herzog, S. Pardi, *Empirical verification of the even Goldbach conjecture and computation of prime gaps up to 4·10¹⁸*, Math. Comp. 83 (2014).
 9. M. Visser, [Sierpiński's Hypothesis H1](https://arxiv.org/html/2512.22413v1) (2025).
 10. [Lehmer sieve](https://en.wikipedia.org/wiki/Lehmer_sieve), Wikipedia.
+11. G. H. Hardy & J. E. Littlewood, *Partitio Numerorum III*, Acta Math. 44 (1923) — Conjecture F and its singular series.
+12. P. T. Bateman & R. A. Horn, *A heuristic asymptotic formula concerning the distribution of prime numbers*, Math. Comp. 16 (1962), 363–367.
+13. D. Zomlefer, S. Garcia, L. Fukshansky, *The Bateman–Horn conjecture: heuristic, history, and applications*, Expo. Math. 38 (2020) — the lane test in print.
+14. M. Jacobson Jr. & H. C. Williams, *New quadratic polynomials with high densities of prime values*, Math. Comp. 72 (2003), 499–519 — the richest-columns mechanism.
+15. G. W. Fung & H. C. Williams, *Quadratic polynomials which have a high density of prime values*, Math. Comp. 55 (1990), 345–353.
+16. G. Rabinowitsch, *Eindeutigkeit der Zerlegung in Primzahlfaktoren in quadratischen Zahlkörpern*, J. Reine Angew. Math. 142 (1913) — the class-number criterion for column discriminants.
+17. H. Iwaniec, *Almost-primes represented by quadratic polynomials*, Invent. Math. 47 (1978), 171–188 — strongest rigorous anchor for quadratic prime values.
+18. K. Ford & R. Gabdullin, *Prime avoidance of polynomial values* (arXiv:2310.20449, 2023) — rigorous prime deserts.
+19. A. O. L. Atkin & D. J. Bernstein, *Prime sieves using binary quadratic forms*, Math. Comp. 73 (2004), 1023–1030 — nearest published quadratic-congruence sieve.
+20. P. Pritchard, *A sublinear additive sieve for finding prime numbers*, CACM 24 (1981), 18–23 — the wheel-sieve lineage and the naming collision.
 
 ---
 

@@ -1313,3 +1313,25 @@ looks novel; the deep sweep stays on the rack before christening.
   contact convention); conjecture strengthened (d=2,3,4; proof for
   irrationality at remove-center d ≥ 2).
 - Corridor: CLOSED (wallpaper at identity level; shared classifier generic).
+
+## 2026-10-10 (late) — deep literature sweep + the column engine lands
+
+- **Column engine archived** (`column-engine/`): certified primes straight down
+  one column with rings streamed and never held. Independently re-run here on a
+  20k-layer segment at layer 6e9: 423 primes, zero MR mismatches, lane-test dead
+  rate exactly 50.0%. README's run-log claims reproduced.
+- **Deep literature sweep** (`lab/LITERATURE_SWEEP_2026-10-10.md`, four agents,
+  ~40 query rounds). Headline verdicts:
+  - Lane test and C(k) are exactly the Hardy–Littlewood Conjecture F singular
+    series for m²−m+2k (HL 1923; Bateman–Horn 1962; verbatim in
+    Zomlefer–Garcia–Fukshansky 2020). Now cited, never claimed.
+  - Dead-class criterion (square discriminant ⟺ reducible) is textbook; our
+    [F] derivations stand, no novelty ever claimed.
+  - Rabinowitsch/Heegner is a real formal home for column discriminants
+    D = 1−8k; among integer start-columns only k=1 is class-number one (D=−7).
+  - No indexed precedent found for: the wheel enumeration + visibility,
+    two-prime channels theorem, dead-class taxonomy as a ratio-family
+    classification, or the column engine as an assembly. Caveat: web-scale
+    sweep, not MathSciNet; one pass still owed before external submission.
+  - Naming: "prime tread wheel" clean; "wheel sieve" alone is Pritchard's.
+- Whitepaper §14 (relation to existing work) + references 11–20 added.

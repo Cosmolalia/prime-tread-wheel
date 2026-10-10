@@ -21,6 +21,7 @@ Registered in the [OSTOE claims registry](https://ostoe.com/entries/prime-tread-
 | [night-shift.html](night-shift.html) | Night shift (Oct 10, 2026): the witness layer, three statistics axes closed by measurement, C1 Legendre-hard by reduction, the dead-offset closed form. |
 | [INSIGHTS.md](INSIGHTS.md) | The running lab notebook. Nothing lives only in a chat session. |
 | [probes/](probes/) | Python scripts. `verify.py` reproduces every number in the paper. |
+| [column-engine/](column-engine/) | C engine: certified primes down one column, rings streamed and never held (README + runs.log). |
 | [images/](images/) | Figures. |
 
 All four pages are single self-contained HTML files with no build step. To host them, turn on GitHub Pages for this repository (deploy from the main branch, root folder).

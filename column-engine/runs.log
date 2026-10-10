@@ -1,0 +1,20 @@
+column start-k 41 | layers 6000000000..6000999999 (1000000) | N up to 18006000490998500042
+rings 200952199 (up to 4243347792) | never land 100475643 (50.0%) | square roots 100476553 | stamps 2857018 | primes 21782
+time 30.66 s on 2 threads | roll would do 2.01e+14 pointer updates (rings x layers)
+checked 5988 layers (21782 listed primes): mismatches 0 []
+column start-k 41 | layers 20000000000..20000999999 (1000000) | N up to 200020000469998500042
+rings 633551784 (up to 14142842729) | never land 316782914 (50.0%) | square roots 316768867 | stamps 2909348 | primes 20531
+time 120.01 s on 2 threads | roll would do 6.34e+14 pointer updates (rings x layers)
+checked 5993 layers (20531 listed primes): mismatches 0 []
+column start-k 41 | layers 100000000000..100000999999 (1000000) | N up to 5000100000349998500042
+rings 2954178830 (up to 70711385224) | never land 1477099071 (50.0%) | square roots 1477079756 | stamps 2975819 | primes 19239
+time 582.40 s on 2 threads | roll would do 2.95e+15 pointer updates (rings x layers)
+checked 5989 layers (19239 listed primes): mismatches 0 []
+column start-k 192883 | layers 6000000000..6000999999 (1000000) | N up to 18006000490998692884
+rings 200952199 (up to 4243347792) | never land 100481415 (50.0%) | square roots 100470782 | stamps 1641050 | primes 85841
+time 37.37 s on 2 threads | roll would do 2.01e+14 pointer updates (rings x layers)
+checked 3994 layers (85841 listed primes): mismatches 0 []
+column start-k 1 | layers 6000000000..6000999999 (1000000) | N up to 18006000490998500002
+rings 200952199 (up to 4243347792) | never land 100478321 (50.0%) | square roots 100473876 | stamps 2259409 | primes 44538
+time 26.60 s on 2 threads | roll would do 2.01e+14 pointer updates (rings x layers)
+checked 3996 layers (44538 listed primes): mismatches 0 []
