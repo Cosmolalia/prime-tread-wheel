@@ -939,9 +939,9 @@ usual. This entry is a map, not new results.
 - B6 [E] Parity escape: 2.00× density exactly, mechanism = pure parity filter.
 
 **C. Held but unproven [S]**
-- C1 Halves-claim: ≥1 prime each side of midpoint for all m≥21. 120k+ laps,
-  zero violations. ZERO structural support (free rings cover any half) —
-  rides entirely on the realized quadratic walk. Strongest paper candidate.
+- C1 Halves-claim: ≥1 prime each side of midpoint for all m≥21.
+  [S, Legendre-hard by reduction — see 2026-10-10 overnight; paper value
+  migrated to the wedge-distance instrument F2]. 1M laps, zero violations.
 - C2 No-empty-layer: structure-supported to layer 57 (confined), walk beyond.
 
 **D. The ratio-dial era (variable tread, probes + toy)**
@@ -958,7 +958,11 @@ usual. This entry is a map, not new results.
 - D7 [E] r=2 = polar Ulam spiral: squares at frac 1/2; Euler n²−n+41 is the
   fixed tick k=41, breaking at m=41 exactly; Ulam prime diagonals =
   constant seam offsets k=2m+c converging on the square ray.
-- D8 [G] Dead-offset indexing formula at general a/b — the one open formula.
+- D8 [F→E] Dead-offset classification at general a/b — CLOSED FORM FOUND
+  2026-10-10: Δ(r) degree ≤ 1 by structural r²-cancellation; dead classes =
+  square-Δ ∪ content-killed, O(b) exact arithmetic, sieve-free. Residual
+  openness only on (a,b)-parameterized compression (Dedekind-sum-like) and
+  Layer-1 one-sidedness. See 2026-10-10 overnight.
 - D9 [G] Claude's "≤2 primes per spoke" untestable via frac-rays; it lives
   in the gcd(k,m) line lattice, not geometric rays.
 
@@ -982,8 +986,10 @@ usual. This entry is a map, not new results.
 **G. The jungle queue (traversal order proposed)**
 - G1 [cheapest, decisive] Power-of-2 denominator boundary: 3:8, 5:8, 7:8,
   3:16 → promotes or kills D6.
-- G2 Dead-offset formula at a/b (D8) — the algebra is probably the same
-  factor-form N=(m−j)(m+j+1)/2 with L[m] substituted; likely an hour.
+- G2 CLOSED 2026-10-10: dead-offset classification at a/b has a closed form
+  (Δ(r) degree ≤ 1; finite square tests; O(b) sieve-free). The map is
+  EXTENDED by it: 9 newly-confirmed dead pairs (3:2, 5:2, 7:2, 8:3, 8:5,
+  9:2, 9:5, 10:3, 11:2).
 - G3 Ulam-diagonal overlay on variable.html: slider for seam offset
   k=c·m+b, draws the spiral, reports prime count; Euler arc = calibration
   shot. Turns "find bright curves" into an instrument.
@@ -1164,3 +1170,90 @@ double per-ring traffic for a higher ceiling.
 Ships: gpu-frontier/gpu_frontier.py (+ run.sh, README.md). Modes: windowed
 pygame app (jump dial, save gold bands with sha256), --benchmark, --dump-band
 (the certified-prime frontier service cut), --frames smoke test.
+
+---
+
+## 2026-10-10 overnight — AUTONOMOUS CHAIN (pre-registered, all phases committed)
+
+CORRECTION to the 2026-10-09 deep-night section above: "the wall's true name
+is BANDWIDTH; every ring costs 20 B/layer" is REFUTED as the stamp-kernel
+bottleneck (lab/PHASE0p5_kernel_bw.md). The kernel reads only 8 B/ring; its
+cost is critical-path serialization — one thread per ring, p=2's thread
+walking W/2 sequential iterations bounds the whole kernel; cost ∝ ΣW/p
+scattered writes, nearly independent of ring count; atomicAdd (witness layer)
+is ~50% additive on top. The 20 B/ring figure describes the ADVANCE kernel's
+presence traffic, not the stamp bottleneck. uint32-window variant measured
+SLOWER than uint8. Fix queued: window-parallel small-p kernel (Phase 0.6).
+
+Method note: the chain ran on pre-registered predictions with binding stop
+conditions (AUTONOMY_2026-10-10.md); a personal lab log with a
+context-retention rule (lab/MEMENTO.md) recorded surprises/connectors per
+phase. Two standing method lessons, both from falsified priors: (1) huge
+σ-deviations are more often specification errors than discoveries — the
+pre-registered HL one-witness formula missed by +3,869σ and the error was in
+the formula (it counted classical semiprimes; the wheel's one-witness class
+N = pᵃ·q, p ≤ bound < q, is ~92× more numerous); (2) when a "hard problem"
+smells like Diophantine genus, first check whether the variable is free or
+periodic — periodicity trivializes curves.
+
+### Verified tonight
+
+- **Witness-count layer** (gpu-frontier, commit e479f32): stamp_kernel
+  atomicAdd per stamp → every certified tick carries ω_small(N); zero
+  measurable roll cost; `s`/`--dump-band` write witness-band sidecars.
+  Startup self-check extended; the first audit caught a duplicated prime 2 in
+  every prime-table cache (boolean engine was blind to it; counts exposed it
+  instantly) — caches trimmed, builder fixed, load path sanitizes.
+  [F] One-witness tick ⟹ N = pᵃ·q (p ≤ bound < q) or prime power; the exact
+  Lehmer enumeration of that class reproduces a dumped band's count EXACTLY
+  (165,861 = 165,861, 0.000σ) — deterministic certification of the witness
+  semantics. [E] Gap statistics, twin density, prime density all MATCH theory
+  (−0.25σ, −1.16σ; max gap 274 vs record 540 below 10¹²).
+
+- **Census axis CLOSED [E]** — three probes, all pre-registered: (P1) band
+  statistics MATCH Hardy–Littlewood/Cramér; (P2) ω-map spatial structure NULL
+  vs honest nulls (the naive iid null is decisively rejected — small-prime
+  determinism lives in the base, not the null); (P3) retained ring-phase
+  structure NULL across 16 layers vs alignment-matched nulls (a lag-0
+  excursion was root-caused as sieve-lattice self-alignment: fixed layer
+  spacing shares small factors; periodically-spaced samples need
+  alignment-matched nulls). Consequence: "a massive wheel reveals new
+  statistics" is dead by measurement. The massive-build case now rests
+  entirely on the dial geometry / instrument value.
+
+- **C1 reduction [F-argument]** (lab/PHASE4b_reduction.md): B1 says the wheel
+  IS the √N sieve, so C1 ⟺ primes in intervals of length ~0.7√N — ~3×
+  SHORTER than Legendre's conjecture at comparable height; unconditionally
+  out of reach (best: Baker–Harman–Pintz x^0.525). Wheel-native proof
+  impossible in principle; "zero structural support" promoted from
+  observation to theorem. **G7 [E, strengthened 10×]**: 999,980 laps
+  (m = 21..1,000,000, N to ~5×10¹¹), ZERO violations; margins med 15/16,
+  max 300/299, lap-corr 0.011; worst-margin slope 2.19 ± 0.08 vs ln N
+  (constant 0.41, under the Cramér bound); closest call ever m=33 at
+  0.188·H; beyond 10⁴ laps the nearest prime stays ≥ 0.99·H from the
+  midpoint — claim safety GROWS with scale. Files: lab/PHASE4a_*, probes/
+  g7_halves_1m.py (resumable, MR cross-validated 0/200k), g7 CSV.
+
+- **D8 CLOSED FORM [F→E]** (lab/PHASE5_d8_pin.md, PHASE5_d8.py): the seam
+  discriminant Δ(r) has polynomial degree ≤ 1 (the r²-terms of B² − 4AC
+  cancel identically for every coprime a/b) with period b; proved pairing law
+  P = 0 iff b odd, P = b/2 iff b even (0 violations, b ≤ 12, a ≤ 15).
+  Dead classes = {r mod b : Δ(r) square} ∪ {content-killed}, O(b) exact
+  arithmetic, sieve-free; all landmarks pass; the formula PREDICTS and
+  confirms 9 unmapped dead pairs (3:2, 5:2, 7:2, 8:3, 8:5, 9:2, 9:5, 10:3,
+  11:2). No Pell, no elliptic curve — the square tests are finite because r
+  is a residue label, not a free variable.
+
+- **GPU kernel characterization [E]**: benchmark halves under live-window
+  co-tenancy (83→41 layers/s); the live window is insensitive to the CPU
+  miner (77→76 layers/s) — the earlier xmrig attribution for GPU rates is
+  withdrawn (xmrig's measured victim was the memory-latency startup path).
+
+### Status changes
+
+- C1: [S] → [S, Legendre-hard by reduction; empirically bulletproof to 1M
+  laps]. Paper path = wedge-distance instrument (F2), not the claim.
+- D8: [G] → [F→E] with named residuals.
+- G2: CLOSED (map extended by 9 cells).
+- Census/ω-spatial/retained-structure axes: CLOSED [E] (measured).
+- New engine capability: witness-count layer [F], certified exact.
