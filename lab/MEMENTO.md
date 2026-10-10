@@ -105,6 +105,15 @@ user asked for uncontended-floor measurement earlier — P0 answers it.
   Relaunched pid 19718 from layer 282,200,000, verify PASS. LESSON: the chain
   assumed the co-tenant existed for ~35 min without checking — same lesson as
   the xmrig A/B, one level down. Verify experimental conditions FIRST.
+- 2026-10-10 02:50 — Phase 3 NULL: retained-structure axis closed with data.
+  Every cross-layer correlation inside the corrected null envelope. The
+  interesting moment: lag-0 j=3 looked like a 2σ+ excursion past the naive
+  null — and was root-caused as SIEVE-LATTICE SELF-ALIGNMENT: the wheel's
+  fixed layer spacing D_j carries small factors, so periodic sampling of the
+  number line correlates with the sieve lattice for free. STANDING METHOD
+  LESSON: nulls for any periodically-spaced sample must be ALIGNMENT-MATCHED,
+  or the lattice itself manufactures fake structure. (Parallels the Phase 2
+  lesson: determinism lives in the base, not the null.)
 
 ## Connector log
 

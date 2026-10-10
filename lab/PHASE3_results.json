@@ -1,0 +1,317 @@
+{
+  "real": {
+    "1": {
+      "max_abs_corr": 0.37854397912968163,
+      "lag_of_max": -1080106,
+      "corr_lag0": -0.18408562969540132,
+      "quantile_in_null_maxdist": 0.4,
+      "exceeds_null_max": false
+    },
+    "2": {
+      "max_abs_corr": 0.3736562352034185,
+      "lag_of_max": 15483,
+      "corr_lag0": -0.04347320229319636,
+      "quantile_in_null_maxdist": 0.25,
+      "exceeds_null_max": false
+    },
+    "3": {
+      "max_abs_corr": 0.37158904306611523,
+      "lag_of_max": 23226,
+      "corr_lag0": 0.2182801696607048,
+      "quantile_in_null_maxdist": 0.2,
+      "exceeds_null_max": false
+    },
+    "4": {
+      "max_abs_corr": 0.3688178787582327,
+      "lag_of_max": 30970,
+      "corr_lag0": 0.14231718311836172,
+      "quantile_in_null_maxdist": 0.15,
+      "exceeds_null_max": false
+    },
+    "5": {
+      "max_abs_corr": 0.3655322256069971,
+      "lag_of_max": 38715,
+      "corr_lag0": 0.03399309844048006,
+      "quantile_in_null_maxdist": 0.1,
+      "exceeds_null_max": false
+    },
+    "6": {
+      "max_abs_corr": 0.37524405284331186,
+      "lag_of_max": 21051,
+      "corr_lag0": -0.01931147953503111,
+      "quantile_in_null_maxdist": 0.3,
+      "exceeds_null_max": false
+    },
+    "7": {
+      "max_abs_corr": 0.36225609316593,
+      "lag_of_max": 49588,
+      "corr_lag0": 0.12234763767269297,
+      "quantile_in_null_maxdist": 0.05,
+      "exceeds_null_max": false
+    },
+    "8": {
+      "max_abs_corr": 0.3804256213035693,
+      "lag_of_max": 18066,
+      "corr_lag0": 0.156880187457654,
+      "quantile_in_null_maxdist": 0.45,
+      "exceeds_null_max": false
+    },
+    "9": {
+      "max_abs_corr": 0.3649630852112622,
+      "lag_of_max": -1057412,
+      "corr_lag0": 0.07515442597939793,
+      "quantile_in_null_maxdist": 0.1,
+      "exceeds_null_max": false
+    },
+    "10": {
+      "max_abs_corr": 0.3706842384863276,
+      "lag_of_max": 9625,
+      "corr_lag0": -0.033936555992918546,
+      "quantile_in_null_maxdist": 0.15,
+      "exceeds_null_max": false
+    },
+    "11": {
+      "max_abs_corr": 0.3834738358733566,
+      "lag_of_max": -1095041,
+      "corr_lag0": 0.20626742468370818,
+      "quantile_in_null_maxdist": 0.7,
+      "exceeds_null_max": false
+    },
+    "12": {
+      "max_abs_corr": 0.36803522936186384,
+      "lag_of_max": 42138,
+      "corr_lag0": 0.15708497550686484,
+      "quantile_in_null_maxdist": 0.1,
+      "exceeds_null_max": false
+    },
+    "13": {
+      "max_abs_corr": 0.37132710969478966,
+      "lag_of_max": 100711,
+      "corr_lag0": -0.1533058767359237,
+      "quantile_in_null_maxdist": 0.2,
+      "exceeds_null_max": false
+    },
+    "14": {
+      "max_abs_corr": 0.37230607729654247,
+      "lag_of_max": 69195,
+      "corr_lag0": 0.09555308049380729,
+      "quantile_in_null_maxdist": 0.2,
+      "exceeds_null_max": false
+    },
+    "15": {
+      "max_abs_corr": 0.3759284810586231,
+      "lag_of_max": 37680,
+      "corr_lag0": 0.24326616152990907,
+      "quantile_in_null_maxdist": 0.35,
+      "exceeds_null_max": false
+    }
+  },
+  "envelope": {
+    "min": 0.3609763778582259,
+    "mean": 0.3794985932313308,
+    "std": 0.008690482512954638,
+    "max": 0.39294444917303223,
+    "q50": 0.38115592082695016,
+    "q90": 0.3911514245898936,
+    "q95": 0.39220394914246803,
+    "q99": 0.3927963491669194
+  },
+  "null_pairs": [
+    {
+      "max_abs_corr": 0.38116390314413184,
+      "lag_of_max": 12255,
+      "corr_lag0": 0.042333533061675505,
+      "X0": 8734657892869,
+      "X1": 404599554664
+    },
+    {
+      "max_abs_corr": 0.38562734322857606,
+      "lag_of_max": 18986,
+      "corr_lag0": 0.056751792508384274,
+      "X0": 393105758058,
+      "X1": 2984231444174
+    },
+    {
+      "max_abs_corr": 0.3794324611535351,
+      "lag_of_max": 29489,
+      "corr_lag0": -0.1854419316134194,
+      "X0": 7403153353543,
+      "X1": 1122285549792
+    },
+    {
+      "max_abs_corr": 0.3884178717250619,
+      "lag_of_max": 2231,
+      "corr_lag0": -0.18457106556644612,
+      "X0": 3584032630713,
+      "X1": 2618802186764
+    },
+    {
+      "max_abs_corr": 0.3851204781249193,
+      "lag_of_max": -1054150,
+      "corr_lag0": -0.18388084596441504,
+      "X0": 3456423018740,
+      "X1": 4608716996007
+    },
+    {
+      "max_abs_corr": 0.3761023018638921,
+      "lag_of_max": 1307,
+      "corr_lag0": -0.1851563440355616,
+      "X0": 3646014219540,
+      "X1": 4125792629957
+    },
+    {
+      "max_abs_corr": 0.39216497545664886,
+      "lag_of_max": 22112,
+      "corr_lag0": 0.02380505065744319,
+      "X0": 210771049437,
+      "X1": 5735028670409
+    },
+    {
+      "max_abs_corr": 0.3711105314833035,
+      "lag_of_max": 4922,
+      "corr_lag0": 0.07463537033492262,
+      "X0": 6714419522635,
+      "X1": 6435923838267
+    },
+    {
+      "max_abs_corr": 0.39294444917303223,
+      "lag_of_max": -1070462,
+      "corr_lag0": 0.03632234158307702,
+      "X0": 1679355197969,
+      "X1": 3674908135484
+    },
+    {
+      "max_abs_corr": 0.38318050698476913,
+      "lag_of_max": -1061709,
+      "corr_lag0": 0.07777724646090417,
+      "X0": 9949812576265,
+      "X1": 1331701682523
+    },
+    {
+      "max_abs_corr": 0.3747009970260266,
+      "lag_of_max": -1083957,
+      "corr_lag0": 0.1266771550803884,
+      "X0": 9263141510180,
+      "X1": 2830693342690
+    },
+    {
+      "max_abs_corr": 0.3754376566092659,
+      "lag_of_max": -1051323,
+      "corr_lag0": 0.021096139254448393,
+      "X0": 4164372145731,
+      "X1": 9690109763465
+    },
+    {
+      "max_abs_corr": 0.3647039570233641,
+      "lag_of_max": -1064639,
+      "corr_lag0": 0.1611804077305431,
+      "X0": 6446702630523,
+      "X1": 9812745983331
+    },
+    {
+      "max_abs_corr": 0.3910388078269208,
+      "lag_of_max": 13879,
+      "corr_lag0": -0.1853825160444337,
+      "X0": 5880316264885,
+      "X1": 1065224247014
+    },
+    {
+      "max_abs_corr": 0.372575029368431,
+      "lag_of_max": -1069595,
+      "corr_lag0": 0.16542950958946998,
+      "X0": 4160240000943,
+      "X1": 8096727847545
+    },
+    {
+      "max_abs_corr": 0.3827432634461867,
+      "lag_of_max": -1051715,
+      "corr_lag0": 0.17141805018805203,
+      "X0": 7623856747652,
+      "X1": 3988980439454
+    },
+    {
+      "max_abs_corr": 0.38114793850976847,
+      "lag_of_max": 10595,
+      "corr_lag0": -0.047092951166236,
+      "X0": 4508690134690,
+      "X1": 9464949663495
+    },
+    {
+      "max_abs_corr": 0.3609763778582259,
+      "lag_of_max": -1056223,
+      "corr_lag0": 0.021059394126063793,
+      "X0": 4893784050235,
+      "X1": 9768074958629
+    },
+    {
+      "max_abs_corr": 0.38267370169877246,
+      "lag_of_max": 21583,
+      "corr_lag0": -0.17918707797783356,
+      "X0": 7014119727922,
+      "X1": 2565144833735
+    },
+    {
+      "max_abs_corr": 0.36870931292178377,
+      "lag_of_max": -1074346,
+      "corr_lag0": -0.14541546363654467,
+      "X0": 2694486109931,
+      "X1": 9630754784292
+    }
+  ],
+  "null_lag0": {
+    "mean": -0.01588211027147588,
+    "std": 0.13029350577185436,
+    "min": -0.1854419316134194,
+    "max": 0.17141805018805203
+  },
+  "meta": {
+    "W": 1048576,
+    "M0": 1500000,
+    "L": 16,
+    "seed": 20261010,
+    "n_null_pairs": 20,
+    "primes_sieved_to": 1060673,
+    "n_primes": 82885,
+    "runtime_s": 11.853317737579346
+  },
+  "lag0_alignment_diagnostic": {
+    "purpose": "Explain elevated real lag-0 correlations (j=3: 0.2183, j=15: 0.2433) via deterministic small-prime alignment of the fixed layer spacing D_j.",
+    "layer_spacings": {
+      "D_1": {
+        "value": 1500001,
+        "small_factors": {}
+      },
+      "D_3": {
+        "value": 4500006,
+        "small_factors": {
+          "2": 1,
+          "3": 1,
+          "7": 1
+        }
+      },
+      "D_15": {
+        "value": 22500120,
+        "small_factors": {
+          "2": 3,
+          "3": 1,
+          "5": 1
+        }
+      }
+    },
+    "conditioned_null": {
+      "seed": 777,
+      "n_pairs": 20,
+      "D_div_42_like_j3": {
+        "abs_corr_lag0_mean": 0.2343,
+        "min": 0.2142,
+        "max": 0.3008
+      },
+      "D_div_120_like_j15": {
+        "abs_corr_lag0_mean": 0.2572,
+        "min": 0.2375,
+        "max": 0.3306
+      }
+    },
+    "conclusion": "Null pairs with spacing matched to the layer spacing's small-prime alignment show |corr(0)| at or above the real values; the real lag-0 excursions are the deterministic small-prime base, fully reproduced by construction in null."
+  }
+}
