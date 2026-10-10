@@ -863,3 +863,41 @@ N is forced even are prime-deserts. Not an r=1 quirk — a constant of the whole
 seam composite ∀m≥3 (r=1: except T(2)=3; r≥2: except N=r at lap 1). 10:3 worked in full: k≡0 mod 3
 → even and ×5; k≡1 mod 3 → even; k≡2 mod 3 → divisible by 3 — every residue class killed, seam dead
 except base(2)=3. Non-exceptional rationals (3:2 etc.): seam prime-normal ~7%.
+
+---
+
+## 2026-10-09 — the lock probe (Claude's challenge: what survives at 2:3, 3:4?)
+
+Question: the 1:1 wheel's "lock" (spokes, visit lock, dead seam, parity axis) — is 1:1 the
+only ratio that has it, and if not, which facts survive where? (`probes/lock_probe.py`, f1989ef)
+
+**Clean-lap law [F→measured].** A lap "closes clean" when it starts at the seam or exactly
+half a turn from it: 2·B[m] ≡ 0 (mod L[m]). Claude's mechanism is right but not 1:1-specific:
+- every INTEGER ratio closes clean on ~every lap (r=1,2,3,1000000 all 2 start phases)
+- at r = a/b reduced, the clean fraction is 1/b, and the lap start hops among finitely many
+  phases (b=1,2 → 2 phases; b=3 → 6; b=5 → 10; b=4 → 5–6) — the "leftover" never wanders
+  continuously; it cycles. The partial lock is periodic, not chaotic.
+
+**Dead seam + full parity escape ⟺ denominator is a power of 2 [S, observed on 13 ratios].**
+Seam is prime-dead and the (m%4 × k-parity) classes hit exactly 2.00×/0× at r = 1, 2, 3,
+3:2, 5:2, 7:4 (denominators 1, 2, 4). At odd denominators (2:3, 5:3, 3:5) the seam has
+hundreds of primes and the escape dilutes to 1.33×/0.67×; 3:4 concentrates the escape in
+m%4∈{1,3} classes only. Mechanism: N's parity/divisibility pattern needs B[m] mod small
+numbers to cycle with period 4; odd denominators break the alignment. Open: test 3:8, 5:8,
+7:8 to confirm the power-of-2 boundary.
+
+**Dead rays survive everywhere rational** — with the m%12 class split, every a/b tested has
+pure-dead families (3:4: 396, 2:1: 2208, 1:1: 1092). Consistent with the sweep's L2.
+
+**r=2 is the Ulam spiral, verified exactly [E→import].** Squares sit at frac 1/2 (k=m,
+N=m², dead-adjacent seam ray); Euler's n²−n+41 is the FIXED TICK k=41 and breaks at m=41
+exactly as the theorem says; the n²+n+41 diagonal is the constant seam offset k=2m+41
+(211/300 primes for m<300) vs N=m²+41's 12/300 — the prime-rich Ulam diagonals are
+constant-offset spirals converging on the square ray. Claude's "primes fall along curved
+diagonals" = fixed offsets from the seam.
+
+**Corrections to the probe's own framing [G acknowledged].** (1) Residue classes were never
+frac-locked — R ≈ 0 even at r=1; the 1:1 lock lives in the gcd(k,m) line lattice, not in
+residue positions. (2) "≤2 primes per spoke" could not be tested here: geometric frac-rays
+hold hundreds of primes at every ratio; the eight-facts "spokes/lines" are a different object
+(the wheel's line/visit structure) that a frac-ray scan cannot see.
