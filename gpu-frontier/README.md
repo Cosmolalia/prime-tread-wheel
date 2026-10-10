@@ -27,7 +27,7 @@ log (startup hangs are otherwise silent).
 | key | action |
 |---|---|
 | space | pause |
-| s | save the current layer's certified gold band (`gold-band-m<L>.txt`, sha256 in header) |
+| s | save the current layer's certified gold band (`gold-band-m<L>.txt`, sha256 in header) plus its witness-count sidecar (`witness-band-m<L>.npy`: per-tick omega) |
 | j | jump to any layer ≤ 6,069,... (type digits, Enter) |
 | + / − | roll speed (layers per frame, up to 4096) |
 | q | quit |
@@ -43,7 +43,28 @@ log (startup hangs are otherwise silent).
 `--dump-band` is the product cut: a certified-prime frontier service. The
 2026-10-09 audit at layer 6e9 (N ≈ 1.8e19): all 6,002 listed primes exact
 (deterministic Miller–Rabin), 1,952 non-listed samples all composite —
-nothing wrongly excluded, nothing wrongly included.
+nothing wrongly excluded, nothing wrongly included. Each dump also saves
+`witness-band-m<M>.npy`: per-tick omega(N) — how many rings stamped that
+tick. The `s` key saves the same sidecar for the live window.
+
+## Witness counts
+
+`stamp_kernel` atomic-adds into a second window alongside the bool stamp,
+so every tick carries its distinct-small-prime-divisor count at zero extra
+roll cost. What the mechanism guarantees (audited 2026-10-10 against exact
+trial division, 400 random ticks at layer 1.5M, 0 mismatches):
+
+- count 0  ⟺ N is prime (the gold band)
+- count ≥ 2 ⟹ count = omega(N) exactly (the full divisor set is in range)
+- count 1  ⟹ N = p^a or p·q with q > m/√2 (semiprime-shaped; the cofactor
+  is prime by the argument above — the machine certifies it, it cannot
+  split it)
+
+The same audit caught a real latent bug on first run: every cached prime
+table held a duplicated `2` (builder prepended 2 and emitted it from the
+first segment). Invisible to the boolean stamp — the duplicate ring wrote
+the same ticks — but +1 on every even tick's witness count. Fixed in the
+builder; legacy caches are sanitized on load; all on-disk caches trimmed.
 
 ## Numbers (RTX 4070 laptop, 36 SMs, ~256 GB/s)
 
