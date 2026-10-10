@@ -89,8 +89,22 @@ user asked for uncontended-floor measurement earlier — P0 answers it.
   array's semantics are now certified by independent construction. Lesson
   (standing): in this lab, huge σ-deviations are more often spec errors than
   discoveries — root-cause the PREDICTION with the same rigor as the data.
-
-## Connector log
+- 2026-10-10 02:20 — Phase 0.5: BOTH hypotheses falsified; true mechanism is
+  critical-path serialization — one thread per ring, p=2's thread walks W/2
+  iterations and bounds the entire kernel while the other threads idle. Cost
+  ∝ ΣW/p scattered writes, nearly INDEPENDENT of ring count. My "220MB ring
+  traffic" framing (repeated all evening, even into the physical cam model!)
+  was a red herring — the stamp kernel reads 8B/ring. Corrected picture:
+  PRESENCE was never the traffic; EVENTS were never the count; the kernel is
+  LATENCY-bound on its longest thread. Also: uint32 window measured SLOWER
+  than uint8; atomicAdd ≈ 50% of kernel time. Fix queued (Phase 0.6):
+  window-parallel small-p, projected ~1–3 ms/layer vs 12.
+- 2026-10-10 02:10 — **the live window died silently** (no traceback; probe at
+  ~02:15 found no process; HUD was fine at 01:39). Likely a human quit — if
+  Sylvan didn't close it, a silent no-traceback crash is itself worth chasing.
+  Relaunched pid 19718 from layer 282,200,000, verify PASS. LESSON: the chain
+  assumed the co-tenant existed for ~35 min without checking — same lesson as
+  the xmrig A/B, one level down. Verify experimental conditions FIRST.
 
 ## Connector log
 
