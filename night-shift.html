@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="One autonomous night on the Prime Tread Wheel: the witness layer that certified itself to a 0.000σ identity, a +3,869σ deviation that turned out to be a bug in the prediction, three statistics axes closed by measurement, the halves claim proved Legendre-hard, and the dead-offset formula nobody expected.">
+<meta name="color-scheme" content="dark">
+<title>Night Shift — The Witness Layer · Prime Tread Wheel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Spectral:wght@500;600&display=swap">
+<style>
+:root {
+  --night: #05070d;
+  --panel: #0a0f1b;
+  --line: #232b46;
+  --text: #dfe3f0;
+  --muted: #8f97b5;
+  --gold: #f0bf55;
+  --hit: #86a0ec;
+  --good: #7fd8a4;
+  --bad: #e88a9a;
+  --gap: #c9a3f5;
+  --font-display: "Spectral", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--night); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.65; }
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 20px 6em; }
+
+/* Masthead */
+.mast { border-bottom: 1px solid var(--line); background: radial-gradient(circle at 70% 0%, #0e1530 0%, var(--night) 70%); }
+.mast .wrap { padding-top: 3.2em; padding-bottom: 1.6em; }
+.kicker { font-family: var(--font-data); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.7rem, 1.3rem + 2vw, 2.5rem); line-height: 1.15; margin: 0 0 12px; text-wrap: balance; }
+.dek { color: var(--muted); font-size: 1rem; max-width: 60ch; margin: 0; }
+.dateline { font-family: var(--font-data); font-size: 0.78rem; color: var(--muted); margin-top: 14px; }
+.dateline b { color: var(--text); font-weight: 500; }
+
+/* Body text */
+h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.45rem; margin: 2.6em 0 0.6em; text-wrap: balance; }
+h2 .no { font-family: var(--font-data); font-size: 0.7rem; color: var(--gold); letter-spacing: 0.12em; vertical-align: 0.35em; margin-right: 0.7em; }
+p { margin: 0 0 1.1em; }
+a { color: var(--hit); text-decoration: none; }
+a:hover { text-decoration: underline; }
+ul, ol { margin: 0 0 1.1em; padding-left: 1.4em; }
+li { margin-bottom: 0.45em; }
+code { font-family: var(--font-data); font-size: 0.86em; background: var(--panel); border: 1px solid var(--line); border-radius: 5px; padding: 1px 5px; }
+.formula { font-family: var(--font-data); font-size: 0.92rem; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; margin: 0 0 1.2em; overflow-x: auto; white-space: nowrap; }
+.small { font-size: 0.85rem; color: var(--muted); }
+hr { border: 0; border-top: 1px solid var(--line); margin: 3em 0; }
+
+/* Epistemic chips */
+.tag { display: inline-block; font-family: var(--font-data); font-size: 0.68rem; font-weight: 500; letter-spacing: 0.06em; border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; margin-right: 0.45em; vertical-align: 0.12em; }
+.tag.s { color: var(--gold); border-color: var(--gold); }
+.tag.f { color: var(--hit); border-color: var(--hit); }
+.tag.g { color: var(--gap); border-color: var(--gap); }
+.tag.e { color: var(--good); border-color: var(--good); }
+.legend { font-size: 0.82rem; color: var(--muted); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; margin: 1.6em 0 0; }
+.legend div { margin: 3px 0; }
+
+/* Findings boxes */
+.finding { border: 1px solid var(--line); border-left: 3px solid var(--good); border-radius: 8px; background: var(--panel); padding: 14px 18px; margin: 1.4em 0; }
+.finding.neg { border-left-color: var(--bad); }
+.finding.open { border-left-color: var(--gap); }
+.finding .fh { font-family: var(--font-data); font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; margin: 0 0 6px; }
+.finding.pos .fh { color: var(--good); }
+.finding.neg .fh { color: var(--bad); }
+.finding.open .fh { color: var(--gap); }
+.finding p:last-child { margin-bottom: 0; }
+
+/* Hero SVG */
+.hero { margin: 2em 0 0.5em; }
+.hero figcaption { font-family: var(--font-data); font-size: 0.75rem; color: var(--muted); margin-top: 8px; text-align: center; }
+
+/* TOC */
+.toc { font-size: 0.9rem; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 18px; margin: 2em 0 0; }
+.toc .label { font-family: var(--font-data); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 8px; }
+.toc ol { margin: 0; padding-left: 1.4em; }
+.toc li { margin-bottom: 2px; }
+
+/* Footer */
+footer { border-top: 1px solid var(--line); margin-top: 4em; padding-top: 1.6em; font-size: 0.85rem; color: var(--muted); }
+footer .row { display: flex; flex-wrap: wrap; gap: 0.6em 1.4em; margin-bottom: 1em; }
+footer .credit { font-size: 0.8rem; }
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="wrap">
+    <p class="kicker">Prime Tread Wheel · Research log</p>
+    <h1>Night Shift — the witness layer</h1>
+    <p class="dek">I went to bed and left the lab running on pre-registered predictions with one rule: an honest negative is a load-bearing result. By morning the machine had certified its own new instrument to a 0.000σ identity, survived a +3,869σ scare that turned out to be a bug in my prediction and not in the machine, closed all three of the wheel's remaining statistics axes by measurement, proved the halves-claim unprovable by reduction, and found a closed formula where the night's own plan said none could exist.</p>
+    <p class="dateline"><b>October 10, 2026</b> · Obi (Sylvan Gaskin) · with Claude and Kimi · every number below is reproducible from the <a href="https://github.com/Cosmolalia/prime-tread-wheel">repo</a> · <a href="field-notes.html">the field notes (Oct 8)</a> tell you how we got here · <a href="essay.html">the original essay</a> tells you what the wheel is</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+<figure class="hero">
+<svg viewBox="0 0 720 300" width="100%" role="img" aria-label="Histogram of witness counts across one certified band of the wheel">
+  <rect width="720" height="300" fill="#05070d"/>
+  <!-- baseline -->
+  <line x1="30" y1="240" x2="700" y2="240" stroke="#232b46" stroke-width="1"/>
+  <!-- omega histogram, one certified band (1,048,576 ticks at N ~ 1.125e12) -->
+  <!-- counts: 37739 / 165861 / 267999 / 233094 / 166529 / 113656 / 50691 / 11645 / 1297 / 64 / 1 -->
+  <g>
+    <rect x="45"  y="215" width="42" height="25"  fill="#7fd8a4" opacity="0.9"/>
+    <rect x="105" y="129" width="42" height="111" fill="#f0bf55" opacity="0.95"/>
+    <rect x="165" y="60"  width="42" height="180" fill="#86a0ec" opacity="0.85"/>
+    <rect x="225" y="84"  width="42" height="156" fill="#86a0ec" opacity="0.8"/>
+    <rect x="285" y="128" width="42" height="112" fill="#86a0ec" opacity="0.75"/>
+    <rect x="345" y="164" width="42" height="76"  fill="#86a0ec" opacity="0.7"/>
+    <rect x="405" y="206" width="42" height="34"  fill="#86a0ec" opacity="0.65"/>
+    <rect x="465" y="232" width="42" height="8"   fill="#86a0ec" opacity="0.6"/>
+    <rect x="525" y="239" width="42" height="1"   fill="#86a0ec" opacity="0.55"/>
+  </g>
+  <!-- axis labels -->
+  <text x="52"  y="258" fill="#7fd8a4" font-family="IBM Plex Mono, monospace" font-size="12">0</text>
+  <text x="112" y="258" fill="#f0bf55" font-family="IBM Plex Mono, monospace" font-size="12">1</text>
+  <text x="172" y="258" fill="#8f97b5" font-family="IBM Plex Mono, monospace" font-size="12">2</text>
+  <text x="232" y="258" fill="#8f97b5" font-family="IBM Plex Mono, monospace" font-size="12">3</text>
+  <text x="292" y="258" fill="#8f97b5" font-family="IBM Plex Mono, monospace" font-size="12">4</text>
+  <text x="352" y="258" fill="#8f97b5" font-family="IBM Plex Mono, monospace" font-size="12">5</text>
+  <text x="412" y="258" fill="#8f97b5" font-family="IBM Plex Mono, monospace" font-size="12">6</text>
+  <text x="472" y="258" fill="#8f97b5" font-family="IBM Plex Mono, monospace" font-size="12">7</text>
+  <text x="532" y="258" fill="#8f97b5" font-family="IBM Plex Mono, monospace" font-size="12">8</text>
+  <text x="590" y="258" fill="#8f97b5" font-family="IBM Plex Mono, monospace" font-size="12">9  10</text>
+  <text x="360" y="285" fill="#8f97b5" font-family="IBM Plex Mono, monospace" font-size="12">ω(N) — distinct small-prime witnesses, per tick</text>
+  <!-- callouts -->
+  <text x="45"  y="205" fill="#7fd8a4" font-family="IBM Plex Mono, monospace" font-size="11">37,739 primes</text>
+  <text x="96"  y="119" fill="#f0bf55" font-family="IBM Plex Mono, monospace" font-size="11">165,861 one-witness</text>
+</svg>
+<figcaption>The witness census of one certified band: 1,048,576 consecutive numbers at N ≈ 1.125×10¹², every tick stamped with how many distinct small primes divide it. Zero witnesses = prime. One witness = a number with exactly one small factor — the class the whole night turned on.</figcaption>
+</figure>
+
+<div class="legend">
+  <div><span class="tag s">S</span> stated — a premise or proposed mechanism. Not derived, not assumed proven.</div>
+  <div><span class="tag f">F</span> follows — actually entailed by what came before.</div>
+  <div><span class="tag g">G</span> gap — the mechanism stops here. Something necessary is not yet explained. A gap is information.</div>
+  <div><span class="tag e">E</span> established — an external proof or a measurement resolved this particular piece, at this resolution.</div>
+</div>
+
+<nav class="toc">
+  <span class="label">Map of this log</span>
+  <ol>
+    <li><a href="#rule">The wheel in one breath, and what a witness is</a></li>
+    <li><a href="#witness">The witness layer — and the bug it caught on day one</a></li>
+    <li><a href="#discriminating">The discriminating experiment: +3,869σ, owned</a></li>
+    <li><a href="#closures">Two more closures: the honest nulls</a></li>
+    <li><a href="#c1">C1, the halves-claim: the proof door closes by reduction</a></li>
+    <li><a href="#d8">D8, the dead-offset formula: the map extends itself</a></li>
+    <li><a href="#engine">Engineering honesty: three corrections to one story</a></li>
+    <li><a href="#next">What is still open</a></li>
+  </ol>
+</nav>
+
+<h2 id="rule"><span class="no">§1</span>The wheel in one breath, and what a witness is</h2>
+
+<p>If you haven't met the machine: layer 1 holds the number 1, layer 2 holds the next two, and every layer holds one more tick than the one inside it, each tick the same size — the counting numbers wound onto a wheel that grows as it rolls. Nothing about primes goes into the rule; the primes are what the geometry leaves open. The <a href="index.html">main page</a> is the wheel itself, the <a href="essay.html">original essay</a> builds it from nothing, and the <a href="field-notes.html">field notes</a> map the configuration side. This page is the third leg: what happened on the night of October 9–10, 2026, when the lab ran itself.</p>
+
+<p>The machine in question is the GPU roll engine — the CUDA wheel that certifies primes by rolling layers, one ring per prime on the GPU, ~282 million layers deep the night this happened. Until two days ago it answered a yes/no question per number: <em>visible or occluded</em>. Prime or not. On the 9th it got an upgrade, and the whole night runs on the upgraded dial.</p>
+
+<p>The upgrade is a <strong>witness count</strong>. Write ω(N) for the number of <em>distinct</em> small prime factors of N — how many different little gears mesh with the number. The engine now stamps every tick with ω(N), not just a boolean: not "occluded" but "occluded by two different rings, and here is which count." A tick with ω = 0 is certified prime. A tick with ω = 1 has exactly one small factor — which, at the wheel's witness bound ≈ √N, forces it to look like N = pᵃ·q: one small prime times one big cofactor. That's the <em>one-witness class</em>, and it is the closest thing the wheel has to a hardness certificate: a number one step away from being hard to factor. A <em>semiprime</em> — a product of exactly two primes — is the special case a = 1.</p>
+
+<p>Why count witnesses instead of stopping at prime/not-prime? Because a boolean is a light that only says <em>something</em> is wrong. A count says <em>how many independent somethings</em>, and that is a measurement you can compare against the predictions of analytic number theory — which is exactly what the night was for.</p>
+
+<h2 id="witness"><span class="no">§2</span>The witness layer — and the bug it caught on day one</h2>
+
+<p>The count layer is nearly free: an atomic increment per stamp, ~50% additive cost on the stamp kernel at the time, zero measurable cost on the roll itself. Every certified tick now exits the machine carrying its factor-structure certificate, and the <code>--dump-band</code> cut saves witness bands as sidecar files.</p>
+
+<p>Then the first audit ran, and the new dial caught a real bug in its first shift. Every prime table the engine had <em>ever</em> built had a duplicated prime 2 in it. The boolean engine never noticed — an extra shadow from 2 lands on exactly the ticks 2 already covered, so a duplicated 2 changes nothing about which ticks look prime. It is invisible to yes/no. But it changes the <em>count</em> by one on every tick where 2 shows up, and the count layer exposed it in a single run. Caches trimmed, builder fixed, the load path now sanitizes legacy files. <span class="tag e">E</span></p>
+
+<p>That is the witness layer's personality in one anecdote: it makes a class of bugs visible that the old instrument could not see at all. The rest of the night is that personality applied to mathematics.</p>
+
+<p>The layer was then certified exact by an independent enumeration, and I want to state the result precisely because it is stronger than "the tests passed." Take a dumped band: layer 1,500,000, a window of 1,048,576 consecutive numbers sitting at N ≈ 1.125×10¹², with every prime up to the witness bound 1,060,661 ≈ √N sieved exactly — so the band is a <em>complete</em> compositeness certificate: zero witnesses means provably prime, deterministically. The gold file of primes and the witness array agree perfectly: 37,739 primes, 37,739 zero-ticks, the index sets element-wise equal. Then the counts were audited against an exact prime-counting enumeration (Lehmer's algorithm — the classical exact method for counting primes, validated against known values like π(10¹²) = 37,607,912,018 along the way) of the documented one-witness class, factorization shape by factorization shape:</p>
+
+<div class="formula">measured one-witness = 165,861 · exact enumeration = 165,861 · deviation = 0.000σ</div>
+
+<p>An exact agreement, a deterministic identity — both sides are counting the same set, so equality certifies that the wheel's witness array means precisely what the documentation says it means. Not "close enough": exact. <span class="tag e">E</span> A smooth asymptotic cross-check (the sieve's own Σ 1/(pᵃ ln(N/pᵃ)) prediction) lands at 165,802, within +0.15σ. The dial reads true.</p>
+
+<h2 id="discriminating"><span class="no">§3</span>The discriminating experiment: +3,869σ, owned</h2>
+
+<p>Now the headline, told the way it actually happened, including the part where I was wrong.</p>
+
+<p>The night's main event was pre-registered before any data was touched: does the wheel's measured semiprime density and maximal prime gaps match what analytic number theory predicts? The theory side is the standard statistical machinery for prime scatter — Hardy–Littlewood's twin/semiprime integrals (the classical formulas predicting how often almost-primes should occur) and Cramér's gap model (the exponential model for how far apart primes should sit). The prediction was written down with the stop condition: match within ~2σ and the <em>census axis</em> — "a bigger wheel will reveal new statistics" — closes formally and permanently; any big deviation and everything stops until the mechanism is found.</p>
+
+<p>The first number back looked catastrophic. The pre-registered Hardy–Littlewood prediction for the one-witness count in the band was 1,798. The wheel measured 165,861. Deviation: <strong>+3,869σ</strong>. In lab language, the machine and two centuries of theory disagreed by an amount that should happen essentially never.</p>
+
+<p>Two ways that can go: the machine is wrong, or the prediction is. The audit chain in §2 already said the machine's counts are exact — the 0.000σ identity — so the hunt went to the prediction, and the root cause was proven, not guessed. The classical semiprime formula counts numbers p·q with <em>both</em> factors near √N — the balanced class that the twin-prime singularity series governs. A one-witness tick is any N = pᵃ·q with p below the witness bound and q above it — a class dominated by <em>small</em> p, weighted by 1/p, and therefore roughly <strong>92× more numerous</strong>. My pre-registered formula modeled the wrong class. The deviation was a specification error in the prediction, full stop — and per the house rule it is reported here prominently, in the same size type as the results that went right, because a retracted claim logged with its reason is evidence of rigor, not an embarrassment. <span class="tag e">E</span></p>
+
+<p>Against the correct class the match is not merely good, it is exact: the Lehmer enumeration of N = pᵃ·q reproduces the measured 165,861 to 0.000σ (§2). And the rest of the census fell in line on the first comparison, no corrections needed:</p>
+
+<ul>
+  <li><strong>Prime count:</strong> 37,739 measured vs 37,788 predicted (W/ln N) — deviation −0.25σ. <span class="tag e">E</span></li>
+  <li><strong>Twin primes:</strong> 1,749 measured vs 1,798 predicted (the same Hardy–Littlewood integral, applied where it actually applies) — −1.16σ. <span class="tag e">E</span></li>
+  <li><strong>Mean gap:</strong> 27.785 measured vs 27.749 predicted (ln N) — within 0.13%. <span class="tag e">E</span></li>
+  <li><strong>Max gap:</strong> 274 in this window. The pure Cramér exponential tail estimate says ~401, but that model is known-crude, and the global record gap below 10¹² is already 540 — a 1M-wide window maxing at 274 is ordinary. No anomaly claimed. <span class="tag e">E</span></li>
+</ul>
+
+<div class="finding pos">
+<p class="fh">CLOSED — THE CENSUS AXIS [E, STRENGTHENED]</p>
+<p>The wheel's statistics are analytic number theory's statistics: matched, and certified by an exact identity on the class that matters. "Build a bigger wheel and it will find new statistics" is dead — not presumed dead, measured dead. And there is a genuine bonus finding in the wreckage of the 3,869σ: the wheel natively counts a hardness class — one small factor, all powers — that the standard π₂-based semiprime tools undercount by ~92×. The instrument sees a class the catalog doesn't stock. <span class="tag e">E</span></p>
+</div>
+
+<h2 id="closures"><span class="no">§4</span>Two more closures: the honest nulls</h2>
+
+<p>A bigger wheel was supposed to find new statistics in two more places. Both were probed with pre-registered predictions of NULL — write "nothing there" before looking, so that finding nothing is a result with a signature, not a shrug.</p>
+
+<div class="finding neg">
+<p class="fh">CLOSED — SPATIAL STRUCTURE OF THE ω-MAP [E]</p>
+<p>The hardness landscape (the ω(N) field across a band — think of it as a contour map of how many cams touch each tick) has no spatial structure beyond the deterministic small-prime base. Twenty honest-null windows were simulated with the small-prime determinism built in — the naive "independent ticks" baseline is decisively rejected as a comparison, because the real band's {2,3} periodicity alone produces an autocorrelation spike of z = +3.08 at lag 6, inside multiple-comparison expectations across 64 lags. Against the correct null: 15+ statistics compared, max |z| = 2.17 on headline stats. Mean ω: 2.89169 real vs 2.89158 null. One directional ~2σ hint (high-ω ticks marginally more clustered) was logged and not chased — house rule: hints below 3σ are not anomalies. NULL, with the mechanism for why a naive probe would have hallucinated structure.</p>
+</div>
+
+<div class="finding neg">
+<p class="fh">CLOSED — RETAINED RING-PHASE STATE [E]</p>
+<p>Sieves throw away the ring phases; the wheel retains them — the full state of every gear, carried across layers. If that retained state carried any exploitable wave, band content at one layer would predict band content at the next. Sixteen consecutive real layers, FFT cross-correlation over all lags against a 20-pair null envelope: real max |corr| 0.362–0.383, null envelope 0.361–0.393 — every separation inside the envelope. The one excursion past the naive null (lag-0, +0.218 vs 0.185) was root-caused as deterministic sieve-lattice self-alignment: the fixed layer spacing D₃ = 4,500,006 = 2·3·7·107143 shares small factors with the sieve, and an alignment-matched null reproduces and exceeds it. A method lesson logged, not a discovery. NULL.</p>
+</div>
+
+<p>Three statistics axes, one night: census MATCH, spatial NULL, retained-structure NULL. The framing I keep returning to: <strong>the statistics are now closed by measurement, and that is a result.</strong> A dead end you have walked to the end of is load-bearing — it carries the weight of every future hour that would otherwise have been spent down that road. What remains open on the map is theorem-side only, and the night's other two results are exactly about those.</p>
+
+<h2 id="c1"><span class="no">§5</span>C1, the halves-claim: the proof door closes by reduction</h2>
+
+<p>The halves-claim (C1, from the field notes): every lap m ≥ 21 of the wheel carries at least one prime strictly each side of the midpoint. Checked to ~120,000 laps two days ago with zero violations, no proof, and — more awkward — an exact search showing free rings <em>can</em> cover either half, so the claim rides entirely on the realized stagger, with zero structural support. The night's plan put one genuine proof attempt on it.</p>
+
+<p>The attempt succeeded, in the direction nobody roots for: the proof door closes <em>by reduction</em>. The wheel's own B1 theorem says the wheel's visible set is exactly the primes — the occlusion is the √N sieve rendered as machinery, nothing more. Translate C1 through that equivalence and every wheel-specific part cancels: the claim becomes "there is a prime in an interval of length ⌊m/2⌋ ≈ 0.7·√N at height N ≈ m²/2." And <strong>Legendre's conjecture</strong> — the two-centuries-old claim that there is always a prime between N and the next square, an interval of length ≈ 2√N — is precisely three times longer at comparable height. C1 asks for primes in intervals ~3× shorter than a conjecture that has been open for two centuries, and the best unconditional short-interval theorem in the literature (Baker–Harman–Pintz, primes within x^0.525) doesn't reach √x, let alone below it. Since the wheel contributes nothing beyond the sieve, no wheel-native proof can escape that class. <span class="tag f">F</span></p>
+
+<p>"Zero structural support" used to be an observation. It is now a theorem: support would require structure the sieve doesn't have, and the wheel <em>is</em> the sieve. This also explains the contrast with the parent claim (one prime in the full lap), which does have structural support up to layer 57: the halves-split is exactly what pushes the interval length across the √N boundary.</p>
+
+<p>Meanwhile the evidence grew tenfold. The G7 probe walked all 999,980 laps from m = 21 to 1,000,000 — N out to ≈ 5×10¹¹ — in 5.2 minutes:</p>
+
+<ul>
+  <li><strong>Violations: zero.</strong> 999,980 laps, every one with a prime on each side of the midpoint. <span class="tag e">E</span></li>
+  <li><strong>Margins:</strong> median witness-distance 15 ticks left / 16 right; worst walk 300 (left, m = 692,704) / 299 (right) — against half-window widths H of half a million ticks at the top of the range. Lap-to-lap left/right correlation 0.011: the mirror-ghost stays a ghost. <span class="tag e">E</span></li>
+  <li><strong>The claim gets safer with scale.</strong> The closest call in a million laps is a small-number coincidence at m = 33, where the left half's only prime sat 3 ticks from the midpoint (0.188·H). Every close call has m ≤ 63. From m = 10⁴ on, the nearest prime never comes closer than ~0.99·H. <span class="tag e">E</span></li>
+  <li><strong>The margin law, measured:</strong> worst-margin grows like (ln N)<sup>2.19 ± 0.08</sup> (R² = 0.977) — Cramér-shaped growth with a small constant (≈0.41), comfortably under the Cramér bound. Honest note: my pre-registered call said "slower than ln²N," and that call was falsified as stated — the exponent came out mildly super-Cramér, the constant small. Recorded, not quietly amended. <span class="tag e">E</span></li>
+</ul>
+
+<div class="finding open">
+<p class="fh">C1 — STATUS: [S, LEGENDRE-HARD BY REDUCTION, EMPIRICALLY BULLETPROOF]</p>
+<p>Stated, not proven; proved <em>unprovable-by-this-machine</em>: a wheel-native proof would be a sieve-independent proof of a sub-Legendre interval conjecture, out of reach in principle, not just in effort. Evidence: zero violations in 999,980 laps to N ≈ 5×10¹¹, with safety margins that grow faster than the window. The paper's value migrates from the claim to a new instrument: the <strong>wedge distance</strong> — the measurable gap, per lap, between the one realized quadratic curve (the stagger law) and the fully characterized wipe set (the turnings that would cover everything). The claim says the distance never hits zero; the instrument measures <em>how close it comes</em>, which no sieve pipeline emits as data. That instrument is now the flagship. <span class="tag g">G</span></p>
+</div>
+
+<h2 id="d8"><span class="no">§6</span>D8, the dead-offset formula: the map extends itself</h2>
+
+<p>Last open item on the dial map: at a rational ratio a/b, some seam lanes are dead forever — no prime ever lands — and the census found the cause: on each residue class of the lap index the seam value is an exact quadratic, and a square discriminant (the quantity Δ = B²−4AC that decides whether a quadratic factors over the rationals) kills the class by identity. What was missing was an index: given a/b, <em>which</em> classes die, without enumerating them. The night's brief hypothesized the obstruction was deep — if Δ came out degree 3 or 4 in the class index, the square-value problem would be an elliptic curve, and no general closed form could exist.</p>
+
+<p>The chain falsified its own hypothesis, and the truth was better. The r²-terms of B² and 4AC <strong>cancel identically</strong> — for every coprime (a,b), symbolically, not by sampling. What survives in Δ is a linear ramp plus a bounded sawtooth with period b, with a proved pairing law (P = 0 iff b is odd, P = b/2 iff b is even; zero violations across all coprime b ≤ 12, a ≤ 15). And because the class index r only ever ranges over a residue system mod b — it is a label, not a free variable — the square-value problem is <strong>finite</strong>: b exact square tests. No Pell equation, no elliptic curve; the genus boundary the brief worried about is never reached, because the variable is periodic. Standing lesson, second instance of the night: when a "hard problem" smells like Diophantine genus, first check whether the variable is free or periodic. Periodicity trivializes curves. <span class="tag f">F</span></p>
+
+<div class="formula">dead classes at a/b = {r mod b : Δ(r) is square} ∪ {r mod b : content(N_r) &gt; 1} — O(b) exact arithmetic, no sieve</div>
+
+<p>Every landmark on the published seam map passes: 3:8 fully dead (all 8 discriminants square: 25, 16, 25, 4, 1, 16, 1, 4), 5:8 half/half, 7:4 dead by content, the whole b = 4 column dead exactly when a ≡ ±1 (mod 8), the a = 1 row all dead. Checked class-by-class against the wheel construction for all coprime b ≤ 8, a ≤ 12: zero mismatches. <span class="tag e">E</span></p>
+
+<p>Then the part that makes a formula a formula: it <em>predicts</em>. The closed form says nine (a,b) pairs that appear alive on the published seam map are in fact dead — 3:2, 5:2, 7:2, 8:3, 8:5, 9:2, 9:5, 10:3, 11:2 — and all nine were confirmed empirically (zero seam primes from m ≥ 50 out to 5M, the map's own test). The seam map is extended by its own formula: nine cells nobody had mapped, found by algebra and verified by the sieve. <span class="tag e">E</span> D8's label moves from <span class="tag g">G</span> to <span class="tag f">F</span>→<span class="tag e">E</span>. What stays honestly open is thin: whether the sawtooth's square tests admit an (a,b)-parameterized shortcut (a Dedekind-sum-like compression question), and Layer-1 one-sidedness — content 1 doesn't guarantee liveness; the sieve still owns that call.</p>
+
+<h2 id="engine"><span class="no">§7</span>Engineering honesty: three corrections to one story</h2>
+
+<p>The most corrected object of the night was my own claim about what limits the engine. Two evenings ago the ledger said it confidently: "the wall's true name is BANDWIDTH — every ring costs 20 B/layer of traffic." The night shift refuted that, and then refuted its own first replacement, and then refuted the second one's details. Three nested corrections, each found by a sharper measurement:</p>
+
+<ol>
+  <li><strong>Bandwidth — refuted.</strong> The micro-benchmark says the machine is healthy where it counts: streaming memory at 199.8 GB/s. The stamp kernel never touches bandwidth (~190M scattered stores/s against that engine), reads only 8 B per ring, and the "220 MB of ring traffic per layer" framing was measuring the wrong array. The uint32-window variant — the obvious "fix" for write amplification — measured <em>slower</em> (18.13 ms vs 16.26 ms). Dead end, closed before anyone built the wrong thing. <span class="tag e">E</span></li>
+  <li><strong>"Issue-rate plus serialization" — partially refuted.</strong> The first decomposition said scattered stores (~2.9 ns each) and scattered atomics (~2.7 ns) each cost about half the kernel, additively. Closer.</li>
+  <li><strong>The true cause: one serialized thread.</strong> The kernel assigns one thread per ring. The p = 2 ring's single thread walks the whole 1M-tick window in W/2 = 524,288 sequential iterations — ~9–17 ns each — while essentially every other thread idles. The kernel runs at the pace of its unluckiest gear. Issue rate was never the wall; the p=2 serial chain was effectively 100% of it. <span class="tag e">E</span></li>
+</ol>
+
+<p>The fix follows the diagnosis: give the small primes a window-parallel kernel (one thread per tick, coalesced writes, prime-tests by magic-multiplier arithmetic), keep the per-ring kernel for the big primes. The prototype (Phase 0.6) verified <strong>bit-identical</strong> output against the verbatim production kernel — both the boolean window and the witness counts, four layers, two cutoffs, one uint64-wrap bug found and fixed en route — and then, benchmarked <em>under a live window sharing the GPU</em>: 18.2 ms/layer down to 0.77 ms/layer at the best cutoff. <strong>~24×, with ~95.6% of the measured kernel time recovered.</strong> The witness tax — the atomic increment — collapses from ~50% of the kernel to ~0.15 ms of coalesced store. The best cutoff is 1,024 (172 small rings, a broad plateau from 256 to 1,024). <span class="tag e">E</span></p>
+
+<p>And the discipline note, because it's the same discipline as the math: integration into the production engine was deliberately <em>not</em> done autonomously. The prototype stands one flag away (<code>--stamp-v2</code>, default off, verify-gated), with the full plan written up — engine surgery on the file the live window's next launch depends on is my call to make over coffee, not the night's. A 24× speedup you queue as a decision beats one you sneak in. <span class="tag g">G</span> (a decision gap, not a knowledge gap).</p>
+
+<p>One more retraction from the evening before, logged the same way: the GPU-rate gap had been attributed to a CPU miner sharing the box. The night's planned A/B test to confirm it became impossible — the miner had vanished before the measurement window (its load average was already decaying; no process found, nothing signaled or killed) — and the control measurements that replaced it exonerated the miner for the roll rate: the live window runs 77 layers/s with the miner, 76 without, essentially insensitive, and the benchmark's real sensitivity is to sharing the GPU with the live window itself (83 → 41 layers/s). The miner's one measured victim was the startup path, not the roll. Attribution withdrawn. <span class="tag e">E</span></p>
+
+<h2 id="next"><span class="no">§8</span>What is still open</h2>
+
+<p>The honest open list, as of this morning:</p>
+
+<ol>
+  <li><strong>The wedge-distance instrument (F2) — the new flagship.</strong> Conjecture as a measurable distance: one realized quadratic curve vs the characterized wipe set, per lap. Needs a SAT solver bolted to the enumeration; still <span class="tag g">G</span>, now carrying the paper's value.</li>
+  <li><strong>The kernel-v2 integration decision.</strong> Prototype verified bit-identical and ~24× faster; the merge is queued with a full plan, awaiting a human yes. <span class="tag g">G</span></li>
+  <li><strong>The massive-build question, now much narrower.</strong> With every statistics axis measured-closed, "a giant wheel will find new statistics" can no longer carry the justification. What remains: dial geometry (the variable-tread laws) and instrument value (the wedge distance, the 92×-undercounted hardness class — measurements no sieve pipeline emits). Whether that justifies a big build is a real question now, which is more than it was yesterday.</li>
+  <li><strong>Residual mathematics, stated thin:</strong> the Dedekind-sum-like compression of the D8 square tests; Layer-1 one-sidedness (content-1 classes still need the sieve); the ~2σ clustering hint in the ω-map, parked pending a null ensemble of ≥100 windows if the wedge instrument ever motivates a revisit. <span class="tag g">G</span></li>
+</ol>
+
+<p>The scorecard for the night: the witness layer shipped and certified exact to a 0.000σ identity; the census, spatial, and retained-structure axes are closed by measurement; C1 is Legendre-hard by reduction and empirically bulletproof to a million laps; D8 turned out to have a closed form that extended the seam map by nine cells; and the engine's bottleneck story survived three corrections to arrive at its true name. Two claims of mine died on the record — the +3,869σ prediction and the bandwidth wall — and both obituaries are load-bearing. That's what a good night looks like from inside a mechanism-first lab: fewer open roads than yesterday, and every closure signed by measurement rather than asserted.</p>
+
+<hr>
+
+<p class="small">Method note: every phase of the night ran on pre-registered predictions with binding stop conditions, written in <code>AUTONOMY_2026-10-10.md</code> before the checks ran; per-phase full reports live in <code>lab/PHASE*.md</code>, the labeled ledger in <a href="https://github.com/Cosmolalia/prime-tread-wheel/blob/master/INSIGHTS.md">INSIGHTS.md</a>, and the night's surprise log in <code>lab/MEMENTO.md</code>. Null results count as closures and are not re-run because the answer was boring. Corrections are logged, not silently fixed.</p>
+
+<footer>
+  <div class="row">
+    <a href="field-notes.html">Field notes (Oct 8)</a>
+    <a href="essay.html">The original essay</a>
+    <a href="wheel.html">The wheel</a>
+    <a href="variable.html">Variable tread</a>
+    <a href="problem-wheels.html">Problem wheels</a>
+    <a href="living-prime-map.html">Living Prime Map</a>
+    <a href="https://github.com/Cosmolalia/prime-tread-wheel">GitHub repo</a>
+    <a href="https://ostoe.com/entries/prime-tread-wheel.html">OSTOE registry entry</a>
+  </div>
+  <p class="credit">Made by Obi (Sylvan Gaskin), with Claude and Kimi. Code: MIT. Text: CC BY 4.0. Every number on this page reproduces from the repo's probes and lab reports.</p>
+</footer>
+
+</main>
+</body>
+</html>

@@ -4,6 +4,8 @@
 
 > **Oct 8 update:** the research log continues — [Field Notes: The Stagger of the Number Line](field-notes.html). Shadows, one quadratic counter, a night shift that ruled out five roads, and the wall still standing. And the wheel itself is right here: **[launch the wheel →](wheel.html)** — same page as the GitHub version, every layer, live.
 
+> **Oct 10 update:** the night shift ran the whole lab on pre-registered predictions — [Night Shift: the witness layer](night-shift.html). A witness count on every certified number, three statistics axes closed by measurement, the halves-claim proved Legendre-hard by reduction, and a dead-offset formula that extended the seam map by nine cells.
+
 ## The itch
 
 I rolled the counting numbers onto a wheel and watched ratio, divisibility and evenness turn into shapes you can see.
