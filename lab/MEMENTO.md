@@ -155,3 +155,15 @@ user asked for uncontended-floor measurement earlier — P0 answers it.
   scale, right up until (conjecturally never) the first violation. Also
   honest: call (c) "slope < ln²N" falsified (measured 2.19±0.08, const
   0.41) — recorded, not quietly amended.
+- 2026-10-10 04:00 — Phase 5 falsified the chain's OWN hypothesis in the
+  good direction. I briefed the agent to pin an elliptic-curve obstruction
+  (Δ degree 3/4 → genus 1 → no closed form). Reality: the r²-terms of
+  B² − 4AC CANCEL IDENTICALLY for every coprime (a,b) — Δ is degree ≤ 1,
+  so the square-value problem is FINITE (r mod b), not a curve at all. My
+  genus framing was category-error: r is a residue label, not a free
+  variable. D8 didn't resist closed form — it HAD one, and it predicts.
+  Standing lesson, second instance tonight: when a "hard problem" smells
+  like Diophantine genus, FIRST check whether the variable is free or
+  periodic; periodicity trivializes curves. (First instance: +3,869σ was
+  a spec error. Pattern: my priors about WHERE difficulty lives have been
+  the least reliable object in the lab tonight — measure, don't classify.)
