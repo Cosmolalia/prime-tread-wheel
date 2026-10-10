@@ -67,13 +67,14 @@ a { color: var(--hit); }
   <aside class="panel" aria-label="Controls">
     <div class="group">
       <div class="label">Lap ratio <output id="ratioOut">1 : 1</output></div>
-      <input id="ratio" type="range" min="0.2" max="6" step="0.01" value="1" aria-label="Lap length to layer number ratio">
+      <input id="ratio" type="range" min="0" max="1000" step="1" value="500" aria-label="Lap length to layer number ratio, log scale from 1:1000000 to 1000000:1">
       <div class="chips" id="ratioPresets" aria-label="Ratio presets"></div>
       <div class="row">
         <input id="ratioText" type="text" placeholder="any ratio — 1:1.1, 7:3, 0.37, π…" aria-label="Type any lap-to-layer ratio">
         <button type="button" id="ratioGo">set</button>
+        <button type="button" id="ratioFlip" title="swap a:b to b:a — flip the ratio">⇄</button>
       </div>
-      <p class="note">Lap <i>m</i> lays round(<i>m</i>·<i>r</i>) ticks. Numbers keep their order — tick <i>k</i> of lap <i>m</i> is the integer base(<i>m</i>)+<i>k</i> — only the lattice changes. The box accepts anything (clamped to 0.05–50); wild ratios get dense fast.</p>
+      <p class="note">Lap <i>m</i> lays round(<i>m</i>·<i>r</i>) ticks (at least 1). Numbers keep their order — tick <i>k</i> of lap <i>m</i> is the integer base(<i>m</i>)+<i>k</i> — only the lattice changes. The box and slider span 1:1000000 to 1000000:1; ⇄ flips whatever is set. A render budget of ~400k dots caps how many laps draw at extreme ratios — the readout says when.</p>
     </div>
     <div class="group">
       <label class="label" for="layers">Layers shown <output id="layersOut">120</output></label>
@@ -118,7 +119,7 @@ const MAXM = 500;         // deepest lap the tables are built for
 let L = new Int32Array(MAXM + 1);   // L[m] = ticks on lap m
 let B = new Int64();                 // B[m] = numbers rolled up before lap m
 
-function Int64() { return new Float64Array(MAXM + 2); } // exact integers to 2^53; deepest total ~ r·T(500) ≈ 751k
+function Int64() { return new Float64Array(MAXM + 2); } // exact integers to 2^53; deepest total ~ r·T(500) ≤ 1.25e11 at r=1e6
 
 function buildLaps() {
   let base = 0;
@@ -132,10 +133,23 @@ function buildLaps() {
   return base; // total ticks = highest number shown
 }
 
+// render budget: at extreme ratios the full lap count is millions of dots,
+// so drawing stops at the deepest lap whose cumulative tick count fits
+const TICK_BUDGET = 400000;
+function visLaps() {
+  let tot = 0;
+  for (let m = 1; m <= layersShown; m++) {
+    tot += L[m];
+    if (tot > TICK_BUDGET) return Math.max(1, m - 1);
+  }
+  return layersShown;
+}
+
 // ---------- sieve: primality is a property of the number, not the lattice ----------
 let sieveMax = 0, isP = new Uint8Array(0);
+const SIEVE_HARD_CAP = 30000000; // memory/speed guard; the render budget keeps us far below this
 function buildSieve(upto) {
-  upto = Math.max(64, Math.ceil(upto));
+  upto = Math.min(SIEVE_HARD_CAP, Math.max(64, Math.ceil(upto)));
   if (upto <= sieveMax) return;
   isP = new Uint8Array(upto + 1).fill(1);
   isP[0] = isP[1] = 0;
@@ -158,7 +172,7 @@ const SX = (wx) => W / 2 + (wx - ex.vx) * ex.Z;
 const SY = (wy) => H / 2 + (wy - ex.vy) * ex.Z;
 const WX = (sx) => (sx - W / 2) / ex.Z + ex.vx;
 const WY = (sy) => (sy - H / 2) / ex.Z + ex.vy;
-const outerR = () => radOf(layersShown - 0.5 + 1);
+const outerR = () => radOf(visLaps() - 0.5 + 1);
 const fitZ = () => (0.46 * Math.min(W, H)) / Math.max(1e-6, outerR());
 function fitView() { ex.Z = fitZ(); ex.vx = 0; ex.vy = 0; }
 
@@ -193,11 +207,12 @@ function tickColor(N) {
 function draw() {
   ctx.clearRect(0, 0, W, H);
   const zf = Math.max(1, Math.min(8, ex.Z / fitZ()));
+  const VL = visLaps();
 
   // concentric lap circles + seam
   ctx.lineWidth = 1;
   ctx.strokeStyle = RING;
-  for (let m = 2; m <= layersShown; m++) {
+  for (let m = 2; m <= VL; m++) {
     const r = radOf(m - 0.5) * ex.Z;
     if (r < 3) continue;
     ctx.beginPath(); ctx.arc(W / 2 - ex.vx * ex.Z, H / 2 - ex.vy * ex.Z, r, 0, TAU); ctx.stroke();
@@ -214,7 +229,7 @@ function draw() {
     ctx.strokeStyle = "rgba(240,191,85,0.20)";
     ctx.lineWidth = 1;
     ctx.beginPath();
-    for (let m = 1; m <= layersShown; m++) {
+    for (let m = 1; m <= VL; m++) {
       const Lm = L[m], Bm = B[m];
       for (let k = 1; k <= Lm; k++) {
         const N = Bm + k;
@@ -229,7 +244,7 @@ function draw() {
   // ticks, bucketed by color so each bucket is one fill
   const buckets = new Map();
   const wantLabels = [];
-  for (let m = 1; m <= layersShown; m++) {
+  for (let m = 1; m <= VL; m++) {
     const Lm = L[m], Bm = B[m];
     const onLap = (TAU * radOf(xOf(m, 0.5)) * ex.Z) / Lm; // screen px between neighbours on this lap
     const dot = Math.max(0.6, Math.min(6, 0.32 * onLap + 0.8)); // dot tracks on-screen spacing, not the zoom ratio
@@ -240,6 +255,9 @@ function draw() {
       const X = SX(wx), Y = SY(wy);
       if (X < -8 || X > W + 8 || Y < -8 || Y > H + 8) continue;
       const col = tickColor(N);
+      // visual LOD: when neighbours merge below ~1.2px, composites would paint a solid band anyway —
+      // draw only the primes (the lap ring underneath stands in for the band). Hover/hit-test unaffected.
+      if (dot < 1.2 && col !== GOLD) continue;
       let b = buckets.get(col);
       if (!b) { b = []; buckets.set(col, b); }
       b.push(X, Y, dot);
@@ -314,7 +332,7 @@ function whereIs(sx, sy) {
   const wx = WX(sx), wy = WY(sy);
   const r = Math.hypot(wx, wy);
   // lap m occupies radii [(m-0.5)/TAU, (m+0.5)/TAU]; the epsilon keeps k=L[m] (exactly on the outer edge) in its own lap
-  const m = Math.max(1, Math.min(layersShown, Math.round(r * TAU - 1e-9)));
+  const m = Math.max(1, Math.min(visLaps(), Math.round(r * TAU - 1e-9)));
   const Lm = L[m];
   // invert ang(frac) = -π/2 + TAU·frac with y = -r·sin(a)
   const a = Math.atan2(-wy, wx);
@@ -350,18 +368,20 @@ function describe(m, k) {
 const gcd = (a, b) => (b ? gcd(b, a % b) : a);
 
 function updateStats() {
+  const VL = visLaps();
   let total = 0, primes = 0, lastPrime = 0;
-  for (let m = 1; m <= layersShown; m++) for (let k = 1; k <= L[m]; k++) {
+  for (let m = 1; m <= VL; m++) for (let k = 1; k <= L[m]; k++) {
     const N = B[m] + k;
     if (N <= sieveMax) { total++; if (isP[N]) { primes++; lastPrime = N; } }
   }
+  const capped = VL < layersShown ? ` (budget — ${layersShown} requested)` : "";
   $("stats").innerHTML =
     `<span>lap : layer</span><b>${fmtRatio(ratio)}</b>` +
     `<span>ticks drawn</span><b>${total.toLocaleString()}</b>` +
     `<span>primes among them</span><b>${primes.toLocaleString()}</b>` +
     `<span>largest prime shown</span><b>${lastPrime.toLocaleString()}</b>`;
   now.textContent = hover ? describe(...hover) : pinned ? describe(...pinned) :
-    `lap m brings round(m·${ratio}) ticks — ${fmtRatio(ratio)} — ${layersShown} laps, seam at top`;
+    `lap m brings round(m·${ratio}) ticks — ${fmtRatio(ratio)} — ${VL} laps${capped}, seam at top`;
 }
 const fmtRatio = (r) => {
   for (const d of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]) {
@@ -373,21 +393,26 @@ const fmtRatio = (r) => {
 
 // ---------- controls ----------
 function requestDraw() {
-  buildSieve(B[Math.min(layersShown, MAXM) + 1] || 1024);
+  buildSieve(B[Math.min(visLaps(), MAXM) + 1] || 1024);
   draw();
   updateStats();
 }
-const RMIN = 0.05, RMAX = 50; // the typed box goes wider than the slider
+const RMIN = 1e-6, RMAX = 1e6; // slider and box share this range
+const sliderPos = (r) => Math.round(1000 * (Math.log10(r) + 6) / 12); // log map: 1e-6..1e6 across 0..1000
+const sliderVal = (v) => Math.pow(10, -6 + 12 * v / 1000);
 function setRatio(r, fromChip) {
+  const oldFit = fitZ();
   ratio = Math.max(RMIN, Math.min(RMAX, r));
-  $("ratio").value = ratio;
+  $("ratio").value = sliderPos(ratio);
   $("ratioOut").textContent = fmtRatio(ratio);
   document.querySelectorAll("#ratioPresets button").forEach((b) => b.setAttribute("aria-pressed", String(parseFloat(b.dataset.r) === ratio)));
-  const top = buildLaps();
-  buildSieve(top);
+  buildLaps();
+  // a frozen zoom fitted for the old lattice leaves you staring at empty space
+  // after an order-of-magnitude jump — refit then, but never on small nudges
+  if (Math.abs(Math.log(fitZ() / oldFit)) > Math.log(2)) fitView();
   requestDraw();
 }
-$("ratio").addEventListener("input", (e) => setRatio(parseFloat(e.target.value)));
+$("ratio").addEventListener("input", (e) => setRatio(sliderVal(parseFloat(e.target.value))));
 function parseRatio(s) {
   s = String(s).trim().toLowerCase().replace(/\s+/g, "").replace(/π/g, "pi");
   if (s === "pi") return Math.PI;
@@ -406,6 +431,7 @@ function applyTypedRatio() {
 }
 $("ratioGo").addEventListener("click", applyTypedRatio);
 $("ratioText").addEventListener("keydown", (e) => { if (e.key === "Enter") applyTypedRatio(); });
+$("ratioFlip").addEventListener("click", () => setRatio(1 / ratio));
 $("primeRays").addEventListener("change", (e) => { showRays = e.target.checked; requestDraw(); });
 {
   const presets = [0.25, 0.5, 1 / 1.1, 1, 1.1, 2, 3, 4, 6];
