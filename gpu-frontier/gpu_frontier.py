@@ -92,7 +92,7 @@ extern "C" __global__ void stamp_kernel(
     const unsigned int* P, const int n,
     const unsigned int* O,
     unsigned long long k0, unsigned long long k1,
-    unsigned char* win)
+    unsigned char* win, unsigned int* cnt)
 {
     int i = blockIdx.x * blockDim.x + threadIdx.x;
     if (i >= n) return;
@@ -109,8 +109,10 @@ extern "C" __global__ void stamp_kernel(
         while (o + j0 * p < k0) j0++;
         while (j0 > 0ULL && o + (j0 - 1ULL) * p >= k0) j0--;
     }
-    for (unsigned long long k = o + j0 * p; k <= k1; k += p)
-        win[k - k0] = 1;
+    for (unsigned long long k = o + j0 * p; k <= k1; k += p) {
+        win[k - k0] = 1;                    // benign race: idempotent write
+        atomicAdd(cnt + (k - k0), 1u);      // witness count (omega(N))
+    }
 }
 """
 
@@ -134,9 +136,16 @@ def primes_u32_below(n, cache_dir=CACHE):
     os.makedirs(cache_dir, exist_ok=True)
     path = os.path.join(cache_dir, f"primes_u32_below_{n}.npy")
     if os.path.exists(path):
-        return np.load(path)
+        primes = np.load(path)
+        # legacy caches built by an older primes_u32_below prepend 2 and
+        # also emit it from the first segment — a duplicated ring. Harmless
+        # to the boolean stamp (idempotent write) but it inflates every
+        # even tick's witness count by 1.
+        if len(primes) > 1 and primes[0] == 2 and primes[1] == 2:
+            primes = primes[1:]
+        return primes
     base = np.flatnonzero(_simple_sieve(int(n ** 0.5) + 1)).astype(np.uint32)
-    out = [np.array([2], dtype=np.uint32)]
+    out = []
     seg = 1 << 28
     for lo in range(2, n + 1, seg):
         hi = min(lo + seg, n + 1)
@@ -228,8 +237,8 @@ class Engine:
         self.m = m0
         self.acc_primes[:] = 0
 
-    def roll(self, win, k0, k1):
-        """Stamp one layer into win[0..k1-k0], then advance every ring."""
+    def roll(self, win, cnt, k0, k1):
+        """Stamp one layer into win/cnt[0..k1-k0], then advance every ring."""
         cp = self.cp
         # Certification contract: every prime <= m/sqrt(2) must hold an
         # active ring. The bound grows ~0.7 per layer as the frontier
@@ -249,9 +258,10 @@ class Engine:
                                          self.ringO, self.ringD))
         W = int(k1 - k0 + 1)
         win.fill(0)
+        cnt.fill(0)
         self.kernels["stamp_kernel"](self._grid(self.n_active), (BLOCK,),
                                      (self.ringP, self.n_active, self.ringO,
-                                      k0, k1, win))
+                                      k0, k1, win, cnt))
         cp.add(self.acc_primes, W - win.sum(dtype=cp.int64),
                out=self.acc_primes)
         self.kernels["advance_kernel"](self._grid(self.n_active), (BLOCK,),
@@ -272,10 +282,10 @@ def verify(engine):
     n_max = T(m0 + steps - 1)
     base = np.flatnonzero(_simple_sieve(int(n_max ** 0.5) + 1)).astype(np.int64)
     span_lo = T(m0 - 1) + 1
-    span = np.zeros(n_max - span_lo + 1, dtype=bool)
+    span = np.zeros(n_max - span_lo + 1, dtype=np.uint32)
     for p in base:
         start = ((span_lo + int(p) - 1) // int(p)) * int(p)
-        span[start - span_lo::int(p)] = True
+        span[start - span_lo::int(p)] += 1
 
     cp = engine.cp
     engine.set_layer(m0)          # the real contract path
@@ -294,17 +304,32 @@ def verify(engine):
             bad_seed += 1
 
     win = cp.zeros(W, dtype=cp.uint8)
+    cnt = cp.zeros(W, dtype=cp.uint32)
     bad_roll = 0
+    bad_wit = 0
+    base64 = base.astype(np.int64)
     for m in range(m0, m0 + steps):
         k1, k0 = m, m - W + 1
-        engine.roll(win, k0, k1)
+        engine.roll(win, cnt, k0, k1)
         got = win.get().astype(bool)
+        gotc = cnt.get()
         ref = span[T(m - 1) + k0 - span_lo: T(m - 1) + k1 - span_lo + 1]
-        bad_roll += int((got != ref).sum())
+        bad_roll += int((got != (ref > 0)).sum())
+        # witness contract: the engine must count exactly the divisors
+        # p <= bound(m) (its ring set). Divisors above the bound are the
+        # prime cofactor the mechanism deliberately cannot see.
+        bound_m = int((m + 1) / math.sqrt(2)) + 1
+        ref_m = np.zeros(W, dtype=np.uint32)
+        lo = T(m - 1) + k0
+        for p in base64[base64 <= bound_m]:
+            start = ((lo + int(p) - 1) // int(p)) * int(p) - lo
+            ref_m[start::int(p)] += 1
+        bad_wit += int((gotc != ref_m).sum())
 
-    ok = bad_seed == 0 and bad_roll == 0
+    ok = bad_seed == 0 and bad_roll == 0 and bad_wit == 0
     print(f"[verify] seed mismatches: {bad_seed}/200   roll mismatches: "
-          f"{bad_roll}/{steps * W} ticks   {'PASS' if ok else 'FAIL'}",
+          f"{bad_roll}/{steps * W} ticks   witness mismatches: "
+          f"{bad_wit}/{steps * W} ticks   {'PASS' if ok else 'FAIL'}",
           flush=True)
     return ok
 
@@ -315,11 +340,12 @@ def benchmark(engine, start_layer, window, layers=200):
     cp = engine.cp
     engine.seed(start_layer)
     win = cp.zeros(window, dtype=cp.uint8)
+    cnt = cp.zeros(window, dtype=cp.uint32)
     k1 = start_layer
     cp.cuda.Stream.null.synchronize()
     t0 = time.time()
     for i in range(layers):
-        engine.roll(win, k1 - window + 1, k1)
+        engine.roll(win, cnt, k1 - window + 1, k1)
         k1 += 1
     cp.cuda.Stream.null.synchronize()
     dt = time.time() - t0
@@ -363,6 +389,7 @@ def run_app(engine, start_layer, window, frames=0):
     clock = pygame.time.Clock()
 
     win = cp.zeros(window, dtype=cp.uint8)
+    cnt = cp.zeros(window, dtype=cp.uint32)
     engine.seed(start_layer)
 
     batch = 8
@@ -376,7 +403,7 @@ def run_app(engine, start_layer, window, frames=0):
     m_disp = start_layer
     frame = 0
 
-    def save_band(m, win_host):
+    def save_band(m, win_host, cnt_host):
         Tm1 = (m - 1) * m // 2
         k1, k0 = m, m - window + 1
         ks = np.flatnonzero(win_host == 0)
@@ -393,6 +420,9 @@ def run_app(engine, start_layer, window, frames=0):
             f.write("# certification: exact ring coverage, no probabilistic "
                     f"test. sha256(body) = {sha}\n")
             f.write(body)
+        # witness counts sidecar: cnt[i] = omega(N) for N = Tm1 + k0 + i
+        wpath = os.path.join(HERE, f"witness-band-m{m}.npy")
+        np.save(wpath, cnt_host.astype(np.uint32, copy=False))
         return path, len(ks)
 
     while running:
@@ -408,7 +438,7 @@ def run_app(engine, start_layer, window, frames=0):
                 elif ev.key == pygame.K_SPACE and jumping == "":
                     paused = not paused
                 elif ev.key == pygame.K_s and jumping == "" and not paused:
-                    p, npr = save_band(m_disp, win.get())
+                    p, npr = save_band(m_disp, win.get(), cnt.get())
                     status = f"saved {npr} primes -> {os.path.basename(p)}"
                 elif ev.key == pygame.K_j:
                     jumping = str(m_disp) if jumping == "" else ""
@@ -438,7 +468,7 @@ def run_app(engine, start_layer, window, frames=0):
         if not paused:
             for _ in range(batch):
                 m = engine.m
-                engine.roll(win, m - window + 1, m)
+                engine.roll(win, cnt, m - window + 1, m)
             certified_ticks += batch * window
             m_disp = engine.m - 1
 
@@ -530,8 +560,10 @@ def main():
         engine.seed(m)
         cp = engine.cp
         win = cp.zeros(args.window, dtype=cp.uint8)
-        engine.roll(win, m - args.window + 1, m)
+        cnt = cp.zeros(args.window, dtype=cp.uint32)
+        engine.roll(win, cnt, m - args.window + 1, m)
         win_host = win.get()
+        cnt_host = cnt.get()
         Tm1 = (m - 1) * m // 2
         k1, k0 = m, m - args.window + 1
         ks = np.flatnonzero(win_host == 0)
@@ -548,8 +580,10 @@ def main():
             f.write("# certification: exact ring coverage, no probabilistic "
                     f"test. sha256(body) = {sha}\n")
             f.write(body)
+        np.save(os.path.join(HERE, f"witness-band-m{m}.npy"), cnt_host)
         print(f"[dump-band] layer {m:,}: {len(ks):,} primes of "
-              f"{args.window:,} -> {path}", flush=True)
+              f"{args.window:,} -> {path} (+ witness-band-m{m}.npy)",
+              flush=True)
         return
 
     run_app(engine, args.start_layer, args.window, frames=args.frames)
