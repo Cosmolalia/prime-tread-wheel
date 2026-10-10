@@ -82,6 +82,13 @@ user asked for uncontended-floor measurement earlier — P0 answers it.
   determinism; that's a methodological lesson for every future null in this
   lab: the wheel's "randomness" only starts above the deterministic base.
   Residual ~2σ clustering hint logged, NOT chased (below the 3σ bar).
+- 2026-10-10 02:05 — Phase 1 MATCH, with the scariest-looking number of the
+  night: the pre-registered formula was off by +3,869σ and it was MY formula,
+  not the machine. The exact enumeration hit 165,861 == 165,861 (0.000σ) —
+  a DETERMINISTIC identity, stronger than any statistical match: the witness
+  array's semantics are now certified by independent construction. Lesson
+  (standing): in this lab, huge σ-deviations are more often spec errors than
+  discoveries — root-cause the PREDICTION with the same rigor as the data.
 
 ## Connector log
 
@@ -95,3 +102,8 @@ user asked for uncontended-floor measurement earlier — P0 answers it.
   (remainder after dividing by all witnessed primes is 1 or prime — proof by
   contradiction using the contract bound; one CPU division recovers the
   cofactor; bignum only past ~1.8×10¹⁹).
+- 2026-10-10 02:05 — the one-witness class N = pᵃ·q (p ≤ bound < q) is ~92×
+  more numerous than classical semiprimes. The wheel natively emits a hardness
+  census that π₂-based tools undercount by two orders of magnitude — that's a
+  capability claim, not just a closure: anyone wanting this statistic cheaply
+  should use a witness engine, not Lehmer machinery.

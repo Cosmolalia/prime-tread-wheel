@@ -1,0 +1,125 @@
+{
+ "experiment": "Prime Tread Phase 1 - semiprime/gap census, layer m=1500000",
+ "date": "2026-10-10",
+ "window": {
+  "N0": 1124999701425,
+  "N1": 1125000750000,
+  "width": 1048576,
+  "Nbar": 1125000225712.5,
+  "ln_Nbar": 27.748804352218244,
+  "bound": 1060661
+ },
+ "consistency": {
+  "gold_primes": 37739,
+  "zero_witness_ticks": 37739,
+  "mismatches": 0,
+  "match": true
+ },
+ "measured": {
+  "total_primes": 37739,
+  "prime_density": 0.03599071502685547,
+  "one_witness": 165861,
+  "one_witness_fraction": 0.15817737579345703,
+  "omega_histogram": [
+   37739,
+   165861,
+   267999,
+   233094,
+   166529,
+   113656,
+   50691,
+   11645,
+   1297,
+   64,
+   1
+  ],
+  "max_gap": 274,
+  "top10_gaps": [
+   {
+    "N_after": 1125000652417,
+    "gap": 274
+   },
+   {
+    "N_after": 1124999914931,
+    "gap": 272
+   },
+   {
+    "N_after": 1124999890087,
+    "gap": 264
+   },
+   {
+    "N_after": 1125000612643,
+    "gap": 234
+   },
+   {
+    "N_after": 1124999903869,
+    "gap": 234
+   },
+   {
+    "N_after": 1125000742223,
+    "gap": 224
+   },
+   {
+    "N_after": 1125000540779,
+    "gap": 222
+   },
+   {
+    "N_after": 1125000486653,
+    "gap": 218
+   },
+   {
+    "N_after": 1124999933297,
+    "gap": 216
+   },
+   {
+    "N_after": 1125000709057,
+    "gap": 214
+   }
+  ],
+  "twin_count": 1749,
+  "mean_gap": 27.785362234352643,
+  "gap_count": 37738
+ },
+ "predictions": {
+  "prereg_semiprime_integral": 1798.0068685364922,
+  "prereg_semiprime_derivative": 1798.0085808932708,
+  "prime_powers_enumerated": 0,
+  "prereg_one_witness_total": 1798.0068685364922,
+  "prereg_dev_sigma": 3869.144568874506,
+  "exact_count1_enumeration": 165861,
+  "exact_count1_by_a": {
+   "1": 133377,
+   "2": 18659,
+   "3": 7449,
+   "4": 3257,
+   "5": 1541,
+   "6": 795,
+   "7": 386,
+   "8": 185,
+   "9": 97,
+   "10": 57,
+   "11": 32,
+   "12": 12,
+   "13": 7,
+   "14": 5,
+   "15": 0,
+   "16": 0,
+   "17": 1,
+   "18": 1,
+   "19": 0,
+   "20": 0
+  },
+  "exact_dev_sigma": 0.0,
+  "asymptotic_count1_first_principles": 165801.90642076737,
+  "prime_count_pred_W_over_lnN": 37788.15067814541,
+  "prime_count_dev_sigma": -0.2528434427359802,
+  "twin_pred": 1798.0068685364922,
+  "twin_dev_sigma": -1.1557430205090662,
+  "expected_max_gap_cramer": 400.697154567338,
+  "max_gap_sd_cramer": 35.589224309132305,
+  "gap2_fraction_observed": 0.04634585828607769,
+  "gap2_hl_pred": 0.04758128007394499,
+  "gap2_cramer_pred": 0.036037588766236694
+ },
+ "verdict": "MATCH on all valid comparisons; pre-registered HL-integral one-witness formula DEVIATES by 3869 sigma and is root-caused to a prediction-specification error (models balanced semiprimes/twin-like class, not the unbalanced p^a*q one-witness class); exact deterministic enumeration reproduces the measured count with 0.000 sigma deviation."
+}
