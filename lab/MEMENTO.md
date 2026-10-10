@@ -144,3 +144,14 @@ user asked for uncontended-floor measurement earlier — P0 answers it.
   difficulty is the interval LENGTH, which the window geometry fixes at
   ~√N/2·(2/3). The reframing also explains the C1/C2 contrast (halves split
   crosses the √N boundary; full-window doesn't).
+- 2026-10-10 03:05 — G7 to 1M laps: ZERO violations. The claim is now
+  empirically bulletproof at N ~ 5×10¹¹ (10× the prior evidence). The
+  surprise isn't the zero — it's the SHAPE of safety: the closest call in a
+  million laps is m=33 (0.188·H, a small-number coincidence), and beyond
+  m=10⁴ the nearest prime never comes closer than ~0.99·H. C1 isn't holding
+  on luck that decays; it's holding with MARGIN GROWING FASTER than the
+  window. Consistent with the 4b reduction: this is what a true
+  sub-Legendre conjecture LOOKS like empirically — safe, and safer with
+  scale, right up until (conjecturally never) the first violation. Also
+  honest: call (c) "slope < ln²N" falsified (measured 2.19±0.08, const
+  0.41) — recorded, not quietly amended.
