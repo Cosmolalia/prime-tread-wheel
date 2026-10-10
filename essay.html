@@ -308,13 +308,32 @@ footer .credit { font-size: 0.8rem; }
 
 <p>And the wall, unchanged, now visible from more angles than ever: pattern covers the seats; value decides whether the uncovered seats are composite. Everything else on the map is [E] or closed.</p>
 
+<h2 id="dial"><span class="no">§10</span>Two days later — the ratio dial</h2>
+
+<p>On 2026-10-08 the wheel sprouted a dial: lap <em>m</em> may lay round(<em>m</em>·<em>r</em>) ticks for any ratio <em>r</em>, dialed from 1:1000000 to 1000000:1 and flippable with one key (⇄). Same integers, same primes — only the lattice reflows. The dial's question: does the wheel's hyper-structure live at 1:1, or is 1:1 just one stop where structure happens to be visible? One day of probes answered it, and the answer inverts the intuition. Play along at <a href="variable.html">the variable tread</a>; the numbers below all reproduce from <code>probes/</code>.</p>
+
+<p><strong>Rationality is the exact condition for structure.</strong> A sweep of 165 ratios — every coprime a/b up to 16:16, plus √2, √3, √5, π, e, φ, ln 2, and powers of ten — scanned ~1,400 line families each against a five-million sieve. Every rational ratio grows pure-dead lines: offsets where no prime ever lands, zero exceptions in range. No irrational ratio grows any. The canonical wheel's triangular dead-lines are one instance of a general law, and the law has a sharp edge: the predictable positions are always the <em>dead</em> ones. <span class="tag e">E</span></p>
+
+<p><strong>No line anywhere pays prime on every lap.</strong> Zero all-prime families in ~230,000 scans. At rational ratios this is provable, not merely un-found: the count along a line is a quadratic quasi-polynomial in the lap index, and such a sequence must take composite values. The "always prime" pattern is algebraically closed. <span class="tag e">E</span></p>
+
+<p><strong>The parity escape is dial-proof, and 1:1 is not the most locked setting — it is the most legible one.</strong> At every ratio, the classes where the running base is odd carry exactly 2.00× prime density and the forced-even classes are total deserts. Early scans binned by m mod 4 showed the escape "diluting" at odd denominators; re-binning at the lock's natural period (m mod 4b) resolved every rational tested into pure 2.00× and 0.00× classes. The dilution was aliasing, not physics — and it exposes a legibility law sitting on top of the structure laws: 1:1's lock period is 4, the only one coarse enough to read by eye. Turn the dial and the laws don't vanish; they go sub-visible. <span class="tag e">E</span></p>
+
+<p><strong>A fraction 1/b of laps close clean, at every rational a/b.</strong> "Clean" means the lap starts at the seam or a half-turn from it — the count and the circle agreeing for one lap. At integer ratios essentially every lap closes clean; at 2:3 one in three does; at 3:5, one in five. The leftover never smears continuously — it hops among finitely many start phases (b of them, times two for the half-turn). The partial lock is periodic, never chaotic. <span class="tag e">E</span></p>
+
+<p><strong>Deadness is a three-layer engine, and the sieve votes last.</strong> Inside a run of constant lap length the seam values form an arithmetic progression: share a factor with the difference and the whole run dies, sieve unconsulted. On each residue class of the lap index the seam is an exact quadratic; a square discriminant factors it over the rationals and the class is dead forever — at 3:8 all sixteen classes factor (for instance N = 48t² + 16t + 1 = (4t+1)(12t+1), composite by identity); at 5:8 exactly eight factor, and every seam prime lands in a non-factorable class, as the theory demands. Only classes that survive both layers face the coin. Which classes factor at general a/b is the one open formula — classical prime-producing-polynomial territory, marked <span class="tag g">G</span>, not decorated.</p>
+
+<p><strong>2:1 is the Ulam spiral, verified exactly.</strong> Squares sit one tick inboard of the seam at fraction exactly ½, every lap. Euler's n²−n+41 is the fixed tick k = 41 — prime for laps 1 through 40, composite at 41, zero exceptions — and the famous prime-rich diagonals are constant seam-offset spirals converging on the square ray. "Dead or alive" on the whole dial collapses to one question: does the quadratic factor? The live classes at 5:8 run ~26% prime, so prime-rich real estate exists at other ratios; whether any of it beats Euler is a census now, not a hope. <span class="tag e">E</span></p>
+
+<p>What the dial teaches about 1:1: the canonical wheel was never the unique lawful machine. It is the dial stop where every law of the family happens to be readable without a microscope. The chaos that appears when you turn the dial is not the loss of law — it is law at a resolution your eye wasn't built for.</p>
+
 <hr>
 
 <p class="small">Method note: this project runs on mechanism-first rules. Claims carry their epistemic status on their sleeve; connectors are attacked before endpoints; established science is used as a parts catalog, not a template; a gap is marked and kept, not decorated. The running lab notebook is <a href="https://github.com/Cosmolalia/prime-tread-wheel/blob/master/INSIGHTS.md">INSIGHTS.md</a>, updated before anything is allowed to live only in someone's head.</p>
 
 <footer>
   <div class="row">
-    <a href="index.html">The wheel</a>
+    <a href="wheel.html">The wheel</a>
+    <a href="variable.html">Variable tread</a>
     <a href="problem-wheels.html">Problem wheels</a>
     <a href="globe.html">Geometric globe</a>
     <a href="https://github.com/Cosmolalia/prime-tread-wheel">GitHub repo</a>
