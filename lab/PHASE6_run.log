@@ -1,0 +1,139 @@
+==============================================================================
+PART A — fractal spectral universality beyond the Mar-2026 doc
+==============================================================================
+
+-- A1. reproductions (doc's own cases, re-derived here) --
+  Menger sponge L1 (d=3): 20 vertices, 24 edges (doc expects 24)
+    edge-count match: True
+    predicted factor x^2-5x+2, roots 0.438447,4.561553: multiplicities 3,3 (universality says 3 each)
+    S-P = 3 (should equal d=3); P^2*S = 20 (doc's cell-count encoding; kept cells = 20)
+    symmetry about S/2=2.5: max |lam + mirror - S| = 1.00e+00
+    rational eigenvalues: 14/20; irrational: 6
+    charpoly factors over Q: lam*(lam - 5)*(lam - 4)**3*(lam - 3)*(lam - 2)**5*(lam - 1)**3*(lam**2 - 5*lam + 2)**3
+  Sierpinski carpet L1 (d=2): 8 vertices, 8 edges (doc expects 8)
+    edge-count match: True
+    predicted factor x^2-4x+2, roots 0.585786,3.414214: multiplicities 2,2 (universality says 2 each)
+    S-P = 2 (should equal d=2); P^2*S = 16 (doc's cell-count encoding; kept cells = 8)
+    symmetry about S/2=2.0: max |lam + mirror - S| = 1.78e-15
+    rational eigenvalues: 4/8; irrational: 4
+    charpoly factors over Q: lam*(lam - 4)*(lam - 2)**2*(lam**2 - 4*lam + 2)**2
+  Vicsek L1 (d=2): 5 vertices, 4 edges (doc expects 4)
+    edge-count match: True
+    predicted factor x^2-4x+2, roots 0.585786,3.414214: multiplicities 0,0 (universality says 2 each)
+    S-P = 2 (should equal d=2); P^2*S = 16 (doc's cell-count encoding; kept cells = 5)
+    symmetry about S/2=2.0: max |lam + mirror - S| = 2.00e+00
+    rational eigenvalues: 5/5; irrational: 0
+    charpoly factors over Q: lam*(lam - 5)*(lam - 1)**3
+
+-- A2. NEW territory --
+  Menger-type d=4 L1 (NEW): 48 vertices, 64 edges
+    predicted factor x^2-6x+2, roots 0.354249,5.645751: multiplicities 4,4 (universality says 4 each)
+    S-P = 4 (should equal d=4); P^2*S = 24 (doc's cell-count encoding; kept cells = 48)
+    symmetry about S/2=3.0: max |lam + mirror - S| = 2.00e+00
+    rational eigenvalues: 20/48; irrational: 28
+  Vicsek d=3 L1 (NEW: corners+center of the 3-cube): 9 vertices, 8 edges
+    predicted factor x^2-5x+2, roots 0.438447,4.561553: multiplicities 0,0 (universality says 3 each)
+    S-P = 3 (should equal d=3); P^2*S = 20 (doc's cell-count encoding; kept cells = 9)
+    symmetry about S/2=2.5: max |lam + mirror - S| = 4.00e+00
+    rational eigenvalues: 9/9; irrational: 0
+    charpoly factors over Q: lam*(lam - 9)*(lam - 1)**7
+  Sierpinski carpet L2 (NEW: 64 cells): 64 vertices, 88 edges
+    predicted factor x^2-4x+2, roots 0.585786,3.414214: multiplicities 2,2 (universality says 2 each)
+    S-P = 2 (should equal d=2); P^2*S = 16 (doc's cell-count encoding; kept cells = 64)
+    symmetry about S/2=2.0: max |lam + mirror - S| = 2.22e+00
+    rational eigenvalues: 6/64; irrational: 58
+  Menger sponge L2 (doc-verified, re-run at 1e-8 tolerance): 400 vertices, 672 edges
+    predicted factor x^2-5x+2, roots 0.438447,4.561553: multiplicities 3,3 (universality says 3 each)
+    S-P = 3 (should equal d=3); P^2*S = 20 (doc's cell-count encoding; kept cells = 400)
+    symmetry about S/2=2.5: max |lam + mirror - S| = 3.29e+00
+    rational eigenvalues: 20/400; irrational: 380
+
+-- A3. discriminant-square analysis of the fractal family --
+   D(d) = (d+2)^2 - 8.  D(d) = k^2  <=>  (d+2-k)(d+2+k) = 8,
+   same-parity factor pairs of 8: only 2 x 4  =>  d+2 = 3, k = 1  =>  d = 1.
+   exhaustive check d = 2..2000, square D(d): NONE
+   => inside the actual class (d >= 2; d=1 is disconnected/degenerate),
+      irrationality of the spectral roots is UNIVERSAL and PROVED,
+      not just measured.  The binary on this side: D square <=> d=1 (out
+      of class) <=> rational spectrum; D non-square <=> irrational.
+
+==============================================================================
+PART B — corridor or wallpaper: the two square-discriminant engines
+==============================================================================
+
+-- B1. wheel seam quadratics: coefficient signs across the sample --
+  classes scanned: 271;  A,B,C all strictly positive: 255
+  non-strict cases: 16 — ALL have C == 0 (the class's first
+    seam address is 0: B[r] = 0 and L[r] = 0, i.e. small r with 2a < b).
+    A,B >= 0 and C >= 0 ALWAYS; no negative coefficient ever occurs.
+  violations with any negative coefficient: NONE
+  negative-discriminant classes exist (complex roots): [(2, 3, 1, '-3'), (2, 7, 2, '-3'), (2, 7, 3, '-7'), (2, 7, 4, '-3'), (3, 4, 2, '-8')]
+
+  ROOT-SIGN ARGUMENT:  N(t) counts seam addresses, so A,B >= 0, C >= 0;
+  such a quadratic has NO strictly positive root (C=0 puts a root AT 0,
+  the other then negative; A,B,C > 0 excludes every root >= 0).
+  The fractal spectral factor x^2-(d+2)x+2 has BOTH roots strictly
+  positive.  A connected graph Laplacian factor has all roots >= 0 and,
+  as a factor of a singular polynomial, root 0 available; the wheel's
+  positive-coefficient classes cannot supply a positive-root factor.
+  Therefore no wheel seam class polynomial can BE the fractal spectral
+  factor (nor any Laplacian factor with a positive root).  The two
+  polynomial families are DISJOINT.  Corridor at the object level:
+  CLOSED by sign, independent of any computation.
+
+-- B2. what survives the disjointness: the shared classifier --
+  Wheel: square Delta <=> factors over Q <=> identically composite.
+  Fractal: D(d) square <=> d=1 (out of class) <=> rational spectrum.
+  Both binaries reduce to: 'is the discriminant of an integer quadratic
+  a perfect square' = Q-factorability.  That is the quadratic formula,
+  genus 0, known since antiquity.  Rhyme level: shared classifier,
+  not shared mechanism.  Analogy, not identity.
+
+-- B3. ramp vs sawtooth at the classification level --
+  'Is the wobble wheels or ratios', asked of the DEAD/LIVE boundary:
+  Delta(r) = ramp(r) + saw(r), ramp = (2aP/b) r + K^2 (ratio geometry),
+  saw = -2a (S(r)+c(r)) (bounded b-periodic, the rounding/wheels).
+  classes: 271; ramp-only agrees with true squareness: 135; flipped by the sawtooth: 136  (50.2%)
+  pairs whose square-D class SET changes under ramp-only: 47
+    1:2: ramp says dead classes [] -> true [1, 2]
+    1:4: ramp says dead classes [3] -> true [1, 2, 3, 4]
+    1:6: ramp says dead classes [3] -> true [1, 2, 3, 4, 5, 6]
+    1:8: ramp says dead classes [3, 8] -> true [1, 2, 3, 4, 5, 6, 7, 8]
+    2:3: ramp says dead classes [1, 2, 3] -> true [2, 3]
+    2:5: ramp says dead classes [1, 2, 3, 4, 5] -> true [1, 3, 4, 5]
+    2:7: ramp says dead classes [1, 2, 3, 4, 5, 6, 7] -> true [1, 5, 6, 7]
+    3:2: ramp says dead classes [] -> true [1, 2]
+    3:4: ramp says dead classes [4] -> true [1, 3, 4]
+    3:5: ramp says dead classes [1, 2, 3, 4, 5] -> true [4, 5]
+    3:7: ramp says dead classes [1, 2, 3, 4, 5, 6, 7] -> true [1, 5, 6, 7]
+    3:8: ramp says dead classes [4, 7] -> true [1, 2, 3, 4, 5, 6, 7, 8]
+    4:3: ramp says dead classes [1, 2, 3] -> true [2, 3]
+    4:5: ramp says dead classes [1, 2, 3, 4, 5] -> true [4, 5]
+    4:7: ramp says dead classes [1, 2, 3, 4, 5, 6, 7] -> true [6, 7]
+  examples of sawtooth flips (ramp verdict -> true verdict):
+    1:2 r=1: Delta_ramp=2 square=False | Delta_true=0 square=True
+    1:2 r=2: Delta_ramp=3 square=False | Delta_true=1 square=True
+    1:4 r=1: Delta_ramp=2 square=False | Delta_true=4 square=True
+    1:4 r=2: Delta_ramp=3 square=False | Delta_true=1 square=True
+    1:4 r=4: Delta_ramp=5 square=False | Delta_true=1 square=True
+    1:6 r=1: Delta_ramp=2 square=False | Delta_true=4 square=True
+    1:6 r=2: Delta_ramp=3 square=False | Delta_true=9 square=True
+    1:6 r=4: Delta_ramp=5 square=False | Delta_true=1 square=True
+    1:6 r=5: Delta_ramp=6 square=False | Delta_true=0 square=True
+    1:6 r=6: Delta_ramp=7 square=False | Delta_true=1 square=True
+    1:8 r=1: Delta_ramp=2 square=False | Delta_true=4 square=True
+    1:8 r=2: Delta_ramp=3 square=False | Delta_true=9 square=True
+
+-- B4. needle scan: normalized wheel discriminants of shape m^2 - 8 --
+  wheel classes with normalized |Delta| = (d+2)^2-8: NONE in sample
+  (NONE = the fractal family's exact discriminant shape never occurs as
+   a wheel class discriminant; the families do not even touch there.)
+
+==============================================================================
+PART C — what would have been a surprise, and whether it happened
+==============================================================================
+  * d=4 Menger-type failing to show (3+sqrt7) roots at mult 4  -> checked in A2
+  * any keep-center graph with irrational eigenvalues            -> checked in A1/A2
+  * any wheel class with a non-positive coefficient              -> checked in B1
+  * any wheel normalized discriminant landing on m^2 - 8         -> checked in B4
+DONE

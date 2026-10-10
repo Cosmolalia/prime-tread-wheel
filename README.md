@@ -16,6 +16,7 @@ Registered in the [OSTOE claims registry](https://ostoe.com/entries/prime-tread-
 | [problem-wheels.html](problem-wheels.html) | Collatz, Riemann's zeros, Goldbach, twin primes and prime races, each on its own wheel. |
 | [globe.html](globe.html) | The same counting wrapped onto a sphere, with the layer balance and the running Mertens balance. |
 | [PAPER.md](PAPER.md) | A short paper. Every claim is tagged and sourced. |
+| [WHITEPAPER.md](WHITEPAPER.md) | The standalone white paper: full project summary — construction, stagger field, exact theorems, measured statistics, closed routes, ratio-dial era, deadness engine, the wall, the method. Every claim carries its [S]/[F]/[G]/[E] label. |
 | [essay.html](essay.html) | The articles. Field notes (Oct 8, 2026): the stagger field, the shadow map, honest negatives, the pattern-vs-value wall. Continued by the night shift (Oct 10, 2026) at night-shift.html. Linked from the wheel's panel. |
 | [night-shift.html](night-shift.html) | Night shift (Oct 10, 2026): the witness layer, three statistics axes closed by measurement, C1 Legendre-hard by reduction, the dead-offset closed form. |
 | [INSIGHTS.md](INSIGHTS.md) | The running lab notebook. Nothing lives only in a chat session. |

@@ -1,8 +1,10 @@
-# HANDOFF — Prime Tread Wheel, session state as of 2026-10-08 morning
+# HANDOFF — Prime Tread Wheel, session state as of 2026-10-10 afternoon
 
 Written by Kimi for Claude. Everything below is cross-checked against
 INSIGHTS.md, probes/README.md, and the git log. If anything here disagrees
 with those files, the files win — this document is a map, not the territory.
+WHITEPAPER.md is the standalone full-summary document (all sections, all
+labels); this handoff remains the session-state map.
 
 ---
 
@@ -211,13 +213,17 @@ Definitions (all measured, see INSIGHTS.md 2026-10-08):
 
 ## 10. Session handoff state
 
-- HEAD: 90310f3 ("halves-claim holds m=21..100000..."). Working tree clean
-  except regenerable `*_head.bin` files (deliberately untracked).
+- HEAD: see git log (this section goes stale fastest — files win). As of the
+  2026-10-10 afternoon update: WHITEPAPER.md (standalone full summary) added;
+  PHASE6 (quadratic rhyme probe) run, logged in INSIGHTS.md and lab/PHASE6_*;
+  site + registry refreshed.
 - Nothing running. No scheduled wakeups.
-- Last open thread with Sylvan: whether to (a) decompose W =
-  f(strikers) exactly, (b) chase the tail-fattening mechanism, or
-  (c) draft the halves-claim into PAPER.md. He tends to answer with a new
-  geometric picture rather than picking — follow the picture.
+- Open user decisions: (a) Phase 0.6 kernel-v2 integration into the production
+  GPU engine (queued with full plan in lab/PHASE0p6_kernel_v2.md); (b) deep
+  literature sweep before any christening of the dead-class family; (c) J1c
+  wedge-distance build (needs SAT/anneal).
+- He tends to answer with a new geometric picture rather than picking —
+  follow the picture.
 
 
 ---

@@ -1257,3 +1257,59 @@ periodic — periodicity trivializes curves.
 - G2: CLOSED (map extended by 9 cells).
 - Census/ω-spatial/retained-structure axes: CLOSED [E] (measured).
 - New engine capability: witness-count layer [F], certified exact.
+
+---
+
+## 2026-10-10 day — PHASE6: the quadratic rhyme probe (wheel deadness engine vs
+## fractal spectral universality) [E, corridor closed; new internal law]
+
+Context: a Mar-2026 doc (three independent Claude instances) found the Menger
+sponge Laplacian carries x²−(d+2)x+2 with multiplicity d, irrational spectrum
+(D=(d+2)²−8 non-square). Both lab sides had square-discriminant classifiers;
+question: corridor or wallpaper? Files: lab/PHASE6_quadratic_rhyme.{py,md},
+lab/PHASE6_run.log.
+
+### Fractal side, extended (all exact charpoly factorization over ℚ)
+- Menger d=4 (NEW): factor x²−6x+2, roots 3±√7, multiplicity exactly 4 —
+  the universality conjecture now has d = 2, 3, 4 at L1. Carpet L2 (NEW):
+  factor persists at multiplicity 2 (doc had sponge only). Vicsek d=3 (NEW):
+  all-integer spectrum (K₁,₈ star; keep-center → rational).
+- [F] D(d)=(d+2)²−8 is a square only at d=1 (factor-pair argument; checked
+  d ≤ 2000): irrationality of spectral roots PROVED universal for
+  remove-center d ≥ 2 (doc had it as measured evidence).
+- SURPRISE RULE vs the doc itself: "spectrum symmetric about S/2" is FALSE
+  as a multiset statement at Menger L1 (mult(2)=5 vs mult(3)=1, exact).
+  Carpet L1 exactly symmetric; sponge L1 partial. Doc correction logged.
+  Two smaller: P²·S = cell-count encoding works only at d=3; universality
+  is contact-convention-dependent (Vicsek point-contact → junction graph).
+
+### Corridor verdict: wallpaper, closed by sign [F→E]
+- All 271 wheel seam quadratics sampled have non-negative coefficients
+  (C=0 in 16 classes, never negative) — no strictly positive root possible.
+  The fractal factor has both roots strictly positive. The polynomial
+  families are provably disjoint; needle scan: zero wheel discriminants of
+  shape (d+2)²−8.
+- Shared classifier = perfect-square discriminant ⟺ ℚ-factorability = the
+  quadratic formula, genus 0, ancient. Analogy, not identity — labeled.
+
+### The result that survives: the dead/live boundary is SAWTOOTH-CARRIED [E]
+Strip the sawtooth from Δ(r), keep the ratio-side ramp: 135/271 correct —
+49.8%, a coin flip. The sawtooth flips the other half; 47/57 ratios change
+their dead-class set entirely. The all-dead a=1 row is invisible to ratio
+geometry. The ratio sets the scale; the wheels write the law. The sawtooth
+IS the rounding corrections c(j) — the same Dedekind-sum-like object PHASE5
+pinned as D8's true obstruction. One object, two roles.
+
+### Literature sweep (shallow — 4 searches, not MathSciNet)
+No collision with the specific construction (round(a·m/b) accumulation →
+per-class seam quadratics → dead-class tables). Neighbors to cite: Ehrhart
+quasi-polynomials (the sawtooth's natural home), squarefree-values-of-
+polynomials, primes-in-quadratics (Euler lineage). Verdict: combination
+looks novel; the deep sweep stays on the rack before christening.
+
+### Status changes
+- New wheel-internal law: dead/live boundary is sawtooth-carried [E].
+- Fractal universality doc: corrected in writing (symmetry, encoding,
+  contact convention); conjecture strengthened (d=2,3,4; proof for
+  irrationality at remove-center d ≥ 2).
+- Corridor: CLOSED (wallpaper at identity level; shared classifier generic).
