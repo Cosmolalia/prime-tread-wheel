@@ -203,7 +203,7 @@ function draw() {
   for (let m = 1; m <= layersShown; m++) {
     const Lm = L[m], Bm = B[m];
     const onLap = (TAU * radOf(xOf(m, 0.5)) * ex.Z) / Lm; // screen px between neighbours on this lap
-    const dot = Math.max(0.6, Math.min(6 * zf * 0.4 + 0.8, 0.32 * onLap));
+    const dot = Math.max(0.6, Math.min(6, 0.32 * onLap + 0.8)); // dot tracks on-screen spacing, not the zoom ratio
     for (let k = 1; k <= Lm; k++) {
       const N = Bm + k;
       if (N > sieveMax) continue;
@@ -214,7 +214,7 @@ function draw() {
       let b = buckets.get(col);
       if (!b) { b = []; buckets.set(col, b); }
       b.push(X, Y, dot);
-      if (onLap > 26 * zf && wantLabels.length < 1800) wantLabels.push(m, k, N, X, Y, wx, wy);
+      if (onLap > 18 && wantLabels.length < 1800) wantLabels.push(m, k, N, X, Y, wx, wy); // room for a readable number, whatever the zoom
     }
   }
   for (const [col, pts] of buckets) {
@@ -228,27 +228,32 @@ function draw() {
     ctx.fill();
   }
 
-  // labels: number outside, ratio inside, both grow with zoom (tonight's fix)
+  // labels: number outside, ratio inside, sized by each lap's on-screen tick spacing (never by zoom ratio)
   if (wantLabels.length) {
-    const fs = Math.max(9, Math.min(15, 9 * zf));
-    ctx.font = `${fs}px ${FONT_DATA}`;
     ctx.textAlign = "center"; ctx.textBaseline = "middle";
-    const cell = Math.max(26, 3.2 * fs);
     const grid = new Set();
+    let lastM = -1, fs = 9, cell = 26, onLapM = 0;
     for (let i = 0; i < wantLabels.length; i += 7) {
       const m = wantLabels[i], k = wantLabels[i + 1], N = wantLabels[i + 2], X = wantLabels[i + 3], Y = wantLabels[i + 4];
       const key = Math.round(X / cell) + ":" + Math.round(Y / cell);
       if (grid.has(key)) continue;
       grid.add(key);
+      if (m !== lastM) {
+        onLapM = (TAU * radOf(xOf(m, 0.5)) * ex.Z) / L[m];
+        fs = Math.max(9, Math.min(22, 0.45 * onLapM));
+        cell = Math.max(24, fs * 2.6);
+        ctx.font = `${fs}px ${FONT_DATA}`;
+        lastM = m;
+      }
       const a = ang(k / L[m]), ca = Math.cos(a), sa = -Math.sin(a);
-      const off = 6 * zf + 4;
+      const off = fs * 0.9 + 3;
       ctx.fillStyle = "rgba(5,7,14,0.72)";
       const tx = X + ca * off, ty = Y + sa * off;
       const label = String(N), w2 = ctx.measureText(label).width / 2 + 3;
       ctx.fillRect(tx - w2, ty - fs * 0.62, 2 * w2, fs * 1.24);
       ctx.fillStyle = "#dfe3f0";
       ctx.fillText(label, tx, ty);
-      if (zf > 2.2) {
+      if (onLapM >= fs * 3.2) { // the lap is sparse enough to afford k/L too
         const rr = k + "/" + L[m];
         const rx = X - ca * off * 0.6, ry = Y - sa * off * 0.6;
         ctx.fillStyle = "rgba(5,7,14,0.6)";
