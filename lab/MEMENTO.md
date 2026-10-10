@@ -167,3 +167,35 @@ user asked for uncontended-floor measurement earlier — P0 answers it.
   periodic; periodicity trivializes curves. (First instance: +3,869σ was
   a spec error. Pattern: my priors about WHERE difficulty lives have been
   the least reliable object in the lab tonight — measure, don't classify.)
+- 2026-10-10 04:55 — Phase 0.6: 24× kernel speedup, exact-match verified.
+  And the second-look: even Phase 0.5's refined model ("issue rate additive
+  with the serial chain") still attributed ~half the cost to issue rate; v2
+  proves issue rate was NEVER the wall (~0.4 ns/stamp achieved) — the p=2
+  serial chain was effectively 100% of it. THREE nested corrections to the
+  same object in one night (bandwidth → issue-rate-plus-serialization →
+  pure serialization), each found by a sharper measurement. The object's
+  true name arrived by successive falsification — the lab's own probe
+  philosophy, applied to the lab's own claims. Also noted: integration
+  into gpu_frontier.py deliberately left for Sylvan's morning call.
+
+---
+
+## Entry 2026-10-10 ~05:00 — CHAIN COMPLETE (final state for the next session)
+
+ALL planned phases closed and committed: 0 (falsified), 0.5 (serialization
+found), 1 (MATCH), 2 (NULL), 3 (NULL), 4 (C1 Legendre-hard + G7 0/1M), 5
+(D8 closed form + 9 new map cells), 0.6 (24× kernel prototype verified;
+integration queued for Sylvan), 6 (ledger in INSIGHTS.md + this file).
+
+If you are a future me: read AUTONOMY_2026-10-10.md for the plan and
+per-phase verdicts, INSIGHTS.md tail for the labeled ledger, lab/PHASE* for
+full reports. The plot in three lines: every statistics axis of the wheel is
+now measured-closed (nothing new to find there — proven, not presumed); C1
+is Legendre-hard by reduction and bulletproof to 1M laps (paper = the wedge
+instrument); D8 turned out to HAVE a closed form that extends the seam map.
+Open items that are Sylvan's calls, not the lab's: (1) --stamp-v2
+integration (plan in lab/PHASE0p6_kernel_v2.md); (2) whether the massive-
+build question survives its new, narrower justification (dial geometry +
+instrument value only); (3) F2 wedge-distance measurement needs SAT (still
+[G], now the flagship). Window pid 19718 running the pre-v2 binary at
+~76 layers/s.
