@@ -184,6 +184,7 @@ class Engine:
         bound = int((m + 1) / math.sqrt(2)) + 1
         self.n_active = int(np.searchsorted(self.primes_host, bound,
                                             side="right"))
+        self._bound = bound
 
     def seed(self, m0):
         cp = self.cp
@@ -201,6 +202,24 @@ class Engine:
     def roll(self, win, k0, k1):
         """Stamp one layer into win[0..k1-k0], then advance every ring."""
         cp = self.cp
+        # Certification contract: every prime <= m/sqrt(2) must hold an
+        # active ring. The bound grows ~0.7 per layer as the frontier
+        # climbs, so re-contract here; a frozen set under-certifies
+        # (semiprimes of two stale-bound primes stamp nothing and read
+        # as primes).
+        bound = int((self.m + 1) / math.sqrt(2)) + 1
+        if bound > self._bound:
+            self.n_active = int(np.searchsorted(self.primes_host, bound,
+                                                side="right"))
+            self._bound = bound
+            # newly activated rings hold stale/garbage pointers — reseed
+            # the whole active set at the current layer (idempotent: the
+            # closed form reproduces exactly what advance would carry)
+            T2 = ((self.m - 1) * self.m // 2) % 2
+            self.kernels["seed_kernel"](self._grid(self.n_active), (BLOCK,),
+                                        (self.ringP, self.n_active, self.m,
+                                         (-T2) % 2, self.m % 2,
+                                         self.ringO, self.ringD))
         W = int(k1 - k0 + 1)
         win.fill(0)
         self.kernels["stamp_kernel"](self._grid(self.n_active), (BLOCK,),

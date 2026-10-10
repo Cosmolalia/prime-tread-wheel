@@ -60,8 +60,13 @@ would double the traffic per ring for a higher ceiling.
 `seed_kernel` (mod-2p halving trick, one uint64 multiply — no bignums),
 `stamp_kernel` (double-reciprocal first-stamp estimate with integer
 correction — a 64-bit division per ring per layer would dominate the whole
-kernel), `advance_kernel` (two wraps). Self-check on every startup; exact
-audit of the dump-band output on 2026-10-09.
+kernel), `advance_kernel` (two wraps). `roll()` re-contracts the ring count as
+the frontier climbs (primes up to m/√2 must all hold rings; newly activated
+rings are reseeded at the current layer — without this, semiprimes of two
+stale-bound primes stamp nothing and read as primes). Self-check on every
+startup; exact audit of the dump-band output on 2026-10-09; discriminating
+test 2026-10-09 (seed 50,000, roll 20,000 layers: frozen contract certifies 2
+false primes, growing contract certifies 0).
 
 ## Box notes
 
