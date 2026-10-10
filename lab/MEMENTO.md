@@ -130,3 +130,17 @@ user asked for uncontended-floor measurement earlier — P0 answers it.
   census that π₂-based tools undercount by two orders of magnitude — that's a
   capability claim, not just a closure: anyone wanting this statistic cheaply
   should use a witness engine, not Lehmer machinery.
+- 2026-10-10 03:00 — C1 EPIPHANY (the night's biggest reframing): the proof
+  door closes BY REDUCTION. B1 says the wheel IS the √N sieve — so C1 is
+  exactly "a prime in each half-window," an interval ~3× shorter than
+  Legendre's conjecture at the same height. The lab's "strongest paper
+  candidate" was never a wheel theorem waiting for a wheel proof; it is a
+  Legendre-family conjecture wearing wheel clothing, and wheel-native proof
+  strategies are provably insufficient (B1 leaves nothing else). "Zero
+  structural support" flips from observation to THEOREM. Value migrates:
+  claim → instrument (the wedge distance, F2 — measurable, new data type).
+  Inversion check done: could a cheap proof still exist via the triangular
+  window positions? No — the reduction already uses the positions; the
+  difficulty is the interval LENGTH, which the window geometry fixes at
+  ~√N/2·(2/3). The reframing also explains the C1/C2 contrast (halves split
+  crosses the √N boundary; full-window doesn't).
