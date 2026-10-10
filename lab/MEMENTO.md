@@ -76,6 +76,12 @@ user asked for uncontended-floor measurement earlier — P0 answers it.
   Both corrections come from MEASUREMENT, not re-reasoning. This is why the
   pre-registration rule exists: a falsified prediction is a finding, and
   tonight it killed a bad causal story before it ossified into the README.
+- 2026-10-10 01:45 — Phase 2 NULL: the ω-map has no spatial structure beyond
+  deterministic small-prime periodicity. The naive iid null is decisively
+  REJECTED (P(gap=1) 0.272 vs 0.328) — the honest null had to carry the
+  determinism; that's a methodological lesson for every future null in this
+  lab: the wheel's "randomness" only starts above the deterministic base.
+  Residual ~2σ clustering hint logged, NOT chased (below the 3σ bar).
 
 ## Connector log
 
