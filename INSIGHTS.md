@@ -901,3 +901,101 @@ frac-locked — R ≈ 0 even at r=1; the 1:1 lock lives in the gcd(k,m) line lat
 residue positions. (2) "≤2 primes per spoke" could not be tested here: geometric frac-rays
 hold hundreds of primes at every ratio; the eight-facts "spokes/lines" are a different object
 (the wheel's line/visit structure) that a frac-ray scan cannot see.
+
+---
+
+## 2026-10-09 dusk — THE TERRITORY MAP: full inventory + the jungle queue
+
+Consolidated inventory of everything standing, organized for traversal. Labels as
+usual. This entry is a map, not new results.
+
+**A. The deterministic core (1:1 wheel, machine-verified)**
+- A1 [E] Stagger field is the whole story: covers = arithmetic, exact
+  (4997/4997, 400/400). Wheel contains the complete answer to prime placement
+  in uncompressed form; decoding = compression, and no compressed law is known.
+- A2 [E] Zero internal correlation of the field (CRT, exact factorization).
+  The only law is s(m) = −T(m−1). The wall is located to one point: one
+  quadratic walk vs the compositeness of the values it walks over.
+- A3 [E] Parabolic confinement: each arc period p, (p+1)/2 phases, palindromic;
+  never sweeps uniformly.
+- A4 [E] Exact aperiodicity: joint field period ≈ e^{p_r} — never repeats
+  physically.
+- A5 [E] Width~strikers invariant: spearman 0.98–0.995 from m=1e4 to 2.6e8.
+- A6 [E] ALL aggregate value-side statistics tested are iid-indistinguishable
+  (N4, P10, P11). Lawful structure lives on the pattern side only; value side
+  reduces to plain prime-gap statistics (P12).
+- A7 [E] U(m)/m tracks Mertens with median ratio 0.96.
+
+**B. The exact-theorem cluster (1:1, audited)**
+- B1 [F] Uncovered ⟺ prime within the lap: visible set = primes EXACTLY.
+  The wheel at layer m is the sqrt(N) sieve rendered as occlusion.
+- B2 [F] Column law: prime ⟹ gcd(k,m)=1 or m≡2 mod 4 parity escape.
+  Eligibility is a free gcd certificate forever; 100% of 316k primes in
+  eligible columns, 0 violations.
+- B3 [F] Triangular-offset theorem: pure-dead diagonals EXACTLY at c=T(j);
+  every non-triangular offset is a live coin line.
+- B4 [F] Forced-composite endpoints: T(m), T(m)−1 never prime (m≥3/4).
+- B5 [F] m≡2 mod 4 theorem: seat-primes identically zero.
+- B6 [E] Parity escape: 2.00× density exactly, mechanism = pure parity filter.
+
+**C. Held but unproven [S]**
+- C1 Halves-claim: ≥1 prime each side of midpoint for all m≥21. 120k+ laps,
+  zero violations. ZERO structural support (free rings cover any half) —
+  rides entirely on the realized quadratic walk. Strongest paper candidate.
+- C2 No-empty-layer: structure-supported to layer 57 (confined), walk beyond.
+
+**D. The ratio-dial era (variable tread, probes + toy)**
+- D1 [E] L1: no all-prime line anywhere in ratio space (230k scans).
+- D2 [E] L2: rational ⟺ dead lines exist; irrationals structureless. r=1's
+  triangular offsets are one instance; every rational has its own.
+- D3 [E] L3: parity escape universal at exactly 2.00× at every ratio.
+- D4 [F+E] L4: integer ratios → dead seam by algebra; 10:3 cracked fully by
+  residue-class kills.
+- D5 [F] Clean-lap law: closure fraction = 1/b at a/b; leftover hops among
+  finitely many phases — partial lock is periodic, never chaotic.
+- D6 [S, 13 ratios] Dead seam + full escape ⟺ denominator a power of 2.
+  Open: 3:8, 5:8, 7:8 confirmation.
+- D7 [E] r=2 = polar Ulam spiral: squares at frac 1/2; Euler n²−n+41 is the
+  fixed tick k=41, breaking at m=41 exactly; Ulam prime diagonals =
+  constant seam offsets k=2m+c converging on the square ray.
+- D8 [G] Dead-offset indexing formula at general a/b — the one open formula.
+- D9 [G] Claude's "≤2 primes per spoke" untestable via frac-rays; it lives
+  in the gcd(k,m) line lattice, not geometric rays.
+
+**E. Honest negatives (closed routes — load-bearing, do not reopen blind)**
+- E1 Orbit correlations: none exist (CRT). E2 Holes: rough-number density.
+- E3 Mirror compensation: dead at both scales (r≈0.02). E4 Per-arc thinning
+  law: refuted by test. E5 Lagged fingerprints of the counter: null (P11).
+- E6 C4 relocation: primes ANTI-follow their own column (0.62×) — mechanism
+  open, descriptive only. E7 C5 strips: 1.09× lean, visual dominance is
+  candidate density, not prime concentration.
+
+**F. The standing wall [G]**
+- F1 Routing wall: pattern covers seats; value decides composites. Stagger
+  field computable in O(m), no compressed law known. (Within-lap instance
+  CLOSED by B1; the mouth/window instance at W << m stands.)
+- F2 The wedge: conjecture = quadratic curve never enters the wipe set;
+  both endpoints mapped, the DISTANCE never measured (J1c needs SAT).
+- F3 Transformer-bridge connector: what plays periodicity in a real network's
+  address system — left open, not renamed.
+
+**G. The jungle queue (traversal order proposed)**
+- G1 [cheapest, decisive] Power-of-2 denominator boundary: 3:8, 5:8, 7:8,
+  3:16 → promotes or kills D6.
+- G2 Dead-offset formula at a/b (D8) — the algebra is probably the same
+  factor-form N=(m−j)(m+j+1)/2 with L[m] substituted; likely an hour.
+- G3 Ulam-diagonal overlay on variable.html: slider for seam offset
+  k=c·m+b, draws the spiral, reports prime count; Euler arc = calibration
+  shot. Turns "find bright curves" into an instrument.
+- G4 Farey walk: 1:1 → 2:1 stepping the Farey sequence, dead lines permuting
+  and dissolving — D5/D2 as a movie.
+- G5 Sturmian test at φ/√2: is the irrational "chaos" aperiodically ordered
+  (spacing word low-complexity) or sieve-random? Decides if the irrational
+  sea is structureless or differently-structured.
+- G6 Prime-rich quadratics at other integer r: at r=a, k=cm+b gives
+  N = (a/2)m² + … — hunt Euler-class forms as bright spirals at r=3, 4.
+- G7 Halves-claim distribution probe: per-half W_L/W_R fields, m=21..100k —
+  turn the empirical hold into a distribution with margins.
+- G8 (joint w/ Claude) J1c wipe-Hamming distance; confined half-cover scan;
+  sub-Poisson tested properly; calm-slope derivation pre-registered.
+- G9 C4 anti-correlation mechanism hunt.
