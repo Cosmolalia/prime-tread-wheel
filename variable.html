@@ -93,6 +93,7 @@ a { color: var(--hit); }
     <div class="group">
       <div class="label">Overlays</div>
       <label class="row" style="cursor:pointer"><input type="checkbox" id="primeRays"> <span>prime rays — straight lines from the center to every prime</span></label>
+      <label class="row" style="cursor:pointer"><input type="checkbox" id="showLabels" checked> <span>number labels — the tick's value beside each dot</span></label>
     </div>
     <div class="group">
       <div class="label">Readout</div>
@@ -179,7 +180,8 @@ function fitView() { ex.Z = fitZ(); ex.vx = 0; ex.vy = 0; }
 // ---------- view state ----------
 let layersShown = 120;
 let colorBy = "prime";
-let showRays = false;
+let showRays = $("primeRays").checked; // the DOM checkbox is the source of truth
+let showLabels = $("showLabels").checked;
 let hover = null, pinned = null;
 
 // ---------- drawing ----------
@@ -261,7 +263,7 @@ function draw() {
       let b = buckets.get(col);
       if (!b) { b = []; buckets.set(col, b); }
       b.push(X, Y, dot);
-      if (onLap > 18 && wantLabels.length < 1800) wantLabels.push(m, k, N, X, Y, wx, wy); // room for a readable number, whatever the zoom
+      if (showLabels && onLap > 18 && wantLabels.length < 1800) wantLabels.push(m, k, N, X, Y, wx, wy); // room for a readable number, whatever the zoom
     }
   }
   for (const [col, pts] of buckets) {
@@ -276,7 +278,7 @@ function draw() {
   }
 
   // labels: number outside, ratio inside, sized by each lap's on-screen tick spacing (never by zoom ratio)
-  if (wantLabels.length) {
+  if (showLabels && wantLabels.length) {
     ctx.textAlign = "center"; ctx.textBaseline = "middle";
     const grid = new Set();
     let lastM = -1, fs = 9, cell = 26, onLapM = 0;
@@ -433,6 +435,7 @@ $("ratioGo").addEventListener("click", applyTypedRatio);
 $("ratioText").addEventListener("keydown", (e) => { if (e.key === "Enter") applyTypedRatio(); });
 $("ratioFlip").addEventListener("click", () => setRatio(1 / ratio));
 $("primeRays").addEventListener("change", (e) => { showRays = e.target.checked; requestDraw(); });
+$("showLabels").addEventListener("change", (e) => { showLabels = e.target.checked; requestDraw(); });
 {
   const presets = [0.25, 0.5, 1 / 1.1, 1, 1.1, 2, 3, 4, 6];
   const names = ["1:4", "1:2", "1:1.1", "1:1", "1.1:1", "2:1", "3:1", "4:1", "6:1"];
