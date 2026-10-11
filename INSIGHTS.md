@@ -1469,3 +1469,115 @@ certificates). Applied to WHITEPAPER.md and PAPER.md:
 
 verify.py re-run: all checks ok. Wheel repo commit + push, site re-rendered
 and deployed, grand.html#paper re-screenshotted clean.
+
+## 2026-10-11 noon — Obi/GPT-6 handoff: the 5:4 exact half-turn, verified and filed
+
+Source: handoff pack from Obi + GPT-6 (Luna-side), received via Sylvan, with
+their verifier `prime_tread_5_4_verify.py`. Task per house rules: independently
+derive, compare against existing ratio/deadness work, log everything. Nothing
+below was taken from the handoff on faith — every load-bearing claim re-derived
+or re-measured here first.
+
+### Provenance verdict
+
+The four-family 5:4 half-turn classification is NOT in the existing notes
+(grepped INSIGHTS + WHITEPAPER + probes for 5:4 half-turn structure: absent).
+It is a NEW INSTANCE of the existing three-layer deadness engine (2026-10-09
+night), not a new mechanism: the square-discriminant criterion partitions this
+ray dead/live exactly as it partitioned the seam and frac-rays. The two-branch
+simplification, the mod-16 eligibility filter, and the BH constant are the new
+sharpenings contributed here on top of the handoff.
+
+One reconciliation note [O]: ratio_sweep's "lines" are k = round(f·L[m])+b —
+at f=1/2 on odd-L layers this lands on a ROUNDED tick, not the exact midpoint.
+The sweep's 230k-family scan therefore saw the half-turn ray only blurred; the
+exact-half-turn object (L even required) was never isolated before. Two
+different observables share the name "half-turn line"; the classification
+below is for the exact one, per the handoff's own edge-condition warning.
+
+### Independent derivation [F] — matches handoff on every clause
+
+Derived from variable.html's rounding word (L = max(1, round(5m/4)),
+half-up, no handoff formulas consulted):
+- L(4q+s) = 5q + c_s for c = (1,3,4,5); B(4q+s) quadratic: (10,3,0),
+  (10,8,1), (10,13,4), (10,18,8) — matches the sweep-era quasi-polynomial law.
+- Exact half-turns exist iff m mod 8 ∈ {0,3,5,6} (existence = L even; the
+  8-period is 2b — one parity layer above the b=4 rounding period).
+- H(m): 40t²+t = t(40t+1) | 40t²+31t+6 = (5t+2)(8t+3) | 40t²+51t+16 |
+  40t²+61t+23 on m = 8t+0,3,5,6 — all four identical to the handoff.
+- Discriminants: 1, 1, 41, 41. Global branches: (5m²+m)/8 [D=1, factors]
+  and (5m²+m−2)/8 [D=41, irreducible over Q].
+- Exact square identities on the ray [F]: 160H+1 = (10m+1)² on the D=1
+  branch; 160H+41 = (10m+1)² on the D=41 branch. Verified to m=3000. This is
+  the D8-shape statement ("discriminant is a quasi-polynomial; dead = finite
+  union of exact square tests") instantiated on a non-seam ray.
+
+### Eligibility filter = engine layers 1+2, not new structure [F]
+
+"Prime half-turn occupant ⟹ m = 8 or m ≡ 6,13 (mod 16)" decomposes:
+- classes 0,3 dead by Layer 2 (Δ square → factors; t(40t+1) needs t≥2,
+  (5t+2)(8t+3) always) — with the single leak m=8, H=41 (factorization
+  degenerate at t=1);
+- classes 5,6 halved by the mod-2 fine lock at resolution 4b=16 (B[m] parity
+  kills odd-k ticks in B-odd classes): m≡13 mod 16 has k = L/2 always even
+  (live); m≡6 mod 16 live only for u even (k = 5u+4 even); m≡5,14 dead by
+  parity. Verified zero violations through m = 20,000 [E, 662 primes, this
+  machine] — the handoff verified to 5,000; extended 4× here with zero
+  violations and zero class-0 leaks.
+
+### The new observation [E→O]: the live classes are BH-calibrated "lucky" quadratics
+
+Both D=41 families (in u, after parity filtering: 160u²+262u+107 and
+160u²+122u+23, D = 164 = 4·41) are admissible — no prime p < 200 divides all
+values. Bateman–Horn partial products converge cleanly:
+C ≈ 4.495 (stable from p<800 to p<30,000, both families BIT-IDENTICAL
+partial products — same ρ(p) at every prime, verified numerically; root
+counts mod p depend only on the shared discriminant here). Empirical singular
+factor at m ≤ 20,000: 662 primes / Σ(1/log H) = 662/147.0 = 4.50. The
+heuristic and the measurement agree to three digits.
+
+Structural analogy [labeled, not identity]: Euler's n²+n+41 (D = −163) has
+BH constant ≈ 3.3 and Rabinowitsch's theorem behind its luck. These families
+have D = +41; Q(√41) has class number 1 and L(1,χ) ≈ 1.30 (Dirichlet class
+number formula, computed here). Whether a Rabinowitsch-type exact theorem
+governs positive-discriminant lucky families of this shape is [G] — the
+analogy predicts the wheel found an Euler-grade polynomial by turning a dial,
+which is itself the handoff's "what does the unit fix?" question answered
+one level down: THE TREAD CHOOSES THE STAGE, ARITHMETIC WRITES THE DENSITY.
+Which spoke hosts a prime family is embedding-dependent; the density law of
+the family (via ρ(p), hence D) is intrinsic arithmetic.
+
+### Coincidences and curiosities (logged per Obi's rule, no causal claims)
+
+- H(8) = 41, and the other branch's discriminant is 41. Also the D=1
+  branch's discriminant is 1 and the m=8 layer is the unique class-0 layer
+  whose half-turn tick (k=5) is odd-k in a B-even class — triple alignment
+  at one layer: lock-live, factorization-degenerate, value = 41. Curiosity.
+- m=8 sits in the B-even mod-16 classes {0,1,3,4,8,9,11,12} (computed here);
+  the live eligibility classes {6,13} are B-ODD — the half-turn escapes the
+  lock precisely by sitting on even k in B-odd classes. The lock is the same
+  fine-resolution lock from 2026-10-09 night, resolution 4b = 16, as predicted
+  by "period dividing ~4b."
+- Failed step logged (process): the first independent derivation run produced
+  a spurious "global branch fit fails" — an off-by-one in the t-parameter for
+  the m=8t class (its first half-turn is t=1, not t=0; the fitted "constant"
+  was f(t₀), not c). The branch identity is exact; the bug was in the fitter,
+  not the math. Notated because the handoff's §5.9 (prefer closed-form branch
+  + residue restrictions over per-prime lines) is exactly the compression this
+  bug illustrated.
+
+### Queue items this round opens (no production changes made)
+
+- [G] General a/b: closed form for the exact-half-turn residue period
+  (observed: existence period 2b, eligibility settles at 4b for 5:4; is the
+  4b the fine-lock period in general?). Handoff §5.2 asks; not derived yet.
+- [G] Pre-registered extension: run the two live classes to m = 10⁶ and test
+  the BH ratio 4.50 stays (asymptotic vs finite-window agreement). Cheap;
+  would convert the 3-digit match into a measured constant of the wheel.
+- [O] Sweep the denominator family at fixed small |D| live classes — is
+  "dial finds Euler-grade polynomial" generic at b=4? (a/4, a mod 8 ≠ ±1,
+  live seams per the b=4 map) — connects the half-turn ray to the seam map.
+
+Verify artifacts: /tmp/derive_54.py (from-scratch derivation),
+/tmp/verify_54_extended.py (counts, filter extension to 20k, square
+identities, lock-class computation, admissibility, BH products).
