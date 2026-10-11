@@ -1398,3 +1398,21 @@ layerstats.c, HANDOFF_TO_KIMI.md, column_runs.log, layerstats_100k.txt.
   always one object — this makes the *presentation* one page without touching
   the instruments. Deeper fusion (horn inside the wheel app) stays on the
   list per HORN_INTEGRATION.md.
+
+## 2026-10-11 (early) — site navigation unified on the grand page
+
+Every deployed surface now routes to grand.html (one page, every view) instead of
+leaving the instruments as separate islands:
+
+- Registry entry: new lead card "The Whole Wheel" (grand.html) + a Horn card;
+  front-matter live-pages line updated.
+- Instrument pages gained an "all views on one page" link: variable.html masthead,
+  living-prime-map.html siblings line, problem-wheels.html intro, horn.html title
+  block (its first outbound link ever), essay.html lede, night-shift.html footer.
+- Whitepaper meta line (render.py) links the grand page.
+- New card images: post-media/grand-page.png (headless screenshot of the rail),
+  post-media/horn-views.png.
+- Repo hygiene note: root essay.html is a byte-identical duplicate of
+  field-notes.html under the wrong name (not deployed — render.py uses the
+  posting-kit/docs copies); root night-shift.html/field-notes.html are inert
+  duplicates kept in sync with the kit copies.
