@@ -1382,3 +1382,19 @@ layerstats.c, HANDOFF_TO_KIMI.md, column_runs.log, layerstats_100k.txt.
 - Ships as a sibling page (`horn.html` + `horn-view.js`, WebGL1, no dependencies),
   linked from the wheel masthead and the globe siblings line. Option B in
   HORN_INTEGRATION.md (a fifth view inside the wheel app) is specced but not built.
+
+## 2026-10-10 (night, late) — the grand page
+
+- grand.html ships: one rail, every view. Wheel / horn / globe / variable /
+  living map / white paper / essay / night-shift / problem wheels load in
+  frames beneath a single tab rail; a frame, once loaded, is never destroyed,
+  so every instrument keeps its state across switches. Keys 1-9, hash routes
+  (#horn etc.) are shareable. [F] It's pure shell — the instruments are
+  untouched, so every certification on them (test_shape.js, verify.py,
+  layerstats) still covers exactly what ships.
+- Why a shell and not a merge: the wheel app is a 240KB self-contained
+  instrument with its own render loop; merging render loops into one page is
+  surgery on a certified tool, for zero measurement gain. The object was
+  always one object — this makes the *presentation* one page without touching
+  the instruments. Deeper fusion (horn inside the wheel app) stays on the
+  list per HORN_INTEGRATION.md.

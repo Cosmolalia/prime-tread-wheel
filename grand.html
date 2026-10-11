@@ -1,0 +1,146 @@
+<!doctype html>
+<!-- grand.html — the whole wheel on one page.
+     Every sibling instrument loads in a frame below the rail; once loaded it
+     stays alive, so switching views never loses state. Links like
+     grand.html#horn are shareable. No build step, no dependencies: the
+     instruments it hosts are the deploy-synced files next to this one. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Prime Tread Wheel — everything</title>
+<style>
+  :root {
+    --bg: #0b0e14;
+    --rail: #10141d;
+    --line: #1e2635;
+    --ink: #d7dce6;
+    --dim: #7c8698;
+    --gold: #e8b84b;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg); color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+  #rail {
+    height: 46px; display: flex; align-items: stretch; gap: 0;
+    background: var(--rail); border-bottom: 1px solid var(--line);
+    overflow-x: auto; scrollbar-width: none; white-space: nowrap;
+  }
+  #rail::-webkit-scrollbar { display: none; }
+  .brand {
+    display: flex; align-items: center; padding: 0 14px; flex: 0 0 auto;
+    font-family: var(--mono); font-size: 12px; letter-spacing: .08em;
+    color: var(--gold); border-right: 1px solid var(--line); user-select: none;
+  }
+  .brand small { color: var(--dim); margin-left: 8px; letter-spacing: 0; }
+  .grp { display: flex; align-items: center; padding: 0 4px 0 12px; flex: 0 0 auto; }
+  .grp span { font-family: var(--mono); font-size: 10px; color: var(--dim);
+    letter-spacing: .12em; margin-right: 6px; user-select: none; }
+  .tab {
+    appearance: none; border: 0; background: none; color: var(--dim);
+    font: 13px/1 system-ui, sans-serif; padding: 0 12px; height: 46px;
+    cursor: pointer; border-bottom: 2px solid transparent; flex: 0 0 auto;
+  }
+  .tab:hover { color: var(--ink); }
+  .tab.on { color: var(--gold); border-bottom-color: var(--gold); }
+  .tab b { font-weight: 400; font-family: var(--mono); font-size: 10px;
+    color: var(--dim); margin-left: 5px; }
+  .tab.on b { color: var(--gold); opacity: .7; }
+  #stage { position: absolute; top: 46px; left: 0; right: 0; bottom: 0; }
+  #stage iframe {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    border: 0; display: none; background: var(--bg);
+  }
+  #stage iframe.on { display: block; }
+  #boot { position: absolute; inset: 0; display: flex; align-items: center;
+    justify-content: center; color: var(--dim); font-family: var(--mono);
+    font-size: 13px; }
+</style>
+</head>
+<body>
+<nav id="rail" aria-label="Views of the wheel">
+  <div class="brand">PRIME&nbsp;TREAD&nbsp;WHEEL<small>one object, every view</small></div>
+</nav>
+<div id="stage">
+  <div id="boot">loading…</div>
+</div>
+<script>
+"use strict";
+// Each entry is one sibling page, deployed next to this file. Order on the
+// rail is the order of the walk: object first, then reading.
+const VIEWS = [
+  { id: "wheel",    label: "Wheel",      src: "wheel.html",           grp: "object" },
+  { id: "horn",     label: "Horn",       src: "horn.html",            grp: "object" },
+  { id: "globe",    label: "Globe",      src: "globe.html",           grp: "object" },
+  { id: "variable", label: "Variable",   src: "variable.html",        grp: "object" },
+  { id: "map",      label: "Living Map", src: "living-prime-map.html",grp: "object" },
+  { id: "paper",    label: "White Paper",src: "whitepaper.html",      grp: "reading" },
+  { id: "essay",    label: "Essay",      src: "essay.html",           grp: "reading" },
+  { id: "night",    label: "Night Shift",src: "night-shift.html",     grp: "reading" },
+  { id: "problems", label: "Problems",   src: "problem-wheels.html",  grp: "reading" },
+];
+const rail = document.getElementById("rail");
+const stage = document.getElementById("stage");
+const boot = document.getElementById("boot");
+const frames = new Map();   // id -> iframe, created lazily, never destroyed
+let current = null;
+
+let lastGrp = null;
+const tabEls = [];
+for (const v of VIEWS) {
+  if (v.grp !== lastGrp) {
+    const g = document.createElement("div");
+    g.className = "grp";
+    g.innerHTML = "<span>" + (v.grp === "object" ? "THE OBJECT" : "READING") + "</span>";
+    rail.appendChild(g);
+    lastGrp = v.grp;
+  }
+  const b = document.createElement("button");
+  b.className = "tab";
+  b.dataset.id = v.id;
+  b.title = v.src;
+  const n = tabEls.length + 1;
+  b.innerHTML = v.label + "<b>" + n + "</b>";
+  b.addEventListener("click", () => activate(v.id, true));
+  rail.appendChild(b);
+  tabEls.push(b);
+}
+
+function activate(id, push) {
+  const v = VIEWS.find(x => x.id === id) || VIEWS[0];
+  let f = frames.get(v.id);
+  if (!f) {
+    f = document.createElement("iframe");
+    f.src = v.src;
+    f.setAttribute("allow", "fullscreen");
+    stage.appendChild(f);
+    frames.set(v.id, f);
+  }
+  if (current) {
+    frames.get(current).classList.remove("on");
+    tabEls.find(t => t.dataset.id === current).classList.remove("on");
+  }
+  f.classList.add("on");
+  tabEls.find(t => t.dataset.id === v.id).classList.add("on");
+  boot.style.display = "none";
+  current = v.id;
+  document.title = v.label + " — Prime Tread Wheel";
+  if (push && location.hash !== "#" + v.id) {
+    history.pushState(null, "", "#" + v.id);
+  }
+}
+
+window.addEventListener("hashchange", () => {
+  activate((location.hash || "").slice(1), false);
+});
+window.addEventListener("keydown", (e) => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const n = parseInt(e.key, 10);
+  if (n >= 1 && n <= VIEWS.length) activate(VIEWS[n - 1].id, true);
+});
+
+activate((location.hash || "").slice(1) || "wheel", false);
+</script>
+</body>
+</html>
