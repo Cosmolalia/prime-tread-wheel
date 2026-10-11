@@ -1335,3 +1335,32 @@ looks novel; the deep sweep stays on the rack before christening.
     sweep, not MathSciNet; one pass still owed before external submission.
   - Naming: "prime tread wheel" clean; "wheel sieve" alone is Pritchard's.
 - Whitepaper §14 (relation to existing work) + references 11–20 added.
+
+## 2026-10-10 (evening) — PHASE7: pre-registered replication, 8/9 predictions hit
+
+Claude's handoff (`column-engine/HANDOFF_TO_KIMI.md`) froze nine predictions
+for a layer-statistics run to 1.8M layers (numbers to 1.62e12) before Kimi
+ran it on the 32-thread box. Protocol: certified the engine first (100k
+re-run byte-identical to Claude's summary, π(T(1e5)) ✓), then ran the frozen
+experiment detached (~1h54m wall, 60.8 CPU-hours — Claude's 5400-thread-sec
+estimate was ~40× low; recorded in the scorecard, not held against the law).
+
+Scorecard (`lab/PHASE7_prereg_scorecard.md`): **8/9 HIT.**
+
+- Clash factor 100k–1M: 0.89064 vs 0.8906±0.0005 ✓; 1M–1.8M: 0.89060 ✓.
+  Converges to e^γ/2 = 0.89054 from above; phantom-clash haircut [E] at 16×
+  the certified range.
+- Worst count/(m/ln T): 0.959, 0.985 (floors 0.93/0.95) ✓✓. Longest
+  prime-free run/m: 0.00305, 0.00048 (ceilings 0.005/0.0006) ✓✓.
+- Last-layer-with-≤c list identical (…10:121) ✓.
+- **MISS (informative):** fewest primes 1M–1.8M predicted 35300±700,
+  measured 36,720. Miss is *upward* — the sparsest layer is denser than an
+  iid-style tail allows. Layer counts are more uniform than the guessed
+  fluctuation model: the worst/exp floor is still climbing toward 1
+  (0.959→0.985), so the minimum converges from above. The ±700 band hid an
+  unstated fluctuation model → now [G]: one derivation owed.
+- Total primes 59,837,421,097 = li(1.62e12) within truncation ✓.
+
+Data: `column-engine/layers_1p8M.csv.gz` (per-layer counts, 1.8M rows),
+`column-engine/layerstats_1p8M_run.log`. New instrument files archived:
+layerstats.c, HANDOFF_TO_KIMI.md, column_runs.log, layerstats_100k.txt.
