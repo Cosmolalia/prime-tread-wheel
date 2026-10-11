@@ -1581,3 +1581,78 @@ the family (via ρ(p), hence D) is intrinsic arithmetic.
 Verify artifacts: /tmp/derive_54.py (from-scratch derivation),
 /tmp/verify_54_extended.py (counts, filter extension to 20k, square
 identities, lock-class computation, admissibility, BH products).
+
+## 2026-10-11 afternoon — PHASE 8: the 5:4 density law measured to m=10^6, and the half-turn engine at general a/b
+
+Artifacts: `lab/PHASE8_5_4_prereg.md` (frozen predictions), `lab/PHASE8_5_4_run.py`
++ `PHASE8_5_4_results.json` (HIT scorecard), `lab/PHASE8b_halfturn_engine.py`
+(general a/b engine + dial sweep). All exact arithmetic, all reproducible.
+
+### The pre-registered extension: HIT at −0.17σ
+
+Frozen prediction before the run: 22,532 total primes on the 5:4 exact half-turn
+m ≤ 10^6 (Bateman–Horn singular series C = 4.499267368, exact rational product
+p < 300,000, × logarithmic sums S13+S6 = 5007.644, +1 for the deterministic
+m = 8 value). Measured: **22,506, ratio 0.99886, −0.17σ** (Poisson σ = 0.0067).
+Family split predicted 11,265/11,266, measured 11,175/11,330 (−0.80%/+0.57%).
+Eligibility filter: zero violations out of 500k candidates. Baseline self-check
+662 vs 662.6. **All four scorecard entries HIT.**
+
+One correction filed against the morning's note: the singular series computation
+must include p = 2. Both live families are identically odd (ρ(2) = 0), the p = 2
+factor is exactly 2, and the full constant is 4.4993 per family — the morning's
+4.495 was the brute product and rounds the same way. The Euler polynomial's
+"3.3" is likewise the odd-prime product; its full constant is 6.646 (brute),
+empirical 6.569 at U = 1249. Calibration pipeline validated on both.
+
+Status: [E] the wheel's measured half-turn density tracks Bateman–Horn to 3
+digits out-of-sample at m = 10^6. Bateman–Horn itself remains [G].
+
+### The general a/b engine (PHASE8b) — what the dial does, generically
+
+Twenty coprime ratios probed (b = 2..8). Four structural findings:
+
+1. **[F] Closed form, universal.** H(m) = (a m² + 2 S(m) + c(m)) / (2 b) with
+   c(j) = b·L(j) − a·j, S(m) = Σ_{j<m} c(j) — exact on every even-L layer of
+   every ratio tested. This is one line from the PHASE 5 seam identity
+   (B[m] = a m(m−1)/(2b) + S(m)/b); nothing new assumed. The whole half-turn
+   apparatus is the seam apparatus evaluated at L/2.
+2. **[S→measured] Fine-lock period depends on b's parity.** b even: n's parity
+   splits WITHIN every mod-2b class — the fine lock lives at 4b (the 5:4
+   pattern). b odd: parity is constant on mod-2b classes; no second lock.
+   Why b's parity gates a parity lock: [G] — mechanism not yet decompressed.
+3. **[S→measured] Discriminant collisions are the rule.** Live classes never
+   come alone: at 5/4 two classes share D = 164; at 5/3 FOUR classes share
+   D = −80; at 7/6 two share D = 228. The PHASE 5 discriminant is a
+   degree-≤1 quasi-polynomial in the class index whose r² terms cancel
+   identically — collisions across nearby classes are the generic output of
+   that engine, and eligibility clusters where the ramp lands. Exact collision
+   (not just nearby values) still wants a one-line reason: [G].
+4. **[S→measured] Fully dead half-turns exist.** 4/3 and 8/3: every even-L
+   half-turn value is even — the spoke is composite on its face, before any
+   discriminant argument. 3/2, 5/2: odd values, but all discriminants square.
+   So the dial has three outcomes: dead-by-parity, dead-by-factorization, live.
+
+### Dial sweep verdict: Euler-grade density is rare but not unique
+
+Singular series of every live family across the 20 ratios: mostly C ∈ [1.1, 3.8].
+Two ratios stand apart: **5/4 (C = 4.50, D = 164 = 4·41)** and **7/6
+(C = 4.89, D = 228 = 4·57)**. The 7/6 families (m ≡ 7, 10 mod 24,
+H = 336t² + 198t + 29 and 336t² + 282t + 59) were verified EMPIRICALLY on the
+spot: 1,871/1,905 primes to m = 200k against C·S predictions 1,884/1,883 —
+ratios 0.993 and 1.012. Second instance confirmed.
+
+So: "turn a dial, find an Euler-grade polynomial family" happens at ~10% of
+ratios — not generic, not a 5:4 coincidence. [G] the discriminant statistic
+that predicts C: 164 and 228 are both 4×(fundamental D with small L(1,χ)/
+class number 1?) — Q(√41) has h = 1, L(1,χ) = 1.30; whether Q(√57) echoes
+this and whether small L(1,χ) ⇒ high C across the sweep is untested.
+
+### Queue (unchanged + new)
+
+- J1c near-wipe SAT encoding (standing).
+- [new] b-parity fine-lock mechanism: why does b odd kill the second lock?
+- [new] Δ-collision one-liner under the PHASE 5 ramp.
+- [new] L(1,χ) vs C correlation across the 20 ratios (cheap, numeric).
+- [new] if 7/6 deserves the full treatment: prereg to m = 10^6 exactly as
+  PHASE 8, now that it is the second candidate.
