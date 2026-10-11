@@ -180,6 +180,15 @@ prior layers. Primes fall out of reading the stagger.**
   restored, the stagger model is exact primality, so every aggregate value-side
   statistic of the real wheel is ordinary prime-gap statistics. The wheel's
   lawful geometry lives on the pattern side only.
+- **[E] The clash factor (Obi's bet).** Layer counts sit a fixed ~11% above
+  the independent-rings guess ∏(1−1/p), converging to e^γ/2 = 0.89054 from
+  above (0.89092 at 1e5, 0.89064 at 1e6, 0.89060 at 1.8M layers; numbers to
+  1.62e12). Mechanism: rings p, q clash every pq ticks; the independent guess
+  books phantom clashes at distances longer than the number line, and dropping
+  them is the haircut. **Pre-registered replication (PHASE7):** nine frozen
+  predictions scored 8/9 on a cross-machine run; the one miss (sparsest-layer
+  count 36,720 vs 35,300±700) is upward — layer counts are more uniform than
+  an iid-style tail model allows. Full scorecard: `lab/PHASE7_prereg_scorecard.md`.
 - **[E] U(m)/m tracks Mertens.** The realized arcs thin each lap ~4% more than
   independent sieve (median ratio 0.961 against e^-γ/ln m), with large per-lap
   fluctuations. The quadratic alignment is sieve-equivalent in aggregate,
