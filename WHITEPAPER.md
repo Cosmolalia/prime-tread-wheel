@@ -61,12 +61,17 @@ From this one rule, with nothing added:
   g = gcd(k,m), a = k/g, b = m/g, and its number is x = g(gb² − b + 2a)/2. For
   g ≥ 3 the visit number divides its occupant (g odd → g|x; g even → (g/2)|x
   with cofactor > 1). Every spoke carries at most two primes: its first visit,
-  and its second visit when b is odd. Proven; verified for every visit to layer
-  5000. The divisibility is noted in Math::PlanePath's GcdRationals
+  and its second visit when b is odd. Proven; verified for every visit to
+  layer 5000. The divisibility is noted in Math::PlanePath's GcdRationals
   documentation (after Fortnow 2004); the two-prime and φ(m) corollaries we have
   not found stated.
-- **[E] Seats.** Every layer m ≥ 3 offers exactly φ(m) ticks where a prime can
-  sit (gcd(k,m) = 1), checked to layer 800.
+- **[F] Seats.** A prime can sit only on a coprime tick (gcd(k, m) = 1) — one
+  line from the B2 eligibility law — so the generic lap offers exactly φ(m)
+  candidate ticks (count verified to layer 800). **Parity caveat (B5/B6):** on
+  laps m ≡ 2 (mod 4), T(m−1) is odd and every coprime k is odd, so every
+  seat value is even — no prime ever sits on a seat there; those laps' primes
+  all sit on the even gcd = 2 ticks at 2.00× density. "φ(m) seats" is the
+  generic-lap count; the parity-escape laps re-allocate them.
 - **[E] The parity axis.** T(m−1) and ⌊m/2⌋ share parity (triangular numbers run
   odd, odd, even, even), so evenness is pinned to the half-turn axis. The
   half-turn spoke holds 2, 8, 18, 32, 50. Checked to layer 5000.
@@ -94,10 +99,13 @@ prior layers. Primes fall out of reading the stagger.**
 - **[F] The whole number line's stagger at step m is the single counter m, read
   in every prime modulus at once.** Each prime reads a different base-p digit of
   the one counter. The field's lap-to-lap shift is o_p(m+1) − o_p(m) = −m (mod p).
-- **[E] Parabolic confinement.** Each o_p(m) is periodic in m with exact period
-  p (period 4 for p = 2) and visits exactly (p+1)/2 of p phases — the triangular
-  numbers mod p. Each arc sweeps a discrete palindromic parabola across laps and
-  is forever confined away from (p−1)/2 of its phases. Zero violations, p < 200.
+- **[F] Parabolic confinement.** Each o_p(m) = −T(m−1) (mod p) is periodic in m
+  with exact period p (period 4 for p = 2), and for odd p visits exactly
+  (p+1)/2 of p phases: T(m−1) = ((2m−1)² − 1)/8 is a quadratic image, which
+  takes (p+1)/2 values mod p. Each arc sweeps a discrete palindromic parabola
+  across laps and is forever confined away from (p−1)/2 of its phases. Proven
+  in two lines; the former "zero violations, p < 200" is now a certificate,
+  not the evidence.
 - **[F] Exact aperiodicity.** The joint field over the first r primes recurs
   with period lcm(2…p_r) ≈ e^{p_r}: the first 25 primes give ~10³⁶ laps.
   Aperiodicity is proved, not observed.
@@ -159,6 +167,20 @@ prior layers. Primes fall out of reading the stagger.**
 - **[E] B6 — the parity escape.** The eligible even-k ticks on m ≡ 2 (mod 4)
   laps carry exactly 2.00× the prime density of coprime columns (0.1734 vs
   0.0866, laps 3…3000). Mechanism: pure parity filter.
+- **[F] B7 — the mirror lift.** T(m−1) + T(m) = m², so the tick involution
+  k ↔ m − k pairs values summing to exactly m²: the seat palindrome lifts to
+  values as v ↔ m² − v. Eligibility is preserved exactly (gcd(k, m) =
+  gcd(m − k, m), including the gcd = 2 parity escape), and the map is a
+  bijection on ticks. Two measured closures fall out of the one identity.
+  For odd m no mirror prime pair can exist — m² is odd, so one of v, m² − v
+  is an even number ≥ 4 — and on even m a mirror pair is exactly a Goldbach
+  representation of m² with both summands in the layer window: a rare
+  coincidence, which is §6.3's mirror-compensation null in one line, while the
+  exact bijection is why the seat palindrome stays perfect on the pattern side
+  precisely where value-side compensation is dead. (Verified: zero odd-m
+  pairs over m < 3000; 11,085 even-m pairs, every one summing to m².) The
+  mirror probe was the wrong instrument for a per-lap law and the right one
+  for the Goldbach window.
 - **[E] C4 (relocation anti-correlation).** Followed every prime to the next
   layer's same angular column: 0.1413 vs 0.2289 random expectation. The prime
   does NOT follow its column. What is predictable is where the shadows will be;
@@ -180,12 +202,16 @@ prior layers. Primes fall out of reading the stagger.**
   restored, the stagger model is exact primality, so every aggregate value-side
   statistic of the real wheel is ordinary prime-gap statistics. The wheel's
   lawful geometry lives on the pattern side only.
-- **[E] The clash factor (Obi's bet).** Layer counts sit a fixed ~11% above
-  the independent-rings guess ∏(1−1/p), converging to e^γ/2 = 0.89054 from
-  above (0.89092 at 1e5, 0.89064 at 1e6, 0.89060 at 1.8M layers; numbers to
+- **[E] The clash factor (Obi's bet).** Layer counts sit a fixed ~11% below
+  the independent-rings guess ∏(1−1/p), converging down to e^γ/2 = 0.89054
+  (0.89092 at 1e5, 0.89064 at 1e6, 0.89060 at 1.8M layers; numbers to
   1.62e12). Mechanism: rings p, q clash every pq ticks; the independent guess
   books phantom clashes at distances longer than the number line, and dropping
-  them is the haircut. **Pre-registered replication (PHASE7):** nine frozen
+  them is the haircut. The classical identification: true survivor density is
+  1/ln N ≈ 1/(2 ln m) (N ≈ m²/2), while the Mertens product over p ≤ m is
+  e^(−γ)/ln m — their ratio is exactly e^γ/2. The clash mechanism is the
+  wheel-native account of Mertens' third theorem: the identity is [E], the
+  phantom-clash reading [S]. **Pre-registered replication (PHASE7):** nine frozen
   predictions scored 8/9 on a cross-machine run; the one miss (sparsest-layer
   count 36,720 vs 35,300±700) is upward — layer counts are more uniform than
   an iid-style tail model allows. Full scorecard: `lab/PHASE7_prereg_scorecard.md`.
@@ -195,10 +221,15 @@ prior layers. Primes fall out of reading the stagger.**
   lap-specific in detail.
 - **[E] The record layer.** Layer m = 264,800,157: first prime 766 ticks above
   the floor (ifirst_off = 767), trailing shut-run 15 — the record's right edge
-  is nearly shut too. Anatomy: small outside primes (2…331) shadow 766 ticks
-  down to 57 holes; all 57 holes composite with both factors > 766. 100% of the
-  cover is from outside primes; routed primes contribute nothing. The record
-  mouth is a generic-sieve pile-up, fully explained by striker count.
+  is nearly shut too. Anatomy (field notes, the primary record): 109 outside
+  strikers — arcs from primes above the seat threshold — redundantly hold the
+  mouth shut (1.68× cover; 270 of its 497 mouth seats carry exactly one arc).
+  57 of the 766 shut ticks are holes: no striker arc lands on them, yet every
+  one is composite with both factors > 766 — invisible to every prime ≤ 766,
+  covered by inside primes in (766, m]. No B1 tension: B1's witness set is
+  p ≤ m, and these ticks have their witnesses; the measured invariant is the
+  striker count, not a prime range (width–strikers, above). The record mouth
+  is a generic-sieve pile-up, fully explained by striker count.
 
 ## 6. Honest negatives — closed routes, load-bearing, do not reopen blind
 
@@ -255,8 +286,14 @@ measurement. All three statistics axes are measured-closed.
   tests, exact below 3.3·10²⁴), extended through exhaustive prime-gap data to
   layer 2,828,427,124. Structure-supported to layer 57 (confined rings; free
   rings wipe every layer 41–391, so structure alone proves a prime only to 57),
-  walk-protected beyond. Baker–Harman–Pintz (x^0.525) covers all sufficiently
-  large layers non-effectively; the open residue is finite but unreachable.
+  walk-protected beyond. Baker–Harman–Pintz guarantees primes only in windows
+  of length N^0.525 around N — wider than the layer width √(2N) for large N,
+  so the promised prime can sit past the layer it was invoked to save: BHP
+  settles no layer, even non-effectively, and the RH-class O(√N log N) bound
+  fails the same width comparison. The verified residue is finite (layers ≤
+  2,828,427,124 by the gap tables); the open residue is infinite. Cramér-grade
+  gap heuristics imply the claim trivially — which is why the trend is visible
+  and the proof isn't.
   Worst known bottom margin: 766 ticks at layer 264,800,157.
 
 ## 8. The ratio-dial era — the variable tread
@@ -296,9 +333,13 @@ and what new laws appear:
   Dead ⟺ square discriminant, past the unit boundary (0/9,216 square-D forms
   contain a prime; the 41/176 square-D seam classes showing 1–2 primes are
   unit-factor leaks at t = 0…1 only). Euler is champion but not unique:
-  N = 3m²−3m+23 (D = −267, h = 2) has streak 19 and density 0.430.
-  Heegner reachability is ratio-gated: all twelve class-number-1 |D| occur
-  somewhere in range, but the champions −43, −67, −163 occur at fixed offsets
+  N = 3m²−3m+23 (D = −267, h = 2) has streak 19 and density 0.430; the line
+  exists only from m = 4 (the lap length must reach its constant 23), so the
+  streak runs from line onset, not from m = 1.
+  Heegner reachability is ratio-gated: twelve of the thirteen known
+  class-number-one orders occur somewhere in range (nine fundamental Heegner
+  discriminants plus four non-fundamental orders make thirteen; "twelve" is
+  the census's reach, not a canonical count), but the champions −43, −67, −163 occur at fixed offsets
   ONLY at a = 2 — 2:1 is the complete Heegner host. Where the wheel's algebra
   is strongest (the seam), survival is marginal.
 - **[E] G5 closed — the irrational substrate is Sturmian.** At r = √2, φ, π, e

@@ -1416,3 +1416,56 @@ leaving the instruments as separate islands:
   field-notes.html under the wrong name (not deployed — render.py uses the
   posting-kit/docs copies); root night-shift.html/field-notes.html are inert
   duplicates kept in sync with the kit copies.
+
+## 2026-10-11 (morning) — GLM review round: 10 fixes + one new theorem filed
+
+GLM audited the whitepaper; every load-bearing claim re-verified here before
+touching anything (separate sieve counts, not GLM's arithmetic, are the
+certificates). Applied to WHITEPAPER.md and PAPER.md:
+
+1. **[F→fixed] BHP sentence was backwards.** BHP windows (N^0.525) are wider
+   than the layer width √(2N), so BHP settles no layer, even non-effectively;
+   the open residue is infinite, the *verified* residue finite. Fixed in both
+   papers (the night log had it right all along — only the two papers erred).
+2. **[F→fixed] Clash direction.** Counts sit ~11% BELOW the independent-rings
+   guess, converging down to e^γ/2. Classical identification now stated:
+   survivor density 1/ln N ≈ 1/(2 ln m) over Mertens e^(−γ)/ln m = e^γ/2
+   (Mertens' third theorem; identity [E], phantom-clash reading [S]).
+3. **[F→filed] B7 — the mirror lift (new, explains two closures).**
+   T(m−1)+T(m) = m²; tick involution k ↔ m−k is an exact eligibility-
+   preserving bijection, lifting the seat palindrome to values v ↔ m²−v.
+   Odd m: no mirror prime pairs exist (one summand even ≥ 4) — proven, not
+   probed. Even m: a mirror pair IS a Goldbach representation of m² in the
+   layer window — rare, which is §6.3's mirror-compensation null in one line,
+   while the bijection's exactness is why pattern-side palindrome survives
+   where value-side compensation is dead. Verified: zero odd-m pairs m<3000;
+   11,085 even-m pairs, all summing to m².
+4. **[F→upgraded] Seats.** "φ(m) seats" needed the B5 caveat (on m ≡ 2 mod 4
+   laps every seat value is even — T(m−1) odd + coprime k odd). Proven, label
+   upgraded [E]→[F]. NOTE: probes/verify.py had the parity escape encoded all
+   along (seat = g==1 & m%4!=2 | g==2 & b odd) — the prose was the laggard.
+5. **[F→upgraded] Parabolic confinement** to proven (o_p = −T(m−1) is a
+   quadratic image: (p+1)/2 phases for odd p); "zero violations p<200" now a
+   certificate, not the evidence.
+6. **[F→reconciled] Record-layer anatomy** against field-notes (the primary):
+   109 outside strikers = arcs from primes above the seat threshold (NOT
+   "small primes 2…331", π(331)=67≠109); 57 holes have no STRIKER arc, covered
+   by inside primes in (766, m] — no B1 tension (witness set p ≤ m). The old
+   "100% of cover from outside primes" line was contradicted by the 57 holes
+   and is gone. Redundancy 1.68×, 270/497 single-cover seats restored.
+7. **[F→fixed] Heegner count.** "Twelve" matches no canonical count: 9
+   fundamental Heegner + 4 non-fundamental = 13; census reaches twelve of
+   thirteen — now stated as reach, not canon. [G] which one the range excludes
+   (needs a census list re-dump).
+8. **[F→fixed] Streak onset.** 3m²−3m+23's line exists only from m=4 (lap
+   length must reach 23); streak 19 runs from line onset, not m=1. Same fact,
+   one clause.
+9. **[F→fixed] Truncated sentence** — "layer\n5000." at a markdown line start
+   was eaten as a list marker on the LIVE page (number invisible). Reflowed.
+   Lesson: md line-wrap can swallow a number at the start of a continuation
+   line; check rendered HTML, not the source.
+10. **[E] PAPER.md §9 BHP** fixed in the same stroke; its seats sentence got
+    the parity-escape parenthetical.
+
+verify.py re-run: all checks ok. Wheel repo commit + push, site re-rendered
+and deployed, grand.html#paper re-screenshotted clean.
