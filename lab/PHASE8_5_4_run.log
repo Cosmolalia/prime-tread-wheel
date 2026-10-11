@@ -1,0 +1,6 @@
+C = 4.499267368  S13 = 2503.737  S6 = 2503.907  predicted total = 22531.7
+500000 even-L half-turn candidates m<=1e6; testing primality ...
+m<=1e6: primes=22506 (c13=11175 c6=11330 c8=1) filter_violations=0
+ratio measured/predicted = 0.99886  (Poisson sigma = 0.00666)
+baseline m<=20000: measured 662 vs predicted 662.6
+scorecard appended to lab/PHASE8_5_4_prereg.md; JSON written
