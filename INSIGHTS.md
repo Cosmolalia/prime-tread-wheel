@@ -1364,3 +1364,21 @@ Scorecard (`lab/PHASE7_prereg_scorecard.md`): **8/9 HIT.**
 Data: `column-engine/layers_1p8M.csv.gz` (per-layer counts, 1.8M rows),
 `column-engine/layerstats_1p8M_run.log`. New instrument files archived:
 layerstats.c, HANDOFF_TO_KIMI.md, column_runs.log, layerstats_100k.txt.
+
+## 2026-10-10 (night) — the horn view ships (Claude + Obi build, Kimi reviewed)
+
+- **[F→E] The flat page is a stretched skin; the horn is the honest metric object.**
+  Give every tick a unit square tile and put layer m one unit further out: ring m
+  is m tiles long at slant m, but a flat circle needs 2πm, so the skin rolls up
+  into a cone with sin(half-angle) = wedge/2π. For square tiles (wedge = 1) that is
+  asin(1/2π) = 9.158° — the horn. At wedge = 2π the cone opens to exactly the flat
+  page; past 2π the skin ruffles. Unrolling is an isometry family (every ring keeps
+  its length at every stage). Verified by `test_shape.js` (node): ring lengths exact
+  to 1e-4, seam closes to 1e-9, closed-form normals match numeric to machine eps.
+- **[F] Tie-in to the deadness engine:** the lap ratio dial is the wedge. Whole-number
+  ratios give wedge = r ∈ ℕ, and 2π ∉ ℕ — so no actual wheel skin ever lands on the
+  flat page. The page the whole lab works on is the measure-zero stretched case;
+  real wheels are horns (r=1), shallow cones (r=6), or ruffles (r≥7).
+- Ships as a sibling page (`horn.html` + `horn-view.js`, WebGL1, no dependencies),
+  linked from the wheel masthead and the globe siblings line. Option B in
+  HORN_INTEGRATION.md (a fifth view inside the wheel app) is specced but not built.

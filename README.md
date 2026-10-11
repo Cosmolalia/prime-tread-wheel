@@ -15,6 +15,7 @@ Registered in the [OSTOE claims registry](https://ostoe.com/entries/prime-tread-
 | [index.html](index.html) | The wheel. Roll it, look closer, color ticks by prime, visit, slip and more, or switch to the cylinder (drum) view. |
 | [problem-wheels.html](problem-wheels.html) | Collatz, Riemann's zeros, Goldbach, twin primes and prime races, each on its own wheel. |
 | [globe.html](globe.html) | The same counting wrapped onto a sphere, with the layer balance and the running Mertens balance. |
+| [horn.html](horn.html) | The skin with every tick the same square tile: it can't lie flat, so it rolls up into a horn (sin(half-angle) = 1/2π). Tick-width dial walks horn → cone → the flat page (2π) → ruffle. `node test_shape.js` verifies the geometry is exact. |
 | [PAPER.md](PAPER.md) | A short paper. Every claim is tagged and sourced. |
 | [WHITEPAPER.md](WHITEPAPER.md) | The standalone white paper: full project summary — construction, stagger field, exact theorems, measured statistics, closed routes, ratio-dial era, deadness engine, the wall, the method. Every claim carries its [S]/[F]/[G]/[E] label. |
 | [essay.html](essay.html) | The articles. Field notes (Oct 8, 2026): the stagger field, the shadow map, honest negatives, the pattern-vs-value wall. Continued by the night shift (Oct 10, 2026) at night-shift.html. Linked from the wheel's panel. |
