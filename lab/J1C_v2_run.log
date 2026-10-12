@@ -1,0 +1,19 @@
+capacity bound (max coverable ticks) at m=41,100,391: {41: 85, 100: 194, 391: 717}
+[ends] d distribution: {0: 258, 1: 93}
+[ends] d=1 layers: [41, 44, 45, 48, 52, 57, 61, 64, 65, 69, 72, 76, 77, 85, 89, 96, 97, 100, 101, 108, 112, 113, 132, 133, 136, 141, 149, 156, 160, 164, 168, 169, 173, 176, 180, 184, 185, 188, 189, 201, 204, 208, 209, 212, 220, 224, 226, 229, 232, 233, 237, 241, 248, 252, 261, 262, 264, 265, 272, 273, 276, 277, 281, 285, 289, 292, 296, 297, 300, 301, 308, 313, 317, 321, 328, 344, 345, 346, 349, 352, 353, 358, 360, 364, 365, 372, 373, 376, 377, 380, 382, 384, 388]
+  prime: 20/211 (layer 79)
+  prime: 40/211 (layer 119)
+  prime: 60/211 (layer 159)
+  prime: 80/211 (layer 199)
+  prime: 100/211 (layer 239)
+  prime: 120/211 (layer 279)
+  prime: 140/211 (layer 319)
+  prime: 160/211 (layer 359)
+  prime: 180/211 (layer 72)
+  prime: 200/211 (layer 272)
+Traceback (most recent call last):
+  File "/home/solaya/Desktop/TOE/harness/data/projects/prime-tread-wheel/probes/j1c_wedge_milp.py", line 199, in <module>
+    main()
+  File "/home/solaya/Desktop/TOE/harness/data/projects/prime-tread-wheel/probes/j1c_wedge_milp.py", line 161, in main
+    print("[prime] d distribution:", dict(sorted(Counter(dists.values()).items())), flush=True)
+TypeError: '<' not supported between instances of 'NoneType' and 'int'

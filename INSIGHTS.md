@@ -1703,3 +1703,39 @@ filed with the same weight as PHASE 8/9's hits — the empty spectrum plus the
 
 Artifacts: probes/j1c_wedge_milp.py, lab/J1C_spectrum.json,
 lab/J1C_wedge_result.md.
+
+## 2026-10-11 evening — PHASE 10 (C4 closed [E]) + J1c v2 correction (Grok's home-phase catch confirmed)
+
+**PHASE 10 — C4 audit (lab/PHASE10_c4_audit.{py,md,json}).** GPT-6's relay claim,
+independently reproduced to the digit with a from-scratch sieve implementation
+(no GPT code, no sympy): C4 reduces exactly to a paired-gap prime census
+(target N + 2⌈m/2⌉ — verified analytically against the probe's window
+definition), and the HL even-gap singular series predicts it: 44,619 observed
+vs 44,708.5 expected (0.99800) on m = 3..2999; out-of-sample m = 3000..9999:
+317,255 vs 317,309.1 (0.99983), all three disjoint sub-windows exact to 5
+digits. The d≡0 mod 3 ×2 local signature: 22,414 vs 11,107/11,098, exact.
+Bonus per-residue signature: source-value mod 3 strata at 1.0007/0.9953.
+**Verdict [E]: C4 was the null's arithmetic — same disease as PHASE 9, same
+cure. P12 survives its strongest challenge yet.** Non-load-bearing: my
+parity-sub-null (0.7713) differs from GPT's (0.9104) — sub-convention
+difference, HL is the answer. Both candidate value-side anomalies (mirror
+pairs, C4) have now dissolved into classical pair correlations; the open
+question sharpens to: does ANY value-side statistic on this wheel survive its
+correct null?
+
+**J1c v2 (lab/J1C_wedge_result.md correction; probes/j1c_wedge_milp.py;
+lab/J1C_spectrum_v2.json).** Grok's relay audit caught a real error: v1
+measured wedge distance from home phase (−T) mod p; the cover rule implies the
+shadow-aligned home is phase 0. Traced to an internal inconsistency in GLM's
+frozen spec (c* vs cover congruence, off by 2T). v1 feasibility results
+unaffected; all v1 distance statements superseded. v2 results, conventions
+frozen in the note: object D ('ends') = Grok's 258/93 split *exactly*, all 93
+at d = 1 (nothing "uncoverable"); object C (prime-eligible) = **bimodal by
+parity**: even layers d = 1 throughout (GLM's parity-wedge theorem CONFIRMED
+on sample), odd layers d ∈ [4, 22], 33 layers ≥ 263 infeasible by the capacity
+bound φ(m) > Σ⌈m/p⌉ ≈ 0.84m + 25; near-wipe spectrum {d = 2} EMPTY — the odd
+sublattice sits at d ≥ 4; object B (habitat-eligible) strictly harder, no d = 1
+(parity flip orphans even-valued coprime ticks). Side-corrections: capacity
+kills all-ticks wipe only for m ≥ 157 (not 41); trailing seat = T(m) =
+m(m+1)/2. **The 2-adic spine scores a fourth instance: the wedge distance is
+decided by ring 2** — even layers one flip away, odd layers far, ends smooth.

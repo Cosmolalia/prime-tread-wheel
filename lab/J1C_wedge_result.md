@@ -61,3 +61,81 @@ readings, labeled:
 All-ticks MILP solves ran ~10 s/layer (infeasibility only provable at the
 solver's pace); the sieve settles feasibility in <1 s total. Seats-only
 solves run ~0.05 s/layer. Full seats-only sweep 41..391: 7 s.
+
+---
+
+# CORRECTION v2 (2026-10-11 evening) — the home phase was wrong; the landscape is bimodal
+
+## The error and its origin
+
+v1 measured the wedge distance from home phase `c*_p = (−T(m−1)) mod p`. The
+frozen cover rule is: ring p covers tick j iff chosen phase `c == (j + T) mod p`.
+The realized turning — ring p resting on its shadow, hitting exactly the ticks
+whose value is divisible by p, i.e. `j ≡ −T` — therefore corresponds to
+**phase c = 0**, not `c = −T`. v1's home was the phase hitting ticks
+`j ≡ −2T (mod p)`: off the wheel. Grok caught this in relay; the
+inconsistency is traced to GLM's frozen spec, which stated both
+`c* = (−T) mod p` AND cover `c ≡ j − o_p` with `o_p = −T` — jointly
+inconsistent by exactly `2T`. v1's *feasibility* results (all-ticks wipeable =
+{2..13}; the rough-tick arithmetic) are unaffected — feasibility is
+phase-independent. All v1 *distance* statements are superseded by this note.
+House rule applied: correction logged in place, v1 text preserved above.
+
+Also corrected from v1: the trailing seat's value is `T(m) = m(m+1)/2`
+(factors m, m+1), not m(m−1)/2 — Grok's catch, confirmed.
+
+## v2 conventions
+
+Rings = primes ≤ 97 (25), home = phase 0, d(m) = min #rings off home covering
+the object. Layers 41..391. Objects: A all ticks; B habitat-eligible
+(column_law.py eligible()); C prime-eligible (B minus provably-composite
+coprime ticks on m ≡ 2 mod 4, whose values are even > 2 — C1); D ends {1, m}.
+MILP (scipy/HiGHS) with d = 0 decided arithmetically (spf sieve); all results
+checkpointed in `lab/J1C_spectrum_v2.json`.
+
+## Results
+
+**Object D ('ends', full sweep, n=351).** d = 0 on 258 layers, d = 1 on 93 —
+*exactly* Grok's relay split (Grok computed the smoothness side arithmetically;
+the MILP confirms it to the layer, and the independent P1 arithmetic re-check
+reproduces the same 258). All 93 off-home layers are d = 1: one ring
+displacement always covers the rough end tick. **Nothing is "uncoverable"** —
+Grok's label for the 93 overreached; every end configuration is within one
+flip of home. The 'ends' wedge is a smoothness statistic, not a lock.
+
+**Object C (prime-eligible) — the headline: wedge distance is bimodal by
+parity.** Even layers (35 sampled): **d = 1 throughout** — GLM's parity-wedge
+theorem CONFIRMED [now E, machine-verified on the sample]: prime-ticks share
+one parity (m≡0 mod 4: coprime/odd; m≡2 mod 4: gcd-2/even), so one flip of
+ring 2 stamps the class, and every layer holds primes > 97 forcing d ≥ 1.
+Odd layers (176, full): d ∈ [4, 22], monotone-ish in m; **the near-wipe
+spectrum {d = 2} is empty — the whole odd sublattice sits at d ≥ 4.** 33 odd
+layers ≥ 263 are *infeasible* (m = 263…391, all with φ(m) within ~10% of m —
+mostly prime m): capacity bound Σ⌈m/p⌉ ≈ 0.84m + 25 < φ(m) — no phase
+assignment can cover the seats at all. P2 arithmetic check: all 176 odd layers
+carry a prime-eligible 2×97-rough tick, so d = 0 never occurs odd.
+
+**Object B (habitat-eligible, m ≡ 2 mod 4 sample, n=88).** d ∈ [3, 21],
+16 infeasible — **no d = 1 anywhere**. The parity flip that rescues object C
+orphans the odd even-valued coprime ticks (their only small-ring cover at home
+is ring 2), so habitat wipes are strictly harder than prime-eligible wipes.
+Object B's d = 1 statement from v1 was an artifact of the wrong home.
+
+**Object A (all ticks).** Capacity bound excludes every layer m ≥ 157
+(Σ⌈m/p⌉ < m; at m = 41 capacity is 85 ≥ 41, so the bound only bites from
+157 up — a v1-era overclaim corrected); below that, 97-rough ticks block d = 0
+everywhere past 13. With 25 frozen rings the all-ticks wipe is a dead object,
+as Grok concluded — but the reason is now precise: capacity, not phase locking.
+
+## What this means
+
+The "standing wall" question asked for the distance from the realized turning
+to a wipe. Answer, corrected: **the distance is decided by ring 2.** Even
+layers are exactly one flip away (GLM's theorem); odd layers are 4–22
+flips away or beyond capacity; the rendered ends are either home or one flip.
+This is the fourth instance today of the 2-adic spine running the wheel's
+statistics (after PHASE 8's ρ(2) = 0, the b-parity fine lock, and the
+2-adic dial accounting). The near-wipe spectrum as originally spec'd does not
+exist; what exists instead is a parity-bimodal wedge with a hard capacity
+ceiling — a sharper structural statement than the one the probe went looking
+for.
