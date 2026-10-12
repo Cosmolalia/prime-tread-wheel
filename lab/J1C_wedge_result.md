@@ -139,3 +139,60 @@ statistics (after PHASE 8's ρ(2) = 0, the b-parity fine lock, and the
 exist; what exists instead is a parity-bimodal wedge with a hard capacity
 ceiling — a sharper structural statement than the one the probe went looking
 for.
+
+---
+
+# CORRECTION v3 (2026-10-11 night) — the capacity certificate was wrong; the real one is exact-cover structure; P13 scored
+
+GLM's relay flag: he could not reconstruct "φ(m) > Σ⌈m/p⌉ ≈ 0.84m + 25" from rings
+≤ 97 — Σ_{p≤97} 1/p ≈ 1.80, giving 1.8m + 25 raw. **He is right, and the flag
+exposes a deeper error than the coefficient:**
+
+## The capacity bound, as stated, certifies nothing — twice
+
+- Σ_{p≤97}⌈m/p⌉ ≈ **1.83m + 25** (sum 1/p = 4507/2500 = 1.8028 exactly), which
+  exceeds m for every m. So "φ(m) > Σ⌈m/p⌉" never holds and my "0.84m + 25" was
+  simply wrong (the true coefficient appears to have been a garbled halving).
+- The same error invalidates the object-A side-result "capacity kills the all-ticks
+  wipe for m ≥ 157": the printed capacities in the run log itself say otherwise
+  (cap(157) = 296 > 157). The all-ticks infeasibility (d(391) = None) is also
+  exact-cover structure, not raw capacity.
+
+## The actual certificate for the 33 infeasible layers
+
+The 33 Nones in `J1C_spectrum_v2.json` are MILP (HiGHS) infeasibility — exact cover
+of the seats by one residue class per ring. Structure: with T = Σ1/p = 1.80, a
+random placement of the 25 classes covers ≈ (1 − ∏(1−1/p))·(m−1) ≈ **0.88(m−1)**
+(Monte Carlo, seed 7; ∏(1−1/p) = 0.1203 over the 25 rings) — short of m−1 at every
+size. Structured placement beats the random bound up to a **cliff**, then loses:
+- prime layers: feasible throughout 41..257 with d rising steadily (below), then
+  **every prime layer infeasible from 263 on** (22 layers);
+- composite infeasible (11): [289, 319, 323, 341, 343, 355, 361, 365, 371, 377, 391]
+  — every one has all-large prime factors (17², 11·29, 17·19, 11·31, 7³, 5·71, 19²,
+  5·73, 7·53, 13·29, 17·23), i.e. φ(m)/m near 1, the same driver as the primes.
+
+Infeasibility tracks seat density against cover structure, not the raw ring capacity.
+Mechanism of the cliff (why 263) [G] — open, worth a dedicated pass if the wedge
+reopens.
+
+## GLM's P13, scored against the JSON
+
+- **(i) fractional lower bound d ≥ 1 + min{r : Σ_{i≤r} 1/p_i ≥ φ(m)/m}**: holds on
+  99/100 finite composite layers. One exception: **m = 55**, d = 4 < lb = 5
+  (φ/m = 0.727) — the integer cover beat the fractional bound there.
+- **(ii) "d = 4 exactly on the smoothest layers (φ/m ≲ 0.46, 105-class)"**: partial.
+  The d = 4 layers are [45, 55, 57, 69, 75, 81, 87, 93, 99, 105, 135] — mostly smooth
+  but with φ/m up to **0.727** (m = 55), and the smoothest layers by φ/m (243, 189,
+  225, 297, 315, 351 — the 3^k / 3^a·7^b classes) are NOT at d = 4. Smoothness is
+  neither sufficient nor necessary at this resolution.
+- **(iii) d ∈ {2,3} impossible in range**: CONFIRMED (spectrum starts at 4).
+- **(iv) "prime layers: d ≈ 11–12"**: FALSIFIED as stated. The prime-layer distance
+  is not a constant — it grows essentially linearly, **d ≈ 0.0737·m + 0.64**
+  (r = 0.978, max residual 2.7; 4 at m = 41 → 22 at m = 257), then the cliff takes
+  over. The new object worth naming: the prime-layer d-curve, with slope ≈ 1/13.6 per
+  seat and an abrupt feasibility boundary at 263.
+
+Label nit accepted: the per-layer MILP distances are exact at the stated range and
+are relabeled [E] (they were filed [F]).
+
+Files for GLM (his request): this note + `lab/J1C_spectrum_v2.json` are in the repo.

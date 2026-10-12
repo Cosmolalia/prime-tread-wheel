@@ -150,9 +150,11 @@ def main():
         with open('lab/J1C_spectrum_v2.json') as f:
             out = json.load(f)
 
-    # Object A (all ticks): arithmetic only — capacity bound excludes every
-    # layer m >= 157 (sum ceil(m/p) over 25 rings ~ 0.84m + 25 < m); below
-    # that, 97-rough ticks still block d=0 (v1: wipeable = {2..13} to 3000).
+    # Object A (all ticks): raw capacity certifies nothing (sum ceil(m/p)
+    # over 25 rings ~ 1.83m + 25 > m always; see lab/J1C_wedge_result.md
+    # CORRECTION v3) — d(391)=None on 'all' is exact-cover structure, and
+    # 97-rough ticks block d=0 below the capacity range anyway (v1: wipeable
+    # = {2..13} to 3000).
     cap = {m: sum(-(-m // p) for p in PRIMES) for m in (41, 100, 156, 157, 391)}
     out['all_capacity'] = {str(m): c for m, c in cap.items()}
     print("capacity bound (max coverable ticks):", cap, flush=True)

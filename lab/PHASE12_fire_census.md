@@ -87,3 +87,62 @@ min 0.0005 (highly composite m).
   and any content this reconstruction did not recover (e.g. if the draft's
   "fire count" used a different ring bound or included conditional-joint
   tables beyond the C4 reduction).
+
+---
+
+# RECONCILIATION v2 (2026-10-11 night) — GLM's original D2 received; the count collapses further
+
+GLM pasted Draft 2 verbatim in the night relay; permanent copy: `lab/D2_original_GLM.md`.
+Queue item 4 CLOSED. Verdicts on his four predicted findings, plus two strengthenings
+from GPT that verify exactly:
+
+1. **The b = 2 exception — CONFIRMED, corrected here.** My theorem statement
+   "parity-dead ⟺ b even, a ≡ b/2 (mod 2)" is about even visits; channel (1,2) is
+   parity-dead by that definition AND carries the prime 2 as its first value (2 is
+   even). The prose "zero primes on dead ticks everywhere" overclaims: exact statement
+   is *zero primes other than 2*. GLM's own draft had the exception right (sole
+   exception b = 2, F = 1). (GPT independently flagged the same.)
+2. **Per-channel vs per-tick — two census objects, both now filed.** D2-original is
+   the *channel* fire count F(a/b) ∈ {0,1,2} (primes a channel ever carries); PHASE 12
+   above is the *tick* ring-fire count (rings p ≤ √T(m) dividing the value, zero ⟺
+   prime). "Zero fires ⟺ N prime" is correct per-tick; under D2's per-channel F a
+   prime's own channel always fires ≥ 1 — the prose compressed two objects. Both
+   precise; both filed; the parity-dead family is shared.
+3. **The closed form extends and COLLAPSES — GPT's strengthening, verified.**
+   Σ_{b|m, b≡2(4)} φ(b) = **oddpart(m)** for every even m (checked all even m < 3000;
+   proof: eligible b = 2d, d | oddpart(m); φ(2d) = φ(d); divisor-totient identity).
+   Exact locations (not just the count): the dead ticks are exactly
+   **{k : v2(k) = v2(m) − 1}** — one 2-adic shell (verified for all even m < 2000;
+   my first check had an off-by-one on the shell and GPT's own examples m=12 → {2,6,10},
+   m=24 → {4,12,20}, m=32 → {16} pinned it instantly). Density = 2^{−v2(m)}:
+   exactly 1/2 on m ≡ 2 (mod 4) (where the shell includes the seats themselves, B5),
+   exactly 1/4 on m ≡ 4 (mod 8), …; asymptotic mean over 4|m layers is exactly 1/6 —
+   explaining the measured 16.7% with no empirical parameter. My sampled "max exactly
+   1/4" was over the m ≡ 0 (mod 4) subclass only; the m ≡ 2 (mod 4) density is 1/2.
+4. **Convergent derivation — CONFIRMED.** Same parity family from two independent
+   routes (my B5 channel-dual route; GLM's b = 4t+2 parity route). That's the swarm
+   working. (Grok's tightening also accepted: the wedge, dials, fine lock and dead
+   channels are four manifestations of ring 2, not four independent spines — the
+   "fifth instance = audit-catches" is method, not structure, and is dropped.)
+
+## Trichotomy F ∈ {0,1,2}: verified, and it needs no localization — one line
+
+x_g = g(b²g − b + 2a)/2, so g ≥ 3 odd divides x_g nontrivially, and g ≥ 4 even gives
+x_g = (g/2)·(b²g − b + 2a) with both factors ≥ 2. Only visits 1 and 2 can ever be
+prime. Numerically clean over every coprime channel b ≤ 300, all visits to 4·10⁶:
+F distribution {0: 20201, 1: 6764, 2: 433}, no exceptions. GLM's retirement law and
+quantitative localization check out in exact form: visit-1 primes obey b² − b < 2p,
+and every prime ≤ 10⁵ sits on a channel with b ≤ √(2p) — the sieve's √N boundary
+re-derived as channel retirement (consistent with the shadows.c per-seat covering
+prime probe, which sieves to exactly √). F = 2 density (x₁, 2x₁+b² simultaneously
+prime, odd b) is classical prime-pair territory — measured 433/27398 ≈ 1.6% on
+b ≤ 300, conjectured via Bateman–Horn [S per GLM]; no closed form for the sieve-dead
+class [G], as the draft states.
+
+## Reconciliation, closed
+
+D2-original (channel trichotomy census) and PHASE 12 (tick ring-fire census) are
+distinct objects with one shared engine. Both verified. The reconstruction's three
+relay-derived descriptors (fire census, parity-dead family, closed form) all match
+the original; nothing in the original was lost. The one prereg false step of the
+reconstruction (φ(b)/2, caught in flight) remains logged above.

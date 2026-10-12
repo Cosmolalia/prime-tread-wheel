@@ -1792,3 +1792,57 @@ visit g on layer m=gb at tick k=ga, value x = g(gb^2-b+2a)/2.
 Fifth instance of the 2-adic spine: parity decides the wedge distance (J1c), dial
 luck (PHASE 9), the fine lock (PHASE 8b), and now an exact permanently-dead channel
 family. Artifacts: lab/PHASE12_fire_census.{py,json,md}.
+
+## 2026-10-11 night — PHASE 13 (relay adjudication): the calm's FAIL was three artifacts; confinement [S] retires; the wheel's third anomaly dissolves
+
+Claude's 11d relay claimed my filed PHASE 11 (a)-FAIL was three normalization slips; GPT
+sent corrections to my (b) filing; GLM pasted the original D2 and froze P13. House rule:
+audit before accepting. Everything checked, several of my own claims corrected in place.
+
+- **(a) FAIL superseded by PASS.** Fix 3 (decisive, my code bug): build_F applied the
+  generic base to 1e7 but the common-root correction only to 1e5, leaving mean(F)
+  7.9e-7 below 1 and S with a −7.9e-7·W drift — my "not summable" mechanism retracts
+  (verified: drift/W = 7.94–8.01e-7 both lanes; last-decade slope −10.09 → −2.92).
+  Fix 2 (Claude's handoff-c spec omission): the self-term — pooled R − 1 = Σ((e−v)/2)(S+1)/Σv;
+  (e−v)/2 = Σp̄² exactly. Fix 1 (my sample): the 12 lanes are all 5-split (C = 0.7470 vs
+  0.9996 over P9's 300). With all three: 300-lane pooled theory −0.0733/tenfold vs
+  measured −0.0751 (frozen band ±0.005); every rung W ≥ 1e3 within 1.8 SE; 1e8 extrapolation
+  0.4494 vs 0.4458 ± 0.036. Reproduced Claude's pooling independently (his S vs my
+  build_F: 8e-9). **Calm slope on wheel lanes [E] = Montgomery–Soundararajan on the wheel's
+  polynomial family** — C·S(W) = −ln W + O(1) lane-by-lane (BH constant = reciprocal
+  residue of the pair series, Claude's exact identity). Third loud anomaly → classical
+  law in one day (P9 mirror pairs, P10 C4, P11 calm). GLM's 0.64 ceiling also resolved:
+  the rings ≤ 1000 truncation reproduces the sched column at every rung; plateau ≈ 0.68.
+- **Confinement [S] RETIRED** — by normalization audit, not by a confinement experiment.
+  GPT's §7 objection was the right instinct: the series was never free (ρ(p) = 1+(D|p)
+  already carries the lane's confined quadratic structure). GLM's frozen c_pq prereg
+  withdrawn by events.
+- **(b) passes with corrected mechanism.** My printed no-cd mean formula was wrong
+  (correct: μ_p = 1 − 2/(p−2)²; actual mean 0.70 not 0.40) — GPT's catch. His
+  mean-preserving ablation reproduces exactly (μ to 9 digits; per-decade slope ratio
+  0.40; ln-fit beats linear 1.1 vs 15.6): **mean-1 normalization is load-bearing for
+  the log-law; common-root terms are its physically correct construction, not its
+  unique source.** Fix 3 is the same artifact class in miniature.
+- **PHASE 12/D2 reconciliation CLOSED** (GLM's verbatim draft in `lab/D2_original_GLM.md`):
+  dead-tick count collapses to **oddpart(m)**; dead ticks are exactly one 2-adic shell
+  {k : v2(k) = v2(m)−1}; density 2^{−v2(m)} (1/2 on m≡2 mod 4 including seats, 1/4 on
+  m≡4 mod 8, …; asymptotic mean 1/6 over 4|m). Prime-2 exception restored (channel
+  (1,2) carries 2). Trichotomy F ∈ {0,1,2} verified and needs no localization: x_g =
+  g(b²g−b+2a)/2 kills g ≥ 3 outright; b ≤ 300 to 4e6 clean ({0:20201, 1:6764, 2:433}).
+  Channel census (D2) vs tick census (PHASE 12): two objects, one engine. Grok's
+  tightening adopted: four manifestations of ring 2, not five independent spines.
+- **J1c capacity correction:** my "φ(m) > Σ⌈m/p⌉ ≈ 0.84m+25" certificate was wrong
+  (Σ1/p = 1.80 over the 25 rings; Σ⌈m/p⌉ ≈ 1.83m > m always — certifies nothing, on
+  objects A and C alike). The 33 infeasible layers are exact-cover structure: random
+  placement covers ≈ 0.88(m−1), structured placement wins up to a cliff — prime layers
+  feasible with d ≈ 0.0737·m + 0.64 (r = 0.978) through 257, ALL infeasible from 263;
+  the 11 infeasible composites all have large-only prime factors. Cliff mechanism [G].
+- **GLM's P13 scored:** (i) holds 99/100 finite composites (m = 55 exception); (ii)
+  partial (d = 4 spans φ/m to 0.727; smoothest 3^k-class absent); (iii) confirmed;
+  (iv) falsified — prime-layer d is a linear curve, not a constant 11–12.
+
+House-rule tally for the night: my code bug (load-bearing), my sample bias, my formula
+error, my overclaim, my wrong certificate — five self-caught/caught-by-swarm corrections,
+all logged in place. The day's running score: every loud value-side anomaly dissolves
+under its correct null; the method (freeze → fail loudly → audit → classical) is now
+three for three.

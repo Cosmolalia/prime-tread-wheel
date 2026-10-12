@@ -100,3 +100,116 @@ The calm's slope derivation stays OPEN at the connector "quadratic pair series �
 lane variance" [G], now with a quantified, mechanistically-hinted gap: the free series
 overshoots by 2× and the likely repair is confinement (P10 machinery), not more gears.
 Plain-prime MS anchor [E] untouched. Next queue item: D2 filing.
+
+---
+
+# CORRECTION v2 (2026-10-11 night) — pre-reg (a) SUPERSEDED: the fail was three artifacts, and the pair series matches on every rung
+
+Source: Claude's relay `HANDOFF_CLAUDE_2026-10-11d.md` + GPT-6's relay §5–§7. House
+rule applied: every fix audited independently before accepting. All three verify; the
+filed FAIL stands below as the baseline (per house rules), superseded by PASS.
+
+## Fix 3 (code, mine) — VERIFIED, decisive: the "not summable" drift was a bound mismatch
+
+`build_F` applied the generic base G over odd primes ≤ PG = 1e7 but the common-root
+(bp) correction only for split primes ≤ B2 = 1e5. Every split prime in (1e5, 1e7] left
+a uniform −4/p² on ln F[d] with no +back on the ±δ classes, so mean(F) sat 7.9e-7 below
+1 and S picked up −7.9e-7·W — exactly the "T(W) drifts −5..−9 per decade, rate still
+growing, not summable" that was filed here as a mechanism.
+
+Independent audit (`lab/PHASE13_fix3_audit.py`, my own build_F, B2 = 1e7):
+- drift/W = **7.94–8.01e-7** at every W ≥ 1e5 on lanes 14 and 39 (claim was 7.86–8.01);
+- band-mean of F over [9e6, 1e7) rises by exactly 7.94e-7 / 7.99e-7 under the fix;
+- lane 14 last-decade slope collapses **−10.09 → −2.92**; lane 39 −12.78 → −5.60
+  (lane 39 is a C = 0.41 poor lane; its C·S steps are −1.89..−2.58, same family);
+- fixed-series C·S per-decade steps: −2.54, −2.17, −2.34, −2.27, −2.26 (lane 14) and
+  −2.58, −1.89, −2.30, −2.32, −2.29 (lane 39) vs −ln10 = −2.3026; the shallow last
+  step is the prime bound sitting at Wmax (Claude's edge.py: bound at 3e7 deepens it).
+
+**The "not summable" claim retracts.** It was a one-signed mean deficit accumulating
+linearly — the same artifact class as the (b) linear collapse, a million times smaller
+(Claude's diagnosis, confirmed).
+
+## Fix 2 (formula, Claude's handoff-c) — VERIFIED algebraically: the self-term
+
+P9's baseline v = Σ q(1−q), q = 2p̄ on odd values. Exact identities, no approximation:
+(e − v)/2 = Σ p̄² over the lane's values, and with the MS form Var = μ(1 + p̄(S−1)):
+R − 1 = p̄(S+1)/(1−2p̄), pooled R − 1 = Σ_lanes ((e−v)/2)(S+1) / Σ v. Handoff c wrote
+"1 + p̄·S" — the +1 self-term was omitted; I implemented the spec as written. Worth
+≈ +0.02 on every rung. (The f(t)=t sanity shows it: S(1e7) + ln 1e7 = −0.4151 = B+1.)
+
+## Fix 1 (sample, mine) — VERIFIED: the 12 lanes are all 5-poor
+
+c = 14 + 25k forces D = 1−8c ≡ 4 (mod 5): ring 5 splits on every sampled lane.
+Mean C over my 12 lanes = **0.7470** vs **0.9996** over P9's 300 (p9_a/b.jsonl).
+C·S is universal, so poor lanes carry large |S|; uniform p̄ = 1/34.2 is right only for
+a C = 1 lane. Correct per-lane weight: (e − v)/2, read off P9's own e and v.
+
+## The result — all 300 P9 lanes, pooled exactly as P9 pools (reproduced, not trusted)
+
+Re-ran Claude's `tools/pool300.py` on his `data/all300.jsonl`: his table reproduces
+digit-for-digit, and his per-lane S curves match my own build_F(B2=1e7) to **8e-9**.
+
+| W | 1e2 | 1e3 | 1e4 | 1e5 | 1e6 | 1e7 |
+|---|---|---|---|---|---|---|
+| measured (P9) | 0.8902 | 0.8142 | 0.7410 | 0.6707 | 0.5965 | 0.5093 |
+| theory | 0.8895 | 0.8140 | 0.7408 | 0.6675 | 0.5942 | 0.5229 |
+| z | −9.3 | −1.2 | −0.3 | −1.8 | −0.5 | +1.0 |
+
+- **Slope per tenfold, six rungs: theory −0.0733 vs measured −0.0751 — inside the
+  frozen ±0.005. Pre-reg (a): PASS (superseding the filed FAIL).**
+- Every rung W ≥ 1e3 within 1.8 SE. The 1e2 residual (−0.0007, z = −9.3) lives in the
+  scorer (window-edge terms O(p̄·ln W/W)): P9's sched stream shows the same −0.0006
+  against its own series. Also note: real ≈ sched at every rung — the sieve model and
+  the actual primes do not diverge (P12-adjacent confirmation).
+- 1e8 rung [G]: one more −ln10 step gives 0.4494 vs measured 0.4458 ± 0.036.
+- The bare singular series does this with **no fitted parameter and no confinement
+  term**. C·S(W) = −ln W + O(1) lane-by-lane (Claude's exact identity: the
+  Bateman–Horn constant is exactly the reciprocal residue of the pair series);
+  cross-lane sd of C·S ≈ 0.19, and of a step falls to 0.016 by the last decade.
+- **GLM's 0.64 ceiling: resolved.** The rings ≤ 1000 truncation pooled reproduces
+  P9's sched column at every rung (|z| ≤ 1.3 for W ≥ 1e3); the curve plateaus at
+  ≈ 0.68–0.70 by construction of the truncated sum. His 0.636 at 1e8 is a single
+  300-window rung ≈ 1σ low (SE 0.05).
+
+## Confinement [S]: RETIRED (by normalization audit, not by a confinement experiment)
+
+GPT's relay §7 [G] was the right instinct: the pair series was never "free" — ρ(p) =
+1 + (D|p) and the common-root factors already carry the seam lane's actual quadratic
+residue structure (P10's confined root sets). Once the mean is honest (fix 3), the
+weighting is per-lane (fix 1), and the self-term is included (fix 2), nothing is left
+for a confinement term to explain. The [S] filed earlier tonight is retired; the
+record should read: filed under a normalization gap, killed by audit. GLM's frozen
+confined-phase prereg (triangular-image intersection weights c_pq) loses its target —
+withdrawn by events; the (a)-gap it was meant to close no longer exists. Anyone who
+wants it anyway: it's cheap, but a match would now prove nothing about confinement.
+
+## Pre-reg (b): PASSES as filed, with the mechanism claim CORRECTED (GPT §5–§6)
+
+Two errors in the filing, both GPT's catches, both confirmed:
+1. **The printed no-common-root mean formula was wrong.** Printed μ_p =
+   (p²−4p+2)/(p(p−4)) exceeds 1 for every p > 4 (p=5: 7/5). The correct local mean is
+   μ_p = 1 − 2/(p−2)² (p=5: 7/9), and the committed JSON says S/W ≈ −0.298 at 1e7,
+   i.e. mean ≈ **0.70, not 0.40** as the note claimed. Corrected here; the qualitative
+   "linear in W" claim was right (S_B(1e6)/S_B(1e5) = 9.996).
+2. **"Common-root terms are what make the calm a log-law at all" overclaims.** GPT's
+   mean-preserving ablation, reproduced exactly under
+   `lab/PHASE13_ablation_prereg.md` (frozen before running): μ computed =
+   **0.70164914826** vs his 0.7016491483; his A/B/C S-curves reproduced to 3 decimals;
+   band-mean(F_B) = 0.70166; variant C (common-root off, mean restored) is log-like —
+   per-decade slope ratio 0.40 (frozen gate < 0.75) and the ln-fit beats the linear
+   fit 1.1 vs 15.6 in residual SS. **The load-bearing structure is the mean-1
+   normalization; the common-root terms are its physically correct construction, not
+   its unique source.** (Fix 3 is the same lesson in miniature.)
+
+## Corrected epistemic state
+
+- Calm slope on wheel lanes [E]: Montgomery–Soundararajan log-law on the wheel's
+  polynomial family, Var/μ = (ln N − ln W + κ − C)/ln N per lane, pooled exactly as
+  measured. The wheel's third loud anomaly dissolves into classical law — third in one
+  day (P9 mirror pairs, P10 C4, P11 calm).
+- Claude's standing claim sharpened: the value side of the wheel keeps scoring
+  classical; the content is on the index side (families + exact theorems).
+- House-rule tally for this note: 1 code bug (mine, load-bearing), 1 sample bias
+  (mine), 1 spec omission (Claude's handoff c), 1 formula error (mine), 1 overclaim
+  (mine). Freeze → fail loudly → audit → classical. The method is the result.
