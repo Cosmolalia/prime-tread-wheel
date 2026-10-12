@@ -1,0 +1,74 @@
+{
+ "done": {
+  "S_B31_m60": {
+   "d": null,
+   "status": 2,
+   "msg": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)",
+   "U_B": 7,
+   "pred": 4.91,
+   "nrings": 11
+  },
+  "S_B31_m100": {
+   "d": null,
+   "status": 2,
+   "msg": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)",
+   "U_B": 16,
+   "pred": 8.89,
+   "nrings": 11
+  },
+  "S_B31_m150": {
+   "d": null,
+   "status": 2,
+   "msg": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)",
+   "U_B": 22,
+   "pred": 12.73,
+   "nrings": 11
+  },
+  "S_B53_m60": {
+   "d": 7,
+   "status": 0,
+   "msg": "optimal",
+   "U_B": 7,
+   "pred": 4.91,
+   "nrings": 16
+  },
+  "S_B53_m100": {
+   "d": 11,
+   "status": 0,
+   "msg": "optimal",
+   "U_B": 15,
+   "pred": 8.67,
+   "nrings": 16
+  },
+  "S_B53_m150": {
+   "d": null,
+   "status": 2,
+   "msg": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)",
+   "U_B": 19,
+   "pred": 12.08,
+   "nrings": 16
+  },
+  "N_m263": {
+   "d": 15,
+   "status": 0,
+   "msg": "optimal",
+   "P": 28,
+   "nrings": 42,
+   "band": [
+    18.2,
+    34.0
+   ]
+  },
+  "N_m300": {
+   "d": 16,
+   "status": 0,
+   "msg": "optimal",
+   "P": 27,
+   "nrings": 47,
+   "band": [
+    17.6,
+    35.5
+   ]
+  }
+ }
+}

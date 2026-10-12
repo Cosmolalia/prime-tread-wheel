@@ -1886,3 +1886,20 @@ three for three.
   one notational garble (GPT's "h(n)=2omega(n)+2", non-load-bearing).
   House rule candidate reinforced: census claims must state the displacement
   regime they census.
+
+## 2026-10-12 morning — PHASE 15 (autonomous): the 1/13.5 slope decomposed
+
+The wedge displacement cost d ~ m/13.5 (object A, 25 fixed rings) splits
+into two loads [S->fit, R^2=0.974]: rough-tick harvesting
+(0.215 * U, U = 97-rough tick count, density e^{-gamma}/ln 97 ~ 0.123) plus
+re-cover overhead (0.051 per tick). Slope arithmetic: 0.215*0.1227+0.051
+~ 0.077 ~ 1/13.0 vs measured 1/13.4 — the constant is set by the RING
+BOUND B, not free. Consequence: native schedule (rings = primes <=
+sqrt(T)) should make d sublinear in m (U collapses to the prime count).
+LEG S: j(31#) <= 60 (infeasible at 60/100/150); 100 < j(53#) <= 150;
+B=53 finite points sit +2.2 above B=97-constant predictions (fewer rings
+-> costlier per rough tick) — constants are B-dependent as theory requires.
+LEG N (native rings, m=263..1000): first point d=15 vs P=28 (d/P=0.54,
+below the harvest-only band — more rings harvest more efficiently).
+Full note: lab/PHASE15_wedge_slope.md. Object C is parity-dominated
+(GLM's parity wedge), prime-count model correctly FAILS there (H4).
