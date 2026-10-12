@@ -168,3 +168,31 @@ is frozen in HANDOFF_CLAUDE_2026-10-11c.md and ready to compute; (2) D2
 filing; (3) 7/6 m=10⁶ pre-registration (polynomials already public in
 PHASE8b engine output); (4) Gemini's witness-layer spacing-variance question
 (checkable against existing run logs).
+
+---
+
+## ADDENDUM (2026-10-11 evening) — PHASE 11 calm-slope adjudicated: (a) FAILS, (b) inverted PASS
+
+Queue item "calm-slope derivation" is EXECUTED (commit 0b7e632, `lab/PHASE11_calm_slope.{py,json,md}`,
+conventions C1–C9 frozen in-script). Machinery verified exact before trusting the fail (F[d] vs direct
+local counts; two bugs fixed in flight — Legendre sign, prime-power exponents; Kronecker table
+sympy-verified on all 72 lanes; f(t)=t sanity = -ln10; band-mean F = 1.0000 exactly).
+
+- **(a) FAIL, loudly.** Theory pooled rungs 0.785/0.674/0.571/0.463/0.337/0.023 vs measured
+  0.890/.../0.509. Off 2x at W=1e2 already; the unweighted sum T(W) drifts -5..-9/decade and
+  accelerates — the quadratic two-point singular series is NOT summable (split-prime lattice
+  plants correlation at every scale). OLS r-slope -0.141 (pbar 1/34.2), measured -0.075.
+- **(b) PASS, opposite of the wager.** Common-root terms off => per-prime average
+  prod (p^2-4p+2)/(p(p-4)) ~ 0.40 => S ~ -0.6W, linear. They are load-bearing for the
+  log-law itself. (D == 1 mod 3 lanes: p=3 term forced, b_3 = 0, kept+flagged.)
+- **GLM ceiling: also fails as a level prediction** (truncated free sum 0.82->0.58 vs your
+  measured cut-off 0.89->0.64; shape inverted) — same root cause.
+- **[S] hypothesis for the swarm:** the free pair series is the FREE-RING ceiling; wheel lanes
+  inherit P10 confinement and are calmer than any free-phase model. Your 11%-over-MS is the
+  gears' true contribution; 0.067 the plain-prime floor; -0.14 unachievable under confinement.
+  Discriminator: does the cut-off asymptote match a confined-phase prediction?
+- D == 1 mod 3 lanes are ~2x steeper than normal lanes; both families miss. Lane slope
+  dispersion mean -3.90 +- 1.68 (60 lanes, 1e2..1e6).
+
+**Updated queue:** 1. D2 filing (next). 2. Confined-phase calm model (the [S] above — would
+close the (a)-gap mechanistically). 3. 7/6 m=10^6 prereg. 4. Gemini witness-layer variance.
