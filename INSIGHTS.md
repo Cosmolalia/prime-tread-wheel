@@ -1903,3 +1903,16 @@ LEG N (native rings, m=263..1000): first point d=15 vs P=28 (d/P=0.54,
 below the harvest-only band — more rings harvest more efficiently).
 Full note: lab/PHASE15_wedge_slope.md. Object C is parity-dominated
 (GLM's parity wedge), prime-count model correctly FAILS there (H4).
+
+## 2026-10-12 morning — PHASE 15 (part 2): the 1/13.5 slope is ring-budget-contingent [E]
+
+Leg S (fixed-B sensitivity): B=31 infeasible already at m=60 (j(31#)<=60);
+B=53 gives d=7/11 at m=60/100 then infeasible at 150. Cliffs land exactly
+at the Jacobsthal boundaries of the ring primorials [F+E]. Leg N (native
+schedule, rings = primes <= sqrt(T)): d finite at m=263/300/400/600,
+d/P stable ~0.5 (BELOW the B=97 harvest constant 0.65 — harvest efficiency
+rises with ring density [S]), and d/m declines monotonically
+0.057 -> 0.043 across the measured range: growth is sublinear, ~0.5*m/(2 ln m).
+m=1000 OOM-killed at the MILP build (19.8 GB rss) — infrastructure, not
+science; needs a streamed formulation. Full adjudication:
+lab/PHASE15_dynrings.md.
