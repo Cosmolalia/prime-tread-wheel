@@ -1764,3 +1764,31 @@ Measured 11%-over-MS = gears' true contribution; naive 0.067 = plain-prime floor
 -0.14 = unachievable free-phase bound. The calm is MADE by confinement more than
 gears. Discriminator: confined-phase prediction of the cut-off asymptote.
 Side note: pbar 34.2 vs 29.2 convention logged, wrong direction, non-load-bearing.
+
+## 2026-10-11 night — PHASE 12 (D2 filing): fire-count census + parity-dead channel family [E]
+
+D2 = GLM audit-session "Draft 2 (fire-count census)". Its body was never relayed in
+full — this is an INDEPENDENT RECONSTRUCTION from the three relayed descriptors,
+filed with provenance [G] (reconciliation against GLM's original text open). Its
+"C4 backbone" role is superseded: PHASE 10 closed C4 [E] as HL prime pairs.
+
+Frozen conventions: rings = primes p <= sqrt(T(m)) (sieve boundary); a ring FIRES at
+tick value N iff p|N; fire count f(N,m) = #{rings dividing N}. Channel (a,b): gcd=1,
+visit g on layer m=gb at tick k=ga, value x = g(gb^2-b+2a)/2.
+
+- [F->E] zero fires <=> N prime (composite N has a factor <= sqrt N, present as a ring).
+  Zero class of the census IS the layer prime count — verified exact on 204 layers.
+- [F, shape] mean f -> sum_{p<=sqrt T(m)} 1/p ~ ln ln m; within 0.5% at every layer.
+- [F, THEOREM, verified both directions over 2,045,000 visits] a channel is parity-dead
+  (every visit value even, no prime ever) IFF b even AND a == b/2 mod 2. Layer-side
+  dual of B5: B5 = layer congruence (m==2 mod 4 kills seats), P-C = channel congruence.
+  Minimal member: the half-turn channel (1,2) = the parity-axis values 2,8,18,32,50.
+- [F, closed form, exact on 750 layers] dead ticks on layer m = sum_{b|m, b==2 mod 4}
+  phi(b); b==0 mod 4 contributes ZERO (units of even b are all odd). Prereg's phi(b)/2
+  line was a false step, caught in flight at m=4, corrected in the note.
+- [E] dead ticks carry zero primes on all 750 layers m==0 mod 4 <= 3000; density
+  mean 16.7%, max exactly 1/4.
+
+Fifth instance of the 2-adic spine: parity decides the wedge distance (J1c), dial
+luck (PHASE 9), the fine lock (PHASE 8b), and now an exact permanently-dead channel
+family. Artifacts: lab/PHASE12_fire_census.{py,json,md}.
