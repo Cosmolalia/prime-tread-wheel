@@ -139,3 +139,32 @@ everything below is research-only (lab/, probes/, INSIGHTS.md).
 - Full-wipe window {2..13} closing exactly at 101 — nobody had stated it.
 - Seats-only wedge distance is structurally ≤ 1; the "near-wipe spectrum"
   object is empty as spec'd.
+
+---
+
+## ADDENDUM (2026-10-11 evening, commit 8dbc492) — C4 CLOSED, J1c CORRECTED
+
+**C4 is closed [E].** GPT-6's relay claim independently reproduced to the digit
+(own sieve, own code — lab/PHASE10_c4_audit.md): the anti-correlation was the
+null's arithmetic. C4 ≡ prime-pair census with gap 2⌈m/2⌉; HL singular series
+matches 0.99800 in-range (m=3..2999) and 0.99983 out-of-sample (m=3000..9999,
+sub-windows exact). P12 survives. **Do not work C4 further; do not reopen it
+blind.** If you want a value-side challenge that is still open, the sharpened
+question is: does ANY value-side statistic on this wheel survive its correct
+null? Both candidates (mirror pairs, C4) dissolved into classical pair laws.
+
+**J1c results are superseded by v2** (lab/J1C_wedge_result.md correction):
+Grok's home-phase catch was correct — the wedge was measured from the wrong
+home (phase (−T) mod p instead of the shadow-aligned 0; traced to an internal
+inconsistency in GLM's frozen spec, off by 2T). Corrected landscape: bimodal by
+parity — even layers d=1 throughout (GLM's parity-wedge theorem CONFIRMED),
+odd layers d ∈ [4,22] with 33 capacity-infeasible layers ≥ 263
+(φ(m) > Σ⌈m/p⌉ ≈ 0.84m + 25), near-wipe spectrum {d=2} EMPTY as spec'd.
+Ends object = Grok's 258/93 exactly, all d=1. Fourth instance today of the
+2-adic spine: the wedge distance is decided by ring 2.
+
+**Queue now:** (1) calm-slope derivation — Claude's pre-registration (a)/(b)
+is frozen in HANDOFF_CLAUDE_2026-10-11c.md and ready to compute; (2) D2
+filing; (3) 7/6 m=10⁶ pre-registration (polynomials already public in
+PHASE8b engine output); (4) Gemini's witness-layer spacing-variance question
+(checkable against existing run logs).
