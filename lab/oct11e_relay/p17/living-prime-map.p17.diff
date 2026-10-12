@@ -1,0 +1,164 @@
+--- ../repo/living-prime-map.html	2026-10-11 01:56:57.053175562 -1000
++++ living-prime-map.html	2026-10-11 23:33:20.168403579 -1000
+@@ -102,6 +102,11 @@
+         <button id="rollOn">Roll on to the next layers ↓</button>
+       </div>
+       <div class="field">
++        <h2>Color</h2>
++        <div class="seg" role="group" aria-label="Color by"><button id="colRings" aria-pressed="true">Rings</button><button id="colRich" aria-pressed="false">Gold veins</button></div>
++        <p class="note eng" id="colNote"></p>
++      </div>
++      <div class="field">
+         <h2>Angle window</h2>
+         <p class="note" style="margin:0">Drag across the plate to zoom into a slice of the turn. Spokes stay straight because x is the tick's angle k/m.</p>
+         <div class="row"><button id="zoomOut">Zoom out ×4</button><button id="fullTurn">Full turn</button></div>
+@@ -115,14 +120,17 @@
+           <button data-m="44721359" data-r="12" data-a="0.4999" data-b="0.5001">Near 10¹⁵</button>
+           <button data-m="133999990" data-r="6" data-a="0" data-b="0.00002">The old edge</button>
+           <button data-m="250000000" data-r="6" data-a="0.5" data-b="0.50001" data-e="roll">Past it (rolling)</button>
++          <button data-m="1000" data-r="160" data-a="0.97" data-b="1" data-c="rich">Veins at the seam end</button>
++          <button data-m="1000" data-r="160" data-a="0" data-b="0.03" data-c="rich">Veins after the seam</button>
++          <button data-m="100000" data-r="120" data-a="0.9996" data-b="1" data-c="rich">Dead veins, layer 100,000</button>
+         </div>
+       </div>
+       <div class="legend">
+         <h2>Key</h2>
+         <div><span class="sw"></span>prime: no ring landed</div>
+-        <div>composite, shaded by the smallest ring that landed on it</div>
++        <div id="keyComp">composite, shaded by the smallest ring that landed on it</div>
+         <div class="ramp" aria-hidden="true"></div>
+-        <div class="axis"><span>ring 2</span><span>biggest deciding ring</span></div>
++        <div class="axis"><span id="keyL">ring 2</span><span id="keyR">biggest deciding ring</span></div>
+         <div>Zoomed out, a pixel holds many ticks: it shades toward gold by how prime-rich they are against chance.</div>
+       </div>
+       <div class="note">
+@@ -268,6 +276,28 @@
+     if (x > 1) f.push(x);
+     return f;
+   }
++  // Gold veins: the richness C of the column through a tick (its Bateman-Horn constant over odd rings <= 211).
++  // First half of the turn: start column k, numbers (m^2 - m)/2 + k, D = 1 - 8k.
++  // Second half: end column j = m - k, numbers (m^2 + m)/2 - j, D = 1 + 8j. D a perfect square: the column factors, C = 0.
++  const RP = []; for (let p = 3; p <= 211; p += 2) { let q = true; for (let d = 3; d * d <= p; d += 2) if (p % d === 0) { q = false; break; } if (q) RP.push(p); }
++  const RLOG = RP.map(p => { const qr = new Uint8Array(p); for (let x = 1; x < p; x++) qr[x * x % p] = 1;
++    const f = new Float64Array(p); for (let r = 0; r < p; r++) { const rho = r === 0 ? 1 : (qr[r] ? 2 : 0); f[r] = Math.log((1 - rho / p) / (1 - 1 / p)); } return f; });
++  function richD(D) {
++    if (D > 0) { const s = Math.round(Math.sqrt(D)); if (s * s === D) return 0; }
++    let L = 0; for (let i = 0; i < RP.length; i++) { const p = RP[i]; L += RLOG[i][((D % p) + p) % p]; }
++    return Math.exp(L);
++  }
++  const RCAP = 2000000; let rcS = null, rcE = null;
++  function richAt(m, k) {
++    const end = 2 * k > m, n = end ? m - k : k;
++    if (n > RCAP) return richD(end ? 1 + 8 * n : 1 - 8 * n);
++    if (!rcS) { rcS = new Float32Array(RCAP + 1).fill(-1); rcE = new Float32Array(RCAP + 1).fill(-1); }
++    const cache = end ? rcE : rcS; let c = cache[n];
++    if (c < 0) { c = richD(end ? 1 + 8 * n : 1 - 8 * n); cache[n] = c; }
++    return c;
++  }
++  const richShade = C => Math.min(1, Math.log2(1 + C) / 2);      // C 0 -> 0, C 1 -> 0.5, C >= 3 -> 1
++
+   function tok(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+   function hexRgb(h) { h = h.replace("#", ""); if (h.length === 3) h = h.split("").map(c => c + c).join(""); const n = parseInt(h, 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
+ 
+@@ -293,30 +323,43 @@
+       const bg = hexRgb(tok("--bg")), gold = hexRgb(tok("--gold")), cs = hexRgb(tok("--c-small")), cb = hexRgb(tok("--c-big"));
+       for (let i = 0; i < d.length; i += 4) { d[i] = bg[0]; d[i+1] = bg[1]; d[i+2] = bg[2]; d[i+3] = 255; }
+       let row = 0, ticks = 0, primes = 0, ringsTop = 0;
+-      const pPrime = new Float32Array(W), pCount = new Float32Array(W), pRing = new Float32Array(W);
++      const pPrime = new Float32Array(W), pCount = new Float32Array(W), pRing = new Float32Array(W), pRich = new Float32Array(W);
++      const rich = S.color === "rich";
+       function step() {
+         if (my !== job) return;
+         const tEnd = performance.now() + 30;
+         while (row < rows && performance.now() < tEnd) {
+           const m = S.m0 + row;
+           const k0 = Math.max(1, Math.ceil(S.a * m - 1e-9)), k1 = Math.min(m, Math.floor(S.b * m + 1e-9));
+-          pPrime.fill(0); pCount.fill(0); pRing.fill(0);
++          pPrime.fill(0); pCount.fill(0); pRing.fill(0); if (rich) pRich.fill(0);
+           if (roll && k1 < k0) rollLayer(1, 0);      // nothing to draw on this row, but the pointers still slide on
+           if (k1 >= k0) {
+             const { out, nr } = roll ? rollLayer(k0, k1) : stampLayer(m, k0, k1);
+             ringsTop = nr; ticks += out.length;
+             const lnTop = Math.log(Math.max(3, Math.sqrt(T(m))));
++            const span = S.b - S.a, dense = span * m >= W;     // sparse: each tick fills its own cell, so columns read as bands
+             for (let j = 0; j < out.length; j++) {
+-              const k = k0 + j, frac = (k / m - S.a) / (S.b - S.a);
+-              const px = Math.min(W - 1, Math.max(0, Math.floor(frac * W)));
+-              pCount[px]++;
+-              if (out[j] === 0 && (m > 1 || k > 1)) { pPrime[px]++; primes++; }
+-              else { const s = Math.log(out[j] || 2) / lnTop; if (s > pRing[px]) pRing[px] = s; }
++              const k = k0 + j;
++              let pa, pb;
++              if (dense) pa = pb = Math.min(W - 1, Math.max(0, Math.floor((k / m - S.a) / span * W)));
++              else {
++                pa = Math.max(0, Math.floor(((k - 0.5) / m - S.a) / span * W));
++                pb = Math.min(W - 1, Math.max(pa, Math.floor(((k + 0.5) / m - S.a) / span * W) - 1));
++              }
++              const isP = out[j] === 0 && (m > 1 || k > 1); if (isP) primes++;
++              const rs = rich ? richShade(richAt(m, k)) : 0;
++              const ringS = !rich && !isP ? Math.log(out[j] || 2) / lnTop : 0;
++              for (let px = pa; px <= pb; px++) {
++                pCount[px]++;
++                if (rich) pRich[px] += rs;
++                if (isP) pPrime[px]++;
++                else if (ringS > pRing[px]) pRing[px] = ringS;
++              }
+             }
+           }
+           for (let px = 0; px < W; px++) {
+             if (!pCount[px]) continue;
+-            const s = Math.min(1, pRing[px]);
++            const s = rich ? pRich[px] / pCount[px] : Math.min(1, pRing[px]);
+             const comp = [cs[0] + (cb[0]-cs[0])*s, cs[1] + (cb[1]-cs[1])*s, cs[2] + (cb[2]-cs[2])*s];
+             let c;
+             if (pCount[px] < 1.5) c = pPrime[px] ? gold : comp;            // one tick per pixel: exact
+@@ -368,6 +411,9 @@
+     $("readout").innerHTML =
+       `layer <b>${m.toLocaleString()}</b> · tick ${k.toLocaleString()} of ${m.toLocaleString()} · angle ${k / g}/${m / g}${g > 1 ? ` (visit ${g})` : " (new line)"}<br>` +
+       `number <b>${v.toLocaleString()}</b> → ${isP ? "<b>prime</b>: no ring landed here" : `composite = ${f.join(" × ")}<br>rings that landed: ${landed.join(", ")}`}` +
++      (S.color === "rich" ? (2 * k <= m
++        ? `<br>vein: start column ${k.toLocaleString()} (D = 1 − 8·${k.toLocaleString()}), richness C ≈ ${richAt(m, k).toFixed(2)}`
++        : `<br>vein: end column ${(m - k).toLocaleString()} (D = 1 + 8·${(m - k).toLocaleString()}), ${richAt(m, k) === 0 ? "richness C = 0: j is triangular, so this column factors and never holds a prime" : `richness C ≈ ${richAt(m, k).toFixed(2)}`}`) : "") +
+       (perPx > 1.5 ? `<br><span style="color:var(--muted)">This pixel holds about ${Math.round(perPx)} ticks; drag to zoom in for single ticks.</span>` : "");
+   }
+ 
+@@ -416,6 +462,7 @@
+   document.querySelectorAll(".presets button").forEach(b => b.onclick = () => {
+     S.a = Number(b.dataset.a || 0); S.b = Number(b.dataset.b || 1);
+     if (b.dataset.e) setEngine(b.dataset.e, true);
++    if (b.dataset.c) setColor(b.dataset.c, true);
+     setLayer(Number(b.dataset.m), Number(b.dataset.r));
+   });
+   const ENG = {
+@@ -427,6 +474,21 @@
+     $("engNote").textContent = ENG[e];
+     if (!quiet) { if (e === "jump" && S.m0 + S.rows - 1 > MAXM) { $("status").textContent = "Jump only reaches layer 134 million; staying on Roll here."; setEngine("roll", true); return; } draw(); }
+   }
++  const COL = {
++    rings: "Composites are shaded by the smallest ring that landed on them.",
++    rich: "Every tick sits on a column: a fixed tick index followed down the layers. First half of the turn: start column k. Second half: end column j = m − k. Composites are shaded by that column's richness C (its Bateman–Horn constant), and primes are gold. Primes crowd the bright veins in proportion to C. End columns with j triangular (0, 1, 3, 6, 10, …) factor, so they are dead veins with no primes past the first few layers."
++  };
++  function setColor(c, quiet) {
++    S.color = c; $("colRings").setAttribute("aria-pressed", c === "rings"); $("colRich").setAttribute("aria-pressed", c === "rich");
++    $("colNote").textContent = COL[c];
++    $("keyComp").textContent = c === "rich" ? "composite, shaded by the richness C of its column" : "composite, shaded by the smallest ring that landed on it";
++    $("keyL").textContent = c === "rich" ? "C = 0: dead vein" : "ring 2";
++    $("keyR").textContent = c === "rich" ? "C ≥ 3: rich vein" : "biggest deciding ring";
++    if (!quiet) draw();
++  }
++  $("colRings").onclick = () => setColor("rings");
++  $("colRich").onclick = () => setColor("rich");
++  setColor("rings", true);
+   $("engJump").onclick = () => setEngine("jump");
+   $("engRoll").onclick = () => setEngine("roll");
+   $("rollOn").onclick = () => { if (S.engine !== "roll") setEngine("roll", true); setLayer(S.m0 + S.rows, S.rows); };
+@@ -434,7 +496,7 @@
+   let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(draw, 200); });
+   matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", draw);
+ 
+-  window.__lm = { stampLayer, ensureRings, T, factor, S, draw, rollRun, landedAt, seed, deciding, get R() { return R; } };
++  window.__lm = { stampLayer, ensureRings, T, factor, S, draw, rollRun, landedAt, seed, deciding, richD, richAt, setColor, get R() { return R; } };
+   draw();
+ })();
+ </script>

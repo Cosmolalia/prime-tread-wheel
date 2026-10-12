@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="The Prime Tread Wheel's skin with every tick the same size: it rolls up into a horn.">
+<title>Prime Tread Horn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Spectral:wght@500;600&display=swap">
+<style>
+/* Layout: the same night stage and right-hand instrument column as the wheel. The horn hangs in the stage; the column holds
+   the dials, the readout and a short account of why the skin rolls up. Dark only, like its sibling pages. */
+:root {
+  --night: #05070d;
+  --stage-glow: #0e1530;
+  --panel: #0a0f1b;
+  --line: #232b46;
+  --text: #dfe3f0;
+  --muted: #8f97b5;
+  --new: #f0bf55;
+  --hit: #86a0ec;
+  --ray: #ecdfc0;
+  --half: #9fb0ff;
+  --w3: #6fd3a0; --w5: #c58cf0; --w7: #f07f6e; --w11: #5fc9d9; --far: #7c86a6; --dim: #3a4670;
+  --vein-dead: #1f2747; --vein-rich: #57d6c0;
+  --font-display: "Spectral", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+html, body { height: 100%; background: var(--night); color: var(--text); }
+body { margin: 0; font-family: var(--font-body); font-size: 14px; line-height: 1.5; }
+.app { display: grid; grid-template-columns: minmax(0, 1fr) 340px; height: 100%; }
+.stage { position: relative; min-height: 0; overflow: hidden; background: radial-gradient(circle at 50% 42%, var(--stage-glow) 0%, var(--night) 70%); }
+.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+#gl { cursor: grab; } #gl:active { cursor: grabbing; }
+#labels { pointer-events: none; }
+.title { position: absolute; left: 22px; top: 16px; pointer-events: none; }
+.title h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(24px, 3.2vw, 36px); line-height: 1.1; margin: 0; letter-spacing: 0.01em; text-wrap: balance; }
+.title p { margin: 4px 0 0; color: var(--muted); max-width: 34ch; }
+.title .sibs { pointer-events: auto; font-size: 12px; }
+.title .sibs a { color: var(--muted); }
+.hint { position: absolute; left: 22px; bottom: 14px; color: var(--muted); font-size: 12px; pointer-events: none; }
+.col { background: var(--panel); border-left: 1px solid var(--line); overflow-y: auto; padding-inline: 18px; padding-block: 16px 28px; display: grid; gap: 18px; align-content: start; }
+.col h2 { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+.field { display: grid; gap: 6px; }
+.row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.row label { flex: 1; min-width: 0; }
+.val { font-family: var(--font-data); font-size: 12px; color: var(--text); font-variant-numeric: tabular-nums; }
+input[type="range"] { width: 100%; accent-color: var(--new); }
+input[type="range"]:disabled { opacity: 0.35; }
+select { font: inherit; font-size: 13px; color: var(--text); background: var(--night); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; width: 100%; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips button { font: inherit; font-size: 12.5px; color: var(--text); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 5px 11px; cursor: pointer; }
+.chips button:hover { border-color: var(--hit); }
+.chips button[aria-pressed="true"] { background: var(--new); border-color: var(--new); color: var(--night); }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--half); outline-offset: 2px; }
+.checks { display: grid; gap: 6px; }
+.checks label { display: flex; gap: 8px; align-items: center; cursor: pointer; }
+.checks input { accent-color: var(--new); width: 16px; height: 16px; }
+.facts { font-family: var(--font-data); font-size: 12px; color: var(--muted); line-height: 1.6; }
+.facts b { color: var(--text); font-weight: 500; }
+.readout { font-family: var(--font-data); font-size: 12.5px; line-height: 1.6; background: var(--night); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; min-height: 6.4em; overflow-wrap: anywhere; }
+.readout b { color: var(--new); font-weight: 500; }
+.readout .n { color: var(--hit); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.note p { margin: 0 0 10px; color: var(--muted); max-width: 62ch; }
+.note p b { color: var(--text); font-weight: 500; }
+.nogl { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); padding: 24px; text-align: center; }
+@media (max-width: 860px) {
+  html, body { height: auto; }
+  .app { grid-template-columns: 1fr; height: auto; }
+  .stage { height: min(78vh, 640px); }
+  .col { border-left: 0; border-top: 1px solid var(--line); }
+}
+</style>
+</head>
+<body>
+
+
+<div class="app">
+  <section class="stage" aria-label="The horn">
+    <canvas id="gl" aria-label="The wheel's skin rolled up into a horn. Drag to turn it, scroll or pinch to zoom, double-click to reset."></canvas>
+    <canvas id="labels" aria-hidden="true"></canvas>
+    <div class="title"><h1>Prime Tread Horn</h1><p>The wheel's skin with every tick the same size.</p><p class="sibs"><a href="grand.html">all views on one page →</a></p></div>
+    <div class="hint" id="hint">Drag to turn · scroll or pinch to zoom · shift-drag to slide · double-click to reset</div>
+  </section>
+
+  <aside class="col" aria-label="Controls">
+    <div class="field">
+      <h2>Layers</h2>
+      <div class="row"><label for="layers">How many layers are rolled up</label><span class="val" id="layersVal">60</span></div>
+      <input id="layers" type="range" min="5" max="800" step="1" value="60">
+    </div>
+
+    <div class="field">
+      <h2>Tick width</h2>
+      <div class="row"><label for="wedge">A tick's width against the gap between layers</label><span class="val" id="wedgeVal">1.00</span></div>
+      <input id="wedge" type="range" min="0" max="1000" step="1" value="0">
+      <div class="chips" role="group" aria-label="Shapes">
+        <button data-w="1" aria-pressed="true">Square: the horn</button>
+        <button data-w="3">Wider: a cone</button>
+        <button data-w="6.283185307179586">2π: the page</button>
+        <button data-w="9">Wider still: ruffled</button>
+      </div>
+      <div class="facts" id="shapeFacts"></div>
+    </div>
+
+    <div class="field">
+      <h2>Unroll</h2>
+      <div class="row"><label for="unroll">Slit it down the seam and lay it flat</label><span class="val" id="unrollVal">0%</span></div>
+      <input id="unroll" type="range" min="0" max="100" step="1" value="0">
+    </div>
+
+    <div class="field">
+      <h2>Look</h2>
+      <select id="color" aria-label="Color the ticks by">
+        <option value="spf">Wheel that takes it out</option>
+        <option value="prime">Prime or not</option>
+        <option value="veins">Gold veins: how rich each column is</option>
+        <option value="plain">Plain</option>
+      </select>
+      <div class="legend" id="legend"></div>
+      <div class="checks">
+        <label><input type="checkbox" id="chains" checked> The lines your eye follows</label>
+        <label><input type="checkbox" id="marks" checked> Seam and half-turn</label>
+        <label><input type="checkbox" id="spin"> Spin</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <h2>Read a tick</h2>
+      <div class="readout" id="readout" aria-live="polite">Point at a tick, or tap one, to read its layer, its place in the turn and its number.</div>
+    </div>
+
+    <div class="note">
+      <h2>Why it rolls up</h2>
+      <p>Give every tick the same square tile and put each layer one tile further out. Ring m is then only <b>m tiles long at distance m</b> from the tip, but a flat circle that far out needs 2π·m. The skin can't lie flat, so it rolls up into a horn about <b>9° off true</b>. The wheel on the main page is this same skin with every ring stretched 2π times so it lies flat.</p>
+      <p>Down the back runs the <b>seam</b>, and the lines of ticks beside it run straight down the horn. Around the front they tilt and meet in a herringbone on the <b>half-turn</b>. On the first half of the turn a tick lines up with the same tick on the next layer; on the second half, with the next tick along.</p>
+      <p>Tick width sets the body. Wider tiles open the horn into a cone. At exactly 2π it is the flat page, and no whole-number ratio ever lands there. Wider still, there is more ring than a flat disk can hold, so the skin ruffles like kale.</p>
+    </div>
+  </aside>
+</div>
+
+<script src="horn-view.js"></script>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const css = getComputedStyle(document.documentElement), tok = (n) => css.getPropertyValue(n).trim();
+  const TAU = Math.PI * 2, MAXL = 800;
+  const T = (n) => (n * (n + 1)) / 2;
+
+  // the sieve for the readout and the colors: SPF[x] = the first wheel that takes x out, 0 for primes
+  const NMAX = T(MAXL) + 2, SPF = new Uint32Array(NMAX + 1);
+  for (let i = 2; i * i <= NMAX; i++) if (!SPF[i]) for (let j = i * i; j <= NMAX; j += i) if (!SPF[j]) SPF[j] = i;
+  const WHEEL = { 2: tok("--hit"), 3: tok("--w3"), 5: tok("--w5"), 7: tok("--w7"), 11: tok("--w11") };
+  const MODES = {
+    spf: { col: (x) => (x === 1 ? tok("--ray") : !SPF[x] ? tok("--new") : WHEEL[SPF[x]] || tok("--far")),
+      legend: [["--new", "prime: no wheel takes it out"], ["--hit", "wheel 2"], ["--w3", "wheel 3"], ["--w5", "wheel 5"], ["--w7", "wheel 7"], ["--w11", "wheel 11"], ["--far", "wheel 13 or later"], ["--ray", "1"]] },
+    prime: { col: (x) => (x > 1 && !SPF[x] ? tok("--new") : tok("--dim")), legend: [["--new", "prime"], ["--dim", "not prime"]] },
+    veins: { col: (x, m, k) => (x > 1 && !SPF[x] ? tok("--new") : veinColor(richShade(richAt(m, k)))),
+      legend: [["--new", "prime"], ["--vein-dead", "C = 0: dead vein, never a prime"], ["--vein-rich", "rich vein, C ≥ 3"]] },
+    plain: { col: () => "#c9d0e6", legend: [] },
+  };
+  // Gold veins: the Bateman-Horn richness C of the column through a tick (odd rings up to 211).
+  // First half of the turn: start column k, numbers (m^2 - m)/2 + k, D = 1 - 8k. Second half: end column j = m - k, D = 1 + 8j.
+  // D a perfect square (j triangular) makes the column factor: C = 0, a dead vein.
+  const RP = []; for (let p = 3; p <= 211; p += 2) { let q = true; for (let d = 3; d * d <= p; d += 2) if (p % d === 0) { q = false; break; } if (q) RP.push(p); }
+  const RLOG = RP.map((p) => { const qr = new Uint8Array(p); for (let y = 1; y < p; y++) qr[(y * y) % p] = 1;
+    const f = new Float64Array(p); for (let r = 0; r < p; r++) { const rho = r === 0 ? 1 : qr[r] ? 2 : 0; f[r] = Math.log((1 - rho / p) / (1 - 1 / p)); } return f; });
+  function richD(D) {
+    if (D > 0) { const s = Math.round(Math.sqrt(D)); if (s * s === D) return 0; }
+    let L = 0; for (let i = 0; i < RP.length; i++) { const p = RP[i]; L += RLOG[i][((D % p) + p) % p]; }
+    return Math.exp(L);
+  }
+  const richAt = (m, k) => (2 * k <= m ? richD(1 - 8 * k) : richD(1 + 8 * (m - k)));
+  const richShade = (C) => Math.min(1, Math.log2(1 + C) / 2);
+  const hex = (h) => { const n = parseInt(h.replace("#", ""), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
+  const VD = hex(tok("--vein-dead")), VR = hex(tok("--vein-rich"));
+  function veinColor(s) {
+    const q = Math.round(s * 24) / 24, c = VD.map((v, i) => Math.round(v + (VR[i] - v) * q));
+    return "#" + c.map((v) => v.toString(16).padStart(2, "0")).join("");
+  }
+  let mode = "spf";
+
+  const glc = $("gl"), lab = $("labels"), lctx = lab.getContext("2d");
+  let hv;
+  try {
+    hv = new HornView(glc, {
+      maxLayers: MAXL, colorOf: (m, k, x) => MODES[mode].col(x, m, k), onHover: (info, at, tapped) => readout(info, tapped),
+      body: "#0c1330", bodyLit: "#232f5a", chainA: "#5f79c4", chainB: "#c4984e", seam: tok("--ray"), half: tok("--half"),
+    });
+  } catch (e) {
+    const d = document.createElement("div"); d.className = "nogl"; d.textContent = "This view needs WebGL, which this browser has turned off.";
+    glc.parentNode.appendChild(d); return;
+  }
+
+  // labels for the seam, the half-turn and the tip, drawn over the WebGL picture after every frame
+  hv.onAfterDraw = (v) => {
+    const r = lab.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+    if (lab.width !== Math.round(r.width * dpr) || lab.height !== Math.round(r.height * dpr)) { lab.width = Math.round(r.width * dpr); lab.height = Math.round(r.height * dpr); }
+    lctx.setTransform(dpr, 0, 0, dpr, 0, 0); lctx.clearRect(0, 0, r.width, r.height);
+    if (!v.p.marks || !v.labelAnchors) return;
+    lctx.font = `500 12px ${tok("--font-data")}`;
+    const put = (p, n, text, color) => {
+      if (!v.facing(p, n) && v.shape.kind !== "open") return;
+      const q = v.project(p); if (!q) return;
+      lctx.fillStyle = color; lctx.fillText(text, q[0] + 6, q[1] + 4);
+    };
+    put(v.labelAnchors.seam, v.labelAnchors.seamN, "seam", tok("--ray"));
+    put(v.labelAnchors.half, v.labelAnchors.halfN, "half-turn", tok("--half"));
+    const tip = v.project([0, 0, 0]); if (tip) { lctx.fillStyle = tok("--muted"); lctx.fillText("tip · layer 1", tip[0] + 8, tip[1] - 6); }
+  };
+
+  // ---------- dials ----------
+  const W_MIN = 0.25, W_MAX = 12;
+  const sliderToW = (v) => W_MIN * Math.pow(W_MAX / W_MIN, v / 1000);
+  const wToSlider = (w) => Math.round((1000 * Math.log(w / W_MIN)) / Math.log(W_MAX / W_MIN));
+  let wedge = 1;
+  function setWedge(w, fromSlider) {
+    wedge = Math.abs(w - TAU) < 0.035 ? TAU : w;              // snap to the flat page
+    if (Math.abs(wedge - 1) < 0.02) wedge = 1;                 // and to square tiles
+    if (!fromSlider) $("wedge").value = wToSlider(wedge);
+    document.querySelectorAll(".chips button").forEach((b) => b.setAttribute("aria-pressed", String(Math.abs(Number(b.dataset.w) - wedge) < 1e-6)));
+    const ruffled = wedge > TAU + 1e-9;
+    $("unroll").disabled = ruffled;
+    if (ruffled) { $("unroll").value = 0; $("unrollVal").textContent = "can't"; }
+    else $("unrollVal").textContent = `${$("unroll").value}%`;
+    hv.set({ wedge, unroll: ruffled ? 0 : Number($("unroll").value) / 100 });
+    const deg = (wedge * 180) / Math.PI, i = hv.info();
+    $("wedgeVal").textContent = wedge === TAU ? "2π" : wedge.toFixed(2);
+    $("shapeFacts").innerHTML =
+      wedge === TAU ? `Unrolled wedge <b>360°</b> · <b>flat</b>: the wheel on the main page`
+      : ruffled ? `Unrolled wedge <b>${deg.toFixed(0)}°</b>, more than a full turn · the rim <b>ruffles</b> ${i.ruffleAmplitudeDeg.toFixed(0)}° up and down to fit`
+      : `Unrolled wedge <b>${deg.toFixed(1)}°</b>${wedge === 1 ? " (one radian)" : ""} · rolled up, <b>${i.halfAngleDeg.toFixed(1)}°</b> off true`;
+  }
+  $("wedge").addEventListener("input", (e) => setWedge(sliderToW(Number(e.target.value)), true));
+  document.querySelectorAll(".chips button").forEach((b) => b.addEventListener("click", () => setWedge(Number(b.dataset.w))));
+  $("unroll").addEventListener("input", (e) => { $("unrollVal").textContent = `${e.target.value}%`; hv.set({ unroll: Number(e.target.value) / 100 }); });
+  $("layers").addEventListener("input", (e) => { $("layersVal").textContent = e.target.value; hv.set({ layers: Number(e.target.value) }); });
+  $("chains").addEventListener("change", (e) => hv.set({ chains: e.target.checked }));
+  $("marks").addEventListener("change", (e) => { hv.set({ marks: e.target.checked }); });
+  $("spin").addEventListener("change", (e) => hv.set({ spin: e.target.checked }));
+  function drawLegend() {
+    $("legend").innerHTML = MODES[mode].legend.map(([v, t]) => `<span><span class="sw" style="background:${tok(v)}"></span>${t}</span>`).join("");
+  }
+  $("color").addEventListener("change", (e) => { mode = e.target.value; drawLegend(); hv.recolor(); });
+
+  // ---------- readout ----------
+  const gcd = (a, b) => { while (b) [a, b] = [b, a % b]; return a; };
+  const fmt = (n) => n.toLocaleString("en-US");
+  function readout(info, tapped) {
+    if (!info) { if (tapped) $("readout").textContent = "No tick there. Point at a dot on the horn."; return; }
+    const { m, k, x } = info, g = gcd(k, m), half = 2 * k < m ? "first" : 2 * k > m ? "second" : "exact middle";
+    const next = 2 * k < m ? `tick ${k} of layer ${m + 1}` : 2 * k > m ? `tick ${k + 1} of layer ${m + 1}` : "the half-turn itself";
+    const what = x === 1 ? "1: no wheel takes it out, and it isn't prime"
+      : !SPF[x] ? "<b>prime</b>: no wheel takes it out"
+      : `${fmt(SPF[x])} × ${fmt(x / SPF[x])}: <span class="n">wheel ${SPF[x]} takes it out</span>`;
+    $("readout").innerHTML = `Layer <b>${m}</b>, tick ${k} · ${k === m ? "on the seam" : `${k / g}/${m / g} of the turn`}<br>` +
+      `the number <b>${fmt(x)}</b> · ${what}<br>` +
+      `<span style="color:var(--muted)">${half === "exact middle" ? "Sits exactly on the half-turn." : `On the ${half} half of the turn, so it lines up with ${next}.`}</span>` +
+      (mode === "veins" ? `<br>vein: ${2 * k <= m ? `start column ${k} (D = 1 − 8·${k})` : `end column ${m - k} (D = 1 + 8·${m - k})`}, ` +
+        (richAt(m, k) === 0 ? "richness C = 0: this column factors, so past the first few layers it never holds a prime" : `richness C ≈ ${richAt(m, k).toFixed(2)}`) : "");
+  }
+
+  // ---------- start ----------
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  hv.set({ layers: 60, wedge: 1, unroll: 0, chains: true, marks: true, spin: false });
+  setWedge(1); drawLegend();
+  if (!reduce) { $("spin").checked = true; hv.set({ spin: true }); setTimeout(() => { if ($("spin").checked) { $("spin").checked = false; hv.set({ spin: false }); } }, 6000); }
+  // keep the horn clear of the title above it and the hint below it
+  function frame() {
+    const st = glc.getBoundingClientRect(), t = document.querySelector(".title").getBoundingClientRect(), h = $("hint").getBoundingClientRect();
+    if (st.height < 10) return;
+    hv.setFrame((t.bottom - st.top + 14) / st.height, (st.bottom - h.top + 10) / st.height);
+  }
+  new ResizeObserver(() => { hv.resize(); frame(); }).observe(glc);
+  frame();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(frame);
+  window.__horn = { hv, setWedge, MODES };
+})();
+</script>
+
+</body>
+</html>

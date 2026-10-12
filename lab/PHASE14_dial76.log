@@ -1,0 +1,34 @@
+F1: predicted 8222.1167 actual 8280 (0s)
+F2: predicted 8221.7768 actual 8180 (0s)
+{
+ "conventions": "frozen in header; C=4.9116695006; u=0..41666; MR bases [2,3,5,7,11,13,17]",
+ "F1": {
+  "pred_C": 8222.116725740285,
+  "actual": 8280,
+  "m_le_200k": 1871,
+  "m_gt_200k": 6409
+ },
+ "F2": {
+  "pred_C": 8221.776778822463,
+  "actual": 8180,
+  "m_le_200k": 1905,
+  "m_gt_200k": 6275
+ },
+ "total": {
+  "pred_C": 16443.893504562748,
+  "actual": 16460,
+  "ratio": 1.0009794818625397
+ },
+ "gpt_claim": {
+  "F1": 8280,
+  "F2": 8180,
+  "total": 16460,
+  "ratio": 1.00098,
+  "F1_lo": 1871,
+  "F2_lo": 1905,
+  "pred_F1": 8222.1167,
+  "pred_F2": 8221.7768,
+  "pred_total": 16443.8935
+ }
+}
+tie convention check: L(9) = 11 (ties-up) OK

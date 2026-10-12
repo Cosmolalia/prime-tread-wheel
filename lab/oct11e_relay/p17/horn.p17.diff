@@ -1,0 +1,67 @@
+--- ../repo/horn.html	2026-10-11 01:56:57.049175562 -1000
++++ horn.html	2026-10-11 23:33:20.168984559 -1000
+@@ -24,6 +24,7 @@
+   --ray: #ecdfc0;
+   --half: #9fb0ff;
+   --w3: #6fd3a0; --w5: #c58cf0; --w7: #f07f6e; --w11: #5fc9d9; --far: #7c86a6; --dim: #3a4670;
++  --vein-dead: #1f2747; --vein-rich: #57d6c0;
+   --font-display: "Spectral", Georgia, "Times New Roman", serif;
+   --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+   --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+@@ -120,6 +121,7 @@
+       <select id="color" aria-label="Color the ticks by">
+         <option value="spf">Wheel that takes it out</option>
+         <option value="prime">Prime or not</option>
++        <option value="veins">Gold veins: how rich each column is</option>
+         <option value="plain">Plain</option>
+       </select>
+       <div class="legend" id="legend"></div>
+@@ -160,15 +162,36 @@
+     spf: { col: (x) => (x === 1 ? tok("--ray") : !SPF[x] ? tok("--new") : WHEEL[SPF[x]] || tok("--far")),
+       legend: [["--new", "prime: no wheel takes it out"], ["--hit", "wheel 2"], ["--w3", "wheel 3"], ["--w5", "wheel 5"], ["--w7", "wheel 7"], ["--w11", "wheel 11"], ["--far", "wheel 13 or later"], ["--ray", "1"]] },
+     prime: { col: (x) => (x > 1 && !SPF[x] ? tok("--new") : tok("--dim")), legend: [["--new", "prime"], ["--dim", "not prime"]] },
++    veins: { col: (x, m, k) => (x > 1 && !SPF[x] ? tok("--new") : veinColor(richShade(richAt(m, k)))),
++      legend: [["--new", "prime"], ["--vein-dead", "C = 0: dead vein, never a prime"], ["--vein-rich", "rich vein, C ≥ 3"]] },
+     plain: { col: () => "#c9d0e6", legend: [] },
+   };
++  // Gold veins: the Bateman-Horn richness C of the column through a tick (odd rings up to 211).
++  // First half of the turn: start column k, numbers (m^2 - m)/2 + k, D = 1 - 8k. Second half: end column j = m - k, D = 1 + 8j.
++  // D a perfect square (j triangular) makes the column factor: C = 0, a dead vein.
++  const RP = []; for (let p = 3; p <= 211; p += 2) { let q = true; for (let d = 3; d * d <= p; d += 2) if (p % d === 0) { q = false; break; } if (q) RP.push(p); }
++  const RLOG = RP.map((p) => { const qr = new Uint8Array(p); for (let y = 1; y < p; y++) qr[(y * y) % p] = 1;
++    const f = new Float64Array(p); for (let r = 0; r < p; r++) { const rho = r === 0 ? 1 : qr[r] ? 2 : 0; f[r] = Math.log((1 - rho / p) / (1 - 1 / p)); } return f; });
++  function richD(D) {
++    if (D > 0) { const s = Math.round(Math.sqrt(D)); if (s * s === D) return 0; }
++    let L = 0; for (let i = 0; i < RP.length; i++) { const p = RP[i]; L += RLOG[i][((D % p) + p) % p]; }
++    return Math.exp(L);
++  }
++  const richAt = (m, k) => (2 * k <= m ? richD(1 - 8 * k) : richD(1 + 8 * (m - k)));
++  const richShade = (C) => Math.min(1, Math.log2(1 + C) / 2);
++  const hex = (h) => { const n = parseInt(h.replace("#", ""), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
++  const VD = hex(tok("--vein-dead")), VR = hex(tok("--vein-rich"));
++  function veinColor(s) {
++    const q = Math.round(s * 24) / 24, c = VD.map((v, i) => Math.round(v + (VR[i] - v) * q));
++    return "#" + c.map((v) => v.toString(16).padStart(2, "0")).join("");
++  }
+   let mode = "spf";
+ 
+   const glc = $("gl"), lab = $("labels"), lctx = lab.getContext("2d");
+   let hv;
+   try {
+     hv = new HornView(glc, {
+-      maxLayers: MAXL, colorOf: (m, k, x) => MODES[mode].col(x), onHover: (info, at, tapped) => readout(info, tapped),
++      maxLayers: MAXL, colorOf: (m, k, x) => MODES[mode].col(x, m, k), onHover: (info, at, tapped) => readout(info, tapped),
+       body: "#0c1330", bodyLit: "#232f5a", chainA: "#5f79c4", chainB: "#c4984e", seam: tok("--ray"), half: tok("--half"),
+     });
+   } catch (e) {
+@@ -239,7 +262,9 @@
+       : `${fmt(SPF[x])} × ${fmt(x / SPF[x])}: <span class="n">wheel ${SPF[x]} takes it out</span>`;
+     $("readout").innerHTML = `Layer <b>${m}</b>, tick ${k} · ${k === m ? "on the seam" : `${k / g}/${m / g} of the turn`}<br>` +
+       `the number <b>${fmt(x)}</b> · ${what}<br>` +
+-      `<span style="color:var(--muted)">${half === "exact middle" ? "Sits exactly on the half-turn." : `On the ${half} half of the turn, so it lines up with ${next}.`}</span>`;
++      `<span style="color:var(--muted)">${half === "exact middle" ? "Sits exactly on the half-turn." : `On the ${half} half of the turn, so it lines up with ${next}.`}</span>` +
++      (mode === "veins" ? `<br>vein: ${2 * k <= m ? `start column ${k} (D = 1 − 8·${k})` : `end column ${m - k} (D = 1 + 8·${m - k})`}, ` +
++        (richAt(m, k) === 0 ? "richness C = 0: this column factors, so past the first few layers it never holds a prime" : `richness C ≈ ${richAt(m, k).toFixed(2)}`) : "");
+   }
+ 
+   // ---------- start ----------

@@ -1,0 +1,57 @@
+P13 locked seams — layers 1e6..1e8
+
+z=13: locked layers 105495 (B sample 10550); desert exceptions 0+0 (ticks 2..16)
+  tick 1: 17217 primes;  frozen boost 5.214 -> expect 16109.3 (z +8.7);  refined 5.627 -> 17386.3 (z -1.3);  measured boost 5.572
+   lam      h   locked obs/E   ctrl obs/E   ratio meas   frozen  refined   sig   frozen-pass refined-pass
+   1.25      24     0.9947       0.9971      0.8076   0.8689  0.8095  0.0044   FAIL        PASS
+    1.5      46     0.9965       0.9996      0.9557   1.0200  0.9587  0.0036   FAIL        PASS
+   1.75      89     0.9986       1.0000      1.0676   1.1130  1.0691  0.0029   FAIL        PASS
+      2     169     0.9977       1.0004      1.0250   1.0489  1.0278  0.0020   PASS        PASS
+   2.25     320     0.9999       1.0006      0.9968   1.0101  0.9975  0.0014   PASS        PASS
+    2.5     609     1.0006       1.0010      0.9850   0.9931  0.9854  0.0010   PASS        PASS
+   2.76    1187     1.0006       1.0006      0.9882   0.9926  0.9881  0.0007   PASS        PASS
+      3    2197     1.0008       1.0005      0.9931   0.9943  0.9929  0.0005   PASS        PASS
+    3.5    7921     0.9999       1.0013      0.9986   1.0005  1.0000  0.0009   PASS        PASS
+      4   28561     1.0002       1.0006      0.9998   1.0003  1.0001  0.0005   PASS        PASS
+
+z=17: locked layers 12411 (B sample 1242); desert exceptions 0+0 (ticks 2..18)
+  tick 1: 2002 primes;  frozen boost 5.539 -> expect 2013.6 (z -0.3);  refined 5.627 -> 2045.4 (z -1.0);  measured boost 5.507
+   lam      h   locked obs/E   ctrl obs/E   ratio meas   frozen  refined   sig   frozen-pass refined-pass
+   1.25      34     1.0007       1.0025      0.7736   0.8146  0.7750  0.0081   FAIL        PASS
+    1.5      70     0.9947       1.0014      0.9855   1.0287  0.9922  0.0066   FAIL        PASS
+   1.75     142     0.9968       1.0006      1.0583   1.0923  1.0624  0.0048   FAIL        PASS
+      2     289     0.9968       1.0016      1.0321   1.0542  1.0370  0.0033   PASS        PASS
+   2.25     586     1.0018       1.0008      0.9811   0.9831  0.9802  0.0023   PASS        PASS
+    2.5    1191     1.0025       1.0008      0.9894   0.9907  0.9877  0.0016   PASS        PASS
+   2.76    2489     1.0009       1.0005      0.9980   0.9993  0.9976  0.0011   PASS        PASS
+      3    4913     1.0002       1.0009      0.9981   1.0001  0.9987  0.0008   PASS        PASS
+    3.5   20256     1.0024       1.0010      1.0015   1.0003  1.0001  0.0014   PASS        PASS
+      4   83521     1.0001       0.9997      1.0004   0.9999  1.0000  0.0007   PASS        PASS
+
+z=19: locked layers 1309 (B sample 1309); desert exceptions 0+0 (ticks 2..22)
+  tick 1: 208 primes;  frozen boost 5.847 -> expect 224.3 (z -1.1);  refined 5.627 -> 215.8 (z -0.5);  measured boost 5.423
+   lam      h   locked obs/E   ctrl obs/E   ratio meas   frozen  refined   sig   frozen-pass refined-pass
+   1.25      39     0.9997       1.0007      0.7175   0.7496  0.7182  0.0218   PASS        PASS
+    1.5      82     0.9847       1.0012      1.0108   1.0696  1.0277  0.0179   FAIL        PASS
+   1.75     172     0.9873       0.9995      1.0509   1.0878  1.0640  0.0127   PASS        PASS
+      2     361     1.0063       1.0002      1.0452   1.0528  1.0388  0.0087   PASS        PASS
+   2.25     753     1.0065       1.0007      1.0079   1.0017  1.0021  0.0059   PASS        PASS
+    2.5    1573     1.0006       1.0001      0.9880   0.9888  0.9875  0.0041   PASS        PASS
+   2.76    3383     0.9977       1.0004      0.9918   0.9938  0.9944  0.0028   PASS        PASS
+      3    6859     1.0000       1.0002      0.9980   0.9982  0.9982  0.0020   PASS        PASS
+    3.5   29897     0.9997       1.0008      0.9986   1.0000  0.9997  0.0011   PASS        PASS
+      4  130321     0.9991       1.0000      0.9992   1.0000  1.0001  0.0005   PASS        PASS
+
+z=23: locked layers 107 (B sample 107); desert exceptions 0+0 (ticks 2..28)
+  tick 1: 14 primes;  frozen boost 6.113 -> expect 19.1 (z -1.2);  refined 6.163 -> 19.3 (z -1.2);  measured boost 4.474
+   lam      h   locked obs/E   ctrl obs/E   ratio meas   frozen  refined   sig   frozen-pass refined-pass
+   1.25      50     0.9566       1.0043      0.8031   0.8558  0.8431  0.0710   PASS        PASS
+    1.5     110     0.9780       1.0020      1.1217   1.1670  1.1493  0.0568   PASS        PASS
+   1.75     241     0.9886       1.0002      1.1043   1.1414  1.1173  0.0382   PASS        PASS
+      2     529     0.9883       1.0005      1.0305   1.0516  1.0432  0.0250   PASS        PASS
+   2.25    1158     0.9884       1.0007      0.9785   0.9924  0.9906  0.0164   PASS        PASS
+    2.5    2536     0.9907       1.0009      0.9708   0.9811  0.9808  0.0111   PASS        PASS
+   2.76    5732     0.9995       1.0006      0.9940   0.9950  0.9951  0.0074   PASS        PASS
+      3   12167     0.9989       1.0008      0.9988   1.0008  1.0007  0.0051   PASS        PASS
+    3.5   58350     0.9984       0.9996      0.9994   1.0006  1.0005  0.0024   PASS        PASS
+      4  279841     0.9993       0.9999      0.9994   0.9999  1.0000  0.0011   PASS        PASS

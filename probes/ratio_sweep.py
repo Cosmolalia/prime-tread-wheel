@@ -38,6 +38,11 @@ def build(r, m_cap):
     run = 0
     M = 0
     for m in range(1, m_cap + 1):
+        # WARNING: Python round() is banker's (ties to even); the wheel engine
+        # (JS Math.round / PHASE8b) is ties-UP. Tie laps m*r == k+1/2 (exist
+        # for even b) get L one lower here. Filed L1-L4 laws are qualitative
+        # and tie-robust, but do NOT use this probe for family identification
+        # at even-b ratios — use floor(m*r + 1/2).
         L[m] = max(1, int(round(m * r)))
         base[m] = run
         run += L[m]
