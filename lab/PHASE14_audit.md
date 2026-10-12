@@ -117,3 +117,21 @@ Compiled clean; lane c=14, W=1e6, PG=2e6 with uniform and engine weights.
 - GPT §7 factorable odd branches + total 16,462: the factorizations are
   one-line arithmetic [F] (verified by inspection: (6t+1)(56t+5) etc.
   expand to the stated polynomials); the census total follows from §1.
+
+## 6. Object-A d-curve result (PHASE14_objA_dcurve, checkpoint at m=337)
+
+Frozen predictions adjudicated (layers 14..337 at filing; tail 338..391
+theorem-guaranteed by h(25)=258):
+
+- **A1 PASS**: d finite on every layer 14..257 (244/244). d = 1 at m=14,
+  d = 22 at m = 257. d-curve: linear fit 0.0747*m + 0.54, max residual 3.3.
+- **A2 PASS (proven [F], MILP-confirmed)**: d = None on every layer 258..337
+  checked. m >= 258 infeasibility is theorem-grade (Jacobsthal), so the
+  pending tail cannot overturn this.
+- **A3 PASS**: home-cover census reproduces {2..13} exactly.
+- **A4 (shape)**: d is broadly increasing with scatter (dist 1..23, no
+  monotone claim was frozen).
+
+Cross-object observation: object-A slope 0.0747 vs prime-layer object-C
+slope 0.0737 — the displacement cost per seat is object-independent at this
+resolution. Shared [G]: why ~m/13.5.

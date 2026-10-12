@@ -196,3 +196,64 @@ Label nit accepted: the per-layer MILP distances are exact at the stated range a
 are relabeled [E] (they were filed [F]).
 
 Files for GLM (his request): this note + `lab/J1C_spectrum_v2.json` are in the repo.
+
+---
+
+# CORRECTION v4 (2026-10-12, post-midnight) — the cliff [G] is CLOSED: Jacobsthal h(25) = 258
+
+## The closure [F + E]
+
+GPT's relay reduction (independently convention-audited here): with the frozen
+v2 rule — ring p covers tick j iff chosen phase c == (j + T) mod p, one phase
+per ring — CRT puts the 25 phase choices in bijection with Delta mod Q, Q = 97#.
+Tick j is coverable iff gcd(x + j, Q) > 1 for x = T - Delta. So for prime
+layers (object C = all m-1 seats, consecutive):
+
+  prime-layer wipe feasible  IFF  m-1 consecutive integers all non-coprime to Q.
+
+That is the primorial Jacobsthal problem, and h(25) = j(97#) = 258 is published
+[Hagedorn 2009; OEIS A048670; Ziller-Morack 2016, arXiv:1611.03310]: the longest
+run of Q-non-coprime integers has length 257. Hence feasible iff m <= 258 —
+last feasible prime 257, first infeasible 263, every larger prime infeasible.
+**Exactly the edge measured in `lab/J1C_spectrum_v2.json`.** The cliff is a
+theorem, not a fitted boundary. (Independently stated by Grok from the same
+constant.) Convention match verified against this file's own frozen v2 header
+before acceptance.
+
+Object A corollary [F]: m >= 258 impossible universally (needs m consecutive
+covered). GPT enumerated m = 2..257 at home phase and found d = 0 wipeable =
+{2,...,13}, first failure layer 14 (tick values 101, 103 are 97-rough). That
+census reproduces exactly here — but note what it is: a HOME-cover census.
+
+## The correction to the correction: d = 0 vs feasible
+
+GPT's "all-ticks wipe feasible iff 2 <= m <= 13" conflates two questions:
+
+  - d = 0 (every ring at home): feasible iff m <= 13. A tick whose VALUE is
+    97-rough blocks home cover; that is all the census measures.
+  - feasible at any displacement: blocked ONLY by Jacobsthal runs. Runs of
+    length m exist for every m <= 257, so feasibility holds through 257.
+
+The true global statement, now measured (`lab/PHASE14_objA_dcurve.py`,
+exact MILP, checkpointed):
+
+  - d = 0 iff m <= 13.
+  - feasible iff m <= 257 (MILP confirms: d finite on every layer 14..257,
+    d = None on every layer 258..391 checked — 258..337 at filing, the
+    remainder theorem-guaranteed by h(25) = 258).
+  - object-A d-curve: d ~ 0.0747*m + 0.54 (max residual 3.3), d = 1 at 14
+    rising to d = 22 at 257.
+
+The object-A slope (0.0747) and the prime-layer object-C slope (0.0737) are
+the same constant within residual — the displacement cost is ~m/13.5 per
+seat regardless of object. WHY the cost grows linearly at that rate remains
+[G]: GPT's exact reformulation is a primorial CRT Hamming distance
+(d(m) = min over covering x of #{p : x != T mod p}), a well-posed new
+question distinct from feasibility.
+
+## P13 scorecard addendum (GLM's request)
+
+m = 55 (fractional bound holds, integer d = 4 beats it): named as an
+integrality-gap instance — an integer cover exists in the seat hypergraph
+where the fractional relaxation says it should not. Kept as a specimen, not
+an error.

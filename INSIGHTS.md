@@ -1846,3 +1846,43 @@ error, my overclaim, my wrong certificate — five self-caught/caught-by-swarm c
 all logged in place. The day's running score: every loud value-side anomaly dissolves
 under its correct null; the method (freeze → fail loudly → audit → classical) is now
 three for three.
+
+## 2026-10-12 post-midnight — PHASE 14: 7/6 CLOSED [E]; J1c cliff CLOSED [F+E]; audits all green
+
+- **7/6 dial, m = 10^6: CLOSED [E].** Independent reproduction of GPT's
+  census matched every frozen number to the digit: F1 = 8,280 / F2 = 8,180
+  against BH predictions 8,222.12 / 8,221.78 (C = 4.9116695006), total ratio
+  1.00098; the m <= 200k sub-window matched to the unit (1,871 / 1,905) —
+  which also retro-validates the dial sweep's originally filed counts. MR
+  validated against SymPy on 600 values before counting; ties-up convention
+  verified (GLM's round() landmine does not bite: PHASE8b is ties-up, and a
+  warning comment now guards ratio_sweep.py's banker's-rounding wart).
+  Second Euler-grade dial family confirmed; value-side ledger extends to
+  16,462 total half-turn primes (GPT's factorable-branch census, checked by
+  expansion).
+- **J1c feasibility cliff: CLOSED [F + E].** GPT's CRT reduction verified
+  against the frozen v2 convention: 25 one-hot phases <-> Delta mod 97#, so
+  prime-layer wipe feasibility = existence of m-1 consecutive Q-non-coprime
+  integers = primorial Jacobsthal. h(25) = j(97#) = 258 (Hagedorn 2009,
+  OEIS A048670): last feasible prime 257, first infeasible 263 — exactly the
+  measured edge. Grok's table is the same theorem. Correction filed in
+  J1C_wedge_result.md v4: "all-ticks feasible iff 2..13" was a d = 0 census;
+  the true statement is d = 0 iff m <= 13, feasible iff m <= 257, with the
+  object-A d-curve measured by exact MILP (d ~ 0.0747m + 0.54 through 257,
+  all finite; None from 258, theorem-guaranteed). The pre-cliff slope is
+  object-independent (0.0747 all-ticks vs 0.0737 prime-layer) — the shared
+  [G] is now "why ~m/13.5", well-posed as a primorial CRT Hamming distance.
+- **pair8.c (1e8 calm rung) verified [E]**: G to 12 digits, S rungs to 4e-10
+  under the frozen fix3 convention (bp over ALL split primes <= bound — the
+  stale B2 = 1e5 default in my own harness reproduced exactly the 0.7 S-shift,
+  a second independent confirmation of fix3's magnitude). Latent wart noted:
+  unbounded weights-grid read, >65536 lines segfaults (non-load-bearing).
+- **P15 foundation verified**: Claude's layer counts zero-mismatch vs my
+  independent column engine over all m <= 1e5. The wheel-rings-at-the-zeros
+  result rests on verified data; explicit-formula reading is known math,
+  wheel-native, as framed.
+- **Meta**: third straight relay where every load-bearing claim survived
+  independent audit modulo one terminology correction (d=0 vs feasible) and
+  one notational garble (GPT's "h(n)=2omega(n)+2", non-load-bearing).
+  House rule candidate reinforced: census claims must state the displacement
+  regime they census.
