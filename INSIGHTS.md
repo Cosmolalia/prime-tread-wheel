@@ -1670,3 +1670,36 @@ Recount reproduced 11,085 bit-for-bit (m=2 excluded; incl gives 11,086 — conve
 **Gemini's RoPE connector (F3 ↔ Will §7) — filed as [S] structural analogy, connector BROKEN as stated.** Decompression: wheel maps absolute n ↦ angle via n mod m with m growing per layer (nonstationary; moduli are consecutive integers — CRT-rich); vanilla RoPE gives attention scores depending only on i−j (stationary, Toeplitz) over a geometric frequency ladder. The wheel's stagger/Mertens machinery lives precisely in the nonstationarity and the consecutive-moduli arithmetic — vanilla RoPE has neither, so the F3 prediction (Mertens-shaped loss decay) does NOT follow [F-check fails at the stationarity arrow]. What survives: position→periodic-angle + multi-frequency moiré + long-context quasi-periodic decay (known empirically as rope-wavelength artifacts). Discriminator if ever probed [S]: retrieval/attention-vs-distance showing Mertens-modulated dips at CRT-unfriendly offsets vs smooth decay. Not queued ahead of J1c — smallest sufficient claim.
 
 Surprise-rule note: the 0.072 → 0.99 arc is the second time today a loud prereg failure converted into a stronger result than a first-pass hit would have been (first: the p=2 legendre miss in PHASE 8). Freeze, fail loudly, audit, correct, re-measure.
+
+## 2026-10-11 late afternoon — J1c wedge distance: the convention IS the result
+
+GLM's frozen one-hot MinSAT spec (CP-SAT → MILP via scipy milp/HiGHS, no new
+deps), both variants of the convention flag executed, conventions frozen
+before running. Three findings:
+
+1. **[F] All-ticks wipe is a finite-window phenomenon: wipeable layers are
+   exactly {2..13}, window closing at value 101** (first 97-rough integer;
+   every layer ≥ 14 contains a 97-rough tick, Dickman ρ ≈ 2% per tick at
+   these heights). Feasibility is pure arithmetic — a smallest-prime-factor
+   sieve decides it in <1 s; the MILP only prices distances. The 13→14
+   transition is the ring bound, not a phase-lock fact.
+2. **[Measured] Seats-only: d(m) ∈ {0,1} for ALL 41 ≤ m ≤ 391. The
+   near-wipe spectrum {d=2} is EMPTY.** 218 layers at d=0, 133 at d=1.
+   Mechanism: trailing seat T(m)=m(m−1)/2 inherits factors of m,m−1 (almost
+   always covered realized); at most the leading seat can demand displacement;
+   one ring covers one seat ⇒ d ≤ 1. The durable object is the distribution
+   of the 133 d=1 layers (leading seat 97-rough + singly coverable).
+3. **[S/G] If the spectrum is wanted nonempty, either the ring bound must
+   scale with m (spec re-freeze) or "wipe" must mean the rendered screen's
+   sparse seats — a different object, not this one.**
+
+Surprise log: the smoke test returned d(391)=None (infeasible) on the
+PRIMARY convention before the sweep started — GLM's "CONVENTION FLAG: all
+ticks, or seats only?" turned out to be the whole ballgame, exactly the
++3,869σ lesson one more time: when sigma is huge (here: object exists vs
+doesn't), audit the convention before believing the physics. Negative result
+filed with the same weight as PHASE 8/9's hits — the empty spectrum plus the
+{2..13} window is a clean, checkable claim nobody had stated.
+
+Artifacts: probes/j1c_wedge_milp.py, lab/J1C_spectrum.json,
+lab/J1C_wedge_result.md.
