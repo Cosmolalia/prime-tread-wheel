@@ -1739,3 +1739,28 @@ sublattice sits at d ≥ 4; object B (habitat-eligible) strictly harder, no d = 
 kills all-ticks wipe only for m ≥ 157 (not 41); trailing seat = T(m) =
 m(m+1)/2. **The 2-adic spine scores a fourth instance: the wedge distance is
 decided by ring 2** — even layers one flip away, odd layers far, ends smooth.
+
+## 2026-10-11 evening — PHASE 11 calm-slope: pre-reg (a) FAILS LOUDLY, (b) PASSES inverted
+
+Ran Claude's frozen lane pair-density sum (lab/PHASE11_calm_slope.py, conventions
+C1–C9 frozen in-script; audit-first). Machinery VERIFIED exact before trusting the
+fail: F[d] matches direct local counts (two real bugs fixed in flight — Legendre
+sign, prime-power exponents — Kronecker table then sympy-verified on all 72 lanes,
+zero mismatches); f(t)=t sanity returns -ln10; band-mean F = 1.0000 exactly.
+
+VERDICTS. (a) FAIL: pooled 12-lane theory rungs 0.785/0.674/0.571/0.463/0.337/0.023
+vs P9 measured 0.890/0.814/0.741/0.671/0.597/0.509 — off 2x at the FIRST rung, gap
+grows super-log (T(W) drifts -5..-9/decade, rate still growing; the two-point sum
+is not summable for quadratic lanes — D's split-prime lattice plants correlation at
+every scale). (b) PASS inverted: with d^2==D terms off, per-prime average = prod
+(p^2-4p+2)/(p(p-4)) ~ 0.40, S ~ -0.6W LINEAR — the common-root terms are
+load-bearing for the log-law itself, not an 11% correction. GLM 0.64 ceiling:
+truncated free-sum curve (0.82->0.58) misses his cut-off rungs at every level and
+inverts the shape — same root cause.
+
+GAP [S hypothesis]: the free quadratic singular series is the FREE-RING ceiling;
+the wheel's lanes inherit P10 confinement and are calmer than any free-phase model.
+Measured 11%-over-MS = gears' true contribution; naive 0.067 = plain-prime floor;
+-0.14 = unachievable free-phase bound. The calm is MADE by confinement more than
+gears. Discriminator: confined-phase prediction of the cut-off asymptote.
+Side note: pbar 34.2 vs 29.2 convention logged, wrong direction, non-load-bearing.
