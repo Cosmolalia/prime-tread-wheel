@@ -239,8 +239,8 @@ exact MILP, checkpointed):
 
   - d = 0 iff m <= 13.
   - feasible iff m <= 257 (MILP confirms: d finite on every layer 14..257,
-    d = None on every layer 258..391 checked — 258..337 at filing, the
-    remainder theorem-guaranteed by h(25) = 258).
+    d = None on all 134 layers 258..391 — the complete run, exactly as
+    h(25) = 258 guarantees).
   - object-A d-curve: d ~ 0.0747*m + 0.54 (max residual 3.3), d = 1 at 14
     rising to d = 22 at 257.
 

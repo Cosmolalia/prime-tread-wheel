@@ -118,16 +118,19 @@ Compiled clean; lane c=14, W=1e6, PG=2e6 with uniform and engine weights.
   one-line arithmetic [F] (verified by inspection: (6t+1)(56t+5) etc.
   expand to the stated polynomials); the census total follows from §1.
 
-## 6. Object-A d-curve result (PHASE14_objA_dcurve, checkpoint at m=337)
+## 6. Object-A d-curve result (PHASE14_objA_dcurve, complete run m = 14..391)
 
-Frozen predictions adjudicated (layers 14..337 at filing; tail 338..391
-theorem-guaranteed by h(25)=258):
+Frozen predictions adjudicated on the COMPLETE run (all 378 layers,
+m = 14..391; tail 338..391 confirmed d = None exactly as h(25)=258
+guarantees; the probe's own final A1 print said False — a mixed
+int/str key artifact of fresh-vs-checkpointed layers, not a result;
+the saved JSON is authoritative and reads A1 True):
 
 - **A1 PASS**: d finite on every layer 14..257 (244/244). d = 1 at m=14,
   d = 22 at m = 257. d-curve: linear fit 0.0747*m + 0.54, max residual 3.3.
-- **A2 PASS (proven [F], MILP-confirmed)**: d = None on every layer 258..337
-  checked. m >= 258 infeasibility is theorem-grade (Jacobsthal), so the
-  pending tail cannot overturn this.
+- **A2 PASS (proven [F], MILP-confirmed)**: d = None on all 134 layers
+  258..391. m >= 258 infeasibility is theorem-grade (Jacobsthal); the
+  measured run confirms the theorem over its whole range.
 - **A3 PASS**: home-cover census reproduces {2..13} exactly.
 - **A4 (shape)**: d is broadly increasing with scatter (dist 1..23, no
   monotone claim was frozen).

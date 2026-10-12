@@ -41,7 +41,7 @@ def main():
         if str(m) in d:
             continue
         t1 = time.time()
-        d[m] = solve_layer(m, 'all')
+        d[str(m)] = solve_layer(m, 'all')
         out['d'] = d
         with open(OUT, 'w') as f:
             json.dump(out, f, indent=1)
