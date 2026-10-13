@@ -1920,3 +1920,29 @@ lab/PHASE15_dynrings.md.
 ## 2026-10-12 afternoon — Downloads archive sweep (5-agent triage)
 
 Full corpus (`~/Downloads` 711 prime files, WhitePapers/119, Collatz, Erdős) triaged → `lab/ARCHIVE_TRIAGE_2026-10-12.md`. Recovered two live relay artifacts that were sitting in Downloads, not the repo: SWARM_HANDBACK_2026-10-12.txt and REVIEW_2026-10-12 (Mark French & Claude; independent verification all ✓, one fix already known). Genuine ADDS found: (1) Echo Cascade 2p±1 adjacency census to 5e7 (balance 1.000065) — doubling-graph territory the wheel doesn't cover [S, un-audited]; (2) PRIME² isolated-prime classification — printed sequence/density FALSIFIED in triage (true: 17,43,67,71,101,103,109,127,137…; density ~1-4/ln p, not 15.4%); (3) two never-rebooted ancestor measurements: knockout wall profile (~50% sub-√x wheels used, largest-needed →98% of √x by layer 3000) and chained double-shot census (2p+b², 10062 double-prime spokes ≤2000); (4) Hooley 1965 exponential gap law for primorial-coprime integers [E] — NOT in LITERATURE_SWEEP_2026-10-10, the one real lit gap; benchmark candidate for dial-census gaps. Collatz/Erdős corpora: nothing wheel-adjacent (Collatz scale-basin verifier = reproducible NEGATIVE result, re-confirmed). Harmonic twin-prime "test" falsified: vacuous for odd n.
+
+## 2026-10-12 afternoon — ARCHIVE QUEUE run: all five triaged items measured
+
+Queue from the Downloads/WhitePapers triage executed as one probe
+(lab/ARCHIVE_Q_2026-10-12.py, 6.3s; writeup lab/ARCHIVE_Q_2026-10-12.md):
+- Q1 Echo Cascade 2p±1 census: PASS. pi(5e7)=3,001,134 exact; counts match to
+  p=2,3 edge conventions; balance 1.000070 vs claim 1.000065; mechanism named
+  (mod-6 forced 3-divisibility, kills 1,500,652 vs 1,500,480); corollary [F]:
+  p=3 is the ONLY prime with both 2p-1 and 2p+1 prime. Their "stability"
+  metric undefined in corpus [G], uncheckable.
+- Q2 isolated primes: PASS. Sequence 17,43,67,71,101,... confirmed; density
+  0.583->0.757 below 1e4..1e7 tracking 1-4/ln p; PRIME^2's 15.4% stays dead.
+- Q3 knockout wall: PASS, ancestor claims reproduced in the reboot (share
+  0.46-0.59 settling ~0.5; biggest-needed/sqrt -> 0.981 by layers 2000-3000).
+- Q4 double-shot census: 10,062 reproduced EXACTLY; all double-prime spokes
+  odd-b (parity mechanism [F] confirmed). BH predictions all underpredict,
+  monotonically closing: naive 4,110 -> standard SS 7,582 -> family-restricted
+  SS 8,672 vs observed 10,062; residual 1.16x FLAT across b (not small-N).
+  [G] uniform density excess; follow-up: Sophie Germant calibration to split
+  machinery bias from structure.
+- Q5 Hooley 1965: frozen finite-k statement FAILS (KS 0.29-0.32, not
+  shrinking) BUT the theorem's actual hypothesis is n/phi(n) -> infinity —
+  enumerable primorials cap at n/phi ~ 7.5. One-period gap law = Exp(1)
+  squeezed by lattice floor (c >= 2phi/N) + Jacobsthal cap (max gaps 22/26/34
+  = j(N_k) exactly, cross-checking PHASE 14). [E] stands; truncated-fit
+  follow-up proposed. Added to LITERATURE_SWEEP as addendum.

@@ -1,0 +1,61 @@
+======================================================================
+LEG Q1 — Echo Cascade audit (2p±1 adjacency, primes to 5e7)
+pi(5e7)            = 3001134   (their claim: 3,001,134)
+2p-1 prime count   = 229552   (their claim: 229,551)
+2p+1 prime count   = 229568   (their claim: 229,566)
+balance (2p+1)/(2p-1) = 1.000070   (their claim: 1.000065)
+both prime         = 1   either = 459119
+per-decade table (p in [10^k, 10^(k+1)) ):
+  1e1 : primes        21 | 2p-1        5 (0.2381) | 2p+1        7 (0.3333) | balance 1.40000
+  1e2 : primes       143 | 2p-1       27 (0.1888) | 2p+1       27 (0.1888) | balance 1.00000
+  1e3 : primes     1,061 | 2p-1      154 (0.1451) | 2p+1      153 (0.1442) | balance 0.99351
+  1e4 : primes     8,363 | 2p-1      977 (0.1168) | 2p+1      981 (0.1173) | balance 1.00409
+  1e5 : primes    68,906 | 2p-1    6,586 (0.0956) | 2p+1    6,575 (0.0954) | balance 0.99833
+  1e6 : primes   586,081 | 2p-1   48,405 (0.0826) | 2p+1   48,286 (0.0824) | balance 0.99754
+  1e7 : primes 2,336,555 | 2p-1  173,396 (0.0742) | 2p+1  173,536 (0.0743) | balance 1.00081
+mod-3 forced composites: 2p-1 side 1,500,652, 2p+1 side 1,500,480
+(their per-decade 'stability' metric is undefined in the corpus [G];
+ our table above is the auditable content; decay exponent 0.085 UNCHECKABLE)
+======================================================================
+LEG Q2 — PRIME^2 isolated-prime census (kernel real, paper falsified)
+sequence below 1033: [17, 43, 67, 71, 101, 103, 109, 127, 137, 149, 151, 163, 181, 197, 223, 241, 257, 269, 283, 311, 317, 349, 353, 373, 389, 401, 409, 433, 449, 461, 463, 487, 521, 523, 557, 569, 571, 599, 617, 631, 643, 647, 677, 701, 709, 739, 751, 769, 773, 787, 797, 821, 823, 827, 853, 857, 859, 881, 883, 907, 919, 929, 941, 947, 971, 977, 991, 1021, 1033]
+matches triage hand-check [17, 43, 67, 71, 101, 103, 109, 127, 137]: True
+  below 1e4: primes    1,061 isolated      619 density 0.5834 | heuristic 1-4/ln p = 0.5356
+  below 1e5: primes    8,363 isolated    5,490 density 0.6565 | heuristic 1-4/ln p = 0.6335
+  below 1e6: primes   68,906 isolated   49,613 density 0.7200 | heuristic 1-4/ln p = 0.6974
+  below 1e7: primes  586,081 isolated  443,821 density 0.7573 | heuristic 1-4/ln p = 0.7423
+======================================================================
+LEG Q3 — knockout wall profile (re-running probes/knockout_test.py, M=3000)
+  layers   10-99  : gears to sqrt   12.0 | needed    7.0 | share 0.59 | biggest needed / sqrt 0.831 (lowest 0.361)
+  layers  100-499 : gears to sqrt   46.3 | needed   24.7 | share 0.54 | biggest needed / sqrt 0.924 (lowest 0.487)
+  layers  500-999 : gears to sqrt   98.8 | needed   49.4 | share 0.50 | biggest needed / sqrt 0.960 (lowest 0.764)
+  layers 1000-1999: gears to sqrt  176.7 | needed   84.0 | share 0.48 | biggest needed / sqrt 0.973 (lowest 0.771)
+  layers 2000-3000: gears to sqrt  273.0 | needed  125.1 | share 0.46 | biggest needed / sqrt 0.981 (lowest 0.840)
+======================================================================
+LEG Q4 — chained double-shot census (Atlas fact 10, claim: 10,062)
+double-prime spokes, conventions: {'a_lt_b': 10062, 'a_le_b': 10062, 'odd_b_only': 10062}
+atlas claim: 10,062 (denominators up to 2,000)
+frozen BH predictions: naiive E0 = 4,110 | singular-series EBH = 7,582
+======================================================================
+LEG Q5 — Hooley 1965 exponential gap law for primorial-coprime integers
+  k=6 N_k=30,030 phi=5,760 mean_gap=5.214 n=5,760
+    c=0.25: empirical 0.00000 | Hooley 1-e^-c 0.22120
+    c= 0.5: empirical 0.25781 | Hooley 1-e^-c 0.39347
+    c= 1.0: empirical 0.51562 | Hooley 1-e^-c 0.63212
+    c= 2.0: empirical 0.95347 | Hooley 1-e^-c 0.86466
+    KS = 0.31861 | threshold 2/sqrt(n) = 0.02635 -> FAIL
+  k=7 N_k=510,510 phi=92,160 mean_gap=5.539 n=92,160
+    c=0.25: empirical 0.00000 | Hooley 1-e^-c 0.22120
+    c= 0.5: empirical 0.24170 | Hooley 1-e^-c 0.39347
+    c= 1.0: empirical 0.48340 | Hooley 1-e^-c 0.63212
+    c= 2.0: empirical 0.93019 | Hooley 1-e^-c 0.86466
+    KS = 0.30306 | threshold 2/sqrt(n) = 0.00659 -> FAIL
+  k=8 N_k=9,699,690 phi=1,658,880 mean_gap=5.847 n=1,658,880
+    c=0.25: empirical 0.00000 | Hooley 1-e^-c 0.22120
+    c= 0.5: empirical 0.22827 | Hooley 1-e^-c 0.39347
+    c= 1.0: empirical 0.45654 | Hooley 1-e^-c 0.63212
+    c= 2.0: empirical 0.90743 | Hooley 1-e^-c 0.86466
+    KS = 0.28969 | threshold 2/sqrt(n) = 0.00155 -> FAIL
+======================================================================
+total wall time 6.3s
+wrote lab/ARCHIVE_Q_2026-10-12.json

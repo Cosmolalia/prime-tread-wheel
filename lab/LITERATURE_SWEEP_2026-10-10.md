@@ -124,3 +124,16 @@ only if always footnoted to Bateman–Horn; never as results.
 **Open caveat:** this was a web-scale sweep (~40 query rounds, four agents), not a
 MathSciNet full-text scan. Before any external submission, one more pass against
 MR/Zentralblatt is still owed.
+
+## Addendum 2026-10-12 — Hooley 1965 (the one gap the archive triage surfaced)
+
+**Hooley, "On the difference between consecutive numbers prime to n", I–III
+(1965).** Gaps between consecutive integers coprime to n, normalized by
+n/φ(n), converge to the exponential distribution 1−e^{−c} **as n → ∞ with
+n/φ(n) → ∞**. Direct [E] law about exactly the wheel's reduced-residue (tick)
+gap structure. Finite-k status measured in `lab/ARCHIVE_Q_2026-10-12.md` (Q5):
+at primorials k=6,7,8 (n/φ ≈ 5.2–5.9, enumeration cap) the one-period law is
+NOT yet exponential (KS 0.29–0.32); deviation mechanism = lattice floor
+(c ≥ 2φ/N) + Jacobsthal cap (max gap = j(N_k), measured 22/26/34), both
+receding only in Hooley's regime. Use as the asymptotic anchor for all
+dial-census / Jacobsthal gap work, with the finite-k correction noted.
