@@ -1983,3 +1983,28 @@ Consistency check: native-schedule law d ~ 0.5*m/(2 ln m) predicts 36.2 at m=100
 incumbent 38 sits 5% above. Consistent with the law's historical scatter; the
 law is not contradicted but m=1000 joins {251} as a proven-or-near d point.
 Log: lab/PHASE15_sparse_m1000.log.
+
+## 2026-10-13 morning — site sync + GLM collapse audited STANDS [E]
+
+Site sync (commit 273f443): PAPER.md §10 (displacement curve, two loads,
+native-schedule sublinearity, N1, 4th BH dissolution), WHITEPAPER.md §15
+(wedge era) + open-problems refresh + Hooley/Hagedorn refs; whitepaper.html
+BUILT for the first time via tools/build_whitepaper.py (grand.html's White
+Paper tab had 404'd since the rail was written). Pushed; ostoe.com rsync'd.
+
+GLM CRT-shift collapse AUDIT — STANDS, all legs PASS [E]
+(lab/GLM_COLLAPSE_AUDIT_2026-10-13.{py,md}, ~16 s):
+- LEG 1 exhaustive Q in {6,30,210}: identity covered(N) <=> gcd(N-a,Q)>1,
+  feasibility <=> m <= j(Q)-1, and d = #{p !| a} = |P| - max omega_P(a),
+  over ALL translates/windows. j(6,30,210)=(4,6,10) by scan.
+- LEG 2: GLM's m=14 witness reconstructs exactly (a = Q_odd, d=1, d=0
+  blocked by 97-rough 101/103) — matches measured d(14)=1.
+- LEG 3: B=53 recomputed MILP-free: d(60)=7, d(100)=11, infeasible@150
+  (also instant from j(53#)=106). LEG S reproduced from arithmetic alone.
+- LEG 4: A048670 confirms j(31#) = 58 exactly as GLM stated (resolves our
+  "j(31#) <= 60" bracket to the exact value).
+Consequences: feasibility closed everywhere by table; d(m) = small
+prime-set exact cover (m=1000 native now a 127-prime SAT, not a 40k MILP);
+"why m/13.5" is now the omega-degradation law max|S|(m); slope-universality
+attack is pure arithmetic. Naming pinned: house h(k)=j(p_k#) (first
+infeasible layer) vs "max coverable window" = j(Q)-1.
