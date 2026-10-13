@@ -2110,3 +2110,11 @@ Queue items from the morning report, all three fired. Collapsed covering ILP
   lab/PHASE16_sparse_m600.log, 3 h limit) — pending at filing time.
 
 Lab note: lab/PHASE16_b131_homeflip.md
+
+## 2026-10-13 early afternoon — native m=600 MILP lands: d=26 PROVEN OPTIMAL
+
+`lab/phase15_sparse_relay.py 600` (82 rings, 15,537 vars): status Optimal,
+d = 26, 294 s. Native-schedule law `d/pred` (pred = 0.5m/(2 ln m)) now
+1.26 → 1.22 → 1.14 → **1.11** at m = 300/400/600 — still systematically
+low, still converging. The arithmetic queue is fully closed; the board is
+ready for the updated relay handoff.
