@@ -1,0 +1,42 @@
+LEG A — B=97 reference curve from JSON (no compute)
+{"n": 244, "k_d": 0.07472, "c_d": 0.54, "max_resid": 3.33, "k_omega": -0.07472, "omega0": 24.46, "omega14": 24, "omega257": 3}
+LEG B — B=53 collapsed curve
+  B=53 m=14: d=1 (exact, 0.0s)
+  B=53 m=20: d=3 (exact, 0.0s)
+  B=53 m=28: d=3 (exact, 0.0s)
+  B=53 m=36: d=5 (exact, 0.1s)
+  B=53 m=44: d=5 (exact, 0.1s)
+  B=53 m=52: d=4 (exact, 0.0s)
+  B=53 m=60: d=7 (exact, 0.7s)
+  B=53 m=72: d=7 (exact, 0.7s)
+  B=53 m=84: d=8 (exact, 1.6s)
+  B=53 m=96: d=9 (exact, 3.2s)
+  B=53 m=105: d=13 (exact, 13.2s)
+LEG C — B=31 collapsed curve
+  B=31 m=14: d=2 (exact, 0.0s)
+  B=31 m=20: d=3 (exact, 0.0s)
+  B=31 m=28: d=3 (exact, 0.0s)
+  B=31 m=36: d=5 (exact, 0.0s)
+  B=31 m=44: d=6 (exact, 0.0s)
+  B=31 m=52: d=7 (exact, 0.1s)
+  B=31 m=57: d=8 (exact, 0.1s)
+LEG D — B=97 instrument bind at m=60
+{"json_d60": 6, "collapsed_d60": 6, "bind": true, "seconds": 2.4}
+{
+ "slope_table": {
+  "B31": 0.13858,
+  "B53": 0.10367,
+  "B97": 0.07472,
+  "mech_pred_B31": 0.08615,
+  "mech_pred_B53": 0.0814,
+  "mech_pred_B97": 0.07739
+ },
+ "verdict": {
+  "F1_k53_in_band": false,
+  "F1_k31_in_band": false,
+  "F2_above_mechanism": true,
+  "F3_legD_bind": true,
+  "F4_endpoints": true
+ },
+ "seconds": 22.3
+}

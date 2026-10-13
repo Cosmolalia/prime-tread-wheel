@@ -2027,3 +2027,40 @@ Three-agent evidence pass (census definition / arithmetic / geometry):
 Sharpened open question (WHITEPAPER §13 amended in place): what selects the
 winning field club, and at what resolution is argmax-C a stable statistic?
 Next instrument: C-decomposition census across a wide ratio grid.
+
+## 2026-10-13 late morning — PHASE 16 both probes: alternatives pass complete
+
+### Dial C-decomposition census (lab/PHASE16_dial_census.md, .json, _grid.json)
+Full coprime grid b<=60, 1<=a<=2b (2202 ratios; 2132 live). Adjudications:
+- D1 PASS (7/6 argmax at b<=8), D2 PASS (89/46 argmax at b<=60).
+- D3 REFUTED: logC2 = log 2 for ALL 2132 live ratios — parity eligibility
+  filter forces odd families; the 2-adic factor is universally x2 and
+  cannot select. "b-even dial deletes ring 2" is dead as a selector.
+- D4 half: 7/6 bad-prime factor at 3 = 1.5 exactly; the "x4" was wrong
+  (absolute x2, universal).
+- D5: top-5 SET identical small-C vs full-C; internal order is cutoff
+  noise (2% cluster).
+- 7/6 rank by resolution: 1/35, 3/78, 14/232, 48/521, 442/2132.
+- MECHANISM [F from measurement]: C-selection = prime-avoidance
+  constellation = inert-prime profile of the family's quadratic field
+  (rho=0 <=> inert). Leaders keep ~15-16 of 19 primes p<=67 inert with
+  split losses only at large primes; 7/6 has 11 inert + 6 split losses.
+  The dial's real role is lattice richness (family count grows with b:
+  7/6 has 2, 45/47 has 60) — argmax-C resolution-dependence is a
+  best-of-N SEARCH effect, winners saturating at C~6.6-6.8.
+- Two winners by statistic: best family 89/46; total haul (sumC) 1/59.
+
+### Omega-degradation curve (lab/PHASE16_omega_curve.md, .json, .log)
+Collapsed exact-cover, no MILP. Slopes measured exact: k_31 = 0.1386,
+k_53 = 0.10367, k_97 = 0.07472. k(B) = 0.876/ln B - 0.117 fits 3/3
+[S->measured; discriminating test: B=131/151 predicts ~0.066/0.063].
+F1 frozen bands FAIL (measured well above two-load extrapolation at
+small B; 0.215/0.051 constants do not transfer down-B — right 1/ln B
+shape, wrong amplitude [G]). F2 PASS (above-mechanism direction).
+F3 PASS (collapsed DFS == MILP at B=97 m=60, d=6). F4 PASS (omega
+24->3). LEG D bind: two instruments agree at 25 rings [E].
+Native: m=300 d=16 (47 rings), m=400 d=19 (60 rings), both PROVEN
+OPTIMAL (sparse MILP, 19s/40s). Law d ~ 0.5*m/(2 ln m) systematically
+low, converging: d/pred 1.26 -> 1.22 -> 1.14 -> 1.05(incumbent).
+Named follow-ups: B=131 slope point; native m=600; d_home/d_flip as
+omega-accounting (GPT queue #6).

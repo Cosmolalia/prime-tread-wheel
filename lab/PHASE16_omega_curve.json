@@ -1,0 +1,183 @@
+{
+ "legA_B97": {
+  "n": 244,
+  "k_d": 0.07472,
+  "c_d": 0.54,
+  "max_resid": 3.33,
+  "k_omega": -0.07472,
+  "omega0": 24.46,
+  "omega14": 24,
+  "omega257": 3
+ },
+ "legB_B53": {
+  "B": 53,
+  "nrings": 16,
+  "rows": {
+   "14": {
+    "d": 1,
+    "omega": 15,
+    "seconds": 0.0,
+    "status": "exact"
+   },
+   "20": {
+    "d": 3,
+    "omega": 13,
+    "seconds": 0.0,
+    "status": "exact"
+   },
+   "28": {
+    "d": 3,
+    "omega": 13,
+    "seconds": 0.0,
+    "status": "exact"
+   },
+   "36": {
+    "d": 5,
+    "omega": 11,
+    "seconds": 0.1,
+    "status": "exact"
+   },
+   "44": {
+    "d": 5,
+    "omega": 11,
+    "seconds": 0.1,
+    "status": "exact"
+   },
+   "52": {
+    "d": 4,
+    "omega": 12,
+    "seconds": 0.0,
+    "status": "exact"
+   },
+   "60": {
+    "d": 7,
+    "omega": 9,
+    "seconds": 0.7,
+    "status": "exact"
+   },
+   "72": {
+    "d": 7,
+    "omega": 9,
+    "seconds": 0.7,
+    "status": "exact"
+   },
+   "84": {
+    "d": 8,
+    "omega": 8,
+    "seconds": 1.6,
+    "status": "exact"
+   },
+   "96": {
+    "d": 9,
+    "omega": 7,
+    "seconds": 3.2,
+    "status": "exact"
+   },
+   "105": {
+    "d": 13,
+    "omega": 3,
+    "seconds": 13.2,
+    "status": "exact"
+   }
+  },
+  "k_d": 0.10367,
+  "c_d": 0.151,
+  "max_resid": 1.96,
+  "k_mechanism_pred": 0.0814
+ },
+ "legC_B31": {
+  "B": 31,
+  "nrings": 11,
+  "rows": {
+   "14": {
+    "d": 2,
+    "omega": 9,
+    "seconds": 0.0,
+    "status": "exact"
+   },
+   "20": {
+    "d": 3,
+    "omega": 8,
+    "seconds": 0.0,
+    "status": "exact"
+   },
+   "28": {
+    "d": 3,
+    "omega": 8,
+    "seconds": 0.0,
+    "status": "exact"
+   },
+   "36": {
+    "d": 5,
+    "omega": 6,
+    "seconds": 0.0,
+    "status": "exact"
+   },
+   "44": {
+    "d": 6,
+    "omega": 5,
+    "seconds": 0.0,
+    "status": "exact"
+   },
+   "52": {
+    "d": 7,
+    "omega": 4,
+    "seconds": 0.1,
+    "status": "exact"
+   },
+   "57": {
+    "d": 8,
+    "omega": 3,
+    "seconds": 0.1,
+    "status": "exact"
+   }
+  },
+  "k_d": 0.13858,
+  "c_d": -0.112,
+  "max_resid": 0.77,
+  "k_mechanism_pred": 0.08615
+ },
+ "legD_bind": {
+  "json_d60": 6,
+  "collapsed_d60": 6,
+  "bind": true,
+  "seconds": 2.4
+ },
+ "legE_native": [
+  {
+   "m": 263,
+   "d": 15,
+   "nrings": 42,
+   "src": "PHASE15_dynrings.md",
+   "law_pred": 11.8,
+   "omega": 27,
+   "d_over_pred": 1.271
+  },
+  {
+   "m": 1000,
+   "d": 38,
+   "nrings": 127,
+   "status": "incumbent-bound32",
+   "src": "PHASE15_sparse_m1000.log",
+   "law_pred": 36.19,
+   "omega": 89,
+   "d_over_pred": 1.05
+  }
+ ],
+ "slope_table": {
+  "B31": 0.13858,
+  "B53": 0.10367,
+  "B97": 0.07472,
+  "mech_pred_B31": 0.08615,
+  "mech_pred_B53": 0.0814,
+  "mech_pred_B97": 0.07739
+ },
+ "seconds": 22.3,
+ "verdict": {
+  "F1_k53_in_band": false,
+  "F1_k31_in_band": false,
+  "F2_above_mechanism": true,
+  "F3_legD_bind": true,
+  "F4_endpoints": true
+ }
+}

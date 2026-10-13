@@ -1,0 +1,1 @@
+{"m": 300, "rings": 47, "vars": 4438, "nnz": 18538, "seconds": 19.19, "mode": "free", "status": 0, "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)", "objective": 15.999999999999988, "best_bound": 15.999999999999988, "gap": 0.0, "phase2": 0, "displacements": 16, "uncovered": 0}
