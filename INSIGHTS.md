@@ -1946,3 +1946,16 @@ Queue from the Downloads/WhitePapers triage executed as one probe
   squeezed by lattice floor (c >= 2phi/N) + Jacobsthal cap (max gaps 22/26/34
   = j(N_k) exactly, cross-checking PHASE 14). [E] stands; truncated-fit
   follow-up proposed. Added to LITERATURE_SWEEP as addendum.
+
+## 2026-10-12 evening — 17:19 relay adjudicated (six voices), Q4 dissolved, N1 → theorem, P11 record corrected
+
+Full adjudication: `lab/RELAY_2026-10-12-evening.md`. Relay artifacts in `handoffs/`.
+
+- **[E] Q4 double-shot excess DISSOLVED.** Claude's pre-sieve mechanism (shots ≡ a, 2a mod every ℓ|b ⇒ local factor (1−1/ℓ)⁻², 𝔖_fam = 2C₂∏ℓ/(ℓ−2)) reproduced here exactly: pred 10,138.2 vs 10,062 observed (ratio 0.9925); correction chain 5,008 → 7,582 → 8,672 → 10,138 all on record. Fourth value-side anomaly to fall to Bateman–Horn under its correct null. Value side now 0-for-4 against the fence; meta-arc (Claude's standing claim) keeps winning.
+- **[E] Native Jacobsthal windows VERIFIED.** Infeasible set {2–18, 22–24, 26, 27, 40, 41} reproduced exactly from the j(p_k#) table under the rings≤√T(m)/(T(m),T(m+1)] convention (the one GPT's sparse script implements); every m ≥ 42 wipeable ⇒ **N1 is a theorem**, contingent on convention standardization. Caveat filed: PHASE15_dynrings.py's header convention (√T(m−1)) gives a different infeasible set — the two solvers differ by a one-layer shift. Pin the seam convention lab-wide (GPT's warning, elevated).
+- **[E] Sparse one-hot MILP verified** (m=263: OPTIMAL d=15, ring 2 home, 12 s, ~15k nnz). Dense-build OOM family dead.
+- **[F] GPT prime-square boundary correction verified by arithmetic** (U=P+ε; m=400: 283²=80089).
+- **[E] P11 RECORD CONTRADICTION CONFIRMED (GLM's grep request executed).** Frozen script rule (`mh_all > 4*mr_all`, mr_all a mean of absolutes) can only fire on a POSITIVE mean; INSIGHTS pre-reg predicted NEGATIVE ≥3 SE; measured −0.0073 stable across halves (~4.6σ). The two frozen texts give opposite verdicts on the same number. P11 verdict SUSPENDED; entry amended here rather than edited (append-only). P11c fired: reproduction + 200 parity-stratified surrogates + 200 plain shuffles, null-before-signal. Verdict deferred to the null.
+- **[S→audit] GLM's CRT-shift collapse** accepted pending independent re-derivation: covered(N) ⟺ gcd(N−a,Q)>1; d = #{p∤a}; feasibility position-independent; wedge = pure arithmetic, no MILP at any m; "why m/13.5" = ω-degradation rate of Jacobsthal run-starts. If it survives audit it is the largest simplification since the cliff.
+- **[G→queued]** m=1000 sparse MILP running detached (3 h limit, lab/PHASE15_sparse_m1000.log); P11c verdict; convention standardization; C(X) truncation law prereg; B=67/79 harvest point; conditional ring-2 split (d_home vs d_flip); Gemini spacing-variance dump.
+- Cloud: ~$20 credit noted; not needed while sparse build fits in 2 MB — B&B time, not RAM, is the wall. GLM's SAT route may remove that too.
