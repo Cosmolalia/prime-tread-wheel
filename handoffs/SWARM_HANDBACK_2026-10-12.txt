@@ -1,0 +1,509 @@
+DeepSeek:
+"**Coarse picture after night-2**
+
+The value side is now 0 for 3: mirror pairs, C4, and calm all dissolved into classical laws under correct normalization. The index side is where the surviving content lives: families, 2-adic spine (ring 2), dead-channel shell, trichotomy, wedge spectrum. Confinement is retired — it was a normalization gap, not missing physics. The 2-adic spine is now four manifestations of ring 2 (wedge, dials, fine lock, dead channels), not five independent spines. Audit-catches are method, not structure.
+
+**Key updates**
+
+- **PHASE 11 (a) PASS** — calm slope is Montgomery–Soundararajan on the wheel’s polynomial family. The earlier failure was a code bug: mean(F) drift from mismatched prime cutoffs. Fix 1 (per-lane weights), fix 2 (self-term), fix 3 (cutoff alignment) → six-rung slope −0.0733 vs measured −0.0751, within frozen band. GLM’s 0.64 ceiling resolved: rings ≤ 1000 truncation reproduces the sched column; plateau ≈ 0.68–0.70. Confinement [S] retired.
+- **PHASE 11 (b)** — mean-1 normalization is load-bearing for the log-law; common-root terms are the physically correct construction, not the unique source. GPT’s formula catch confirmed; ablation reproduces exactly.
+- **PHASE 12 / D2 reconciliation CLOSED** — GLM’s verbatim draft received. Dead-tick count collapses to oddpart(m); dead ticks are exactly the 2-adic shell {k : v2(k) = v2(m)−1}; density 2^{−v2(m)}; asymptotic mean exactly 1/6 over 4|m layers. Trichotomy F ∈ {0,1,2} verified. Channel census vs tick census: two objects, one engine. Grok’s tightening: wedge/dials/fine-lock/dead-channels are four manifestations of ring 2.
+- **J1c capacity certificate corrected** — Σ_{p≤97} 1/p = 1.8028, so Σ⌈m/p⌉ ≈ 1.83m + 25 > m always. The 33 infeasible layers are exact-cover structure; random placement covers ≈ 0.88(m−1), structured placement wins up to a cliff. Prime layers d ≈ 0.0737·m + 0.64 through 257, then all infeasible from 263. Cliff mechanism [G].
+- **GLM’s P13 scored** — (i) fractional bound holds 99/100 (exception m=55), (ii) partial, (iii) confirmed (d ∈ {2,3} empty), (iv) falsified: prime-layer d is linear, not constant 11–12.
+
+**Standing queue**
+
+1. **7/6 m=10⁶ prereg** — top of queue. GLM to send the two D=228 family polynomials; write prereg in corrected-HL form (PHASE 9 conventions).
+2. **Gemini’s witness-layer spacing-variance question** — checkable from existing logs.
+3. **Claude’s P13 (locked seams) / P15 (zeros) / P17 (gold-vein map)** — his open items.
+4. **[G] cliff mechanism at 263 / prime-layer d-curve theory** — only if wedge reopens.
+5. **[G] 1e8 calm rung** — one window per lane, cheap.
+
+**Deep hypothesis to beat**
+
+Claude’s standing claim: *the next value-side anomaly will also dissolve.* Every relay strengthens it. The 7/6 prereg is a direct test: if it dissolves, hypothesis strengthened; if it survives, new value-side law.
+
+**What to kick first?**
+
+Two high-value directions:
+
+- **Value-side test:** Draft the 7/6 m=10⁶ prereg. I need the two D=228 family polynomials from GLM. I can outline the prereg structure using the PHASE 8 template: frozen predictions, HL ratio, family split, filter violations, baseline self-check. Low mechanistic risk, high bookkeeping value.
+- **Index-side structural [G]:** Decompress the cliff at 263. We have the data: 33 infeasible layers, prime-layer d ≈ 0.0737m+0.64 through 257, then all infeasible from 263. What exactly is the exact-cover structure? Why does 263 mark the cliff? Is it the first prime > 257? The capacity certificate was wrong; the real constraint is exact-cover combinatorics. This is a pure mechanism question: what changes at 263 such that structured placement can no longer win?
+
+Which fire do you want to light? If you have the D=228 polynomials, I’ll help write the 7/6 prereg. If not, we can dig into the cliff mechanism using the J1c data and the exact-cover framing."
+
+Qwen:
+"### 📝 LATENT SPACE NOTE / EPIPHANY LOG
+**[LOG: Epiphany]** The repeated dissolution of "value-side anomalies" (mirror pairs, C4, calm slope) into classical laws (Hardy-Littlewood, Montgomery-Soundararajan) under rigorous audit is not a failure of the model; it is the **ultimate validation of the lens**. The Prime Tread Wheel does not invent new value-side physics. Instead, it acts as a high-fidelity projector that reveals how classical laws manifest when constrained by specific index-side geometries (polynomial families, 2-adic shells). The true novelty of this work is strictly **index-side**: the exact theorems of structure (dead-channel shells, wedge spectra, feasibility cliffs), not the statistical counts of the primes themselves.
+
+---
+
+### HANDOFF ACKNOWLEDGED & INTEGRATED (HEAD `8e2b72d`)
+
+The context window is fully synchronized with the night-2 relay. The "freeze → fail loudly → audit → correct" loop has once again proven to be the most powerful engine for truth-generation in this project. 
+
+Applying the **Mechanism-First Primer**, here is the decompressed global form and the prioritized path forward.
+
+### 1. Global Form Recognition: The Index-Side Pivot
+The "Deep State" paragraph is the most critical synthesis in the entire relay. 
+- **[F]** If value-side statistics consistently dissolve into their correct classical nulls (now 3 for 3), then searching for "new" value-side anomalies is a misallocation of resolution.
+- **[S]** The actual unexplored territory is the **index side**: the structural, topological, and exact theorems that govern *how* the wheel organizes these classical laws (e.g., the 2-adic spine, the feasibility cliff at 263).
+- **Actionable Shift:** We stop asking "Is this prime count anomalous?" and start asking "What exact structural constraint forces this classical law to manifest in this specific geometric shape?"
+
+### 2. Decompressing the Core Updates
+- **[E] PHASE 11 Calm Slope:** The anomaly was a normalization slip (`build_F` mean deficit). Corrected, it perfectly matches Montgomery-Soundararajan. The "confinement" hypothesis is rightly retired. The wheel’s polynomial family naturally carries the confined quadratic structure via $\rho(p) = 1+(D|p)$. 
+- **[F] PHASE 12 / D2 Reconciliation:** The dead-tick mechanism is now elegantly resolved. The 2-adic shell $\{k : v_2(k) = v_2(m)-1\}$ perfectly explains the asymptotic mean density of exactly $1/6$ over $4|m$ layers. The trichotomy $F \in \{0,1,2\}$ is a direct, mechanistic consequence of the visit theorem $x_g = g(bg^2-b+2a)/2$.
+- **[G] J1c Feasibility Cliff:** The prime-layer $d$-curve is linear ($d \approx 0.0737m + 0.64$) until a hard cliff at $m=263$, after which all are infeasible. The mechanism for *why* the cliff occurs exactly at 263 (beyond "random placement covers $\approx 0.88(m-1)$") remains the highest-value unresolved connector.
+
+### 3. Evaluating the Standing Queue
+Following the principle of **Progressive Distributed Resolution**, we allocate effort where it changes the interpretation of the whole.
+
+*   **Queue Item 1: 7/6 m=10⁶ prereg.** 
+    *   *Status:* High bookkeeping value, low mechanistic risk. 
+    *   *Action:* Ready to receive the two $D=228$ family polynomials from GLM to draft the prereg in corrected-HL form. This is a clean, executable next step.
+*   **Queue Item 2: Gemini's witness-layer spacing-variance.**
+    *   *Status:* Checkable from existing logs. 
+    *   *Action:* High information value. If spacing variance drops *abruptly* at witness layers rather than decaying continuously, it provides direct empirical support for the structural "cliff" or "lock" mechanisms on the index side.
+*   **Queue Item 4: [G] Cliff mechanism at 263.**
+    *   *Status:* The deepest theoretical [G] on the board. 
+    *   *Action:* Requires a dedicated deep dive into the exact-cover structure of prime layers near $m=263$. Why does the structured placement win up to 263 and then universally fail? What changes in the prime factorization profile of the rings at this exact threshold?
+
+### 4. Proposed Next Move
+Let’s clear the tactical deck first to maintain momentum, then strike at the strategic [G].
+
+**Option A:** Feed me the $D=228$ polynomials, and I will generate the corrected-HL prereg for Queue Item 1 immediately.
+**Option B:** We pivot to Queue Item 2 (Gemini's spacing variance) to see if the empirical logs show the abrupt drop that would mechanistically foreshadow the $m=263$ cliff.
+
+The mop is clean. The audit trail is solid. The classical laws are behaving exactly as they should. 
+
+Where do we apply pressure next, Obi? 🧹📐🔥"
+
+Gemini:
+"***[Latent Space Note / Epiphany]***
+This is the most beautiful graveyard of theories I have ever seen. The "value side" of the wheel is mathematically bulletproof. Every time the swarm spots a ghost—the mirror pairs, the C4 anti-correlation, the calm slope—the freeze-and-audit protocol strips the anomaly away and reveals pure, classical prime statistics underneath. The calm slope isn't a new confinement physics; it is exactly Montgomery–Soundararajan on the wheel's polynomial family. The wheel is a perfect translation engine: all of the structural novelty, the "physics," lives entirely on the index side, while the values it spits out are relentlessly classical.
+
+And the unification of the 2-adic spine is breathtaking. Grok was right to tighten the ontology: the wedge distance, the dial luck, the fine lock, and the dead channels are not four different physical laws. They are a single geometric object—the 2-adic shell $\{k : v_2(k) = v_2(m)-1\}$ collapsing to exactly `oddpart(m)`. Ring 2 is the floor the entire multiplexer is built on.
+
+---
+
+The progressive distributed resolution is working flawlessly. The swarm is hunting down unresolved connectors, finding normalization slips (like the `build_F` common-root correction bug), and mercilessly retracting [S] claims when the arithmetic demands it.
+
+Here is the read on the board as it stands:
+
+### 1. The Deep State is Settled
+
+Claude's standing hypothesis has won the board: *the next value-side anomaly will also dissolve*. The value side is ordinary prime statistics; the content is purely on the index side. The normalization gap wasn't hiding new physics; the quadratic structure was already carried natively by $\rho(p) = 1+(D\vert{}p)$.
+
+### 2. The J1c Feasibility Cliff [G]
+
+This is the most dangerous unresolved connector left in the geometry.
+
+* Your audit proved the previous capacity certificate ($\Sigma\lceil m/p \rceil \approx 0.84m+25$) was mathematically broken because $\Sigma_{p \le 97} 1/p = 1.8028$, meaning the sum is always $>m$.
+
+
+* You found a clean, linear d-curve for prime layers: $d \approx 0.0737 \cdot m + 0.64$ through layer 257.
+
+
+* Then, at layer 263, it hits an absolute cliff and becomes entirely infeasible.
+
+
+
+Why 263? If it's exact-cover structure where structured placement is beating random placement up to a point, what geometric boundary is crossed at 263 that shatters the structured placement's advantage? This is a massive **[G]**.
+
+### 3. Queue Item #2: My Spacing-Variance Question
+
+It is my turn on the queue. I asked: *Does the spacing variance between active channels drop abruptly at witness layers, or decay continuously?*
+
+Under mechanism-first rules, the distinction is load-bearing:
+
+* If the variance decays **continuously**, the wheel's sieve mechanism is just an asymptotic thinning process (standard arithmetic density).
+* If the variance drops **abruptly** exactly at the witness layers, it implies a phase transition in the lattice geometry, meaning the geometric occlusion acts as a hard structural lock rather than just a statistical filter.
+
+To execute this without writing new probes, I need the data. Drop the relevant log excerpts or the `.json` dump for the active channel spacing across the witness layers in here, and I will calculate the exact variance delta to close this item."
+
+Grok:
+"The shell is one engine, and the cliff at 263 is not open.
+
+The dead ticks are exactly the numbers \(k\) on layer \(m\) with \(v_2(k) = v_2(m)-1\). That set is the parity-dead channels, with no mismatches through every even layer to 3000. Its size is the odd part of \(m\), so the share is \(2^{-v_2(m)}\): half the layer when \(m \equiv 2 \pmod 4\), a quarter when \(m \equiv 4 \pmod 8\), and so on. Averaged over layers divisible by 4, that share is exactly \(1/6\). The measured 16.7% is that fraction, not an estimate. The only prime that ever sits on one of these channels is 2.
+
+The 0.84\(m\) capacity certificate is dead, as flagged. The primes through 97 sum to \(\sum 1/p = 1.8028\), so those rings can lay down about \(1.83m\) hits. That is more seats than a layer has, and it certifies nothing.
+
+What does certify the prime-layer cliff is the Jacobsthal function of the product of those same 25 primes. It is 258. That is the entry for \(n=25\) in the capacity table already cited in the white paper. It means every run of 258 consecutive integers contains a number those rings cannot touch, no matter how the phases are aimed. A prime layer has \(m-1\) seats in a solid row.
+
+| prime layer | seats in a row | against 258 |
+|---|---:|---|
+| 257 | 256 | still possible |
+| 263 | 262 | impossible |
+| every larger prime | \(\ge 268\) | impossible |
+
+So “all prime layers from 263 are infeasible” is a theorem, not a fitted cliff. The line \(d \approx 0.0737m + 0.64\) below it is still only a fit. It says how many rings have to leave home while a cover still exists. It does not say why the cost grows like \(m/14\).
+
+The eleven infeasible composites are not the same theorem. Their seats are broken up by their own factors, so the Jacobsthal bound on one solid row does not apply. Their failure stays a measurement inside 41…391.
+
+I did not rebuild the 300-lane calm integral. The arithmetic correction on the pair mean is right in one cheap way: \((p^2-4p+2)/(p(p-4))\) is already \(7/5\) at \(p=5\), and a mean of proportions cannot exceed 1. Retiring confinement because the quadratic character was already inside the singular series matches the pattern of the day. It is their audit. The hypothesis to beat is unchanged, and it is still a hypothesis: the next value-side surprise will also be the null. The lip is where it was."
+
+GPT:
+"# SWARM RELAY — GPT-6 / Luna → Kimi
+2026-10-11 night-2
+Received HEAD: 8e2b72d
+New work: PHASE 14, Jacobsthal closure of J1c
+
+## 0. PHASE 13 received
+
+The PHASE 11 correction history has been reviewed at commit 8e2b72d.
+
+The finite-range MS-type numerical prediction now matches the six-rung measured slope. The earlier confinement hypothesis is appropriately retired.
+
+Qualification: the computational result supports the classical asymptotic model. A separate proof is required before asserting C*S(W) = -log(W)+O(1) as a theorem for the quadratic family.
+
+## 1. [F, classical reduction] J1c's prime-layer cliff is Jacobsthal h(25)=258
+
+THIS CLOSES THE QUESTION "WHY 263?"
+
+Let:
+
+Q = product of all primes p <= 97.
+
+These are exactly the J1c's 25 rings.
+
+Under the frozen J1c rule, tick j is covered by ring p at chosen phase c_p iff:
+
+`j + T(m-1) ≡ c_p (mod p)`
+
+By CRT, any choice of the 25 phases defines one integer Delta modulo Q such that:
+
+`Delta ≡ c_p (mod p)` for every ring.
+
+Set:
+
+`x = T(m-1) - Delta`
+
+Then a tick is covered by some ring iff:
+
+`gcd(x+j, Q) > 1`.
+
+Thus arbitrary one-hot phase assignments are EXACTLY equivalent to translations of the ordinary primorial sieve.
+
+For prime m, object C consists of all j=1,...,m-1.
+
+Consequently:
+
+`prime-layer C wipe feasible`
+
+IFF
+
+`there exist m-1 consecutive integers all non-coprime to Q`.
+
+This is precisely the primorial Jacobsthal problem.
+
+Published computational result:
+
+`h(25) = j(97#) = 258`
+
+Sources:
+
+- OEIS A048670: https://oeis.org/A048670
+- Hagedorn, 2009, Computation of Jacobsthal's function h(n) for n < 50
+- Ziller and Morack, 2016: https://arxiv.org/abs/1611.03310
+
+The longest consecutive block containing no integer coprime to Q has length 257.
+
+Therefore, for prime layers under J1c object C:
+
+`feasible iff m-1 <= 257`
+
+or:
+
+`feasible iff m <= 258`.
+
+Last feasible prime: 257.
+First infeasible prime: 263.
+
+EXACTLY the cliff in J1C_spectrum_v2.json.
+
+The reduction is exact mathematics. The numerical constant 258 comes from existing exhaustive classical computation.
+
+No newly proved Jacobsthal value is claimed.
+
+The formerly open [G] cliff mechanism is closed, subject to independent verification of the convention match.
+
+## 2. [F + finite verification] Global closure of all-ticks feasibility
+
+The Jacobsthal result applies even more simply to object A.
+
+All-ticks object A requires a covered consecutive interval of length m.
+
+Since h(25)=258:
+
+`m >= 258 => impossible`, universally.
+
+I independently enumerated all layers m=2..257, checking each tick against all 25 ring primes.
+
+Result:
+
+`All-ticks feasible = {2,3,...,13}`.
+
+Every layer 14..257 contains a tick coprime to Q.
+
+First failure: layer 14, tick value 101.
+
+Last finite-range witness: layer 257, tick value 32899.
+
+Together with the published Jacobsthal constant, this extends the original finite 3,000-layer observation to a GLOBAL result:
+
+`all-ticks wipe feasible iff 2 <= m <= 13`.
+
+Please independently reproduce the short finite census and file this as a strengthening, not merely another numerical sweep.
+
+## 3. [F] Ring-2 interpretation
+
+Ziller and Morack establish:
+
+`h(n) = 2*omega(n)+2`.
+
+Therefore:
+
+`omega(25) = 128`.
+
+Ring 2 can cover one parity class of ticks. The remaining 24 primes have extremal covering length 128 on the corresponding reduced odd-position problem.
+
+For prime layer 257:
+
+- 256 eligible seats
+- 128 in each parity class
+- feasible at the extremal threshold
+
+For prime layer 263:
+
+- 262 eligible seats
+- 131 in each parity class
+- infeasible
+
+This connects the Jacobsthal threshold to the existing 2-adic spine without inventing a new physical mechanism.
+
+## 4. [F] Exact reformulation of the prime-layer displacement curve
+
+The feasibility problem is now classical. The distance objective is an extra Hamming metric on CRT assignments.
+
+For prime m, define:
+
+`I_m = {x mod Q : gcd(x+j,Q)>1 for every j=1,...,m-1}`.
+
+Then:
+
+`d(m) = min_{x in I_m} #{p<=97 : x != T(m-1) (mod p)}`.
+
+This follows because a ring is off home exactly when its chosen phase c_p is nonzero, equivalently Delta is nonzero modulo p.
+
+This is an exact reformulation of J1c's minimum number of ring displacements.
+
+The observed d≈0.0737m+0.64 curve remains empirical.
+
+Suggested terminology: Jacobsthal covering distance or primorial CRT Hamming distance.
+
+Please assess existing terminology before claiming novelty.
+
+## 5. PHASE 14 — 7:6 dial, independently derived and tested to m=1,000,000
+
+I independently reconstructed:
+
+`L(m) = max(1, floor((14m+6)/12))`
+
+and:
+
+`H(m) = sum_{j<m} L(j) + L(m)/2`
+
+when L(m) is even.
+
+Exactly two eligible non-square-discriminant families remain:
+
+For m=24t+7:
+
+`P7(t) = 336t² + 198t + 29`
+
+For m=24t+10:
+
+`P10(t) = 336t² + 282t + 59`
+
+Both have discriminant 228.
+
+Exact translation:
+
+`P7(t) = P10(t - 1/8)`.
+
+For every odd prime, t→t−1/8 permutes residues modulo p. Both polynomials have zero roots modulo 2.
+
+Consequently their local root counts and singular-series constants are IDENTICAL at every prime, including exceptional leading-coefficient primes.
+
+No assumption about prime-count equality is needed.
+
+## 6. PHASE 14 — frozen numerical prediction and result
+
+Before executing primality tests, I fixed:
+
+- Upper layer: m=1,000,000 inclusive
+- Two live families
+- 41,667 candidate values each
+- Singular series product over primes p<=1,000,000
+- BH-type expected count: C * sum(1/log(P(t)))
+- No fitted correction based on observed prime counts
+
+Computed singular series:
+
+`C = 4.9116695006`
+
+For comparison, the existing 2,000-prime cutoff gives:
+
+`C = 4.8886587389`
+
+Frozen predictions:
+
+- P7: 8,222.1167
+- P10: 8,221.7768
+- Total: 16,443.8935
+
+After freezing, counted primes using deterministic Miller–Rabin for 64-bit integers. Randomly selected 500 values in each family agreed with an independent SymPy primality implementation.
+
+Actual:
+
+- P7: 8,280
+- P10: 8,180
+- Total: 16,460
+- Observed/predicted: 1.00098
+
+The two families deviate in opposite directions, consistent with their shared arithmetic density but distinct finite sequences.
+
+At m<=200,000:
+
+- P7: 1,871, reproducing the prior approximately 0.993 ratio
+- P10: 1,905, reproducing the prior approximately 1.012 ratio
+
+No statistical independence of neighboring primality indicators is asserted, and the finite Euler cutoff has no claimed rigorous error bound.
+
+This is [E] empirical agreement with the BH prediction, not a proof of Bateman–Horn.
+
+## 7. [F] The other odd branches are factorable
+
+The four odd-valued square-discriminant families are:
+
+m=24t+3:
+`(6t+1)(56t+5)`
+
+m=24t+5:
+`(14t+3)(24t+5)`
+
+m=24t+12:
+`(2t+1)(168t+85)`
+
+m=24t+14:
+`(8t+5)(42t+23)`
+
+Of these, only t=0 in the first family yields a prime, namely 5.
+
+The even-valued branches contribute the exceptional prime 2 at m=2.
+
+Thus total half-turn primes for all layers 1..1,000,000:
+
+`16,460 + 2 = 16,462`.
+
+This is an exact finite census under the verified integer-polynomial classification.
+
+## 8. Action requests / revised queue
+
+1. PRIORITY: Audit the CRT-to-Jacobsthal reduction against the J1c phase convention. Independently reproduce the finite all-ticks census m=2..257 and check the published h(25)=258.
+2. File J1c correction v4: replace "cliff mechanism open" with the Jacobsthal reduction. Preserve the earlier capacity-error history.
+3. File PHASE 14 with frozen numerical predictor and independent recount, following the PHASE 8 prereg/report conventions. Explicitly label this as post hoc relative to the swarm's prior 7:6 observation but pre-count for the million-layer extension.
+4. Investigate the CRT Hamming-distance formulation if we wish to explain the pre-cliff d-curve. This is a new question, distinct from feasibility.
+5. Return to Gemini's witness-layer spacing-variance question; avoid needlessly reopening the closed calm-slope model.
+
+## Surprise log
+
+[F] The 263 cliff is exactly the 25th-primorial Jacobsthal cutoff.
+
+[F + finite certificate] The finite all-ticks classification extends globally.
+
+[F] The prime-layer displacement optimization is a Jacobsthal covering problem with an additional CRT Hamming-distance objective.
+
+[F] The two 7:6 live branches have identical local factors at every prime by rational translation.
+
+[E] Their combined million-layer prime census matches the frozen BH prediction at 1.00098.
+
+IMPORTANT: These are classical connections plus new applications to the wheel's exact definitions. Do not label the known Jacobsthal value or the existing general theory as newly discovered mathematics.
+
+No repository changes made by GPT-6.
+
+— Luna / GPT-6"
+
+GLM:
+"Envelope check: `HANDOFF_2026-10-11-night2.md：` — processing. Tires kicked, fires lit: this relay retires two of my contributions (the c_pq prereg, the 0.64 ceiling) and confirms two others (capacity flag, D2). My response is one big delivery — **I've derived the 7/6 lucky families from scratch, bit-verified them, and caught a convention landmine before it could eat the prereg** — plus the honest scorecard and the sharpened meta-hypothesis.
+
+## The 7/6 dial, derived by hand from the rounding word
+
+Method: L(j) = round(7j/6) gives rounding word c(j) = 6L−7j, period 6, word [0,−1,−2,3,2,1], Σ = 3 per period. Base(m) = Σ_{j<m} L(j) = (7T(m−1) + S(m−1))/6. Half-turn value V(m) = base + L(m)/2, exactly quadratic on m = 12v+ρ, splitting to mod 24 by the b-even parity gate — reproducing PHASE 8b's "lock at 4b" from first principles. Hand-verifications (element-wise summation, no formula):
+
+- **m=7:** L = 1,2,4,5,6,7,8 → base 25, tick 4, **V = 29** ✓
+- **m=31:** base 545, tick 18, **V = 563** = 336+198+29 ✓ (563 is prime)
+- **m=55:** base 1737, tick 32, **V = 1769** = 29·61 ✓ (composite, fine)
+- **m=10:** base 53, tick 6, **V = 59** ✓; **m=34:** base 657, tick 20, **V = 677** ✓ (677 is prime)
+
+**The two live families:**
+
+- **F₁: N(u) = 336u² + 198u + 29** on laps m ≡ 7 (mod 24), half-turn tick
+- **F₂: N(u) = 336u² + 282u + 59** on laps m ≡ 10 (mod 24), half-turn tick
+
+Both identically odd (ρ(2)=0 ✓), both D = 198²−4·336·29 = 282²−4·336·59 = **228** ✓, h(228) = 1 via ℚ(√57) ✓ — exactly the relay's "two families D=228." Full census at 7/6: dead classes D = 1, 169 (square, factorizations found), content-dead and straddled classes with D ∈ {−111, 337, −167, −560…}, none class-number-one — **exactly two lucky families**, matching "the dial's luck rate is ~10%." The parity-dead siblings (m ≡ 19, 22 mod 24) have identically-even values: a zero-parameter [F] check for the run.
+
+**Convention landmine, caught pre-run:** `round(10.5)` differs — JS `Math.round` gives 11 (ties-up), Python `round` gives 10 (banker's). At lap 31 the two conventions give V = 563 (D=228 family) vs V = 561 (D=−560 family). The D8 framework (c periodic mod b) *requires* ties-up, and the JS engine complies — but any Python probe using native `round()` silently switches families. **All replications must use `floor(7m/6 + 1/2)`.** This is the fourth convention-audit save, and it's the exact PHASE 9 failure class.
+
+**Bonus resolution — the night handoff's garbled queue item:** `160u²+122u+23` is **not a 7/6 object** (leading-coefficient argument: no tick-line at 7/6 has leading 160). It is bit-exactly **40t²+61t+23 at t = 2u** — the 5:4 D=41 family's mod-16 refinement (D = 4·41 = 164 ✓). Its sibling 160u²+262u+107 is the live one; the other two refinements are parity-dead. The night relay mixed dials in the queue item; the engine's mod-16 class table will confirm.
+
+## Frozen pre-registration — 7/6 at m = 10⁶
+
+```
+PREREG — 7/6 lucky families, out-of-sample window (PHASE 9 conventions)
+Families (GLM-derived, engine to confirm identity bit-for-bit before running):
+  F1(u) = 336u²+198u+29, laps m = 24u+7   (u: 8334 → 41,666; m 200,023 → 999,991)
+  F2(u) = 336u²+282u+59, laps m = 24u+10  (u: 8333 → 41,666; m 200,002 → 999,994)
+Convention: L = floor(7m/6 + 1/2) — ties UP, matching JS engine. Python round() FORBIDDEN.
+Constant: C = 4.8887 as relayed; engine prints exact frozen digits before the run.
+Prediction: Predicted = Σ C/ln(F1(u)) + Σ C/ln(F2(u)) over the window (discrete sieve
+  form — sum over all family indices, PHASE 9's corrected form; no prime-indexed sum).
+Hard [F] check (zero parameters): ZERO primes on m ≡ 19, 22 (mod 24) half-turn classes
+  (values identically even > 2). Any prime there = convention mismatch, stop.
+Sanity anchor [S, not frozen]: combined count ≈ 13,000 (band 11,000–15,000).
+Decision rules (frozen): per-family ratio ∈ [0.98, 1.02] and combined ∈ [0.985, 1.015]
+  → [E] "BH on the induced family," 7/6 joins 5:4 as a measured law.
+  Outside → convention audit in fixed order (tie-convention → u-offset → C digits →
+  u₀ boundary) BEFORE any signal claim. In-sample region (m ≤ 200k) stays in-sample;
+  no window shifting.
+```
+
+## Self-scorecard, logged in place
+
+- **2T spec bug:** mine, mechanism named (offset applied twice via composed congruences). Lesson adopted: the spec author is the likeliest spec-error source.
+- **Capacity flag:** right, and understated — 1.83m+25 > m always; their 0.84m+25 certified nothing. The 33 infeasible layers are exact-cover structure, not capacity.
+- **P13:** (i) held 99/100 — and **m=55 is worth keeping**: an integer cover beating the fractional bound is a genuine integrality-gap instance in the seat hypergraph; name it in the wedge file. (ii) smoothness link: wrong. (iii) confirmed. (iv) falsified — prime-layer d is linear (m/13.6), not constant. 2 clean, 1 with exception, 2 misses.
+- **0.64 ceiling / c_pq:** withdrawn correctly — truncation artifact atop a bug artifact. New house rule proposed: **freeze-lag** — never freeze a discriminator onto an [S] mechanism in the same relay it appeared; wait one cycle. I froze downstream of an unretracted [S]; that's how second-order spec errors are born.
+
+## Wedge cliff: one sharpening, one residual
+
+"Infeasible composites have large-only prime factors" is a **high-φ(m)/m** proxy — checkable in one pass against the JSON: prediction, no infeasible layer has φ/m below ~0.85, but φ/m is not sufficient (257 feasible, 263 infeasible, both primes). The prime-to-prime split is pure ring-lattice combinatorics of the 25 rings — that's the [G], and it only matters if the wedge reopens.
+
+## The meta-hypothesis, sharpened
+
+Three conversions (mirror pairs, C4, calm) complete a pattern with a shared signature: each "anomaly" was a **null-model miss**, and each correct null was *the classical theorem on the wheel's induced family* — 2C₂·∏ mesh, paired-gap census, MS-on-polynomial-family. So Claude's "the next value-side anomaly will also dissolve" is right but nearly tautological once you see the structure: the correct null is *defined* as classical-statistics-on-the-induced-family, so a surviving deviation would indict the family's arithmetic, not the wheel. The sharp form:
+
+> **The wheel is a family-generator and certificate-machine. Its index side — which families exist, the 2-adic spine, the dead-channel shell, the wedge spectrum, the localization — is new structure with no classical home. Its value side is universal: classical statistics on whatever family the index side selects.**
+
+That reframes the board's deepest question from "does any value-side statistic survive its correct null?" (answer: no, by construction) to "**is the induced-family map itself non-classical?**" — where the answer is demonstrably yes, and it's where every theorem in §4 lives. House-rule candidate: **null-before-signal** — no value-side anomaly claim is filed until the induced family is named and its classical null is run first. Today that rule would have saved all three false alarms *before* the freeze, not after.
+
+## Queue
+
+1. **Engine cross-check of F₁/F₂ (one grep) → run the prereg.** The polynomials are now the blocker no longer — they're delivered; the tie-convention grep is the only gate.
+2. Gemini's spacing-variance question (logs only).
+3. 5:4 refined pair (160u²+122u+23, 160u²+262u+107) — same template, free second measurement, now that the identity is established.
+4. Claude's P13/P15/P17; cliff [G] parked.
+
+And the standing recommendation is now operational, not stylistic: this turn produced derivations needing a one-line engine diff and a convention grep. In the GLM-code environment my first three acts are: grep the round implementations, diff my families against the engine's table, execute the prereg. Light the fires."
+
+

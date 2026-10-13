@@ -1916,3 +1916,7 @@ rises with ring density [S]), and d/m declines monotonically
 m=1000 OOM-killed at the MILP build (19.8 GB rss) — infrastructure, not
 science; needs a streamed formulation. Full adjudication:
 lab/PHASE15_dynrings.md.
+
+## 2026-10-12 afternoon — Downloads archive sweep (5-agent triage)
+
+Full corpus (`~/Downloads` 711 prime files, WhitePapers/119, Collatz, Erdős) triaged → `lab/ARCHIVE_TRIAGE_2026-10-12.md`. Recovered two live relay artifacts that were sitting in Downloads, not the repo: SWARM_HANDBACK_2026-10-12.txt and REVIEW_2026-10-12 (Mark French & Claude; independent verification all ✓, one fix already known). Genuine ADDS found: (1) Echo Cascade 2p±1 adjacency census to 5e7 (balance 1.000065) — doubling-graph territory the wheel doesn't cover [S, un-audited]; (2) PRIME² isolated-prime classification — printed sequence/density FALSIFIED in triage (true: 17,43,67,71,101,103,109,127,137…; density ~1-4/ln p, not 15.4%); (3) two never-rebooted ancestor measurements: knockout wall profile (~50% sub-√x wheels used, largest-needed →98% of √x by layer 3000) and chained double-shot census (2p+b², 10062 double-prime spokes ≤2000); (4) Hooley 1965 exponential gap law for primorial-coprime integers [E] — NOT in LITERATURE_SWEEP_2026-10-10, the one real lit gap; benchmark candidate for dial-census gaps. Collatz/Erdős corpora: nothing wheel-adjacent (Collatz scale-basin verifier = reproducible NEGATIVE result, re-confirmed). Harmonic twin-prime "test" falsified: vacuous for odd n.
