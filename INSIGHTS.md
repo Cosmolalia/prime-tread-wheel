@@ -2064,3 +2064,27 @@ OPTIMAL (sparse MILP, 19s/40s). Law d ~ 0.5*m/(2 ln m) systematically
 low, converging: d/pred 1.26 -> 1.22 -> 1.14 -> 1.05(incumbent).
 Named follow-ups: B=131 slope point; native m=600; d_home/d_flip as
 omega-accounting (GPT queue #6).
+
+## 2026-10-13 midday — UNIQUENESS TEST spec filed (flagship relay item)
+
+SylvaN's pillar added to the geometry-first claim: "we don't need to compute a
+thing, just roll" — the wheel's function is realized by motion, not symbol
+rewriting. Spec: `lab/UNIQUENESS_TEST_2026-10-13.md`.
+
+- Three scoring axes: A generative closure (gate + constellations), B intrinsic
+  verbs (displacement/turning owned by the object), C realization economy
+  (actuation ∝ laps, parallelism geometric).
+- [E] Axis C is historical, not hypothetical: D.H. Lehmer's 1927 sieve was 19
+  bicycle-chain loops whose lengths ARE moduli (64, 27, 25, 49, 22, 26, 17, …,
+  67) with pins as excluded residues — one chain per ring. The physical wheel
+  was already built once.
+- Pre-registered predictions [S] for 8 candidates before survey; upset
+  candidate designated: prime-generating cellular automata (maybe on B).
+- Methodological note: this test is the operational form of the morning's
+  direction-of-explanation correction — "the wheel is what makes it true, and
+  'it' is the bundle."
+- Open [G]: G1 self-assembling masks/unit/L-build; G2 formal cost model for
+  "just roll" (analog complexity as parts catalog); G3 CA verb survey.
+
+Queue status: B=131 slope point, native m=600, d_home/d_flip ω-accounting still
+awaiting fire command; relay handoff drafts from this spec + PHASE 16.
