@@ -65,9 +65,13 @@ p/(p−1) if ρ=0, (p−2)/(p−1) if ρ=2):
 
 Bad-prime (p|b) factors of the leaders are ≈ ×1.0 — neutral. So:
 
-1. **C = prime-avoidance constellation of the family's values.** ρ(p)=0
-   ⟺ the discriminant is a quadratic non-residue mod p ⟺ p is **inert**
-   in the family's quadratic field [E, standard]. The winners are
+1. **C = prime-avoidance constellation of the family's values.** For odd p
+   not dividing the leading coefficient, ρ(p)=0 ⟺ the discriminant is a
+   quadratic non-residue mod p ⟺ p is **inert** in the family's quadratic
+   field [E, standard; qualified 2026-10-13 per GPT §10 of the day relay —
+   the code counts roots by direct scan, so exceptional primes dividing the
+   leading coefficient/conductor/discriminant are handled exactly; the ⟺
+   statement itself requires p odd and p ∤ A]. The winners are
    families whose discriminant's field keeps nearly every small prime
    inert (16/19 at p≤67 vs density 1/2 for a random discriminant).
 2. **The dial's real role is lattice richness, not advantage**: live
