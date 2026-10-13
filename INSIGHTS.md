@@ -2008,3 +2008,22 @@ prime-set exact cover (m=1000 native now a 127-prime SAT, not a 40k MILP);
 "why m/13.5" is now the omega-degradation law max|S|(m); slope-universality
 attack is pure arithmetic. Naming pinned: house h(k)=j(p_k#) (first
 infeasible layer) vs "max coverable window" = j(Q)-1.
+
+## 2026-10-13 late morning — dial-theorem evidence swarm: question SHARPENED
+
+Three-agent evidence pass (census definition / arithmetic / geometry):
+- "Modal" was naming [S]: measured content = argmax of live-family singular
+  series C over the 20-ratio b<=8 sweep (7/6: 4.89, 5/4: 4.50, else <=3.8) [E].
+- Argmax is resolution-dependent: 14/11 (C~5.13) at b=11; b<=60 ratios like
+  59/46 reach ~6.64. max-C confounds denominator size with live-family count
+  (lottery tickets). 8/7 fully parity-dead (0 eligible classes).
+- 7/6 not arithmetically unique: 5/4, 9/7 (C=4.44), 6/5 (C=4.14) share the
+  full profile (h=1 kernel, identically-odd family, bad-prime losses).
+- Surplus mechanism decomposed [S on measured inputs]: 2-adic x4 (b-even dial
+  deletes ring 2 where 2 splits) + bad-prime root losses (rho(3)=0 x1.5,
+  rho(7)=1 x7/6); small-L(1,chi) guess refuted (L(1,chi_57)=1.513).
+- Nothing geometric peaks at 7/6; Gemini spacing-variance dump still does not
+  exist (and concerns 1:1 wheel witness boundaries, not the dial).
+Sharpened open question (WHITEPAPER §13 amended in place): what selects the
+winning field club, and at what resolution is argmax-C a stable statistic?
+Next instrument: C-decomposition census across a wide ratio grid.

@@ -541,9 +541,22 @@ three witness boundaries (primes 11, 97, 257 entering √T); the ω-map
 ~2σ clustering hint (parked, needs ≥100-window null ensemble).
 
 **New, from the wedge era:**
-- **[G] The dial theorem.** The 7/6 setting is the wheel's modal ratio;
-  the census is closed [E], the mechanism (why 7/6 and not its neighbors)
-  is open. The wheel's own first theorem-shaped target.
+- **[G] The dial theorem — sharpened 2026-10-13 (evidence swarm).** "7/6
+  is the wheel's modal ratio" was naming, not a measured mode: the
+  measured content is argmax of the live-family singular series C over
+  the 20-ratio b ≤ 8 sweep (7/6 at 4.89, 5/4 at 4.50, all else ≤ 3.8)
+  [E]. At finer resolution the argmax is NOT 7/6 — 14/11 reaches C ≈ 5.13
+  at b = 11, and at b ≤ 60 ratios like 59/46 reach ≈ 6.64 — but max-C
+  confounds denominator size with live-family count (lottery tickets).
+  Arithmetically 7/6 is not unique: 5/4, 9/7, 6/5 share its full profile
+  (h = 1 real-quadratic kernel, identically-odd families, bad-prime
+  losses). The surplus mechanism is decomposed [S on measured inputs]:
+  2-adic ×4 (b-even dial deletes ring 2 where 2 splits) + bad-prime root
+  losses (at 7/6: ρ(3)=0 ×1.5, ρ(7)=1 ×7/6); the small-L(1,χ) guess was
+  refuted. The sharpened open question: **what selects the winning field
+  club, and at what resolution is argmax-C a stable statistic** — the
+  next instrument is a C-decomposition census across a wide ratio grid
+  (C = (4/L)·bad-prime product·inert corrections vs kernel data alone).
 - **[G] Slope universality.** Objects A and C both gave displacement slope
   ≈ 0.074 at their own scales; two points do not make a constant. What,
   if anything, pins the shared value?
@@ -648,8 +661,10 @@ Also closed [E]: the 7/6 dial census (GPT's PHASE 14 prereg) reproduced
 to the unit — 8,280 / 8,180 F1/F2 primes at m ≤ 10⁶ against Bateman–Horn
 predictions matching to 4 decimal places, total ratio 1.00098, a second
 BH instance after 5:4. The dial era's flagship measurement is now a
-closed check, and the dial theorem (why 7/6) inherits its place as the
-wheel's first theorem-shaped target (§13).
+closed check; the question it leaves — sharpened by the 2026-10-13
+evidence swarm (§13 queue entry): not "why 7/6" but "what selects the
+winning field club, at what resolution is argmax-C stable" — inherits
+the dial theorem's place as the wheel's first theorem-shaped target.
 
 ### 15.3 The dissolution streak — 4 for 4
 
