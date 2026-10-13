@@ -2088,3 +2088,25 @@ rewriting. Spec: `lab/UNIQUENESS_TEST_2026-10-13.md`.
 
 Queue status: B=131 slope point, native m=600, d_home/d_flip ω-accounting still
 awaiting fire command; relay handoff drafts from this spec + PHASE 16.
+
+## 2026-10-13 midday — PHASE 16 (cont.): B=131 slope point + home/flip accounting
+
+Queue items from the morning report, all three fired. Collapsed covering ILP
+(`lab/PHASE16_b131_homeflip.py`), all solves optimal, zero gap:
+
+- **B=131 slope point [E]**: k131 = 0.0578 vs 2-param prediction 0.0627 — PASS
+  at 8% deviation. The 1/ln B k-law survives its first honest test; still
+  [S]-grade (2 params / now 4 points). Side catch: all grid m feasible →
+  j(131#) ≥ 201 (E-checkable against Hagedorn's tables).
+- **d_home/d_flip ω-accounting [E]**: m=263 — free=home=15, flip=17 (B1 binds
+  ILP to MILP to the unit; universal-flip dead, certified optimal). m=100 —
+  free=flip=9, home=10: the gap REVERSES sign with m. |gap| ≤ 2 at both
+  points: "the turning is not a ring-2 artefact" now holds at both ends.
+  B2 frozen sign prediction refuted at m=100, filed as such.
+- **Uniqueness test**: axis C2 (raw-state legibility, the movie-wall frame)
+  added with pre-registered predictions; Lehmer 1927 [E] precedent already
+  filed in the spec.
+- **m=600 native MILP**: fired detached (PID 3480815,
+  lab/PHASE16_sparse_m600.log, 3 h limit) — pending at filing time.
+
+Lab note: lab/PHASE16_b131_homeflip.md

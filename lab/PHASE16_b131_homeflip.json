@@ -1,0 +1,74 @@
+{
+  "legs": {
+    "A_b131_slope": {
+      "points": [
+        {
+          "m": 25,
+          "d": 3.0,
+          "status": 0,
+          "seconds": 0.47
+        },
+        {
+          "m": 50,
+          "d": 3.999999999999995,
+          "status": 0,
+          "seconds": 3.04
+        },
+        {
+          "m": 100,
+          "d": 8.000000000000002,
+          "status": 0,
+          "seconds": 6.5
+        },
+        {
+          "m": 150,
+          "d": 9.999999999999966,
+          "status": 0,
+          "seconds": 8.8
+        },
+        {
+          "m": 200,
+          "d": 13.00000000000002,
+          "status": 0,
+          "seconds": 13.04
+        }
+      ],
+      "k_131": 0.0578,
+      "c_131": 1.53,
+      "k_pred_2param": 0.0627,
+      "within_20pct": true,
+      "A2": true,
+      "A1": true
+    },
+    "B_homeflip": {
+      "100": {
+        "m": 100,
+        "native_bound": 70,
+        "n_rings": 19,
+        "d_free": 9.0,
+        "status_free": 0,
+        "d_home": 9.999999999999792,
+        "status_home": 0,
+        "d_flip": 9.000000000000014,
+        "status_flip": 0,
+        "B1": true,
+        "home_flip_gap": -0.999999999999778
+      },
+      "263": {
+        "m": 263,
+        "native_bound": 185,
+        "n_rings": 42,
+        "d_free": 15.000000000000174,
+        "status_free": 0,
+        "d_home": 15.0,
+        "status_home": 0,
+        "d_flip": 16.999999999999975,
+        "status_flip": 0,
+        "B1": false,
+        "home_flip_gap": 1.9999999999999751
+      },
+      "B1": false,
+      "B2": true
+    }
+  }
+}

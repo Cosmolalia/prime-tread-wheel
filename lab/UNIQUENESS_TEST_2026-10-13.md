@@ -30,7 +30,7 @@ foundational commitments.
 
 ## 1. Scoring axes
 
-Every candidate construction is scored A/B/C. Simplicity is compared at
+Every candidate construction is scored A/B/C/C2. Simplicity is compared at
 matched capability (a rival doing 10× more with 10× primitives does not win;
 the bundle below is the target).
 
@@ -49,6 +49,23 @@ not own the verb.
 The function is realized by a trajectory of the object (rolling), with
 actuation cost ∝ laps, not ∝ decisions. No counters, no comparisons, no state
 rewrites in the execution path. Parallelism is geometric, not scheduled.
+
+**Axis C2 — Raw-state legibility [the movie-wall frame, added 2026-10-13
+midday].** Score: the number of transformations standing between the
+object's *raw, unprocessed* post-actuation state and a legible phenomenon
+(the constellations, a gap, a count). "Legible" = the phenomenon's units
+coincide with the state's units, so no decoding step intervenes. The wheel
+after k laps *is* a distribution of holes at integer positions; the sexy-prime
+orbit is a visible band, not a computed output. A sieve's raw state is a
+bitmap that must still be scanned; zeta's raw state is a complex function
+whose phenomena (zeros, explicit formula) require contour integration —
+forest projections of the same movie: the light returns, but through a
+surface with its own grain. Metric: count the decoding transformations
+(bitmap→list? list→positions? integral→sum?). **Pre-registered [S]:
+Eratosthenes and prime-CAs may tie the wheel on C (rolling is cheap) but
+lose C2 — their constellations require a scan/processing pass before anyone
+can see them. Designated upset: a prime-generating CA whose spacetime
+pattern is self-legible, which would tie C2.**
 
 ## 2. Axis C decompressed — what "just roll" actually claims
 

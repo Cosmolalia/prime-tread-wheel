@@ -1,0 +1,15 @@
+LEG A — B=131 (32 primes) slope grid
+  m=25: d=3.0 status=0 (0.5s)
+  m=50: d=3.999999999999995 status=0 (3.0s)
+  m=100: d=8.000000000000002 status=0 (6.5s)
+  m=150: d=9.999999999999966 status=0 (8.8s)
+  m=200: d=13.00000000000002 status=0 (13.0s)
+  fit: k=0.0578 c=1.530 | pred=0.0627 -> A2=PASS
+LEG B — d_home/d_flip, native schedule
+  m=100 (19 rings) free: d=9.0 status=0 (3.5s)
+  m=100 (19 rings) home: d=9.999999999999792 status=0 (3.9s)
+  m=100 (19 rings) flip: d=9.000000000000014 status=0 (3.3s)
+  m=263 (42 rings) free: d=15.000000000000174 status=0 (34.8s)
+  m=263 (42 rings) home: d=15.0 status=0 (28.0s)
+  m=263 (42 rings) flip: d=16.999999999999975 status=0 (34.7s)
+JSON -> lab/PHASE16_b131_homeflip.json
