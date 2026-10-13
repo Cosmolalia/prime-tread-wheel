@@ -1959,3 +1959,27 @@ Full adjudication: `lab/RELAY_2026-10-12-evening.md`. Relay artifacts in `handof
 - **[S→audit] GLM's CRT-shift collapse** accepted pending independent re-derivation: covered(N) ⟺ gcd(N−a,Q)>1; d = #{p∤a}; feasibility position-independent; wedge = pure arithmetic, no MILP at any m; "why m/13.5" = ω-degradation rate of Jacobsthal run-starts. If it survives audit it is the largest simplification since the cliff.
 - **[G→queued]** m=1000 sparse MILP running detached (3 h limit, lab/PHASE15_sparse_m1000.log); P11c verdict; convention standardization; C(X) truncation law prereg; B=67/79 harvest point; conditional ring-2 split (d_home vs d_flip); Gemini spacing-variance dump.
 - Cloud: ~$20 credit noted; not needed while sparse build fits in 2 MB — B&B time, not RAM, is the wall. GLM's SAT route may remove that too.
+
+## 2026-10-12 late evening — overnight jobs resolved
+
+### P11c (record-repair run): mostly explained by phase structure, residual marginal
+Deterministic arm reproduced obs = -0.00731 exactly. Two nulls:
+- plain shuffle null: mean -0.00012, sd 0.00054 -> z = -13.4 (the naive read; NOT the
+  honest one, since phase structure is real physics of the arm)
+- phase-stratified null (shuffle within each ring-2 phase class): mean -0.00620,
+  sd 0.00051 -> obs -0.00731, z = -2.16, two-sided empirical p = 0.015 (200 surrogates)
+Verdict: ~85% of the negative lag-4 displacement correlation is carried by ring-2's
+phase-class structure itself (forced arithmetic, not evidence); the residual is a
+marginal 2.2-sigma negative hint. P11 verdict repaired: NOT "positive mean, PASS"
+(script text), NOT "clear negative pattern" (INSIGHTS text) — it is
+"[marginal negative residual after phase stratification, p=0.015, needs a
+pre-registered replication at a different M_HI before any weight]".
+Log: lab/P11C.log; json: probes/logs/stagger_acf_p11c.json.
+
+### m=1000 sparse MILP: ran to time limit, d=38 (not proven optimal)
+GPT's sparse build scaled fine (40,313 vars, 166k nonzeros, 2 MB class matrix).
+10800 s limit hit at d=38, best bound 32, gap 15.8% — incumbent not proven.
+Consistency check: native-schedule law d ~ 0.5*m/(2 ln m) predicts 36.2 at m=1000;
+incumbent 38 sits 5% above. Consistent with the law's historical scatter; the
+law is not contradicted but m=1000 joins {251} as a proven-or-near d point.
+Log: lab/PHASE15_sparse_m1000.log.

@@ -1,0 +1,1 @@
+{"m": 1000, "rings": 126, "vars": 40313, "nnz": 166313, "seconds": 10800.14, "mode": "free", "status": 1, "message": "Time limit reached. (HiGHS Status 13: Time limit reached)", "objective": 38.00000000000004, "best_bound": 32.0, "gap": 0.1578947368421062, "phase2": 0, "displacements": 38, "uncovered": 0}

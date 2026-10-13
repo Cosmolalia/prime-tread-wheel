@@ -1,1 +1,25 @@
 quad W series: 499980 laps, mean=10.59 (24s)
+iid baseline done (207s)
+  surrogates 50/200 (551s)
+  surrogates 100/200 (887s)
+  surrogates 150/200 (1224s)
+  surrogates 200/200 (1558s)
+{
+ "null_mean": -0.00619723077764991,
+ "null_sd": 0.0005146893174104012,
+ "obs": -0.0073087606895172385,
+ "z": -2.159613332291139,
+ "two_sided_emp_p": 0.015,
+ "q025": -0.007251658977426649,
+ "q975": -0.005154032618655825
+}
+{
+ "null_mean": -0.00012310646672447422,
+ "null_sd": 0.0005373133416500699,
+ "obs": -0.0073087606895172385,
+ "z": -13.37330318418277,
+ "two_sided_emp_p": 0.0,
+ "q025": -0.0011672639390516418,
+ "q975": 0.0009746126380580783
+}
+wrote /home/solaya/Desktop/TOE/harness/data/projects/prime-tread-wheel/probes/logs/stagger_acf_p11c.json
