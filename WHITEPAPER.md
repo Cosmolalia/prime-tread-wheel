@@ -242,7 +242,10 @@ prior layers. Primes fall out of reading the stagger.**
 4. **[E] The per-arc thinning law: refuted by test** (N8) — the parabolic image
    selects which phases an arc visits, but its landing distribution over [1,p]
    is ~uniform.
-5. **[E] Lagged fingerprints of the counter: null** (P10, P11 closed).
+5. **[E] Lagged fingerprints of the counter: null** (P10;
+   P11 → record-repair saga, §15.4 — two frozen texts disagreed on the
+   predicted sign; the honest phase-stratified null leaves a 2.2σ residual
+   carrying no weight pending pre-registered replication).
 6. **[E] C4 anti-follow (0.62×): mechanism open, descriptive only.**
 7. **[E] Strip enrichment: 1.09× lean, real but small** — the strips' visual
    dominance is candidate density, not prime concentration. Strip hearts (the
@@ -523,6 +526,45 @@ periodic — periodicity trivializes curves.
 - **[user decision]** Phase 0.6 kernel-v2 integration into the production GPU
   engine (bit-exact prototype verified 24×; engine surgery is Sylvan's call).
 
+### Queue updates, 2026-10-13 (everything below is post-§13; full detail §15)
+
+**Closed since this queue was written:** the 7/6 dial census (PHASE 14,
+reproduced to the unit, Bateman–Horn to 1.00098 — §15.2); the P11 verdict
+(repaired, §15.4); convention standardization — the lab now pins the seam
+as window (T(m), T(m+1)] and rings ≤ √T(m); the sparse MILP removed the
+memory wall (m = 1000 matrix ≈ 2 MB).
+
+**Still standing:** F2/J1c true Hamming instrument; C1; D8 residuals; F3;
+G-queue survivors; GLM's C(X) truncation prereg; GPT's conditional
+ring-2 split (d_home vs d_flip); Gemini's spacing-variance dump at the
+three witness boundaries (primes 11, 97, 257 entering √T); the ω-map
+~2σ clustering hint (parked, needs ≥100-window null ensemble).
+
+**New, from the wedge era:**
+- **[G] The dial theorem.** The 7/6 setting is the wheel's modal ratio;
+  the census is closed [E], the mechanism (why 7/6 and not its neighbors)
+  is open. The wheel's own first theorem-shaped target.
+- **[G] Slope universality.** Objects A and C both gave displacement slope
+  ≈ 0.074 at their own scales; two points do not make a constant. What,
+  if anything, pins the shared value?
+- **[G] The native-schedule law.** d ≈ 0.5·m/(2 ln m) with the 0.5 stable
+  over 2.3× of m; why 0.5, and is the harvest-efficiency plateau
+  (d/P → ~0.5 as B/ln T grows) a theorem or a fit?
+- **[S, pending audit] GLM's CRT-shift collapse.** If covered(N) ⟺
+  gcd(N−a, Q) > 1 with d = #{p ∤ a}, the wedge is pure arithmetic at
+  every m and "why m/13.5" becomes the ω-degradation rate of Jacobsthal
+  run-starts. Audit is queue item #1 for 2026-10-13 (§15.8).
+- **[G] m = 1000 proven optimum.** The 3 h run returned d = 38 incumbent,
+  bound 32. The bracket 32 ≤ d ≤ 38 stands; the law predicts 36.2.
+- **[G] P11 replication** at a different M_HI, pre-registered, before the
+  2.2σ residual carries any weight.
+- **[G] The famous fence, in wheel language.** Twin primes = infinitely
+  many pair ticks at gap 2; Polignac generalizes to every even gap. The
+  structural read (2026-10-12): every solved wheel problem controls one
+  number's factorization at a time; twin primes require forcing a second
+  number (+2) whose factors nobody controls. A construction that
+  manufactures a pair, not a single survivor, is the missing machine.
+
 ## 14. Relation to existing work (deep sweep, 2026-10-10)
 
 Full ledger: `lab/LITERATURE_SWEEP_2026-10-10.md` (four search agents, ~40 query
@@ -556,6 +598,160 @@ such — they deepen the columns; they do not touch the wheel theorems.
 
 **Naming.** "Prime tread wheel" carries no indexed collision; "wheel sieve"
 alone is taken (Pritchard 1981) and is never used here.
+
+## 15. The wedge era (2026-10-11 → 13) — the instrument earns its keep
+
+Three days, six external model voices, one instrument. The wedge distance
+of §11 stopped being a metaphor and became an exact MILP object; every
+value-side "anomaly" met its correct null; and the displacement curve —
+the closest thing the wheel has to a physics experiment — produced its
+first theorem-shaped result. Detail: `lab/PHASE14_audit.md`,
+`lab/J1C_wedge_result.md`, `lab/PHASE15_wedge_slope.md`,
+`lab/PHASE15_dynrings.md`, `lab/RELAY_2026-10-12-evening.md`,
+`lab/ARCHIVE_Q_2026-10-12.md`.
+
+### 15.1 The J1c instrument and its conventions
+
+Minimal displacements d of ring phases from home, subject to wiping a
+layer's primes. The convention question GLM flagged is not a detail — it
+decides whether the object exists. Under the **all-ticks** convention the
+wipe is pure arithmetic (a sieve of smallest prime factors decides it;
+no solver at any m): wipeable iff m ≤ 13, the window closing exactly at
+the ring bound — layer 14 contains 101, the first 97-rough integer. [F]
+Under the **seats-only** convention the near-wipe spectrum is empty:
+d ∈ {0, 1} across 41 ≤ m ≤ 391 (218 layers at d = 0, 133 at d = 1),
+because the trailing seat T(m) carries every prime factor of m(m−1) and
+is essentially always home-covered. [measured; mechanism decompressed]
+
+The seam convention is now pinned lab-wide: window (T(m), T(m+1)],
+rings = primes ≤ √T(m). Two solver headers had silently disagreed by a
+one-layer shift; the off-by-one evidence is filed and the standard is
+set (GPT's "do not silently interchange schedules" warning, adopted).
+
+### 15.2 The cliff is Jacobsthal [E]
+
+The fixed-B cliff — last feasible layer 257 with rings ≤ 97 — is exactly
+h(25) = j(97#) = 258, published (Hagedorn 2009; OEIS A048670;
+Ziller–Morack 2016). The wheel's cliff is the Jacobsthal capacity of
+the ring primorial: no more and no less. Cross-check the same week:
+measured one-period tick-gap maxima at layers k = 6, 7, 8 equal j(N_k)
+exactly — the cliff appears wherever the wheel touches Jacobsthal.
+
+Positioning against the 2026 frontier: OpenAI's math-model dump (719
+manuscripts, 372 families, machine-checked ~42%) contains nothing
+wheel-shaped — no sieve arrangements, no covering-system questions — and
+its single overlap is Jacobsthal itself, where the published program
+proves asymptotic bounds while the wheel measures exact capacities.
+Bound vs measurement; both needed; the wheel owns the measurement side.
+
+Also closed [E]: the 7/6 dial census (GPT's PHASE 14 prereg) reproduced
+to the unit — 8,280 / 8,180 F1/F2 primes at m ≤ 10⁶ against Bateman–Horn
+predictions matching to 4 decimal places, total ratio 1.00098, a second
+BH instance after 5:4. The dial era's flagship measurement is now a
+closed check, and the dial theorem (why 7/6) inherits its place as the
+wheel's first theorem-shaped target (§13).
+
+### 15.3 The dissolution streak — 4 for 4
+
+Every value-side anomaly the wheel ever produced dissolved into
+Bateman–Horn under its correct null, in order: mirror pairs, C4, calm,
+and now the archive corpus's double-shot census — 10,062 spokes with
+both shots prime (b ≤ 2000, odd denominators only, forced by parity)
+against the family-corrected singular series **10,138** (ratio 0.9925).
+The correction that closes it: a spoke a/b has both shots pre-sieved by
+every prime dividing b, so the local factor at ℓ|b is (1 − 1/ℓ)⁻², not
+(1 − 1/ℓ)⁻¹ — 𝔖_fam(b) = 2C₂·∏_{ℓ|b, ℓ odd} ℓ/(ℓ−2). The correction
+chain is on record: 5,008 (generic) → 7,582 → 8,672 → 10,138 (exact).
+Standing rule earned the hard way: before claiming a wheel anomaly
+against Bateman–Horn, compute the BH prediction for the *actual induced
+family* — the generic prediction underpredicts by 2×.
+
+### 15.4 P11 — the record-repair saga (method load-bearing)
+
+GLM flagged that the frozen probe header and the frozen INSIGHTS
+pre-registration predicted **opposite signs** of the P11 effect. Confirmed
+— and both verdicts were wrong. P11c reproduced the number (−0.0073,
+stable across halves), then ran the honest null *first*: shuffling within
+each ring-2 phase class (the forced arithmetic of the arm) explains ~85%
+of it; the residual is a marginal 2.2σ negative hint (p = 0.015, 200
+surrogates). Verdict as it stands: neither "PASS" (script text) nor
+"clear pattern" (INSIGHTS text) — a marginal residual carrying no weight
+until a pre-registered replication at a different M_HI. Standing lesson,
+now in the method: when two frozen texts disagree, adjudicate against
+the number, not the louder text; and an honest null is run before any
+celebration, not after.
+
+### 15.5 PHASE 15 — the displacement curve and its two loads
+
+Object A (25 fixed rings ≤ 97, all 244 finite layers): the displacement
+d grows ~m/13.5, and the constant is not free. Two-load decomposition,
+exact predictors: **d ≈ 0.215·U + 0.051·m** (fit R² = 0.974), where U(m)
+counts home-uncoverable rough ticks (density → e^(−γ)/ln 97 ≈ 0.123).
+Displaced rings harvest rough ticks (~⅓ of the slope, several per ring
+via mod-p collisions) and re-cover composite ticks whose home coverage
+they broke (~⅔). The 1/13.5 arithmetic: 0.215·(e^(−γ)/ln 97) + 0.051
+≈ 0.077 ≈ 1/13.0 against measured 1/13.4. [checked; mechanism reading S]
+
+Two consequences, both confirmed in sign. **(a) The slope is
+ring-budget-contingent.** At B = 53 the finite points sit a consistent
++2.2 above the B = 97 prediction (fewer rings, less collision freedom);
+the B = 31 wheel cannot cover 60 ticks at any displacement — a new
+Jacobsthal bracket, j(31#) ≤ 60. Constants calibrated at one B do not
+transfer. **(b) Under the native schedule the linear law breaks.**
+With rings = primes ≤ √T(m): d/P ≈ 0.49–0.59 stable across a 2.3×
+m-range (harvest efficiency rises with ring density — d falls *below*
+the fixed-B floor), d/m declines monotonically 0.0570 → 0.0533 → 0.0475
+→ 0.0433 across m = 263…600, and the m = 1000 sparse MILP (2 MB matrix,
+the dense build's 19.8 GB OOM is dead engineering) returned d = 38
+incumbent against the law's prediction 36.2 — 5% above, inside the
+historical scatter. Sublinear: d ≈ 0.5·m/(2 ln m), i.e. d/m ~ 1/(4 ln m).
+
+### 15.6 N1 — finiteness is Jacobsthal windows [F+E, convention-pinned]
+
+With native rings, layer m is wipeable iff its width fits under the
+Jacobsthal capacity of its ring primorial: the infeasible set is exactly
+{2–18, 22–24, 26, 27, 40, 41}, every m ≥ 42 is wipeable, and every
+non-edge layer matches the published table (A048669) under the pinned
+seam convention. "Finite under native rings" is thereby promoted from
+trend to theorem — the wheel's first theorem-shaped result, and honestly
+labeled: it is contingent on the seam convention (now standardized), its
+edge layers (2–4) are convention-dependent and flagged as such, and its
+explicit construction (x ≡ 0 mod all primes ≤ p_{k−2}, x ≡ −1 mod
+p_{k−1}, x ≡ 1 mod p_k, giving a covered run of 2p_{k−1} − 1) is
+classical in method. [F + E]
+
+### 15.7 Archive queue — the ancestral corpus, settled
+
+The pre-reboot Downloads corpus (~830 files: prime whitepapers, Collatz,
+Erdős) was triaged by five parallel agents; four items entered the lab
+and all are now measured. Echo Cascade's 2p±1 doubling graph reproduces
+exactly (π(5·10⁷) = 3,001,134; balance 1.00007 — forced by mod 3, and
+p = 3 is the *only* prime with both 2p−1 and 2p+1 prime). The
+isolated-prime census reproduces (density rising toward 1, tracking
+1 − 4/ln p; the printed 15.4% stays falsified by its own data). The
+knockout wall reproduces inside the reboot (biggest-needed gear → 98.1%
+of √x by layers 2000–3000). Hooley's 1965 law is added to the literature
+sweep: gaps between integers coprime to n are exponential in the limit
+n/φ(n) → ∞; finite wheels show the truncated form, squeezed by the
+lattice floor (min gap 2) and capped exactly at j(N_k) — the cliff
+appearing a third time. Three pseudo-results killed in one line each and
+filed so nobody resurrects them. [E] Full ledger:
+`lab/ARCHIVE_TRIAGE_2026-10-12.md`.
+
+### 15.8 GLM's CRT-shift collapse [S — audit queued first for 10-13]
+
+The claim, as handed back: a layer is covered at translate N iff
+gcd(N−a, Q) > 1 (Q the ring primorial), so the displacement count is
+d = #{p ∤ a} — the count of primes *not* dividing one CRT shift —
+position-independent, and the wedge at every m becomes pure arithmetic
+with no MILP at all. If it stands, "why m/13.5" turns into the
+ω-degradation rate of Jacobsthal run-starts, and the biggest
+simplification since the cliff lands. Hand-verifications quoted (B = 3,
+B = 5, m = 14, m = 257/258, the 1/6 2-adic shell) are GLM's; the
+arithmetic is consistent with everything independently verified. The
+audit — proving or killing the collapse — is queue item #1 for
+2026-10-13, ahead of the slope-universality and native-schedule-law
+attacks, because every later wedge statement's *form* depends on it.
 
 ## Reproduce
 
@@ -602,6 +798,8 @@ Session-state map: `HANDOFF.md`.
 18. K. Ford & R. Gabdullin, *Prime avoidance of polynomial values* (arXiv:2310.20449, 2023) — rigorous prime deserts.
 19. A. O. L. Atkin & D. J. Bernstein, *Prime sieves using binary quadratic forms*, Math. Comp. 73 (2004), 1023–1030 — nearest published quadratic-congruence sieve.
 20. P. Pritchard, *A sublinear additive sieve for finding prime numbers*, CACM 24 (1981), 18–23 — the wheel-sieve lineage and the naming collision.
+21. T. Hooley, *On the intervals between numbers that are coprime to n*, Acta Math. 111 (1964/65) — the gap law the finite wheel truncates (§15.7).
+22. T. Hagedorn, *Computation of Jacobsthal's function h(n) for n < 50*, Math. Comp. 78 (2009) — the h(25) = 258 capacity the cliff equals (§15.2).
 
 ---
 
