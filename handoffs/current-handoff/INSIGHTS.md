@@ -1916,3 +1916,205 @@ rises with ring density [S]), and d/m declines monotonically
 m=1000 OOM-killed at the MILP build (19.8 GB rss) — infrastructure, not
 science; needs a streamed formulation. Full adjudication:
 lab/PHASE15_dynrings.md.
+
+## 2026-10-12 afternoon — Downloads archive sweep (5-agent triage)
+
+Full corpus (`~/Downloads` 711 prime files, WhitePapers/119, Collatz, Erdős) triaged → `lab/ARCHIVE_TRIAGE_2026-10-12.md`. Recovered two live relay artifacts that were sitting in Downloads, not the repo: SWARM_HANDBACK_2026-10-12.txt and REVIEW_2026-10-12 (Mark French & Claude; independent verification all ✓, one fix already known). Genuine ADDS found: (1) Echo Cascade 2p±1 adjacency census to 5e7 (balance 1.000065) — doubling-graph territory the wheel doesn't cover [S, un-audited]; (2) PRIME² isolated-prime classification — printed sequence/density FALSIFIED in triage (true: 17,43,67,71,101,103,109,127,137…; density ~1-4/ln p, not 15.4%); (3) two never-rebooted ancestor measurements: knockout wall profile (~50% sub-√x wheels used, largest-needed →98% of √x by layer 3000) and chained double-shot census (2p+b², 10062 double-prime spokes ≤2000); (4) Hooley 1965 exponential gap law for primorial-coprime integers [E] — NOT in LITERATURE_SWEEP_2026-10-10, the one real lit gap; benchmark candidate for dial-census gaps. Collatz/Erdős corpora: nothing wheel-adjacent (Collatz scale-basin verifier = reproducible NEGATIVE result, re-confirmed). Harmonic twin-prime "test" falsified: vacuous for odd n.
+
+## 2026-10-12 afternoon — ARCHIVE QUEUE run: all five triaged items measured
+
+Queue from the Downloads/WhitePapers triage executed as one probe
+(lab/ARCHIVE_Q_2026-10-12.py, 6.3s; writeup lab/ARCHIVE_Q_2026-10-12.md):
+- Q1 Echo Cascade 2p±1 census: PASS. pi(5e7)=3,001,134 exact; counts match to
+  p=2,3 edge conventions; balance 1.000070 vs claim 1.000065; mechanism named
+  (mod-6 forced 3-divisibility, kills 1,500,652 vs 1,500,480); corollary [F]:
+  p=3 is the ONLY prime with both 2p-1 and 2p+1 prime. Their "stability"
+  metric undefined in corpus [G], uncheckable.
+- Q2 isolated primes: PASS. Sequence 17,43,67,71,101,... confirmed; density
+  0.583->0.757 below 1e4..1e7 tracking 1-4/ln p; PRIME^2's 15.4% stays dead.
+- Q3 knockout wall: PASS, ancestor claims reproduced in the reboot (share
+  0.46-0.59 settling ~0.5; biggest-needed/sqrt -> 0.981 by layers 2000-3000).
+- Q4 double-shot census: 10,062 reproduced EXACTLY; all double-prime spokes
+  odd-b (parity mechanism [F] confirmed). BH predictions all underpredict,
+  monotonically closing: naive 4,110 -> standard SS 7,582 -> family-restricted
+  SS 8,672 vs observed 10,062; residual 1.16x FLAT across b (not small-N).
+  [G] uniform density excess; follow-up: Sophie Germant calibration to split
+  machinery bias from structure.
+- Q5 Hooley 1965: frozen finite-k statement FAILS (KS 0.29-0.32, not
+  shrinking) BUT the theorem's actual hypothesis is n/phi(n) -> infinity —
+  enumerable primorials cap at n/phi ~ 7.5. One-period gap law = Exp(1)
+  squeezed by lattice floor (c >= 2phi/N) + Jacobsthal cap (max gaps 22/26/34
+  = j(N_k) exactly, cross-checking PHASE 14). [E] stands; truncated-fit
+  follow-up proposed. Added to LITERATURE_SWEEP as addendum.
+
+## 2026-10-12 evening — 17:19 relay adjudicated (six voices), Q4 dissolved, N1 → theorem, P11 record corrected
+
+Full adjudication: `lab/RELAY_2026-10-12-evening.md`. Relay artifacts in `handoffs/`.
+
+- **[E] Q4 double-shot excess DISSOLVED.** Claude's pre-sieve mechanism (shots ≡ a, 2a mod every ℓ|b ⇒ local factor (1−1/ℓ)⁻², 𝔖_fam = 2C₂∏ℓ/(ℓ−2)) reproduced here exactly: pred 10,138.2 vs 10,062 observed (ratio 0.9925); correction chain 5,008 → 7,582 → 8,672 → 10,138 all on record. Fourth value-side anomaly to fall to Bateman–Horn under its correct null. Value side now 0-for-4 against the fence; meta-arc (Claude's standing claim) keeps winning.
+- **[E] Native Jacobsthal windows VERIFIED.** Infeasible set {2–18, 22–24, 26, 27, 40, 41} reproduced exactly from the j(p_k#) table under the rings≤√T(m)/(T(m),T(m+1)] convention (the one GPT's sparse script implements); every m ≥ 42 wipeable ⇒ **N1 is a theorem**, contingent on convention standardization. Caveat filed: PHASE15_dynrings.py's header convention (√T(m−1)) gives a different infeasible set — the two solvers differ by a one-layer shift. Pin the seam convention lab-wide (GPT's warning, elevated).
+- **[E] Sparse one-hot MILP verified** (m=263: OPTIMAL d=15, ring 2 home, 12 s, ~15k nnz). Dense-build OOM family dead.
+- **[F] GPT prime-square boundary correction verified by arithmetic** (U=P+ε; m=400: 283²=80089).
+- **[E] P11 RECORD CONTRADICTION CONFIRMED (GLM's grep request executed).** Frozen script rule (`mh_all > 4*mr_all`, mr_all a mean of absolutes) can only fire on a POSITIVE mean; INSIGHTS pre-reg predicted NEGATIVE ≥3 SE; measured −0.0073 stable across halves (~4.6σ). The two frozen texts give opposite verdicts on the same number. P11 verdict SUSPENDED; entry amended here rather than edited (append-only). P11c fired: reproduction + 200 parity-stratified surrogates + 200 plain shuffles, null-before-signal. Verdict deferred to the null.
+- **[S→audit] GLM's CRT-shift collapse** accepted pending independent re-derivation: covered(N) ⟺ gcd(N−a,Q)>1; d = #{p∤a}; feasibility position-independent; wedge = pure arithmetic, no MILP at any m; "why m/13.5" = ω-degradation rate of Jacobsthal run-starts. If it survives audit it is the largest simplification since the cliff.
+- **[G→queued]** m=1000 sparse MILP running detached (3 h limit, lab/PHASE15_sparse_m1000.log); P11c verdict; convention standardization; C(X) truncation law prereg; B=67/79 harvest point; conditional ring-2 split (d_home vs d_flip); Gemini spacing-variance dump.
+- Cloud: ~$20 credit noted; not needed while sparse build fits in 2 MB — B&B time, not RAM, is the wall. GLM's SAT route may remove that too.
+
+## 2026-10-12 late evening — overnight jobs resolved
+
+### P11c (record-repair run): mostly explained by phase structure, residual marginal
+Deterministic arm reproduced obs = -0.00731 exactly. Two nulls:
+- plain shuffle null: mean -0.00012, sd 0.00054 -> z = -13.4 (the naive read; NOT the
+  honest one, since phase structure is real physics of the arm)
+- phase-stratified null (shuffle within each ring-2 phase class): mean -0.00620,
+  sd 0.00051 -> obs -0.00731, z = -2.16, two-sided empirical p = 0.015 (200 surrogates)
+Verdict: ~85% of the negative lag-4 displacement correlation is carried by ring-2's
+phase-class structure itself (forced arithmetic, not evidence); the residual is a
+marginal 2.2-sigma negative hint. P11 verdict repaired: NOT "positive mean, PASS"
+(script text), NOT "clear negative pattern" (INSIGHTS text) — it is
+"[marginal negative residual after phase stratification, p=0.015, needs a
+pre-registered replication at a different M_HI before any weight]".
+Log: lab/P11C.log; json: probes/logs/stagger_acf_p11c.json.
+
+### m=1000 sparse MILP: ran to time limit, d=38 (not proven optimal)
+GPT's sparse build scaled fine (40,313 vars, 166k nonzeros, 2 MB class matrix).
+10800 s limit hit at d=38, best bound 32, gap 15.8% — incumbent not proven.
+Consistency check: native-schedule law d ~ 0.5*m/(2 ln m) predicts 36.2 at m=1000;
+incumbent 38 sits 5% above. Consistent with the law's historical scatter; the
+law is not contradicted but m=1000 joins {251} as a proven-or-near d point.
+Log: lab/PHASE15_sparse_m1000.log.
+
+## 2026-10-13 morning — site sync + GLM collapse audited STANDS [E]
+
+Site sync (commit 273f443): PAPER.md §10 (displacement curve, two loads,
+native-schedule sublinearity, N1, 4th BH dissolution), WHITEPAPER.md §15
+(wedge era) + open-problems refresh + Hooley/Hagedorn refs; whitepaper.html
+BUILT for the first time via tools/build_whitepaper.py (grand.html's White
+Paper tab had 404'd since the rail was written). Pushed; ostoe.com rsync'd.
+
+GLM CRT-shift collapse AUDIT — STANDS, all legs PASS [E]
+(lab/GLM_COLLAPSE_AUDIT_2026-10-13.{py,md}, ~16 s):
+- LEG 1 exhaustive Q in {6,30,210}: identity covered(N) <=> gcd(N-a,Q)>1,
+  feasibility <=> m <= j(Q)-1, and d = #{p !| a} = |P| - max omega_P(a),
+  over ALL translates/windows. j(6,30,210)=(4,6,10) by scan.
+- LEG 2: GLM's m=14 witness reconstructs exactly (a = Q_odd, d=1, d=0
+  blocked by 97-rough 101/103) — matches measured d(14)=1.
+- LEG 3: B=53 recomputed MILP-free: d(60)=7, d(100)=11, infeasible@150
+  (also instant from j(53#)=106). LEG S reproduced from arithmetic alone.
+- LEG 4: A048670 confirms j(31#) = 58 exactly as GLM stated (resolves our
+  "j(31#) <= 60" bracket to the exact value).
+Consequences: feasibility closed everywhere by table; d(m) = small
+prime-set exact cover (m=1000 native now a 127-prime SAT, not a 40k MILP);
+"why m/13.5" is now the omega-degradation law max|S|(m); slope-universality
+attack is pure arithmetic. Naming pinned: house h(k)=j(p_k#) (first
+infeasible layer) vs "max coverable window" = j(Q)-1.
+
+## 2026-10-13 late morning — dial-theorem evidence swarm: question SHARPENED
+
+Three-agent evidence pass (census definition / arithmetic / geometry):
+- "Modal" was naming [S]: measured content = argmax of live-family singular
+  series C over the 20-ratio b<=8 sweep (7/6: 4.89, 5/4: 4.50, else <=3.8) [E].
+- Argmax is resolution-dependent: 14/11 (C~5.13) at b=11; b<=60 ratios like
+  59/46 reach ~6.64. max-C confounds denominator size with live-family count
+  (lottery tickets). 8/7 fully parity-dead (0 eligible classes).
+- 7/6 not arithmetically unique: 5/4, 9/7 (C=4.44), 6/5 (C=4.14) share the
+  full profile (h=1 kernel, identically-odd family, bad-prime losses).
+- Surplus mechanism decomposed [S on measured inputs]: 2-adic x4 (b-even dial
+  deletes ring 2 where 2 splits) + bad-prime root losses (rho(3)=0 x1.5,
+  rho(7)=1 x7/6); small-L(1,chi) guess refuted (L(1,chi_57)=1.513).
+- Nothing geometric peaks at 7/6; Gemini spacing-variance dump still does not
+  exist (and concerns 1:1 wheel witness boundaries, not the dial).
+Sharpened open question (WHITEPAPER §13 amended in place): what selects the
+winning field club, and at what resolution is argmax-C a stable statistic?
+Next instrument: C-decomposition census across a wide ratio grid.
+
+## 2026-10-13 late morning — PHASE 16 both probes: alternatives pass complete
+
+### Dial C-decomposition census (lab/PHASE16_dial_census.md, .json, _grid.json)
+Full coprime grid b<=60, 1<=a<=2b (2202 ratios; 2132 live). Adjudications:
+- D1 PASS (7/6 argmax at b<=8), D2 PASS (89/46 argmax at b<=60).
+- D3 REFUTED: logC2 = log 2 for ALL 2132 live ratios — parity eligibility
+  filter forces odd families; the 2-adic factor is universally x2 and
+  cannot select. "b-even dial deletes ring 2" is dead as a selector.
+- D4 half: 7/6 bad-prime factor at 3 = 1.5 exactly; the "x4" was wrong
+  (absolute x2, universal).
+- D5: top-5 SET identical small-C vs full-C; internal order is cutoff
+  noise (2% cluster).
+- 7/6 rank by resolution: 1/35, 3/78, 14/232, 48/521, 442/2132.
+- MECHANISM [F from measurement]: C-selection = prime-avoidance
+  constellation = inert-prime profile of the family's quadratic field
+  (rho=0 <=> inert). Leaders keep ~15-16 of 19 primes p<=67 inert with
+  split losses only at large primes; 7/6 has 11 inert + 6 split losses.
+  The dial's real role is lattice richness (family count grows with b:
+  7/6 has 2, 45/47 has 60) — argmax-C resolution-dependence is a
+  best-of-N SEARCH effect, winners saturating at C~6.6-6.8.
+- Two winners by statistic: best family 89/46; total haul (sumC) 1/59.
+
+### Omega-degradation curve (lab/PHASE16_omega_curve.md, .json, .log)
+Collapsed exact-cover, no MILP. Slopes measured exact: k_31 = 0.1386,
+k_53 = 0.10367, k_97 = 0.07472. k(B) = 0.876/ln B - 0.117 fits 3/3
+[S->measured; discriminating test: B=131/151 predicts ~0.066/0.063].
+F1 frozen bands FAIL (measured well above two-load extrapolation at
+small B; 0.215/0.051 constants do not transfer down-B — right 1/ln B
+shape, wrong amplitude [G]). F2 PASS (above-mechanism direction).
+F3 PASS (collapsed DFS == MILP at B=97 m=60, d=6). F4 PASS (omega
+24->3). LEG D bind: two instruments agree at 25 rings [E].
+Native: m=300 d=16 (47 rings), m=400 d=19 (60 rings), both PROVEN
+OPTIMAL (sparse MILP, 19s/40s). Law d ~ 0.5*m/(2 ln m) systematically
+low, converging: d/pred 1.26 -> 1.22 -> 1.14 -> 1.05(incumbent).
+Named follow-ups: B=131 slope point; native m=600; d_home/d_flip as
+omega-accounting (GPT queue #6).
+
+## 2026-10-13 midday — UNIQUENESS TEST spec filed (flagship relay item)
+
+SylvaN's pillar added to the geometry-first claim: "we don't need to compute a
+thing, just roll" — the wheel's function is realized by motion, not symbol
+rewriting. Spec: `lab/UNIQUENESS_TEST_2026-10-13.md`.
+
+- Three scoring axes: A generative closure (gate + constellations), B intrinsic
+  verbs (displacement/turning owned by the object), C realization economy
+  (actuation ∝ laps, parallelism geometric).
+- [E] Axis C is historical, not hypothetical: D.H. Lehmer's 1927 sieve was 19
+  bicycle-chain loops whose lengths ARE moduli (64, 27, 25, 49, 22, 26, 17, …,
+  67) with pins as excluded residues — one chain per ring. The physical wheel
+  was already built once.
+- Pre-registered predictions [S] for 8 candidates before survey; upset
+  candidate designated: prime-generating cellular automata (maybe on B).
+- Methodological note: this test is the operational form of the morning's
+  direction-of-explanation correction — "the wheel is what makes it true, and
+  'it' is the bundle."
+- Open [G]: G1 self-assembling masks/unit/L-build; G2 formal cost model for
+  "just roll" (analog complexity as parts catalog); G3 CA verb survey.
+
+Queue status: B=131 slope point, native m=600, d_home/d_flip ω-accounting still
+awaiting fire command; relay handoff drafts from this spec + PHASE 16.
+
+## 2026-10-13 midday — PHASE 16 (cont.): B=131 slope point + home/flip accounting
+
+Queue items from the morning report, all three fired. Collapsed covering ILP
+(`lab/PHASE16_b131_homeflip.py`), all solves optimal, zero gap:
+
+- **B=131 slope point [E]**: k131 = 0.0578 vs 2-param prediction 0.0627 — PASS
+  at 8% deviation. The 1/ln B k-law survives its first honest test; still
+  [S]-grade (2 params / now 4 points). Side catch: all grid m feasible →
+  j(131#) ≥ 201 (E-checkable against Hagedorn's tables).
+- **d_home/d_flip ω-accounting [E]**: m=263 — free=home=15, flip=17 (B1 binds
+  ILP to MILP to the unit; universal-flip dead, certified optimal). m=100 —
+  free=flip=9, home=10: the gap REVERSES sign with m. |gap| ≤ 2 at both
+  points: "the turning is not a ring-2 artefact" now holds at both ends.
+  B2 frozen sign prediction refuted at m=100, filed as such.
+- **Uniqueness test**: axis C2 (raw-state legibility, the movie-wall frame)
+  added with pre-registered predictions; Lehmer 1927 [E] precedent already
+  filed in the spec.
+- **m=600 native MILP**: fired detached (PID 3480815,
+  lab/PHASE16_sparse_m600.log, 3 h limit) — pending at filing time.
+
+Lab note: lab/PHASE16_b131_homeflip.md
+
+## 2026-10-13 early afternoon — native m=600 MILP lands: d=26 PROVEN OPTIMAL
+
+`lab/phase15_sparse_relay.py 600` (82 rings, 15,537 vars): status Optimal,
+d = 26, 294 s. Native-schedule law `d/pred` (pred = 0.5m/(2 ln m)) now
+1.26 → 1.22 → 1.14 → **1.11** at m = 300/400/600 — still systematically
+low, still converging. The arithmetic queue is fully closed; the board is
+ready for the updated relay handoff.
