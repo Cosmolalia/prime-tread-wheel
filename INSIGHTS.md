@@ -2151,3 +2151,33 @@ P-TRI step 2 NOT run: engine absent from repo; both reconstructions fail against
 #16 numbers — native reading refuted by the u=0 witness (8T(m−1)+1 = (2m−1)^2 ⟹ seam anchor always
 triangle-consistent ⟹ every layer coverable). Question relayed: P-TRI's window/ring-bound/phase-domain
 conventions, one line, then step 2 is an afternoon.
+
+## 2026-10-13 night — 20:21 handback adjudicated; P-TRI CLOSED; Gemini dump fired; m=1000 running
+
+- **Seam lock retracted at class level** (Claude/GPT/Grok, three-way
+  independent): the lock is generic to L = a·m. Survives, theorem-grade:
+  GLM's lock+palindrome lemma (γ=0 ∧ α+β=0 ⟹ B = T(m−1) uniquely;
+  verified here), Claude's a=1 residue, GPT's restricted classification
+  theorem + exact-stagger rigidity. Folded into v2 spec as dated
+  correction §10, failed prediction preserved with scope.
+- **P-TRI acquitted [E]:** two independent exact-cover implementations
+  agree to the unit; published set reproduced EXACTLY as tri∖free (the
+  confinement-delta) — Claude's "exact equality" was imprecise, content
+  fully recovered. Our afternoon u=0 kill retracted (R7). Reading B
+  confirmed; GLM's Reading-A "universal feasibility" refuted for the
+  one-offset-per-ring engine (holds only for the per-ticket QR
+  relaxation). Frozen: no new tri∖free-infeasible layers in 61..80.
+- **Discriminant twin Δ(a)=a(a−8)** verified: −7 shared by 1:1 and 7:1
+  at every odd prime ≠ 7; q=7 cell is the discriminator (already in
+  PHASE 17 data). PHASE 17 arithmetic stands, "unique seam geometry"
+  interpretation retired (R8 framing).
+- **Gemini dump [E]:** GEMINI_DUMP_2026-10-13.json — uncovered-k arrays
+  at sieve-bound entries m0 = 17 (p=11), 138 (p=97), 364 (p=257),
+  ±5 windows. Hand-verified p=11, m=17.
+- **m=1000 native fired detached** (PID 3640867, PHASE18_sparse_m1000.
+  log, 3h cap) — tests GLM's frozen F2 band d ∈ [37, 43].
+- Adopted: Jacobsthal-translate-spectrum naming; Fischer CA best rival
+  (fails only growing frame); Grok's creep precondition (check inert
+  feasibility before extending census); GPT's A1/A2/A7/A8 affine-rival
+  experiment pre-registered; Claude's Sacks "loses nothing structural"
+  prediction recorded with refutation condition.

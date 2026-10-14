@@ -374,3 +374,64 @@ wheel's corner is the pairing** (Claude's scoreboard: no single rival takes
 the whole row) **plus two structure properties — the stagger-field temporality
 triple (R2) and the seam lock (§8.7)** — and the honest v2 claim is the
 conditional uniqueness of §8.3, with §8.8 as its theorem-shaped core.
+
+---
+
+## 10. DATED CORRECTION — 2026-10-13 night (seam-lock retraction)
+
+**Preserved failed prediction (v2, item (c)):** "among linear-turn
+spirals, only turn length m phase-locks ring m to its own layer."
+**Scope of the failure:** the lock is generic to the whole affine class
+L(m) = a·m + b with b = 0; every such spiral locks its odd seams (phase
+0 when a even... exact parities per GPT's affine theorem), and the
+half-turn appears on even turns iff a is odd. Ulam (a=8) locks
+identically to the wheel; Sacks (b=1) misses the lock because of the
+constant, not because of its geometry. Verified independently by GPT
+(exact + enumeration), Claude (direct check, retracted his own claim),
+and Grok (same algebra). The prediction failed at the class level, not
+at the wheel level.
+
+**What survives, and is now theorem-grade [F]:**
+1. **GLM's lock+palindrome lemma:** for quadratic counts
+   B(m) = (αm²+βm+γ)/2 with shadows o_q(m) = −B(m) mod q: the seam lock
+   (∀ odd m, q | m ⟹ o_q = 0) ⟺ γ = 0 (count starts at the origin);
+   the lap palindrome B(m) = B(1−m) ⟺ α+β = 0. Both together leave
+   2B = α(m²−m), and the 1:1 condition L(m) = B(m+1)−B(m) = m forces
+   α = 1: **B = T(m−1), uniquely.** The lock and the palindrome are
+   theorems (the two diagonal reflections of the (lap, tick) plane);
+   the definitional residue is only "count from zero, respect the
+   reflection" — minimality, not structure. Verified here this evening.
+2. **Claude's residue:** a = 1 is the unique member of the locked class
+   whose turn lengths include every integer — every ring, every prime p
+   included, owns a layer that is exactly one lap of it.
+3. **GPT's restricted classification theorem** (evening §6): the
+   five-primitive phase-and-coverage machine is canonical up to
+   phase-preserving equivariant isomorphism, under faithful/minimal-state
+   hypotheses; with its explicit does-NOT-prove list (physical
+   embodiment, time schedule, ring-introduction rule, growing frame).
+   **Filed as the real theorem candidate.**
+4. **GPT's exact-stagger rigidity** (evening §8): full all-prime stagger
+   identity forces S(m) = T(m) — a conditional reconstruction theorem,
+   not unrestricted uniqueness.
+
+**New sharpenings adopted:**
+- **Self-lock ≠ active ring [GPT §5]:** under the native sieve budget
+  p ≤ isqrt(T(m−1)) < m, ring m is not active at layer m. The seam lock
+  is a formal phase identity, not "an active ring striking its own
+  layer." PHASE 17 tested small-q effects on tick-1 values; both stand,
+  but the framing "active ring locks to its own layer" is retired.
+- **Discriminant twin [GPT §3]:** Δ(a) = a(a−8) is invariant under
+  a ↦ 8−a; the native −7 signature is shared by the 7:1 schedule at
+  every odd prime except 7 (exact + enumerated). PHASE 17's arithmetic
+  stands; its interpretation as evidence of unique seam geometry does
+  not. Registered honestly.
+- **GPT §9's affine-rival experiment (A1/A2/A7/A8) is pre-registered**
+  with exact known predictions; numerical confirmation of those is
+  verification, not discovery.
+
+**The surviving uniqueness question [G, GPT §10]:** is there a neutral,
+mechanically meaningful principle that selects the native unit-growth
+schedule over the affine rivals without specifying L(m) = m by
+definition? GLM's lemma narrows it: any rival must reproduce a
+zero-origin, reflection-symmetric quadratic count — and there is exactly
+one. The burden is now on the *class*, not the count.
