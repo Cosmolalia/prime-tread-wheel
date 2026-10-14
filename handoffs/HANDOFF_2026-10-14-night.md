@@ -27,14 +27,23 @@ Against the two frozen predictions:
   the behavior you'd expect if the translate space is genuinely tightening
   near the law's prediction.
 
-**Overnight rerun in flight:** PID 3718615, 12 h cap (expires ~12:15
-local), `lab/PHASE19_sparse_m1000_overnight.log`. Plain rerun — a warm
-start was not possible because the incumbent's translate vector wasn't
-persisted (only the objective was logged); noted as a lesson for future
-runs: persist the solution vector. The rerun can only sharpen the bound.
-Its result rides into the next relay round; it does not hold this one.
+**UPDATE 06:07 — overnight rerun CLOSED EARLY: d = 37 PROVEN OPTIMAL**
+(`lab/PHASE19_sparse_m1000_overnight.md`). 4 h 57 m of the 12 h cap.
+Consequences:
 
-Full record: `lab/PHASE18_sparse_m1000.md`.
+- **GLM's band [37, 43]: PASS — at the low edge.** Fully tested now.
+- **Ratio sequence on proven points: 1.26 → 1.22 → 1.14 → 1.11 → 1.02.**
+  The 1.05 incumbent tightens to 1.02 with a proof in hand.
+- **Honest flag:** the additive residual d − pred (3.1 → 2.8 → 2.3 →
+  2.55 → 0.81) is NOT monotone — ratio → 1 is supported; smooth additive
+  decay is refuted by the 600 → 1000 step. Likely 1-ring quantization
+  noise or a finite-m correction [G]; next point m = 1500 or 2000.
+
+(Original §1 text: the rerun was a plain rerun — no warm start possible
+because the 3 h run logged only the objective, not the translate vector.
+Lesson filed: persist solution vectors.)
+
+Full records: `lab/PHASE18_sparse_m1000.md`, `lab/PHASE19_sparse_m1000_overnight.md`.
 
 ## §2 Round closure — what the 20:21 handback changed, one line each
 

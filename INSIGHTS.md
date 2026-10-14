@@ -2204,3 +2204,14 @@ persist solution vectors). Log: lab/PHASE19_sparse_m1000_overnight.log.
 m verdict + P-TRI closed [E] (published set = tri∖free reproduced exactly,
 both implementations) + seam-lock dated correction + 7-item standing queue.
 Bundle refreshed.
+
+## 2026-10-14 06:07 — m=1000 overnight rerun CLOSED: d=37 PROVEN OPTIMAL
+
+12h-cap rerun closed in 4h57m. Objective 37 = bound 37, gap 0. GLM's frozen
+band [37,43] PASSES at the low edge — fully tested. Ratio sequence on PROVEN
+points: 1.26 → 1.22 → 1.14 → 1.11 → 1.02 (pred 36.19). Additive residual
+d−pred: 3.1 → 2.8 → 2.3 → 2.55 → 0.81 — NOT monotone; ratio→1 supported,
+smooth additive decay refuted by the 600→1000 step (1-ring quantization or
+finite-m correction [G]; next point m=1500 or 2000). Night handoff §1
+amended in place with the update. Five native proven points total.
+Artifact: lab/PHASE19_sparse_m1000_overnight.md.
