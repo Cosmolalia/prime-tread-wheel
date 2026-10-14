@@ -2118,3 +2118,36 @@ d = 26, 294 s. Native-schedule law `d/pred` (pred = 0.5m/(2 ln m)) now
 1.26 → 1.22 → 1.14 → **1.11** at m = 300/400/600 — still systematically
 low, still converging. The arithmetic queue is fully closed; the board is
 ready for the updated relay handoff.
+
+## 2026-10-13 afternoon — 13:29 day-relay handback adjudicated (six voices + Claude)
+
+Full adjudication: `lab/RELAY_2026-10-13-day.md`. Spec amendments: `lab/UNIQUENESS_TEST_2026-10-13.md` §8 (v2 addendum; v1 frozen text untouched).
+
+- **[E] j(131#) = 378, j(167#) = 510, j(53#) = 106** — OEIS A048670 verified directly; j(53#) additionally pinned by our own exact-cover translate scan in 3.2 s (GLM's request). GLM's indexing hazard checked: unfounded (a(10)=46; a(11)=58=j(31#) consistent with the morning audit) — discipline adopted anyway.
+- **[E] All-inert ceilings computed:** ≤53 budget ×2 = 7.348 (Qwen's 7.28, mechanism right); full ≤67 budget ×2 = 7.7147 (GLM's range). 89/46's 6.834 = 93% of the ≤53 ceiling.
+- **[F] Uniqueness Test v1 scored to death in 3 hours — as designed.** B was circular (question-list ownership: Grok, GPT, Claude independently); prediction #3 "pure CRT fails B" REFUTED BY OUR OWN collapse (the CRT torus owns displacement: d(x,0)=Σ 1[x_p≠0]). C2 v1 conflated coordinates with legibility (GPT §6: a zero cell is as positional as a hole) — v1 CA prediction refuted by Wolfram p.640 / Umeo–Kamikawa prime CAs [E]. Adopted: B_math/B_phys split; C2 v2 re-frozen on GPT's four bullets (rubric-first before scoring, per DeepSeek); C_fixed/C_growing cost split (GPT §7).
+- **[F] GLM's R1+R2 adopted as the v2 core:** gate-intrinsic (R1) + temporality triple (R2: intrinsic time, persistent phase-bearing agents, growing frame) ⟹ "the wheel is the unique simple object whose state space is a stagger field." Conditional uniqueness — the form that survives a referee.
+- **[F] THE SEAM LOCK (Claude's find):** among linear-turn spirals, turn length m uniquely phase-locks ring m to its own layer (T(m−1)=m(m−1)/2). Ulam 8m: no lock. Sacks 2m−1: seam at k², no lock. Discriminating experiment pre-registered: Lehmer-chains-on-Sacks vs wheel; Claude's prime-layer prediction (#18) is the cheap existing-count test. New slogan [S]: motion-sieve dynamics on the one linear spiral whose turn length locks to its seam.
+- **[E] Three new rivals admitted:** Fischer 1965 prime CA (the upset made concrete — rings as bouncing signals), Hickerson's Life primer, PRIMEGAME. All fail R1/R2 for named reasons; scoreboard: no rival takes the wheel's whole row — the corner is the pairing + stagger-field triple + seam lock.
+- **[S→queue] GPT's restricted classification theorem:** uniqueness up to equivariant isomorphism in the five-primitive class (one cyclic phase per prime, one excluded class, OR-composition, independent translations, home config) — the theorem-shaped core of the flagship.
+- **[S frozen-exploratory] GPT's alternative slope law** k ≈ c·π(B)/j(B#), c≈0.70–0.75; k(167) ≈ 0.0558 vs frozen log-fit 0.0542 — too close at 167, reserve larger B. Frozen log prediction NOT replaced. Normalized position x = m/(j(B#)−1) adopted for d-curve analysis.
+- **[F] GLM's two failed heuristics filed:** aggregate harmonic relaxation vacuous (home classes pinned, not chosen); coupon-collector contradicts measured covers ⟹ the slope is genuinely run-structural. His cliff reframe adopted: near h(Q) the qualifying-translate set collapses to ω-poor generic positions (ω=3 vs E[ω]=1.80); degradation = set-shrinkage.
+- **[E] P11 answered for GLM:** the thread was NOT dropped — adjudicated 10-12 evening, P11c run with the honest null: phase-stratified z = −2.16, p = 0.015; ~85% carried by forced phase-class arithmetic; needs pre-registered replication at a different M_HI. His 5σ framing superseded. Real failure: handoff completeness (now corrected).
+- **[C] Four fact-level fixes:** 6k±1 ≠ sexy primes (coprime-to-6 seats — Grok's catch); Lehmer mid-prime doubling restored (46/74/94 — GLM's recall canonical); bicycle-chain (1926/28) ≠ photoelectric (1933) machines unmerged; dial-census ⟺ statement qualified (exceptional primes; code already correct by direct scan).
+- **Handoff-completeness lesson [F]:** GLM's P11 grep request reached us already executed — the day handoff's queue must carry verdicts-in-flight, not just open items.
+
+## 2026-10-13 late afternoon — PHASE 17: #18 seam-lock check PASS; P-TRI step 2 filed as [G]
+
+Claude's #18 (prime layers less seam-locked) decompressed to pure wheel arithmetic:
+ring q hits tick 1 of layer m iff m^2-m+2 ≡ 0 mod q (disc −7 — exactly why r_q = 1+(−7|q)).
+Measured 300k layers, odd q ≤ 97: prime-layer rates match r_q/(q−1) at |z| ≤ 0.46 everywhere
+including degenerate q=7 ((−7|7)=0, single root, emp 0.16658 vs 1/6); r_q=0 primes exactly zero;
+lift = q/(q−1) at every q (7/6 is a statistical lift, flagged in advance, NOT dial evidence).
+Our frozen P1 composite expectation mis-specified by the prime-bucket subtraction (z=−3.37 at q=7,
+deficit predicted 0.00227 vs observed 0.00225 — corrected, all cells |z| ≤ 0.46). P4 layer-content
+extension FAILS honestly (no correlation; prime counts phase-insensitive to first order — named the
+phase-sensitive observable for a future probe). N1 re-verified 3..20k from our own sieve.
+P-TRI step 2 NOT run: engine absent from repo; both reconstructions fail against Claude's published
+#16 numbers — native reading refuted by the u=0 witness (8T(m−1)+1 = (2m−1)^2 ⟹ seam anchor always
+triangle-consistent ⟹ every layer coverable). Question relayed: P-TRI's window/ring-bound/phase-domain
+conventions, one line, then step 2 is an afternoon.
