@@ -2215,3 +2215,16 @@ smooth additive decay refuted by the 600→1000 step (1-ring quantization or
 finite-m correction [G]; next point m=1500 or 2000). Night handoff §1
 amended in place with the update. Five native proven points total.
 Artifact: lab/PHASE19_sparse_m1000_overnight.md.
+
+## 2026-10-14 morning — 07:40 handback adjudicated (PHASE 20): F5 verified, Q1/Q2/Phi confirmed, Sacks tension resolved, d/P band fails
+
+Relay (`lab/RELAY_2026-10-14-morning.md`, probe `lab/PHASE20_relay_oct14.*`):
+
+- **[E] GLM's F5 normalization catch verified to the cent.** Our pred denominator was wrong by ln 4: the law is d ≈ ½m/ln T(m), residuals 2.42/2.00/1.29/1.21/−1.10, monotone, zero-crossing between 600 and 1000. The "non-monotone additive residual" [G] we filed was in the formula, not the physics. Qwen's "1-ring quantization noise" story retired with the artifact it explained.
+- **[E] All-inert D-scan |D| ≤ 10⁶: zero witnesses.** Creep to the 7.7147 ceiling unreachable at dial grids; F3 bands stand (Grok/Qwen precondition closed at this range).
+- **[E] GPT's Q1 + Q2 both confirmed.** Q1: reflection + odd seam lock ⟹ B(m) = a·C(m,2), a free (GLM's original lemma is intact — our relayed one-liner dropped his explicit 1:1 hypothesis; handoff underspecified, per GPT's own disposition). Q2: twin-prime ring-entry gate, exhaustive ≤257 zero violations, two implementations; 97/257 entry events change NOTHING (Δ variance exactly 0.000; 11's Δ is a hole-count artifact, flagged for Gemini).
+- **[E] Φ_a conjugacy confirmed** incl. p=7 collapse 4→1 — the q=7 discriminant-twin cell IS where the phase automorphism loses invertibility. Adopted as the unified explanation of PHASE 17's q=7 exception.
+- **[E] Sacks localization tension resolved: both voices right, Claude scope-limited.** P-SAX tested tick-1/dead-columns/seam-profiles (all pass, verdict stands there); GLM's two-shot localization is an untested observable and lands: Sacks spokes carry primes at unbounded depth (up to 148 in-table), blocked only at g+1 | C(a,b). **Patch to GLM's wheel side:** "forbids depth ≥ 3 absolutely" holds from depth 4 up; at depth 3 the value 2b²−b+2a is prime on 14/28 spokes (g=2 consumed by the /2 — the same free-parameter catch as Q1). Wheel caps at depth 3 with a primality window; Sacks unbounded. Lehmer-on-Sacks discriminator armed with the corrected table.
+- **[E] GLM's F2 d/P companion band FAILS: P(1000) = 82** (primes in layer [499501,500500]), d/P = 0.4512 ∉ [0.49,0.56]. Sequence 0.536/0.593/0.487/0.491/0.451: asymptotic "→ ½" survives, the band doesn't. d-band [37,43] PASS stands.
+- **m=1500 fired** (PID 3900666, 24h cap, `lab/PHASE20_sparse_m1000.log`-style log at `lab/PHASE20_sparse_m1500.log`) against GLM's frozen d(1500) ∈ [50,57], pred 53.8.
+- **Process:** Qwen/Gemini responses byte-identical this round (flagged to Obi). DeepSeek's "scope inflation" diagnosis adopted as standing bias warning — this round's instances: our palindrome one-liner, GLM's depth-3 wording, Qwen's noise story.
