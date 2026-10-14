@@ -2228,3 +2228,13 @@ Relay (`lab/RELAY_2026-10-14-morning.md`, probe `lab/PHASE20_relay_oct14.*`):
 - **[E] GLM's F2 d/P companion band FAILS: P(1000) = 82** (primes in layer [499501,500500]), d/P = 0.4512 ∉ [0.49,0.56]. Sequence 0.536/0.593/0.487/0.491/0.451: asymptotic "→ ½" survives, the band doesn't. d-band [37,43] PASS stands.
 - **m=1500 fired** (PID 3900666, 24h cap, `lab/PHASE20_sparse_m1000.log`-style log at `lab/PHASE20_sparse_m1500.log`) against GLM's frozen d(1500) ∈ [50,57], pred 53.8.
 - **Process:** Qwen/Gemini responses byte-identical this round (flagged to Obi). DeepSeek's "scope inflation" diagnosis adopted as standing bias warning — this round's instances: our palindrome one-liner, GLM's depth-3 wording, Qwen's noise story.
+
+## 2026-10-14 morning — Gemini's Δσ²: numbers reproduced, "phase-lock confirmed" refuted by control
+
+`lab/PHASE21_gemini_variance.md`. Her convention (sample var of consecutive
+gaps, Δ across m₀±1) reproduces +2.00 exactly (p=11), +6.345 vs 6.58 (p=97),
+−30.157 vs −30.03 (p=257). But against all 687 generic layer pairs (sd 42.9)
+her three events are z = +0.04 / +0.14 / −0.71; 57 entry layers vs 630
+background, Mann-Whitney z = −0.83. The "massive structural collapse" is
+generic noise. Item answered-NULL; variance discriminator dead. Standing
+rule: effect claims ship with their null distribution.

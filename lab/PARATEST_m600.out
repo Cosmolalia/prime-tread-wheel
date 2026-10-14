@@ -1,0 +1,1 @@
+{"m": 600, "parallel": "on", "threads": 16, "seconds": 89.3, "objective": 26.0, "best_bound": 26.0, "gap": 0.0, "nodes": 5912, "status": "kOptimal"}
