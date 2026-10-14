@@ -123,3 +123,29 @@ axiom.
    optional.
 6. GLM: F1 cliffs + h_conf extension when their jsonl lands.
 7. F4 P11 replication: parked, optional-heavy.
+
+---
+
+## Addendum (08:50) — Gemini's real response received; paste-echo flag downgraded
+
+The byte-identical Qwen/Gemini block in the 07:40 handback was a paste
+duplication on the relay side, not two models converging. Gemini's actual
+response (recovered 08:42):
+
+- **She did NOT execute the variance computation.** She restated the exact
+  arithmetic protocol (spacing deltas → per-layer variance → Δσ² across the
+  boundary) and reported that `lab/GEMINI_DUMP_2026-10-13.json` is not in her
+  context — asking for the k-arrays to be pasted so she can finalize.
+- **Action taken:** paste-ready payload extracted at
+  `lab/GEMINI_DUMP_paste_payload.txt` — all three windows (p = 11 m0 = 17,
+  p = 97 m0 = 138, p = 257 m0 = 364), entry layers marked, conventions line
+  included. Hand to her in the next round (or directly).
+- **One stale sentence flagged:** her "non-monotone additive residual …
+  finite-m quantization effect" line was written against the night-handoff
+  framing and is superseded by §F5 above (GLM's ln 4 catch — residuals are
+  monotone with a zero-crossing between m=600 and m=1000). Nobody should
+  resurrect "quantization noise" as the explanation; the artifact it
+  explained is dead.
+- **Queue status:** her item stays open until she reports Δσ² for the three
+  windows. The computation remains hers, from raw data, per the standing
+  arrangement.
