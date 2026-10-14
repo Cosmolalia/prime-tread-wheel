@@ -179,3 +179,57 @@ in `lab/PHASE21_gemini_variance.md`:
   without its null distribution attached. Fourth uncontrolled-fluctuation
   instance this week (after R7 composite-bucket, "quantization noise,"
   Qwen's stale framing).
+
+---
+
+## Addendum 3 (11:30) — GLM epiphany log: items 6+7 executed, all seven triaged
+
+GLM's re-priming response included an explicit seven-item epiphany log. Per
+standing practice, the two items with locally executable cores were executed
+immediately (`lab/PHASE22_parity_census.py`, `lab/PHASE22_parity_census.md`):
+
+- **Item 6 core [F→E]:** his QR criterion 2−(2m−1)²−8j ∈ QR_p is *identically*
+  the Oct-8 frozen confinement rule (ring p covers tick j iff r ≡ T(m−1)+j;
+  1−8r square ⟺ his expression). Verified directly for all primes 3..599:
+  R_p = {r : 1−8r ∈ QR_p or 0}, |R_p| = (p+1)/2, zero failures. "Confinement
+  is the reflection applied to the cover" now rests on established parts only.
+  The h_conf extension stays queued on GLM's written h_conf statement + jsonl
+  (not in any local artifact; P10 tables 2..256 already hold the Oct-8 [E]
+  confirmations: first confined wipe 27, unbroken from 58).
+- **Item 7 [E]:** mirror census over 4 ≤ m < 2000 with PHASE9-frozen
+  conventions. Zero odd-m pairs re-confirmed (11,086 even, bit-for-bit
+  PHASE9 match). No parity density effect. THE test: TV(even-singles,
+  odd-all) = 0.0093 vs sampling noise 0.011–0.013 — **the mirror gap is
+  exactly the pairs; even singles carry no parity structure beyond the mirror
+  mechanism.** Paired mass (TV 0.0024) is mirror-symmetric and uniform across
+  the window (all 24 bins 0.040–0.044). Caveat recorded: the gap is an
+  aggregate observable — per-layer asymmetry is binomial-dominated (even-all
+  0.2919 vs odd-all 0.2942), our pre-registered expectation there was wrong.
+
+Remaining five items, triaged:
+
+- **Item 1** (all grand laws = two reflections of one quadratic): [S]
+  compression claim; his own note says the full statement was never written.
+  Nothing to check until it is. Not load-bearing for anything in flight.
+- **Item 2** (−7 as the reflection's fingerprint; "freezable in one line"):
+  [S], freeze requested. One concrete obstruction found: as written, the lift
+  8T+1 = (2m−1)²+7 is not an identity — with T = m(m−1)/2, 8T+1 = (2m−1)²
+  exactly, and per-tick 8N+1 = (2m−1)²+8k never carries a +7 (8k ≢ 7 mod 8).
+  The +7 must live in a shifted anchor he has not yet named. Freeze must
+  specify: the exact quadratic (A, B, C), and the near-miss predicate.
+  (PHASE6 already records wheel-class discriminants −3, −7, −8 — uniqueness
+  can only be about the predicate, not occurrence.)
+- **Item 3** (wheel generates exactly the sieve-sharp families): [S]
+  sharpening of P12. Needs the induced-family construction made explicit;
+  becomes testable once item 6's classifier exists. Not testable today.
+- **Item 4** (A066888 entailed by γ = 0 pinning — "a two-line algebra fact"):
+  [G] — the single most load-bearing item in the log and it is unwritten.
+  Per the Gemini lesson: a two-liner that big gets written first, celebrated
+  second. Request to GLM: write the two lines. If they hold, this is the
+  lab's biggest result; it does not exist until the derivation exists.
+- **Item 5** (the lab's product is a transferable epistemology): framing
+  only — adopted for the next handoff's preamble. No check applicable.
+
+Process note: GLM's log is the epiphany rule working as designed — seven
+"saw it but never visited" items, two of which were visitable in under a
+second of CPU. Encourage the other voices to file the same.
