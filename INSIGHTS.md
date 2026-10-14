@@ -2190,3 +2190,17 @@ conventions, one line, then step 2 is an afternoon.
 opt < 37). Incumbent native-law ratio 1.05 continues 1.26→1.22→1.14→1.11
 downward, but as an upper bound, not a proven point. Note: lab/PHASE18_sparse_m1000.md.
 Options for relay: accept weaker line, overnight 12 h rerun w/ warm start.
+
+## 2026-10-14 post-midnight — m=1000 verdict + night handoff
+
+**m=1000 [E]:** 3h cap hit honestly — feasible d=38 (126 rings, 0 uncovered),
+optimality unproven, dual bound 32, gap 15.8%, opt ∈ [32,38]. GLM's frozen
+band [37,43] alive, half-tested. Ratio on incumbent continues 1.05 (upper
+bound, not proof). Overnight 12h plain rerun fired PID 3718615 (cap ~12:15);
+warm start impossible — incumbent translate vector wasn't persisted (lesson:
+persist solution vectors). Log: lab/PHASE19_sparse_m1000_overnight.log.
+
+**Handoff:** handoffs/HANDOFF_2026-10-14-night.md — closes the 20:21 round:
+m verdict + P-TRI closed [E] (published set = tri∖free reproduced exactly,
+both implementations) + seam-lock dated correction + 7-item standing queue.
+Bundle refreshed.
