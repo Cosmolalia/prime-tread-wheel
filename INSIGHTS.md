@@ -2135,3 +2135,19 @@ Full adjudication: `lab/RELAY_2026-10-13-day.md`. Spec amendments: `lab/UNIQUENE
 - **[E] P11 answered for GLM:** the thread was NOT dropped — adjudicated 10-12 evening, P11c run with the honest null: phase-stratified z = −2.16, p = 0.015; ~85% carried by forced phase-class arithmetic; needs pre-registered replication at a different M_HI. His 5σ framing superseded. Real failure: handoff completeness (now corrected).
 - **[C] Four fact-level fixes:** 6k±1 ≠ sexy primes (coprime-to-6 seats — Grok's catch); Lehmer mid-prime doubling restored (46/74/94 — GLM's recall canonical); bicycle-chain (1926/28) ≠ photoelectric (1933) machines unmerged; dial-census ⟺ statement qualified (exceptional primes; code already correct by direct scan).
 - **Handoff-completeness lesson [F]:** GLM's P11 grep request reached us already executed — the day handoff's queue must carry verdicts-in-flight, not just open items.
+
+## 2026-10-13 late afternoon — PHASE 17: #18 seam-lock check PASS; P-TRI step 2 filed as [G]
+
+Claude's #18 (prime layers less seam-locked) decompressed to pure wheel arithmetic:
+ring q hits tick 1 of layer m iff m^2-m+2 ≡ 0 mod q (disc −7 — exactly why r_q = 1+(−7|q)).
+Measured 300k layers, odd q ≤ 97: prime-layer rates match r_q/(q−1) at |z| ≤ 0.46 everywhere
+including degenerate q=7 ((−7|7)=0, single root, emp 0.16658 vs 1/6); r_q=0 primes exactly zero;
+lift = q/(q−1) at every q (7/6 is a statistical lift, flagged in advance, NOT dial evidence).
+Our frozen P1 composite expectation mis-specified by the prime-bucket subtraction (z=−3.37 at q=7,
+deficit predicted 0.00227 vs observed 0.00225 — corrected, all cells |z| ≤ 0.46). P4 layer-content
+extension FAILS honestly (no correlation; prime counts phase-insensitive to first order — named the
+phase-sensitive observable for a future probe). N1 re-verified 3..20k from our own sieve.
+P-TRI step 2 NOT run: engine absent from repo; both reconstructions fail against Claude's published
+#16 numbers — native reading refuted by the u=0 witness (8T(m−1)+1 = (2m−1)^2 ⟹ seam anchor always
+triangle-consistent ⟹ every layer coverable). Question relayed: P-TRI's window/ring-bound/phase-domain
+conventions, one line, then step 2 is an afternoon.
