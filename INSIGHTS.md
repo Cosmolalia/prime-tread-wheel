@@ -2238,3 +2238,33 @@ her three events are z = +0.04 / +0.14 / −0.71; 57 entry layers vs 630
 background, Mann-Whitney z = −0.83. The "massive structural collapse" is
 generic noise. Item answered-NULL; variance discriminator dead. Standing
 rule: effect claims ship with their null distribution.
+
+## 2026-10-14 midday — numberwang handback adjudicated: F9 fails as preregistered, carpet closed as null furniture
+
+`lab/PHASE24_carpet_F9.py` (+ md). Seven executions against the 11:37 handback:
+
+1. **F9 (GLM, preregistered) fails at [10⁴, 2×10⁴):** 5000 even layers, 216,751
+   pairs, paired edge-tilt z = −0.51/−0.95, χ²/dof 0.85. No edge tilt; per his
+   own preregistration the B7-window positional reading needs re-reading here.
+2. **Carpet closed (Claude's discriminator, his predicted way):** all/paired/
+   singles χ²/dof = 0.78/0.85/0.84 — paired inherits flatness. The PHASE22
+   uniform carpet was the both-members-convention involution on a flat
+   histogram: null furniture. Never convention-free; now convention-explained.
+3. **GPT's m=53 zero-ring-effect claim exact [E]:** ring 37 removes zero
+   uncovered ticks at m=52,53 (identical sets); Δσ² = −214.595. The anomaly
+   is svar(52)=227.7 → 13.1 at 54, not the ring. Biggest-number-in-the-scan
+   keeps its value, loses its story.
+4. **GPT's exact HL null verified:** per-odd-prime mean local factor 1.000000;
+   parity supplies the 2×. Mirror enrichment fully nulled.
+5. **Pair census third confirmation:** 11,086 (m<3000 incl m=2); 5,534
+   (m<2000). Grok's 5,533 was range mismatch, not disagreement.
+6. **F7 algebra verified:** lane discriminants D_k = 1−8k; h(−7)=1, h(−15)=2,
+   h(−23)=3. k=1 the unique −7 lane.
+7. **Collapse question answered:** the m=1500 MILP lanes ARE the collapsed
+   formulation (ring-translate variables; objective prices displacements +
+   uncovered). GLM's "protection is priced" is in the objective function.
+
+Also: GLM delivered Item 4 honestly scoped — a priced REDUCTION (A066888 ⟺
+leading-tick survival under collapse), not an entailment; F10 quarantined.
+Null-attached rule v2 adopted (null + rank-in-scan + preregistered decision
+rule). Claude token-blocked until ~22:00; nothing owed by him blocks.

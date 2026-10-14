@@ -1,0 +1,49 @@
+sieved 11079466 primes up to 200010000
+pair census 2<=m<3000, frozen convention (p <= m^2/2, incl m=2): 11086
+  pairs 2<=m<2000 (reference range): 5534
+  excl m=2 self-pair, m<3000: 11085
+  ...1000 layers, 2s
+  ...2000 layers, 3s
+  ...3000 layers, 6s
+  ...4000 layers, 8s
+  ...5000 layers, 10s
+
+=== m in [10000,20000) even layers: 5000 layers, 216751 pairs ===
+  all      edge2: edge mass 673114 vs exp 673009  z = +0.14
+  all      edge1: edge mass 335879 vs exp 336505  z = -1.13
+  all      chi2/dof = 0.78   mirror-L1 = 0.00131   N = 4038056
+  paired   edge2: edge mass 72124 vs exp 72250  z = -0.51
+  paired   edge1: edge mass 35952 vs exp 36125  z = -0.95
+  paired   chi2/dof = 0.85   mirror-L1 = 0.00000   N = 433502
+  single   edge2: edge mass 600990 vs exp 600759  z = +0.33
+  single   edge1: edge mass 299927 vs exp 300380  z = -0.86
+  single   chi2/dof = 0.84   mirror-L1 = 0.00147   N = 3604554
+  split-half edge-z all: A +0.50  B -0.29
+  split-half edge-z pair: A +0.46  B -1.17
+
+paired-mass per bin (share of paired N):
+  bin  0: 0.0415
+  bin  1: 0.0417
+  bin  2: 0.0420
+  bin  3: 0.0417
+  bin  4: 0.0417
+  bin  5: 0.0417
+  bin  6: 0.0415
+  bin  7: 0.0421
+  bin  8: 0.0419
+  bin  9: 0.0410
+  bin 10: 0.0415
+  bin 11: 0.0416
+  bin 12: 0.0416
+  bin 13: 0.0415
+  bin 14: 0.0410
+  bin 15: 0.0419
+  bin 16: 0.0421
+  bin 17: 0.0415
+  bin 18: 0.0417
+  bin 19: 0.0417
+  bin 20: 0.0417
+  bin 21: 0.0420
+  bin 22: 0.0417
+  bin 23: 0.0415
+{"layers": 5000, "pairs": 216751, "chi2dof_all": 0.7803960080317599, "chi2dof_pair": 0.8459424388594164, "chi2dof_single": 0.8421516347038387}
