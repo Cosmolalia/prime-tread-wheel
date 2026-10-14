@@ -2181,3 +2181,12 @@ conventions, one line, then step 2 is an afternoon.
   feasibility before extending census); GPT's A1/A2/A7/A8 affine-rival
   experiment pre-registered; Claude's Sacks "loses nothing structural"
   prediction recorded with refutation condition.
+
+## 2026-10-13 night — m=1000 native MILP: d=38 FEASIBLE, optimality NOT proven
+
+`phase15_sparse_relay.py 1000 10800 free` hit the 3 h cap: incumbent d=38
+(126 rings, all laps covered), dual bound 32, gap 15.8%. True d(1000) ∈
+[32, 38]. GLM's frozen band [37,43] is consistent-but-unconfirmed (dies if
+opt < 37). Incumbent native-law ratio 1.05 continues 1.26→1.22→1.14→1.11
+downward, but as an upper bound, not a proven point. Note: lab/PHASE18_sparse_m1000.md.
+Options for relay: accept weaker line, overnight 12 h rerun w/ warm start.
