@@ -1,0 +1,33 @@
+{
+  "title": "The Prime Tread Wheel: whitepaper, Lean 4 formalization, and solver-free certificates",
+  "upload_type": "software",
+  "description": "Release bundle for the Prime Tread Wheel. Contains: (1) WHITEPAPER.md, the full monograph — a wheel growing by one unit per layer (period T(m) = m(m+1)/2) carrying the counting numbers, with the stagger-field theorems, the certified covering-number bracket d(1500) in [42, 45] (both ends solver-free), the 48-rotation Local Rigidity witness, and the Erdős #7 solver-free certificates; (2) lean_wheel/, an 83-theorem, zero-sorry Lean 4 + mathlib formalization (axiom footprints subset of {propext, Classical.choice, Quot.sound}); (3) verify/, solver-free exact-integer Python verifiers (standard library only); (4) certificates/, the JSON certificate artifacts. See WHITEPAPER.md §14 for the itemized independent-convergence demarcation (Tucker, Zenodo 2026-09-23, credited on his items; the spiral, guarantee-zone wedge, solver-free stack, and formalization claimed here). Code MIT; whitepaper text CC BY 4.0.",
+  "creators": [
+    { "name": "Gaskin, Sylvan (Obi)" }
+  ],
+  "license": "MIT",
+  "access_right": "open",
+  "keywords": [
+    "prime gaps",
+    "covering systems",
+    "Jacobsthal function",
+    "twin primes",
+    "Lean 4",
+    "formal verification",
+    "exact-integer certificates"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://doi.org/10.5281/zenodo.22912558",
+      "relation": "references",
+      "scheme": "doi",
+      "resource_type": "publication-article"
+    },
+    {
+      "identifier": "https://doi.org/10.5281/zenodo.22865056",
+      "relation": "references",
+      "scheme": "doi",
+      "resource_type": "dataset"
+    }
+  ]
+}

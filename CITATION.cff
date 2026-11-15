@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "The Prime Tread Wheel: Counting numbers on a wheel that grows by one tick per layer"
+authors:
+  - family-names: Gaskin
+    given-names: Sylvan
+    name-suffix: "\"Obi\""
+abstract: >-
+  A wheel that grows by one unit per layer (period T(m) = m(m+1)/2) on which
+  the counting numbers are rolled; the stagger field of that growth yields
+  exact theorems on primality in layers, a certified covering-number bracket
+  d(1500) in [42, 45] (both ends solver-free, pure-integer certificates), a
+  48-rotation Local Rigidity witness, and an 83-theorem zero-sorry Lean 4 +
+  mathlib formalization. See WHITEPAPER.md §14 for the itemized credit
+  demarcation against independent prior work (Tucker, Zenodo 2026-09-23).
+version: 1.0.0
+date-released: 2026-11-15
+license: MIT
+keywords:
+  - prime gaps
+  - covering systems
+  - Jacobsthal function
+  - twin primes
+  - Lean 4
+  - formal verification
+  - exact-integer certificates
+repository-code: "https://github.com/Cosmolalia/prime-tread-wheel"
+references:
+  - type: document
+    title: "WHITEPAPER.md (canonical monograph, this bundle)"
+  - type: document
+    title: "The Atlas of Maximal Gaps: Exact Covering Enumeration for Primorial Sieves (D. C. Tucker, Zenodo v2 2026-09-23, CC BY 4.0)"
+    doi: 10.5281/zenodo.22912558
