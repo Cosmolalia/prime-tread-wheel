@@ -8,6 +8,8 @@ Canonical text: `WHITEPAPER.md` (§0–§19). This bundle is the public release
 subset: the whitepaper, the Lean 4 formalization, the solver-free integer
 verifiers, and the certificate artifacts they check.
 
+**Release:** tag `v1.0.0` · Zenodo DOI: [10.5281/zenodo.24266492](https://doi.org/10.5281/zenodo.24266492) (live on publish of the deposit draft)
+
 ## Layout
 
 | Path | Contents |
@@ -82,4 +84,5 @@ sha256sum -c SHA256SUMS.txt
 
 ## Citation
 
-See `CITATION.cff`.
+See `CITATION.cff`. Zenodo deposit: https://doi.org/10.5281/zenodo.24266492
+(live on publish of the deposit draft).
