@@ -8,7 +8,7 @@ Canonical text: `WHITEPAPER.md` (§0–§19). This bundle is the public release
 subset: the whitepaper, the Lean 4 formalization, the solver-free integer
 verifiers, and the certificate artifacts they check.
 
-**Release:** tag `v1.0.0` · Zenodo DOI: [10.5281/zenodo.24266492](https://doi.org/10.5281/zenodo.24266492) (published 2026-11-16)
+**Release:** tag `v1.0.1` (correction pass 2026-11-16: Erdős #7 frontier comparison withdrawn as stated, refs. 39–42 added; nothing deleted) · v1.0.0 archived at tag `v1.0.0` · Zenodo DOI: [10.5281/zenodo.24266492](https://doi.org/10.5281/zenodo.24266492) (published 2026-11-16, v1.0.0 artifact)
 
 ## Layout
 

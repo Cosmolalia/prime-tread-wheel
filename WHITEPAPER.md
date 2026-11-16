@@ -34,6 +34,10 @@ Zenodo release deposit: DOI 10.5281/zenodo.24266492, PUBLISHED 2026-11-16.
 Related-identifier link to the Tucker article record (22912558) is in the
 deposit metadata; §14 carries the full itemized demarcation.
 
+Correction pass 2026-11-16 (post-release, v1.0.1): the Erdős #7 comparison in §14 and
+§18.12 is corrected in place by dated blocks; refs. 39–42 added; nothing deleted;
+zero certified mathematics touched.
+
 Standalone summary of the full project: the construction, the classical layer,
 the stagger field, the exact theorems, the measured statistics, the closed
 routes, the held claims, the ratio-dial era, the deadness engine, the quadratic
@@ -675,6 +679,19 @@ refs. 36–37); the Three-Primitive Theorem positioned against Fueter–Pólya 1
 solver-free certificates extend the published odd-moduli classification ≈6.9× past
 its bound (same-day repair of an initially inverted comparison; v1+v2 full texts
 verified). Öztürk (ref. 32) remains flagged unverified.
+
+**Correction 2026-11-16 (post-release; appended, nothing deleted).** The "≈6.9×"
+comparison above does not stand as a statement about the frontier. McNew–Setty
+classify covering numbers below 10⁶ and state no odd bound. The odd-covering lcm
+line has been carried further by work the 11-14 sweep missed because it is posted
+on Zenodo, ResearchGate, the problem's forum and GitHub, not arXiv: Hackmon
+(ref. 39, 2026-04); Öztürk (ref. 32, 2026-08, lcm ≥ 11,486,475); Schroeder
+(ref. 40, 2026-09, claims lcm ≥ 9,704,539,845 with a Lean package); Wu (ref. 41,
+2026-11-02, lcm ≥ 1,527,701,175, stated as Lean-kernel-only). Our settled line
+(6,891,885, written 2026-10-30) was behind Öztürk's claim on the day it was
+written and is behind ref. 41 now. Item-by-item standing: §18.12, correction
+block. Sweep rule added: Zenodo, GitHub and the problem's forum page are searched
+in every novelty pass.
 
 **Independent convergence — exact demarcation (located 2026-11-15; credit
 boundary fixed same day, pre-release).** D. C. Tucker, *The Atlas of Maximal
@@ -2026,6 +2043,39 @@ cluster this survey had not mapped. No record claim until a proof is in
 hand; obtaining the full texts is now the highest-value literature
 action.
 
+**Correction 2026-11-16 (post-release; appended, nothing deleted).** Late
+prior-art sweep, logged in INSIGHTS.md (Addendum 36).
+Labels here: [E] recomputed by us; [S] as stated by the source, not rebuilt by us.
+
+1. **Capacity criterion (Generation 2).** [E] The formula
+   S(L) = Σ_{m | L, m composite} 1/φ(m) ≥ 1 is identical to the "φ-certificate" of
+   ref. 41 (committed 2026-11-02; ours cold-audited 2026-10-29). [S] Per ref. 41's
+   notes the same argument is Schroeder's squarefree corollary (ref. 40) and the
+   same sieve family as Hackmon (ref. 39). Independent rediscovery; the
+   "novelty plausible" reading above is withdrawn.
+2. **The exception 4,729,725.** [E] Excluded by the tower certificate of ref. 41:
+   T(4,729,725) = 0.9912 < 1 (own recomputation, exact rationals, `cert_check.py`;
+   the same code gives T(6,891,885) = 1.0098, matching ref. 41's stated first
+   failure). Settled, by a certificate that is not ours.
+3. **Settled line.** [S] Passed: Öztürk at 11,486,475 (ref. 32, 2026-08), ref. 41 at
+   1,527,701,175 (2026-11-02), Schroeder's claim at 9,704,539,845 (ref. 40, 2026-09).
+   "Extends the published line ≈ 6.9×" is withdrawn as a frontier statement. What
+   remains true: every odd L < 6,891,885 except one was settled here by
+   solver-free certificates of our own construction.
+4. **The 1,041 forest-inconclusive L.** [F] All lie at or below 10⁹, hence below
+   1,527,701,175. If ref. 41's theorem stands, none of them is the lcm of an odd
+   distinct covering, and Standing (ii) is closed from outside.
+5. **Max-forest certificate (Generation 3).** [F] A different second-order
+   certificate from the distortion (ref. 41) and inclusion–exclusion (ref. 30)
+   routes; ours as a method. As a bound it is weaker: it is inconclusive at
+   4,729,725, where the tower certificate succeeds.
+6. **Conjectured identity u(M) = U − C + F_max.** [G] To be re-checked at
+   L = 4,729,725 and L = 6,891,885 against the fact (items 2–3) that no covering
+   exists there; the 66/66 evidence is on small M only.
+7. **Coincidence of walls.** [E] Our instruments stalled at 675,675 and 6,891,885;
+   ref. 41 reports its φ- and tower certificates first failing at the same two
+   numbers. Same structure, reached independently, not reached first.
+
 ---
 
 ## 19. The Rosetta Dictionary: Wheel-Train Geometry ↔ Formal Number Theory [F + E]
@@ -2329,7 +2379,7 @@ Session-state map: the project handoff record.
 
 1. [Floyd's triangle](https://en.wikipedia.org/wiki/Floyd%27s_triangle), Wikipedia.
 2. [Math::PlanePath::GcdRationals](https://manpages.debian.org/testing/libmath-planepath-perl/Math::PlanePath::GcdRationals.3pm), after L. Fortnow, "Counting rationals quickly" (2004).
-3. [OEIS A066888](https://oeis.org/A066888) — primes between consecutive triangular numbers (J. W. Nicholson, 2011).
+3. [OEIS A066888](https://oeis.org/A066888) — primes between consecutive triangular numbers (conjecture originating with W. Sierpiński, *Liczby trójkątne* 1962; OEIS entry attributes to J. W. Nicholson, 2011).
 4. [OEIS A055469](https://oeis.org/A055469) — primes of the form k(k+1)/2 + 1.
 5. [OEIS A048670](https://oeis.org/A048670) — Jacobsthal function values (the capacity table).
 6. T. Kotnik and J. van de Lune, [On the order of the Mertens function](https://emis.univie.ac.at/journals/EM/expmath/volumes/13/13.4/Kotnik.pdf), Experimental Mathematics 13 (2004).
@@ -2365,6 +2415,10 @@ Session-state map: the project handoff record.
 36. L. Mirsky & D. J. Newman — the distinct-covering reciprocal-sum theorem $\sum 1/m > 1$ (unpublished; circulated through P. Erdős's accounts) (§19.4).
 37. M. Filaseta & A. Kalogirou, *Covering systems with the sum of the reciprocals of the moduli close to $1$*, Trans. Amer. Math. Soc. 379 (2026); arXiv:2407.15280 (2024) — the general density bound (§19.4).
 38. D. C. Tucker, [*The Atlas of Maximal Gaps: Exact Covering Enumeration for Primorial Sieves*](https://doi.org/10.5281/zenodo.22912558) (Zenodo, v2 2026-09-23, CC BY 4.0; code + certificates: [Zenodo 10.5281/zenodo.22865056](https://doi.org/10.5281/zenodo.22865056)) — independent instance of the classical primorial-sieve covering enumeration on a pinned 11# layer via CSP solver; Prime/Twin Atlas position bijection, Symmetry Theorem, certified twin-desert widths W(p) and Jacobsthal values g(p#) overlapping §15.2/§18.12 (§14 demarcation note; table reconciliation read-pass open).
+39. I. Hackmon, *On odd covering systems with few prime factors* (Zenodo, 2026-04-10, DOI 10.5281/zenodo.19495464) — tower/weight sieve; no odd distinct covering supported on at most four primes. Known to us through ref. 41's summary; not read in full (§18.12).
+40. M. Schroeder, *Nine prime divisors in odd distinct covering systems* (Zenodo, 2026-09-13, DOI 10.5281/zenodo.22759614) — claims at least nine primes divide the lcm and lcm ≥ 9,704,539,845, with a Lean package. Known to us through ref. 41's summary; **unverified** (§18.12).
+41. R. Wu, with Claude, *Odd covering systems: a distorted tower sieve, checked in Lean* (GitHub `rw762-sketch/Open-Math-problem`, 2026-11-02) — φ- and tower certificates; stated Lean-kernel-only bound lcm ≥ 1,527,701,175. Repository read; Lean build not re-run by us (§18.12).
+42. *On the moduli of distinct covering systems* (arXiv:2611.15110, 2026-11) — 45 divides the lcm of any odd distinct covering; minimum modulus at most 9. Abstract read only (§18.12).
 
 ---
 
