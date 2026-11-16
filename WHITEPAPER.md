@@ -30,11 +30,9 @@ spiral, the guarantee-zone wedge, the solver-free dual-certificate stack, and th
 Lean 4 formalization explicitly claimed as ours; dating facts unchanged; zero
 certified mathematics touched.
 
-Zenodo release deposit 2026-11-15: DOI 10.5281/zenodo.24266492, reserved on the
-publisher's draft deposit of this bundle. The DOI registers and resolves on
-Publish of that draft — the one open publisher-side step; no new upload may be
-created (a fresh upload would mint a different DOI). Related-identifier links
-to both Tucker Zenodo records (22912558, 22865056) are in the deposit metadata.
+Zenodo release deposit: DOI 10.5281/zenodo.24266492, PUBLISHED 2026-11-16.
+Related-identifier link to the Tucker article record (22912558) is in the
+deposit metadata; §14 carries the full itemized demarcation.
 
 Standalone summary of the full project: the construction, the classical layer,
 the stagger field, the exact theorems, the measured statistics, the closed
