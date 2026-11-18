@@ -1,9 +1,9 @@
 # FORMALIZATION_STATUS — Prime Tread Wheel, "does it pass Lean" audit
 
-**Date:** 2026-11-14 (third pass — §18.9 dual identity, §18.11 rotor tuning, §18.12 CRT fiber count added; surface remains CLOSED)
+**Date:** 2026-11-14 (third pass — §18.9 dual identity, §18.11 rotor tuning, §18.12 CRT fiber count added; surface remains CLOSED); **2026-11-17 (fourth pass — item 21, §17.7 exact parabolic multiplicity theorem, `ParabolicConstellation.lean`: 5 theorems, 88 total); 2026-11-17 (fifth pass — item 21 integer bridge `twin_int_kill_mod3`, 89 total)**
 **Repo:** `lean_wheel/` — Lean 4.35.0 (`leanprover/lean4:v4.35.0`) + mathlib `v4.35.0` (precompiled cache, not built from source).
-**Build:** `cd lean_wheel && lake build` — **Build completed successfully (9069 jobs).**
-**Axiom audit:** every theorem below was `#print axioms`-checked (script: `PrintAxioms.lean`, run `lake env lean PrintAxioms.lean`): **83 theorems, all footprints ⊆ [propext, Classical.choice, Quot.sound]** (the acceptable mathlib trio; 73 use the full trio, 10 subsets). **No `sorry` anywhere in any compiled file.**
+**Build:** `cd lean_wheel && lake build` — **Build completed successfully (9072 jobs, 2026-11-17).**
+**Axiom audit:** every theorem below was `#print axioms`-checked (script: `PrintAxioms.lean`, run `lake env lean PrintAxioms.lean`): **89 theorems, all footprints ⊆ [propext, Classical.choice, Quot.sound]** (the acceptable mathlib trio; the six item-21 theorems each use exactly the trio). **No `sorry` anywhere in any compiled file.**
 
 Conventions: `Wheel.T (n : ℕ) = n*(n+1)/2`, `Wheel.TZ (n : ℤ) = n*(n+1)/2`. All divisions are justified by exactness lemmas `Wheel.two_mul_T` / `Wheel.two_mul_TZ` (`2·T n = n(n+1)`, proved from evenness of `n(n+1)`), so the paper's `/2` is never hand-waved.
 
@@ -210,6 +210,19 @@ Scope: this is the pure algebra behind `verify_dual.py` / the CBB leaf certifica
 | `Wheel.erdos_fiber_le` | same for ANY residue `a`: `fiber · φ(m) ≤ φ(L)`; non-coprime classes are empty | idem |
 | `Wheel.erdos_covering_necessary` | covering necessity: moduli `D ∋ m ∣ L` with coprime residue classes `a m` covering all units mod `L` ⟹ `Σ_{m∈D} φ(L)/φ(m) ≥ φ(L)` (i.e. `Σ 1/φ(m) ≥ 1`, the `S(L) ≥ 1` necessary condition) | idem |
 
+### Item 21 — §17.7 exact parabolic multiplicity theorem (`LeanWheel/ParabolicConstellation.lean`, 2026-11-17)
+
+| Lean name | Statement (paper §17.7) | Axioms |
+|---|---|---|
+| `Wheel.sqr_fiber_card` | finite field, `ringChar ≠ 2`: `#{x ‖ x² = c}` = `1` at `c = 0`, `2` at nonzero squares, `0` at non-squares (the `1 + χ(c)` fiber count) | idem |
+| `Wheel.sqr_fiber_affine_ncard` | the bijection `m ↦ 2m − 1` transports every fiber cardinality unchanged | idem |
+| `Wheel.surviving_phases_eq` | the general Legendre union law: `S_{p,D}(k) = p − Σ_{distinct c ∈ 1−8(k+D)} (1 + χ(c))` — killed m-phases are a disjoint union of squaring fibers | idem |
+| `Wheel.twin_phase_count_mod3` | twins `D = {0,2}`, `p = 3`: exact `(0, 1, 2)` split across `k ≡ (0,1,2)` — **kernel-checked by `decide`** (matches census `0 / 25,339 / 50,220`) | idem |
+| `Wheel.triple_phase_count_mod5` | triple `D = {0,2,8}`, `p = 5`: exact `(2, 3, 0, 3, 2)` split — `k ≡ 2` unique kill — **kernel-checked by `decide`** (matches census shares) | idem |
+| `Wheel.twin_int_kill_mod3` | integer bridge (Add.44): `3 ∣ k` ⟹ `3 ∣ (T(m−1)+k) ∨ 3 ∣ (T(m−1)+k+2)` for every layer `m` — the `k ≡ 0 (mod 3)` row of the twin table on the wheel's integer coordinate; mechanism period-3 in `m` (left member falls at `m ≡ 0,1`, right at `m ≡ 2`); helper `eight_mul_T` (`2·T n = n(n+1)` scaled by 4) | idem |
+
+The two phase-count theorems are closed by kernel reduction (`revert k; decide`), so the exact phase arithmetic is machine-checked rather than hand-cased. The integer bridge casts the divisibility goal through `ZMod 3` (`CharP.cast_eq_zero_iff`), solves the triangular value via `eight_mul_T` (`8` is a unit mod 3), and closes the finite three-case table by `decide`. Census confirmations to `m ≤ 30,000` remain the Python probe's `[E]` (`lab/probes/parabolic_obstruction.py`, output on record).
+
 ---
 
 ## 2. Partial / stuck items
@@ -292,7 +305,11 @@ lean_wheel/
     ├── Capacity.lean        # item 16 (covering-capacity inequalities)
     ├── Smear.lean           # item 10 (Theorem IV)
     ├── LP.lean              # item 17 (explicit LP relaxation point)
-    └── BreakEven.lean       # item 11 (the break-even statement)
+    ├── BreakEven.lean       # item 11 (the break-even statement)
+    ├── Dual.lean            # item 18 (§18.9 dual certificate identity)
+    ├── Rotor.lean           # item 19 (§18.11 rotor tuning)
+    ├── ErdosFiber.lean      # item 20 (§18.12 CRT fiber count)
+    └── ParabolicConstellation.lean # item 21 (§17.7 parabolic multiplicity theorem)
 ```
 
 No git commits were made. No files outside `lean_wheel/` were touched.

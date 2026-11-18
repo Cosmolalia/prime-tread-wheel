@@ -402,3 +402,28 @@ out of the paper's claim set.
 - Provenance: §14 dated note now records the first wheel run
   (2026-10-01 09:59 HST, publisher testimony) alongside the public-instrument
   date (2026-10-07).
+
+---
+
+## 11. Erratum — §6 summary counts corrected (2026-11-17, Kimi)
+
+The §6 tier tables are the audit; the summary counts above them were wrong.
+Mechanical recount today: §6.1 enumerates **59** T1 declarations (not 48);
+§6.2 enumerates **45** T2 (not 56); §6.3 shows **5** T3 rows (not 7). That
+sums to 109, and a raw `grep` of `theorem|lemma` across the compiled modules
+gives 112 excluding `MainTheorems.lean`'s 13 aliases (`Sanity.lean`
+contributes 0 — all `example`s). The "111" total therefore cannot be
+reproduced from the tables as printed **[G]**: the residual 2–3 declaration
+gap is unlocated and does not affect any tier assignment or proof.
+
+Separately, the §6.3 parenthetical — "the 83-name axiom report covers all
+T1, all T2, and the non-`rfl` T3 items" — is refuted by arithmetic
+(59 + 45 > 83). The 83 is the hand-curated list in `PrintAxioms.lean` (83
+`#print axioms` commands, verified by direct read 2026-11-17). It includes
+two names absent from the tier tables (`sqrt_Tm_lt`, `T_pred_of_even`) and
+omits many T2 items (e.g. `two_mul_T`, `T_strictMono`, `dual_per_ring`).
+
+The human-readable headline/supporting sort of the actual 83 lives in
+`HEADLINE_SORT_2026-11-17.md`: **38 headline, 43 supporting, 2
+conditional-only** (break-even). Nothing in the mathematics changed; this
+corrects bookkeeping only.

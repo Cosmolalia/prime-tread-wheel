@@ -85,3 +85,9 @@ open Wheel
 #print axioms erdos_fiber_coprime
 #print axioms erdos_fiber_le
 #print axioms erdos_covering_necessary
+#print axioms sqr_fiber_card
+#print axioms sqr_fiber_affine_ncard
+#print axioms surviving_phases_eq
+#print axioms twin_phase_count_mod3
+#print axioms triple_phase_count_mod5
+#print axioms Wheel.twin_int_kill_mod3

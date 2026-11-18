@@ -19,5 +19,6 @@ import LeanWheel.BreakEven
 import LeanWheel.Dual
 import LeanWheel.Rotor
 import LeanWheel.ErdosFiber
+import LeanWheel.ParabolicConstellation
 import LeanWheel.MainTheorems
 import LeanWheel.Sanity

@@ -622,11 +622,38 @@ three witness boundaries (primes 11, 97, 257 entering √T); the ω-map
   breaks at 1500 ([1.43, 1.60]). Selection-bias flag [E]: every law
   point except m = 263 is a locked seam (T(m−1) ≡ 0 mod 30, a
   round-number artifact) — the "law" was fit almost entirely on locked
-  layers. **P3, still open [G]: the neighbor scan** — short incumbent
-  runs at m = 1490–1510 including unlocked layers. Frozen rule [S]: a
-  neighbor spread ≥ 3 means one layer per scale cannot pin a law; a
+  layers. **[E] CLOSED 2026-11-17 — P3: the neighbor scan.** Two instruments
+  (2026-10-24 unpinned 60 s/layer, lab/p3_1490_1510.jsonl; 2026-11-17
+  pinned-pillar 30 s/layer, lab/p3_neighbor_scan_1490_1510.json): frozen
+  rule [S] passes on BOTH — spread 16 and 12 (≥ 3); unlocked − locked
+  +4.26 and +2.50 (≥ 2). Direction concordant: the 30-locked seams are
+  the EASIEST layers in the window (locked means 54.0 / 54.5 vs unlocked
+  58.3 / 57.0). Consequence: the selection-bias flag on the refuted
+  native-schedule law above is decisive — its points were fit almost
+  entirely on the easiest layers, so no single-layer law was ever being
+  measured. Ledger: INSIGHTS Add.40 (10-24 verdict recovered), Add.41
+  (concordance + pi_m = π(m) correction). Original frozen text preserved:
+  a neighbor spread ≥ 3 means one layer per scale cannot pin a law; a
   locked-vs-unlocked mean difference ≥ 2 means the lock matters and
   every past law point gets relabeled.
+  **Guard 2026-11-17 (Add.43–44): the "lock discount" generalization is
+  killed; the P3 closure and the selection-bias consequence survive in
+  sharpened form.** Argon's Rule-v3 null check on the frozen JSON showed
+  the in-window dip is NOT prime-density confounded (locked P = 105/106
+  vs unlocked 107.6 ± 6.0) and survives d/P normalization in both
+  instruments — but the extension scan over ALL 8 CRT lock classes mod 60
+  (m ∈ {1456, 1461, 1465, 1476, 1480, 1485, 1500, 1501}, n = 8, plus an
+  unlocked band 1450–1486, n = 10, matched P to 0.2%) REVERSES the sign:
+  d 55.13 vs 54.40 (+0.73), d/P 0.5231 vs 0.5170, dual_lb 39.25 vs 39.0 —
+  all noise-level, none ≥ any threshold. What died: "30 ∣ T(m−1) ⇒
+  discounted d(m)" as a mechanism (reopen: the dip replicated in ≥ 2
+  disjoint m-windows at matched P — the CRT family itself is the test and
+  it flipped). What survives [E]: (i) the frozen rules and P3 closure —
+  spread is real and the native-schedule law stays refuted; (ii) the
+  selection-bias flag, now sharper — the law's points sat on layers that
+  are *locally* easy, and that easiness is window-local fluctuation, not
+  lock structure; (iii) the open object is the 0.47–0.57 d/P band itself
+  (P-structure plus per-layer covering geometry), not any lock effect.
 - **[REFUTED, PHASE30 — see §15.8 & §16.6] GLM's CRT-shift collapse.** If covered(N) ⟺
   gcd(N−a, Q) > 1 with d = #{p ∤ a}, the wedge is pure arithmetic at
   every m and "why m/13.5" becomes the ω-degradation rate of Jacobsthal
@@ -1286,6 +1313,91 @@ wheels). The framework is closed at its own resolution. What remains open
 is no longer a statistics question: the twin conjecture, the desert-growth
 law, and the infinitude of primorial primes are single-configuration-at-
 infinity questions the enumeration cannot vote on.
+
+### 17.7 The exact parabolic multiplicity theorem (2026-11-17) [F + E]
+
+The §13 selection-bias closure (2026-11-17, two instruments) left a smaller
+question exposed: the seam-twin census showed twins forbidden at `k ≡ 0
+(mod 3)` and the `(N, N+2, N+8)` triple forbidden at a unique residue mod 5,
+but the *counts* across the surviving classes looked like "finite-k
+Bateman–Horn noise" (25,339 vs 50,220, ratio 1.982). They are not noise.
+The asymmetry is an exact phase-counting theorem, and it is now
+Lean-kernel-certified (`LeanWheel/ParabolicConstellation.lean`,
+FORMALIZATION_STATUS.md item 21).
+
+**Setup [F].** A constellation `N + D` with `N = T(m−1) + k` meets the
+residue class of `d ∈ D` at an odd prime `p` exactly when `T(m−1) ≡ −(k+d)
+(mod p)`. Since `8·T(m−1) ≡ (2m−1)² − 1 (mod p)`, this reads
+
+```
+N + d ≡ 0 (mod p)  ⟺  (2m−1)² ≡ 1 − 8(k+d)   (mod p).
+```
+
+**Fiber lemma [F].** On a finite field of odd characteristic the squaring
+fibers are `{x : x² = c}` of cardinality `1 + χ(c)`: 1 at `c = 0`, 2 at
+nonzero squares, 0 at non-squares (each `c ≠ 0` has two roots `±x`, and
+`x ≠ −x` because `2 ≠ 0`). Under `m ↦ 2m−1` — a bijection since `2 ≠ 0` —
+the fiber count transports unchanged.
+
+**Union law [F] — the mechanism that makes it exact.** Fibers at *distinct*
+right-hand sides are disjoint (a function has one value per point), so the
+killed m-phases form a disjoint union and there is nothing to subtract twice:
+
+```
+S_{p,D}(k) = p − Σ_{distinct c ∈ 1−8(k+D)} (1 + χ(c)).
+```
+
+This is a statement about *phases*, not densities: per `k`, every residue
+class mod `p` is either fully open or fully closed to the constellation.
+No Bateman–Horn input enters; the sieve density only weights the observed
+counts across the `k`-range afterward.
+
+**Exact splits.** Twins `D = {0,2}` at `p = 3`: `T(m−1) mod 3` visits
+`[0, 0, 1]` (the vertex residue 1 once, the arm 0 twice), so survival needs
+`T(m−1) ≡ 2 − k`, giving the exact `(0, 1, 2)` split across
+`k ≡ (0, 1, 2)` — kernel-checked by `decide`
+(`Wheel.twin_phase_count_mod3`, phase lists
+`[] / [2] / [0,1]`). Triple `D = {0,2,8}` at `p = 5`: orbit
+`[0, 0, 1, 3, 1]`, exact split `(2, 3, 0, 3, 2)`, with `k ≡ 2 (mod 5)` the
+unique killing residue (0/5 phases) — kernel-checked
+(`Wheel.triple_phase_count_mod5`). This also repairs the mod-5 prose table
+circulating in the lab notes: the orbit is `{0,0,1,3,1}` with survival
+`k+d ∈ {1,4}`, so the class weights are `(2,3,0,3,2)` — classes 3 and 4
+were swapped in the handwritten table; both the probe's
+`algebraic_certificate` and the empirical census agree on the corrected
+values.
+
+**Census [E].** `lab/probes/parabolic_obstruction.py` (output on record at
+`parabolic_obstruction_2026-11-17.out`): over `m = 4..29,999`, `k ≤ 600`,
+twins split `0 / 25,339 / 50,220` across `k ≡ (0,1,2) (mod 3)` — observed
+ratio 1.982 against the exact phase ratio 2:1, the gap being density
+weighting across the `k`-range (the `k ≡ 2` class samples slightly thinner
+prime country), not phase noise; triple shares `0.1943 / 0.3016 / 0 /
+0.3007 / 0.2034` against exact `(2,3,0,3,2)/5`. Seam-straddling twins: 0
+(the §17.3 dead-flank rule at `p = 3`). Zero violations of any exact phase
+prediction in 6× the earlier census depth.
+
+**Axiom audit.** All five theorems (`sqr_fiber_card`,
+`sqr_fiber_affine_ncard`, `surviving_phases_eq`, `twin_phase_count_mod3`,
+`triple_phase_count_mod5`) carry the mathlib trio only, verified by
+`#print axioms`; the two phase-count theorems are closed by kernel
+reduction (`revert k; decide`), so the exact arithmetic is machine-checked
+rather than hand-cased. 88 theorems, zero `sorry`, build 9072 jobs clean.
+
+**Integer bridge [F] (2026-11-17, second pass — Add.44).**
+`Wheel.twin_int_kill_mod3` (with the helper `eight_mul_T`, the doubling
+identity scaled by 4): for every layer `m` and tick `k` with `3 ∣ k`, at
+least one member of the integer twin pair `(T(m−1)+k, T(m−1)+k+2)` is
+divisible by 3 — the `k ≡ 0` row of the table above on the wheel's
+integer coordinate, no density input. The mechanism is period-3 in `m`:
+`m ≡ 0, 1 (mod 3)` kills via the left member (`3 ∣ T(m−1)`), `m ≡ 2
+(mod 3)` kills via the right (`T(m−1) ≡ 1`, so `T(m−1)+k+2 ≡ 0`). Cast
+through `ZMod 3` (`CharP.cast_eq_zero_iff`), finite case table closed by
+`decide`; mathlib-trio axiom footprint verified by `#print axioms`.
+89 theorems, zero `sorry`, build 9072 jobs clean. (Note this bridge is a
+fiber-count statement over all integer layers; it is neutral to — and was
+motivated independently of — the §13 guard on the lock-discount
+formulation, which lives on the covering-number side.)
 
 ## 18. The Phase B proof grind (2026-10-18 → 20) — the 48 banks
 
@@ -2071,10 +2183,40 @@ Labels here: [E] recomputed by us; [S] as stated by the source, not rebuilt by u
    4,729,725, where the tower certificate succeeds.
 6. **Conjectured identity u(M) = U − C + F_max.** [G] To be re-checked at
    L = 4,729,725 and L = 6,891,885 against the fact (items 2–3) that no covering
-   exists there; the 66/66 evidence is on small M only.
+   exists there; the 66/66 evidence is on small M only. *(Closed 2026-11-17 —
+   refuted as an exact identity at both scheduled loci; printed formula also
+   transposed against these parentheticals. See Correction 2026-11-17 item 8.)*
 7. **Coincidence of walls.** [E] Our instruments stalled at 675,675 and 6,891,885;
    ref. 41 reports its φ- and tower certificates first failing at the same two
    numbers. Same structure, reached independently, not reached first.
+
+**Correction 2026-11-17 (post-release; appended, nothing deleted).**
+Cross-model audit (carbon, relayed by obi) + independent in-window
+verification, `lab/probes/carbon_audit_verify_2026-11-17.py` (zero project
+imports; re-derived math). Logged in INSIGHTS.md Addendum 39.
+
+8. **Standing (6) — CLOSED; the conjectured identity is REFUTED as an exact
+   identity [F].** (a) *Transposition in the printed formula.* With this
+   section's own parenthetical definitions (U = total unit marks
+   Σ φ(L)/φ(m); C = capacity φ(L)), the bound the audit instrument verified
+   tight on all 66 OEIS values is u(M) = max(0, C − U + F_max): the
+   instrument computes max(0, φ(L) − marks + F)
+   (`kimi_forest_audit_2026-10-30.py`, audits C/F — M = 225 → 71,
+   441 → 173, 1225 → 731, all TIGHT), while the printed U − C + F_max
+   gives −69 / −171 / −729 on the same inputs. The formula and its
+   parenthetical definitions were transposed; the 66/66 evidence belongs to
+   the transposed (corrected) reading. (b) *Refutation at the scheduled
+   re-check loci.* The corrected identity predicts u = max(0, H); at
+   L = 4,729,725 the sound forest gives H = −20,152, predicting u = 0, while
+   item 2's tower certificate (T = 0.9912 < 1, own recomputation) certifies
+   u ≥ 1 — an unconditional refutation, exactly at the first modulus this
+   section scheduled for re-check. At L = 6,891,885 (H = −4,385) the same
+   refutation holds conditionally on ref. 41's lcm bound (item 3). (c)
+   *What survives.* The max-forest certificate is a lower bound,
+   u ≥ max(0, C − U + F_max), sound by audits D/F and unaffected; it is now
+   known to be slack ≥ 20,153 at 4,729,725. Reopen condition for an
+   exact-identity successor: a second-order certificate class (hypergraph
+   strata / collision certificates, Standing (i)) tight at 4,729,725.
 
 ---
 

@@ -8,18 +8,18 @@ Canonical text: `WHITEPAPER.md` (§0–§19). This bundle is the public release
 subset: the whitepaper, the Lean 4 formalization, the solver-free integer
 verifiers, and the certificate artifacts they check.
 
-**Release:** tag `v1.0.1` (correction pass 2026-11-16: Erdős #7 frontier comparison withdrawn as stated, refs. 39–42 added; nothing deleted) · v1.0.0 archived at tag `v1.0.0` · Zenodo DOI: [10.5281/zenodo.24266492](https://doi.org/10.5281/zenodo.24266492) (published 2026-11-16, v1.0.0 artifact)
+**Release:** tag `v1.0.2` (2026-11-17: §13 P3 closed with guard — the “lock discount” generalization killed at matched prime density; §17.7 exact parabolic multiplicity theorem kernel-certified, plus integer bridge; §18.12 Correction item 8; theorem-count + triage erratum — nothing deleted) · v1.0.1 (correction pass 2026-11-16: Erdős #7 frontier comparison withdrawn as stated, refs. 39–42 added) · v1.0.0 archived at tag `v1.0.0` · Zenodo DOI: [10.5281/zenodo.24266492](https://doi.org/10.5281/zenodo.24266492) (published 2026-11-16, v1.0.0 artifact)
 
 ## Layout
 
 | Path | Contents |
 |------|----------|
 | `WHITEPAPER.md` | The full monograph. §14 fixes the credit demarcation against Tucker (Zenodo 22912558 / 22865056): his archive is credited item-by-item; the continuous spiral, the guarantee-zone wedge, the solver-free certificate stack, and the formalization are claimed here. |
-| `lean_wheel/` | Lean 4 + mathlib project. 83 theorems, zero `sorry`. `LeanWheel/MainTheorems.lean` is the flagship summary; `LeanWheel/Sanity.lean` exhibits witnesses against vacuity. |
+| `lean_wheel/` | Lean 4 + mathlib project. 89 theorems, zero `sorry`. `LeanWheel/MainTheorems.lean` is the flagship summary; `LeanWheel/Sanity.lean` exhibits witnesses against vacuity. |
 | `verify/` | Solver-free, exact-integer, standard-library-only verifiers (Python 3). |
 | `certificates/` | The certificate artifacts (JSON). |
-| `doc/AXIOMS.md` | Captured `#print axioms` output for the whole corpus (2026-11-15). Every footprint is a subset of {propext, Classical.choice, Quot.sound}. |
-| `doc/TRIAGE_THEOREM_DAY.md`, `doc/FORMALIZATION_STATUS.md` | The 83-theorem disposition ledger and the per-row formalization map. |
+| `doc/AXIOMS.md` | Captured `#print axioms` output for the whole corpus (2026-11-17). Every footprint is a subset of {propext, Classical.choice, Quot.sound}. |
+| `doc/TRIAGE_THEOREM_DAY.md`, `doc/FORMALIZATION_STATUS.md`, `doc/HEADLINE_SORT_2026-11-17.md` | The disposition ledger, per-row formalization map, and the headline/supporting sort of the 83-name axiom report (89 theorems kernel-checked). |
 | `SHA256SUMS.txt` | Integrity manifest for every file in this bundle. |
 
 ## Headline certified results
@@ -32,7 +32,7 @@ verifiers, and the certificate artifacts they check.
 2. **Local Rigidity anatomy**: the 48-rotation witness
    (`certificates/best48_primary.json`, §18.6 of the whitepaper) with its
    partition anatomy (`certificates/anatomy_best48_results.json`).
-3. **83 kernel-checked theorems**, zero `sorry` (see `doc/AXIOMS.md`).
+3. **89 kernel-checked theorems**, zero `sorry` (see `doc/AXIOMS.md`) — including the 2026-11-17 §17.7 exact parabolic multiplicity theorem (`LeanWheel/ParabolicConstellation.lean`).
 4. Nine exact-integer dual/rigidity certificates
    (`certificates/dual_certificates_m1500.json`).
 
